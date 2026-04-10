@@ -1,0 +1,57 @@
+@import "tailwindcss";
+
+@theme {
+  --font-display: "Outfit", sans-serif;
+  --font-body: "DM Sans", sans-serif;
+}
+
+:root {
+  --bg-deep: #0c0d14;
+  --bg-card: rgba(255,255,255,0.022);
+  --bg-card-hover: rgba(255,255,255,0.04);
+  --border: rgba(255,255,255,0.05);
+  --border-hover: rgba(255,255,255,0.1);
+  --accent: #34d399;
+  --accent-dim: rgba(52,211,153,0.12);
+  --text-primary: #f0f1f3;
+  --text-secondary: #9ca3af;
+  --text-muted: #555;
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes pulseDot {
+  0%, 100% { opacity: 0.3; }
+  50% { opacity: 1; }
+}
+@keyframes gentleFloat {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-4px); }
+}
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.anim-up { animation: fadeUp 0.5s ease both; }
+.anim-up-1 { animation: fadeUp 0.5s ease 0.06s both; }
+.anim-up-2 { animation: fadeUp 0.5s ease 0.12s both; }
+.anim-up-3 { animation: fadeUp 0.5s ease 0.18s both; }
+.anim-up-4 { animation: fadeUp 0.5s ease 0.24s both; }
+.anim-up-5 { animation: fadeUp 0.5s ease 0.30s both; }
+.anim-fade { animation: fadeIn 0.6s ease both; }
+
+.no-scroll::-webkit-scrollbar { display: none; }
+.no-scroll { -ms-overflow-style: none; scrollbar-width: none; }
+
+body {
+  background: linear-gradient(170deg, #0c0d14 0%, #0f1119 40%, #111320 100%);
+  min-height: 100vh;
+}
