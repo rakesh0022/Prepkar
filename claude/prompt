@@ -1,0 +1,214 @@
+Act as a senior product designer, UX strategist, and frontend engineer.
+
+You are improving an existing web application focused on helping Indian government job aspirants prepare for interviews and exams.
+
+IMPORTANT CONSTRAINTS:
+
+* Do NOT change backend logic, APIs, or data flow
+* Do NOT rebuild the entire application
+* Do NOT introduce heavy or complex features
+* Focus only on improving UI structure, content presentation, and user experience
+* Keep changes minimal but high impact
+* Maintain performance and mobile-first design
+
+---
+
+PRODUCT GOAL:
+
+Transform the app from a static dashboard into a motivational, engaging, and habit-forming experience.
+
+This app should feel like:
+"A personal journey from preparation to selection"
+
+NOT like:
+"A data dashboard or exam portal"
+
+---
+
+CORE PROBLEMS TO FIX:
+
+1. The homepage feels like a dashboard, not a product users connect with emotionally
+2. No strong first impression or emotional hook
+3. No clear primary action for users
+4. Poor visual hierarchy (all sections feel equal)
+5. Too much dark UI with flat appearance
+6. Language inconsistency (too much Hindi in UI labels)
+7. Job section feels like plain information, not engaging or helpful
+8. No clear guidance on how to achieve a job (missing roadmap)
+
+---
+
+REQUIRED IMPROVEMENTS:
+
+---
+
+### 1. HOMEPAGE TRANSFORMATION (MOST IMPORTANT)
+
+Restructure homepage into a journey-based layout:
+
+Order should be:
+
+1. Hero Section (Emotional Hook)
+2. Primary CTA
+3. User Progress (Streak / activity)
+4. Daily Challenge
+5. Exam Targets
+6. Jobs / Content
+
+---
+
+### 2. HERO SECTION (EMOTIONAL CONNECTION)
+
+Add a "Story of the Day" or motivational hero section at the top.
+
+Requirements:
+
+* Include a relatable success story (2–3 lines max)
+* Keep it lightweight (no complex backend needed)
+* Use realistic tone (avoid overly dramatic or fake content)
+* Include tagline: "Sapne se Selection Tak"
+* Add subtle motivational message in Hinglish (optional)
+
+Example style:
+"Failed 3 times. Family said stop. 4th attempt — selected."
+
+Use a realistic image style (not overly polished or corporate).
+
+---
+
+### 3. PRIMARY CTA
+
+Add a clear and dominant CTA:
+
+* Text: "Start Interview Practice"
+* OR: "Shuru Karo — Free Mock Interview" (allowed mix)
+
+Must:
+
+* Be visually prominent
+* Be placed right after hero section
+
+---
+
+### 4. LANGUAGE STRATEGY (VERY IMPORTANT)
+
+Use:
+
+* English → for all UI elements, labels, buttons
+* Hinglish/Hindi → ONLY for emotional content (stories, quotes, tagline)
+
+Fix inconsistencies:
+
+* "Aaj ka Challenge" → "Today's Challenge"
+* "1 din ka streak" → "1 Day Streak"
+* "Sahi!" → "Correct"
+
+Keep:
+
+* "Sapne se Selection Tak"
+* CTA can be mixed language
+
+---
+
+### 5. VISUAL IMPROVEMENTS
+
+* Replace pure black background with a softer dark gradient
+* Add subtle card borders or elevation
+* Improve spacing between sections
+* Create clear visual hierarchy
+* Avoid making all sections look identical
+
+Keep design:
+
+* Clean
+* Minimal
+* Mobile-friendly
+
+---
+
+### 6. USER PROGRESS SECTION
+
+Improve streak section:
+
+* Show streak clearly (e.g., "1 Day Streak")
+* Add subtle motivational line below (optional Hindi allowed)
+* Make it feel like progress, not just status
+
+---
+
+### 7. DAILY CHALLENGE SECTION
+
+* Rename to "Today's Challenge"
+* Keep quiz functionality same
+* Improve visual importance slightly
+* Make it feel actionable
+
+---
+
+### 8. JOB SECTION IMPROVEMENT
+
+Transform job details from plain info into engaging content.
+
+For each job:
+
+Add structured sections:
+
+* Daily life in this job
+* Salary and benefits
+* Lifestyle and work environment
+* Challenges and reality
+* Why people choose this job
+
+Avoid:
+
+* raw data dumps
+
+---
+
+### 9. ADD CAREER ROADMAP (NEW FEATURE — SIMPLE VERSION)
+
+For each job, add a simple "Career Roadmap" section.
+
+Requirements:
+
+* Show steps like:
+
+  * Eligibility
+  * Exams
+  * Selection
+  * Training
+  * Career growth
+* Present visually (timeline or steps)
+* Keep it simple (no complex logic required)
+
+---
+
+### 10. KEEP CHANGES LIGHTWEIGHT
+
+* Do NOT introduce complex state management
+* Do NOT create heavy new components
+* Do NOT add backend dependencies
+* Focus on UI + content structure only
+
+---
+
+OUTPUT EXPECTATION:
+
+* Updated homepage layout (JSX/structure)
+* Improved section order
+* Refined text content (English + controlled Hinglish)
+* Better UI hierarchy
+* Simple roadmap structure for jobs
+* Cleaner, more engaging experience
+
+---
+
+FINAL GOAL:
+
+The app should feel like:
+
+"A place where users come daily to stay motivated, track progress, and move closer to selection"
+
+NOT:
+
+"A static dashboard with information"
