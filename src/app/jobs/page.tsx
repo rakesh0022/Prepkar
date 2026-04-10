@@ -57,7 +57,7 @@ function JobSheet({ job, onClose }: { job: Job; onClose: () => void }) {
                       color:i===job.roadmap.length-1?"#fff":"#3B82F6",boxShadow:"0 2px 8px rgba(59,130,246,0.25)",
                     }}>{r.icon}</div>
                     <div style={{ background:"var(--bg-card-2)",borderRadius:12,padding:"12px 14px",border:"1px solid var(--border)" }}>
-                      <div style={{ fontSize:14,fontWeight:700,color:"var(--text-dark)",marginBottom:2 }}>{r.step}</div>
+                      <div style={{ fontSize:14,fontWeight:700,color:"var(--text-dark)",marginBottom:2 }}>{r.title}</div>
                       <div style={{ fontSize:12,color:"var(--text-body)",lineHeight:1.5 }}>{r.detail}</div>
                     </div>
                   </div>
@@ -185,10 +185,10 @@ function JobSheet({ job, onClose }: { job: Job; onClose: () => void }) {
                   <div style={{ fontSize:12,fontWeight:700,color:"#2DD4BF" }}>Why People Choose This</div>
                 </div>
                 <div style={{ padding:"10px 16px 14px" }}>
-                  {job.whyChoose.split(". ").filter(s=>s.trim().length>4).map((sentence,i)=>(
+                  {job.whyChoose.map((sentence: string, i: number)=>(
                     <div key={i} style={{ display:"flex",gap:10,alignItems:"flex-start",marginBottom:8 }}>
                       <span style={{ color:"#2DD4BF",fontSize:14,flexShrink:0,lineHeight:1.3 }}>★</span>
-                      <span style={{ fontSize:12,color:"var(--text-body)",lineHeight:1.55 }}>{sentence.trim().replace(/\.$/,"")}</span>
+                      <span style={{ fontSize:12,color:"var(--text-body)",lineHeight:1.55 }}>{sentence}</span>
                     </div>
                   ))}
                 </div>

@@ -17,7 +17,7 @@ export default function TargetExams({ exams }: Props) {
       </div>
       <div className="hide-scrollbar" style={{ display: "flex", gap: 8, overflowX: "auto", paddingBottom: 4 }}>
         {exams.map((c, i) => {
-          const days = getDaysLeft(c.examDate);
+          const days = getDaysLeft(c.date)
           const urgent = days <= 30;
           return (
             <div key={i} style={{
@@ -39,7 +39,7 @@ export default function TargetExams({ exams }: Props) {
                 {days === 0 ? "Today!" : "days left"}
               </div>
               <div style={{ fontSize: 11, color: "#d1d5db", fontWeight: 700, marginTop: 7, lineHeight: 1.3 }}>{c.name}</div>
-              <div style={{ fontSize: 10, color: "#4b5563", marginTop: 2 }}>{formatShortDate(c.examDate)}</div>
+              <div style={{ fontSize: 10, color: "#4b5563", marginTop: 2 }}>{formatShortDate(c.date)}</div>
             </div>
           );
         })}
