@@ -1,242 +1,320 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import BottomNav from "@/components/BottomNav";
-import { JOBS, JOB_CATEGORIES, INTERVIEW_CATS, STORIES, COUNTDOWNS, DAILY_QUIZ } from "@/components/data";
+import { HERO_STORIES, COUNTDOWNS } from "@/components/data";
 
 export default function Home() {
-  const [quizAnswer, setQuizAnswer] = useState<number | null>(null);
-  const [jobFilter, setJobFilter] = useState("all");
-  const filtered = jobFilter === "all" ? JOBS.slice(0, 4) : JOBS.filter(j => j.category === jobFilter).slice(0, 4);
+  const [si, setSi] = useState(0);
+  useEffect(() => { const t = setInterval(() => setSi(i => (i + 1) % HERO_STORIES.length), 5000); return () => clearInterval(t); }, []);
+  const s = HERO_STORIES[si];
 
   return (
-    <main style={{ minHeight: "100vh", background: "#0a0b10", paddingBottom: 80 }}>
-      {/* Header */}
-      <header style={{
-        position: "sticky", top: 0, zIndex: 50, padding: "12px 16px",
-        background: "rgba(10,11,16,0.95)", backdropFilter: "blur(14px)",
-        borderBottom: "1px solid rgba(255,255,255,0.04)",
-        display: "flex", alignItems: "center", justifyContent: "space-between",
+    <main style={{ minHeight: "100vh", background: "var(--bg)", paddingBottom: 76 }}>
+
+      {/* ═══ HERO — FULL WIDTH, DREAM-FOCUSED ═══ */}
+      <section className="anim-up" style={{
+        background: "var(--bg-hero)", color: "#fff",
+        padding: "48px 24px 40px", textAlign: "center",
+        borderRadius: "0 0 28px 28px", position: "relative", overflow: "hidden",
       }}>
-        <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-          <div style={{
-            width: 34, height: 34, borderRadius: 10,
-            background: "linear-gradient(135deg,#059669,#06b6d4)",
-            display: "flex", alignItems: "center", justifyContent: "center",
-            fontSize: 14, fontWeight: 900, color: "#000", fontFamily: "'Outfit',sans-serif",
-          }}>NY</div>
-          <span style={{ fontFamily: "'Outfit',sans-serif", fontSize: 17, fontWeight: 800, letterSpacing: -0.5 }}>
-            Naukri<span style={{ color: "#34d399" }}>Yatra</span>
-          </span>
-        </div>
-        <div style={{ background: "rgba(251,191,36,0.12)", borderRadius: 16, padding: "4px 12px", display: "flex", alignItems: "center", gap: 4 }}>
-          <span style={{ fontSize: 13 }}>🔥</span>
-          <span style={{ fontSize: 11, fontWeight: 700, color: "#fbbf24" }}>7 day streak</span>
-        </div>
-      </header>
+        {/* Subtle pattern overlay */}
+        <div style={{ position: "absolute", inset: 0, opacity: 0.04, backgroundImage: "radial-gradient(circle at 20% 50%, #fff 1px, transparent 1px), radial-gradient(circle at 80% 20%, #fff 1px, transparent 1px)", backgroundSize: "40px 40px" }} />
 
-      <div style={{ maxWidth: 640, margin: "0 auto", padding: "0 16px" }}>
-        {/* Hero */}
-        <div className="fade-up" style={{ textAlign: "center", padding: "28px 0 20px" }}>
-          <div style={{
-            display: "inline-block", background: "linear-gradient(90deg,rgba(5,150,105,0.15),rgba(5,150,105,0.05))",
-            border: "1px solid rgba(52,211,153,0.2)", borderRadius: 20,
-            padding: "4px 14px", fontSize: 11, fontWeight: 600, color: "#6ee7b7", marginBottom: 12, letterSpacing: 0.4,
-          }}>✨ 14,582 new vacancies this week</div>
-          <h1 style={{ fontFamily: "'Outfit',sans-serif", fontSize: 26, fontWeight: 900, lineHeight: 1.2, margin: "0 0 6px" }}>
-            Sapne se<br /><span style={{ background: "linear-gradient(90deg,#34d399,#06b6d4)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>Selection Tak</span>
+        {/* Brand */}
+        <div style={{ position: "relative", zIndex: 1 }}>
+          <div style={{ fontFamily: "'Outfit'", fontSize: 20, fontWeight: 800, letterSpacing: -0.5, marginBottom: 28, opacity: 0.9 }}>
+            Naukri<span style={{ color: "#5EEAD4" }}>Yatra</span>
+          </div>
+
+          {/* Main tagline */}
+          <h1 style={{
+            fontFamily: "'Playfair Display', serif", fontSize: 32, fontWeight: 800,
+            lineHeight: 1.2, marginBottom: 8, letterSpacing: -0.5,
+          }}>
+            Sapne se<br />
+            <span style={{ color: "#5EEAD4" }}>Selection Tak</span>
           </h1>
-          <p style={{ color: "#6b7280", fontSize: 13 }}>Jobs • Interview Practice • Lifestyle • Mentorship</p>
-        </div>
+          <p style={{ fontSize: 14, opacity: 0.65, marginBottom: 28, lineHeight: 1.5 }}>
+            Your journey to a government job starts here
+          </p>
 
-        {/* Exam Countdowns */}
-        <section className="fade-up-d1" style={{ marginBottom: 24 }}>
-          <div style={{ fontSize: 11, fontWeight: 700, color: "#6b7280", letterSpacing: 1.5, textTransform: "uppercase", marginBottom: 8, paddingLeft: 2 }}>⏰ Exam Countdowns</div>
-          <div className="hide-scrollbar" style={{ display: "flex", gap: 8, overflowX: "auto", paddingBottom: 4 }}>
+          {/* Rotating story — with avatar */}
+          <div key={si} className="anim-fade" style={{
+            background: "rgba(255,255,255,0.08)", backdropFilter: "blur(8px)",
+            borderRadius: 16, padding: "18px 20px", maxWidth: 420, margin: "0 auto 24px",
+            border: "1px solid rgba(255,255,255,0.12)",
+            textAlign: "left",
+          }}>
+            {/* Avatar row */}
+            <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 12 }}>
+              <div style={{
+                width: 38, height: 38, borderRadius: "50%", flexShrink: 0,
+                background: "linear-gradient(135deg, rgba(94,234,212,0.3), rgba(59,130,246,0.3))",
+                border: "2px solid rgba(94,234,212,0.4)",
+                display: "flex", alignItems: "center", justifyContent: "center",
+                fontSize: 18,
+              }}>{s.emoji}</div>
+              <div>
+                <div style={{ fontSize: 13, fontWeight: 700, color: "#fff" }}>{s.name}</div>
+                <div style={{ fontSize: 11, color: "#5EEAD4", fontWeight: 600 }}>{s.role}</div>
+              </div>
+              {/* Verified badge */}
+              <div style={{
+                marginLeft: "auto", background: "rgba(94,234,212,0.15)",
+                border: "1px solid rgba(94,234,212,0.3)", borderRadius: 8,
+                padding: "2px 8px", fontSize: 9, fontWeight: 700, color: "#5EEAD4",
+              }}>✓ SELECTED</div>
+            </div>
+            <p style={{ fontSize: 14, fontWeight: 400, lineHeight: 1.6, margin: 0, fontStyle: "italic", opacity: 0.9 }}>
+              &ldquo;{s.quote}&rdquo;
+            </p>
+          </div>
+
+          {/* Dots */}
+          <div style={{ display: "flex", justifyContent: "center", gap: 6, marginBottom: 24 }}>
+            {HERO_STORIES.map((_, i) => (
+              <button key={i} onClick={() => setSi(i)} style={{
+                width: i === si ? 20 : 6, height: 6, borderRadius: 4,
+                background: i === si ? "#5EEAD4" : "rgba(255,255,255,0.2)",
+                border: "none", cursor: "pointer", transition: "all 0.3s",
+              }} />
+            ))}
+          </div>
+
+          {/* Primary CTA */}
+          <Link href="/interview" style={{ textDecoration: "none" }}>
+            <div style={{
+              display: "inline-flex", alignItems: "center", gap: 10,
+              background: "linear-gradient(90deg, #3B82F6, #14B8A6)",
+              color: "#fff", padding: "14px 28px",
+              borderRadius: 12, fontSize: 15, fontWeight: 700,
+              boxShadow: "0 4px 24px rgba(59,130,246,0.4)",
+              transition: "transform 0.2s",
+            }}>
+              <span>🎯</span> Start Interview Practice — Free
+            </div>
+          </Link>
+          <p style={{ fontSize: 11, opacity: 0.4, marginTop: 10 }}>
+            AI mock interview with instant scoring
+          </p>
+        </div>
+      </section>
+
+      <div style={{ maxWidth: 560, margin: "0 auto", padding: "0 16px" }}>
+
+        {/* ═══ MOTIVATION FACTS ═══ */}
+        <section className="anim-up-1" style={{ padding: "28px 0 0" }}>
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 10 }}>
+            {[
+              { n: "25L+", l: "Vacancies in 2026", c: "#22C55E" },
+              { n: "₹56K", l: "Starting IAS salary", c: "#3B82F6" },
+              { n: "FREE", l: "Travel for Railway officers", c: "#EF4444" },
+            ].map((f, i) => (
+              <div key={i} style={{
+                background: "var(--bg-card)", borderRadius: 14, padding: "16px 12px",
+                textAlign: "center", border: "1px solid var(--border)",
+                boxShadow: "var(--shadow-sm)",
+              }}>
+                <div style={{ fontSize: 20, fontWeight: 800, color: f.c, fontFamily: "'Outfit'" }}>{f.n}</div>
+                <div style={{ fontSize: 10, color: "var(--text-light)", marginTop: 3, lineHeight: 1.3 }}>{f.l}</div>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* ═══ DREAM CARDS — "What if you become..." ═══ */}
+        <section className="anim-up-2" style={{ padding: "28px 0 0" }}>
+          <h2 style={{ fontFamily: "'Playfair Display',serif", fontSize: 20, fontWeight: 700, color: "var(--text-dark)", marginBottom: 4 }}>
+            What if you become...
+          </h2>
+          <p style={{ fontSize: 13, color: "var(--text-light)", marginBottom: 14 }}>
+            Tap to explore the life, salary, and roadmap
+          </p>
+
+          <div className="no-scroll" style={{ display: "flex", gap: 12, overflowX: "auto", paddingBottom: 8 }}>
+            {[
+              { title: "District Magistrate", sub: "UPSC → IAS", perk: "Bungalow + Vehicle + ₹2.5L/month", emoji: "🏛️", bg: "linear-gradient(135deg,#4c1d95,#6d28d9)", link: "/jobs?id=upsc-cse-2026" },
+              { title: "Bank PO → Manager", sub: "SBI PO Exam", perk: "₹52K start + Housing + Medical", emoji: "🏦", bg: "linear-gradient(135deg,#064e3b,#0C7C59)", link: "/jobs?id=sbi-po-2026" },
+              { title: "Income Tax Inspector", sub: "SSC CGL Exam", perk: "₹65K + Govt Quarter + Raids", emoji: "📋", bg: "linear-gradient(135deg,#1e3a5f,#2563eb)", link: "/jobs?id=ssc-cgl-2026" },
+              { title: "Station Master", sub: "RRB NTPC Exam", perk: "FREE trains for life + Uniform", emoji: "🚂", bg: "linear-gradient(135deg,#7f1d1d,#dc2626)", link: "/jobs?id=rrb-ntpc-2026" },
+            ].map((d, i) => (
+              <Link key={i} href={d.link} style={{ textDecoration: "none", flexShrink: 0 }}>
+                <div style={{
+                  width: 200, borderRadius: 16, padding: "22px 18px", color: "#fff",
+                  background: d.bg, boxShadow: "var(--shadow-md)",
+                  transition: "transform 0.2s",
+                }}>
+                  <div style={{ fontSize: 32, marginBottom: 10 }}>{d.emoji}</div>
+                  <div style={{ fontSize: 15, fontWeight: 700, marginBottom: 3 }}>{d.title}</div>
+                  <div style={{ fontSize: 11, opacity: 0.7, marginBottom: 10 }}>{d.sub}</div>
+                  <div style={{
+                    fontSize: 11, fontWeight: 600, background: "rgba(255,255,255,0.15)",
+                    padding: "5px 10px", borderRadius: 8, display: "inline-block",
+                  }}>{d.perk}</div>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </section>
+
+        {/* ═══ UPCOMING EXAMS ═══ */}
+        <section className="anim-up-3" style={{ padding: "28px 0 0" }}>
+          <h2 style={{ fontSize: 13, fontWeight: 700, color: "var(--text-light)", letterSpacing: 0.5, marginBottom: 10 }}>
+            Upcoming Exams
+          </h2>
+          <div style={{ display: "flex", gap: 10 }}>
             {COUNTDOWNS.map((c, i) => (
               <div key={i} style={{
-                minWidth: 130, background: "rgba(255,255,255,0.025)", borderRadius: 14, padding: "14px 14px 12px",
-                border: "1px solid rgba(255,255,255,0.05)", flexShrink: 0,
+                flex: 1, background: "var(--bg-card)", borderRadius: 14, padding: "16px 14px",
+                border: "1px solid var(--border)", boxShadow: "var(--shadow-sm)", textAlign: "center",
               }}>
-                <div style={{ fontSize: 26, fontWeight: 800, color: c.color, fontFamily: "'Outfit',sans-serif" }}>{c.daysLeft}</div>
-                <div style={{ fontSize: 9, color: "#555", fontWeight: 600, textTransform: "uppercase", letterSpacing: 0.5 }}>days left</div>
-                <div style={{ fontSize: 12, color: "#d1d5db", fontWeight: 600, marginTop: 6 }}>{c.name}</div>
-                <div style={{ fontSize: 10, color: "#4b5563" }}>{c.date}, 2026</div>
+                <div style={{ fontSize: 28, fontWeight: 800, color: c.color, fontFamily: "'Outfit'" }}>{c.days}</div>
+                <div style={{ fontSize: 9, color: "var(--text-light)", fontWeight: 600, textTransform: "uppercase", letterSpacing: 0.5 }}>days left</div>
+                <div style={{ fontSize: 12, color: "var(--text-dark)", fontWeight: 600, marginTop: 6 }}>{c.name}</div>
               </div>
             ))}
           </div>
         </section>
 
-        {/* Daily Interview Question */}
-        <section className="fade-up-d2" style={{
-          marginBottom: 24, borderRadius: 16, padding: "18px 16px",
-          background: "linear-gradient(135deg,rgba(5,150,105,0.08),rgba(6,182,212,0.06))",
-          border: "1px solid rgba(52,211,153,0.12)",
-        }}>
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 10 }}>
-            <div>
-              <div style={{ fontSize: 11, fontWeight: 700, color: "#34d399", letterSpacing: 1.2, textTransform: "uppercase" }}>🎯 {DAILY_QUIZ.topic}</div>
-              <div style={{ fontSize: 10, color: "#555", marginTop: 2 }}>April 10, 2026</div>
-            </div>
-          </div>
-          <p style={{ fontSize: 14, color: "#e5e7eb", lineHeight: 1.6, marginBottom: 12, fontWeight: 500 }}>{DAILY_QUIZ.question}</p>
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8 }}>
-            {DAILY_QUIZ.options.map((opt, i) => {
-              const isCorrect = i === DAILY_QUIZ.correct;
-              const picked = quizAnswer === i;
-              const done = quizAnswer !== null;
-              return (
-                <button key={i} onClick={() => !done && setQuizAnswer(i)} style={{
-                  padding: "10px 12px", borderRadius: 10, fontSize: 13, fontWeight: 600,
-                  cursor: done ? "default" : "pointer", textAlign: "left", transition: "all 0.2s",
-                  border: done && isCorrect ? "2px solid #22c55e" : done && picked ? "2px solid #ef4444" : "1px solid rgba(255,255,255,0.07)",
-                  background: done && isCorrect ? "rgba(34,197,94,0.12)" : done && picked ? "rgba(239,68,68,0.1)" : "rgba(255,255,255,0.03)",
-                  color: done && isCorrect ? "#4ade80" : done && picked ? "#f87171" : "#d1d5db",
-                }}>
-                  {done && isCorrect ? "✓ " : done && picked ? "✗ " : ""}{opt}
-                </button>
-              );
-            })}
-          </div>
-          {quizAnswer !== null && (
-            <div style={{ marginTop: 10, background: "rgba(34,197,94,0.08)", borderRadius: 10, padding: "10px 12px", fontSize: 12, color: "#86efac", lineHeight: 1.6 }}>
-              💡 {DAILY_QUIZ.explanation}
-            </div>
-          )}
-        </section>
+        {/* ═══ WHY GOVERNMENT JOB ═══ */}
+        <section className="anim-up-4" style={{ padding: "28px 0 0" }}>
+          <h2 style={{ fontFamily: "'Playfair Display',serif", fontSize: 20, fontWeight: 700, color: "var(--text-dark)", marginBottom: 4 }}>
+            Why a Government Job?
+          </h2>
+          <p style={{ fontSize: 13, color: "var(--text-light)", marginBottom: 16 }}>
+            The difference is real — and it compounds over a lifetime.
+          </p>
 
-        {/* Jobs */}
-        <section className="fade-up-d3" style={{ marginBottom: 24 }}>
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 8 }}>
-            <div style={{ fontSize: 11, fontWeight: 700, color: "#6b7280", letterSpacing: 1.5, textTransform: "uppercase", paddingLeft: 2 }}>💼 Latest Government Jobs</div>
-            <Link href="/jobs" style={{ fontSize: 11, color: "#34d399", fontWeight: 600, textDecoration: "none" }}>View All →</Link>
-          </div>
-          <div className="hide-scrollbar" style={{ display: "flex", gap: 6, overflowX: "auto", marginBottom: 12, paddingBottom: 2 }}>
-            <button onClick={() => setJobFilter("all")} style={{ padding: "5px 14px", borderRadius: 16, fontSize: 11, fontWeight: 600, border: "none", cursor: "pointer", flexShrink: 0, background: jobFilter === "all" ? "#059669" : "rgba(255,255,255,0.04)", color: jobFilter === "all" ? "#000" : "#888" }}>All</button>
-            {JOB_CATEGORIES.slice(0, 5).map(c => (
-              <button key={c.id} onClick={() => setJobFilter(c.id)} style={{ padding: "5px 12px", borderRadius: 16, fontSize: 11, fontWeight: 600, border: "none", cursor: "pointer", flexShrink: 0, whiteSpace: "nowrap", background: jobFilter === c.id ? c.color : "rgba(255,255,255,0.04)", color: jobFilter === c.id ? "#fff" : "#888" }}>
-                {c.icon} {c.label}
-              </button>
-            ))}
-          </div>
+          {/* Comparison cards */}
           <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-            {filtered.map(job => (
-              <Link key={job.id} href={`/jobs?id=${job.id}`} style={{ textDecoration: "none", color: "inherit" }}>
-                <div style={{
-                  background: "rgba(255,255,255,0.025)", borderRadius: 14, padding: "14px 16px",
-                  border: "1px solid rgba(255,255,255,0.05)", transition: "border-color 0.2s",
-                }}>
-                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
-                    <div style={{ flex: 1 }}>
-                      <div style={{ display: "flex", gap: 5, marginBottom: 5, flexWrap: "wrap" }}>
-                        {job.isNew && <span style={{ background: "#059669", color: "#fff", fontSize: 9, fontWeight: 700, padding: "2px 7px", borderRadius: 8, letterSpacing: 0.5 }}>NEW</span>}
-                        {job.isHot && <span style={{ background: "#dc2626", color: "#fff", fontSize: 9, fontWeight: 700, padding: "2px 7px", borderRadius: 8, letterSpacing: 0.5 }}>🔥 HOT</span>}
-                      </div>
-                      <div style={{ fontSize: 14, fontWeight: 700, color: "#f3f4f6", marginBottom: 2, lineHeight: 1.3 }}>{job.title}</div>
-                      <div style={{ fontSize: 11, color: "#6b7280" }}>{job.org}</div>
-                    </div>
-                    <div style={{ textAlign: "right", flexShrink: 0, marginLeft: 12 }}>
-                      <div style={{ fontSize: 17, fontWeight: 800, color: "#34d399", fontFamily: "'Outfit',sans-serif" }}>{job.vacancies.toLocaleString()}</div>
-                      <div style={{ fontSize: 9, color: "#555", textTransform: "uppercase" }}>posts</div>
-                    </div>
-                  </div>
-                  <div style={{ display: "flex", gap: 10, marginTop: 6, flexWrap: "wrap" }}>
-                    <span style={{ fontSize: 11, color: "#9ca3af" }}>💰 {job.inHand} in-hand</span>
-                    <span style={{ fontSize: 11, color: "#9ca3af" }}>📅 {job.lastDate}</span>
-                  </div>
-                  <div style={{ fontSize: 11, color: "#34d399", marginTop: 6, fontWeight: 600 }}>See salary, lifestyle, career path & perks →</div>
-                </div>
-              </Link>
-            ))}
-          </div>
-        </section>
-
-        {/* AI Interview */}
-        <section className="fade-up-d4" style={{ marginBottom: 24 }}>
-          <div style={{ fontSize: 11, fontWeight: 700, color: "#6b7280", letterSpacing: 1.5, textTransform: "uppercase", marginBottom: 8, paddingLeft: 2 }}>🎯 AI Mock Interview — Crack the Final Round</div>
-          <p style={{ fontSize: 12, color: "#555", marginBottom: 12, lineHeight: 1.5, paddingLeft: 2 }}>
-            30-40% candidates fail in the interview after clearing the written exam. Don&apos;t be one of them.
-          </p>
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8 }}>
-            {INTERVIEW_CATS.map(cat => (
-              <Link key={cat.id} href={`/interview?cat=${cat.id}`} style={{ textDecoration: "none" }}>
-                <div style={{
-                  background: "rgba(255,255,255,0.025)", borderRadius: 14, padding: "16px 14px",
-                  border: "1px solid rgba(255,255,255,0.05)", textAlign: "center", transition: "border-color 0.2s",
-                }}>
-                  <div style={{ fontSize: 26, marginBottom: 6 }}>{cat.icon}</div>
-                  <div style={{ fontSize: 13, fontWeight: 700, color: "#f3f4f6" }}>{cat.title}</div>
-                  <div style={{ fontSize: 10, color: "#6b7280", marginTop: 2 }}>{cat.sub}</div>
-                  <div style={{ marginTop: 8, fontSize: 10, fontWeight: 700, color: cat.color, background: `${cat.color}18`, padding: "4px 10px", borderRadius: 6, display: "inline-block" }}>Practice Free →</div>
-                </div>
-              </Link>
-            ))}
-          </div>
-        </section>
-
-        {/* Success Stories */}
-        <section style={{ marginBottom: 24 }}>
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 8 }}>
-            <div style={{ fontSize: 11, fontWeight: 700, color: "#6b7280", letterSpacing: 1.5, textTransform: "uppercase", paddingLeft: 2 }}>⭐ Success Stories — They Made It</div>
-            <Link href="/stories" style={{ fontSize: 11, color: "#34d399", fontWeight: 600, textDecoration: "none" }}>All →</Link>
-          </div>
-          <div className="hide-scrollbar" style={{ display: "flex", gap: 10, overflowX: "auto", paddingBottom: 4 }}>
-            {STORIES.slice(0, 3).map((s, i) => (
+            {[
+              {
+                icon: "🏠", title: "Housing",
+                govt: "Govt quarter or HRA ₹15K–₹30K paid by employer",
+                pvt: "Pay rent from your own salary",
+                color: "#3B82F6",
+              },
+              {
+                icon: "🏥", title: "Medical",
+                govt: "Free healthcare for entire family — forever",
+                pvt: "Pay premiums, limited coverage",
+                color: "#22C55E",
+              },
+              {
+                icon: "💰", title: "Pension",
+                govt: "Monthly pension after retirement — for life",
+                pvt: "No pension. Only PF if lucky",
+                color: "#F59E0B",
+              },
+              {
+                icon: "⏰", title: "Work-Life Balance",
+                govt: "Fixed hours, 30 leaves/year, weekends off",
+                pvt: "Overtime, weekend calls, burnout",
+                color: "#14B8A6",
+              },
+              {
+                icon: "🔒", title: "Job Security",
+                govt: "Cannot be laid off. Permanent from Day 1",
+                pvt: "Layoffs, PIPs, restructuring",
+                color: "#A78BFA",
+              },
+              {
+                icon: "📈", title: "Growth",
+                govt: "Clear promotion path, no politics",
+                pvt: "Depends on manager, company politics",
+                color: "#FB923C",
+              },
+            ].map((b, i) => (
               <div key={i} style={{
-                minWidth: 250, background: "rgba(255,255,255,0.025)", borderRadius: 16, padding: "16px 14px",
-                border: "1px solid rgba(255,255,255,0.05)", flexShrink: 0,
+                background: "var(--bg-card)", borderRadius: 14, padding: "14px 16px",
+                border: "1px solid var(--border)", boxShadow: "var(--shadow-sm)",
+                display: "flex", gap: 14, alignItems: "flex-start",
               }}>
-                <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 10 }}>
-                  <span style={{ fontSize: 28 }}>{s.emoji}</span>
-                  <div>
-                    <div style={{ fontSize: 13, fontWeight: 700, color: "#f3f4f6" }}>{s.name}</div>
-                    <div style={{ fontSize: 10, color: s.bgColor, fontWeight: 700 }}>{s.achievement}</div>
+                {/* Icon */}
+                <div style={{
+                  width: 40, height: 40, borderRadius: 12, flexShrink: 0,
+                  background: `${b.color}18`,
+                  display: "flex", alignItems: "center", justifyContent: "center", fontSize: 20,
+                }}>{b.icon}</div>
+
+                <div style={{ flex: 1, minWidth: 0 }}>
+                  <div style={{ fontSize: 13, fontWeight: 700, color: "var(--text-dark)", marginBottom: 8 }}>{b.title}</div>
+                  {/* Two-column comparison */}
+                  <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 6 }}>
+                    <div style={{
+                      background: `${b.color}10`, borderRadius: 8, padding: "7px 10px",
+                      border: `1px solid ${b.color}25`,
+                    }}>
+                      <div style={{ fontSize: 9, fontWeight: 700, color: b.color, letterSpacing: 0.5, marginBottom: 3 }}>GOVT JOB ✓</div>
+                      <div style={{ fontSize: 11, color: "var(--text-body)", lineHeight: 1.4 }}>{b.govt}</div>
+                    </div>
+                    <div style={{
+                      background: "rgba(255,255,255,0.02)", borderRadius: 8, padding: "7px 10px",
+                      border: "1px solid rgba(255,255,255,0.05)",
+                    }}>
+                      <div style={{ fontSize: 9, fontWeight: 700, color: "var(--text-faint)", letterSpacing: 0.5, marginBottom: 3 }}>PRIVATE JOB</div>
+                      <div style={{ fontSize: 11, color: "var(--text-faint)", lineHeight: 1.4 }}>{b.pvt}</div>
+                    </div>
                   </div>
                 </div>
-                <p style={{ fontSize: 12, color: "#9ca3af", fontStyle: "italic", lineHeight: 1.6, marginBottom: 8 }}>&ldquo;{s.quote.slice(0, 120)}...&rdquo;</p>
-                <div style={{ fontSize: 10, color: "#6b7280" }}>Now: {s.now}</div>
               </div>
             ))}
           </div>
         </section>
 
-        {/* Mentorship Teaser */}
-        <section style={{
-          marginBottom: 24, borderRadius: 16, padding: "22px 16px", textAlign: "center",
-          background: "linear-gradient(135deg,rgba(251,191,36,0.08),rgba(245,158,11,0.05))",
-          border: "1px solid rgba(251,191,36,0.15)",
-        }}>
-          <div style={{ fontSize: 32, marginBottom: 6 }}>🤝</div>
-          <h3 style={{ fontFamily: "'Outfit',sans-serif", fontSize: 17, fontWeight: 800, marginBottom: 4 }}>Talk to Someone Who Cracked It</h3>
-          <p style={{ fontSize: 12, color: "#9ca3af", lineHeight: 1.5, marginBottom: 12 }}>
-            Connect with real selected officers — Bank POs, IAS officers, SSC toppers.<br />
-            Learn directly from someone who sat in YOUR interview panel.
-          </p>
-          <div style={{ display: "inline-block", background: "#f59e0b", color: "#000", padding: "10px 22px", borderRadius: 10, fontSize: 13, fontWeight: 700, cursor: "pointer" }}>Coming Soon — Join Waitlist</div>
-        </section>
-
-        {/* Stats */}
-        <section style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 8, marginBottom: 24 }}>
-          {[
-            { v: "3.2L+", l: "Aspirants", i: "👥" },
-            { v: "50K+", l: "Mock Interviews", i: "🎯" },
-            { v: "6", l: "Job Categories", i: "💼" },
-          ].map((s, i) => (
-            <div key={i} style={{ background: "rgba(255,255,255,0.02)", borderRadius: 12, padding: "14px 10px", textAlign: "center", border: "1px solid rgba(255,255,255,0.04)" }}>
-              <div style={{ fontSize: 18, marginBottom: 3 }}>{s.i}</div>
-              <div style={{ fontSize: 18, fontWeight: 800, fontFamily: "'Outfit',sans-serif" }}>{s.v}</div>
-              <div style={{ fontSize: 9, color: "#6b7280" }}>{s.l}</div>
-            </div>
-          ))}
-        </section>
-
-        {/* Footer */}
-        <footer style={{ textAlign: "center", padding: "16px 0", borderTop: "1px solid rgba(255,255,255,0.04)" }}>
-          <div style={{ fontFamily: "'Outfit',sans-serif", fontSize: 15, fontWeight: 800, marginBottom: 4 }}>
-            Naukri<span style={{ color: "#34d399" }}>Yatra</span>
+        {/* ═══ EXPLORE + PRACTICE CTAs ═══ */}
+        <section style={{ padding: "28px 0 0" }}>
+          <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+            <Link href="/jobs" style={{ textDecoration: "none" }}>
+              <div style={{
+                background: "var(--bg-card)", borderRadius: 14, padding: "18px 20px",
+                border: "1px solid var(--border)", boxShadow: "var(--shadow-sm)",
+                display: "flex", alignItems: "center", justifyContent: "space-between",
+              }}>
+                <div>
+                  <div style={{ fontSize: 15, fontWeight: 700, color: "var(--text-dark)" }}>Explore All Careers</div>
+                  <div style={{ fontSize: 12, color: "var(--text-light)", marginTop: 2 }}>Salary, lifestyle, roadmap for every govt job</div>
+                </div>
+                <div style={{ fontSize: 24 }}>💼</div>
+              </div>
+            </Link>
+            <Link href="/interview" style={{ textDecoration: "none" }}>
+              <div style={{
+                background: "var(--bg-card)", borderRadius: 14, padding: "18px 20px",
+                border: "1px solid var(--border)", boxShadow: "var(--shadow-sm)",
+                display: "flex", alignItems: "center", justifyContent: "space-between",
+              }}>
+                <div>
+                  <div style={{ fontSize: 15, fontWeight: 700, color: "var(--text-dark)" }}>Practice Mock Interview</div>
+                  <div style={{ fontSize: 12, color: "var(--text-light)", marginTop: 2 }}>AI interviewer scores every answer</div>
+                </div>
+                <div style={{ fontSize: 24 }}>🎯</div>
+              </div>
+            </Link>
+            <Link href="/stories" style={{ textDecoration: "none" }}>
+              <div style={{
+                background: "var(--bg-card)", borderRadius: 14, padding: "18px 20px",
+                border: "1px solid var(--border)", boxShadow: "var(--shadow-sm)",
+                display: "flex", alignItems: "center", justifyContent: "space-between",
+              }}>
+                <div>
+                  <div style={{ fontSize: 15, fontWeight: 700, color: "var(--text-dark)" }}>Success Stories</div>
+                  <div style={{ fontSize: 12, color: "var(--text-light)", marginTop: 2 }}>Real people who made it — get inspired</div>
+                </div>
+                <div style={{ fontSize: 24 }}>⭐</div>
+              </div>
+            </Link>
           </div>
-          <p style={{ fontSize: 11, color: "#4b5563", marginBottom: 2 }}>Sapne se Selection Tak</p>
-          <p style={{ fontSize: 10, color: "#374151" }}>© 2026 NaukriYatra — Made with ❤️ in India</p>
+        </section>
+
+        {/* ═══ FOOTER ═══ */}
+        <footer style={{ textAlign: "center", padding: "32px 0 8px" }}>
+          <div style={{ fontFamily: "'Outfit'", fontSize: 15, fontWeight: 800, color: "var(--text-dark)", marginBottom: 3 }}>
+            Naukri<span style={{ color: "var(--accent)" }}>Yatra</span>
+          </div>
+          <p style={{ fontSize: 11, color: "var(--text-light)" }}>Sapne se Selection Tak</p>
+          <p style={{ fontSize: 10, color: "var(--text-faint)", marginTop: 6 }}>© 2026 NaukriYatra · Made in India</p>
         </footer>
       </div>
 

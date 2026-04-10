@@ -4,213 +4,91 @@ import Link from "next/link";
 import BottomNav from "@/components/BottomNav";
 import { INTERVIEW_CATS } from "@/components/data";
 
-interface Msg { role: "user" | "assistant"; content: string; }
-interface Scores { [k: string]: string | number; }
+interface Msg { role:"user"|"assistant"; content:string }
+interface Scores { [k:string]:string|number }
 
-function ScoreCircle({ score, label, color }: { score: number; label: string; color: string }) {
-  const r = 28, circ = 2 * Math.PI * r, off = circ - (score / 10) * circ;
-  return (
-    <div style={{ textAlign: "center", margin: "0 6px" }}>
-      <svg width="66" height="66" viewBox="0 0 66 66">
-        <circle cx="33" cy="33" r={r} fill="none" stroke="rgba(255,255,255,0.06)" strokeWidth="5" />
-        <circle cx="33" cy="33" r={r} fill="none" stroke={color} strokeWidth="5"
-          strokeDasharray={circ} strokeDashoffset={off} strokeLinecap="round"
-          transform="rotate(-90 33 33)" style={{ transition: "stroke-dashoffset 1s ease" }} />
-        <text x="33" y="37" textAnchor="middle" fontSize="16" fontWeight="700" fill="#fff">{score}</text>
-      </svg>
-      <div style={{ fontSize: 9, color: "#888", marginTop: 1 }}>{label.replace(/_/g, " ")}</div>
-    </div>
-  );
+function Ring({ score,label,color }:{ score:number;label:string;color:string }) {
+  const r=26,c=2*Math.PI*r,o=c-(score/10)*c;
+  return (<div style={{ textAlign:"center",margin:"0 5px" }}><svg width="62" height="62" viewBox="0 0 62 62"><circle cx="31" cy="31" r={r} fill="none" stroke="rgba(255,255,255,0.08)" strokeWidth="4.5" /><circle cx="31" cy="31" r={r} fill="none" stroke={color} strokeWidth="4.5" strokeDasharray={c} strokeDashoffset={o} strokeLinecap="round" transform="rotate(-90 31 31)" style={{ transition:"stroke-dashoffset 1s ease" }} /><text x="31" y="35" textAnchor="middle" fontSize="15" fontWeight="700" fill="var(--text-dark)">{score}</text></svg><div style={{ fontSize:9,color:"var(--text-light)",marginTop:1 }}>{label.replace(/_/g," ")}</div></div>);
 }
 
 export default function InterviewPage() {
-  const [screen, setScreen] = useState<"select" | "setup" | "chat" | "score">("select");
-  const [cat, setCat] = useState(INTERVIEW_CATS[0]);
-  const [role, setRole] = useState("");
-  const [msgs, setMsgs] = useState<Msg[]>([]);
-  const [input, setInput] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [qCount, setQCount] = useState(0);
-  const [scores, setScores] = useState<Scores | null>(null);
-  const [error, setError] = useState("");
-  const endRef = useRef<HTMLDivElement>(null);
-  const inputRef = useRef<HTMLTextAreaElement>(null);
+  const [scr,setScr]=useState<"sel"|"set"|"chat"|"done">("sel");
+  const [cat,setCat]=useState(INTERVIEW_CATS[0]);
+  const [role,setRole]=useState("");
+  const [msgs,setMsgs]=useState<Msg[]>([]);
+  const [inp,setInp]=useState("");
+  const [ld,setLd]=useState(false);
+  const [qn,setQn]=useState(0);
+  const [sc,setSc]=useState<Scores|null>(null);
+  const [er,setEr]=useState("");
+  const end=useRef<HTMLDivElement>(null);
+  const iRef=useRef<HTMLTextAreaElement>(null);
+  useEffect(()=>{end.current?.scrollIntoView({behavior:"smooth"});},[msgs,ld]);
+  useEffect(()=>{if(scr==="chat"&&!ld)iRef.current?.focus();},[scr,ld,msgs]);
 
-  useEffect(() => { endRef.current?.scrollIntoView({ behavior: "smooth" }); }, [msgs, loading]);
-  useEffect(() => { if (screen === "chat" && !loading) inputRef.current?.focus(); }, [screen, loading, msgs]);
+  async function api(m:Msg[]){const r=await fetch("/api/interview",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({messages:m,category:cat.id,role})});if(!r.ok){const e=await r.json();throw new Error(e.error||"Failed");}return r.json();}
 
-  async function callAPI(messages: Msg[]) {
-    const res = await fetch("/api/interview", {
-      method: "POST", headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ messages, category: cat.id, role }),
-    });
-    if (!res.ok) { const e = await res.json(); throw new Error(e.error || "API failed"); }
-    return res.json();
-  }
+  async function begin(){setScr("chat");setMsgs([]);setQn(0);setSc(null);setEr("");setLd(true);try{const d=await api([{role:"user",content:`I am a candidate for ${role} interview. Start with greeting and first question.`}]);setMsgs([{role:"assistant",content:d.reply}]);setQn(1);}catch(e:unknown){setEr(e instanceof Error?e.message:"Failed");}finally{setLd(false);}}
 
-  async function startInterview() {
-    setScreen("chat"); setMsgs([]); setQCount(0); setScores(null); setError(""); setLoading(true);
-    try {
-      const data = await callAPI([{ role: "user", content: `I am a candidate appearing for a ${role} interview. Please start by greeting me and asking your first question.` }]);
-      setMsgs([{ role: "assistant", content: data.reply }]); setQCount(1);
-    } catch (e: unknown) { setError(e instanceof Error ? e.message : "Failed"); }
-    finally { setLoading(false); }
-  }
+  async function send(){if(!inp.trim()||ld)return;const t=inp.trim();setInp("");setEr("");const nm:Msg[]=[...msgs,{role:"user",content:t}];setMsgs(nm);setLd(true);try{const d=await api([{role:"user",content:`I am a candidate for ${role} interview. Start with greeting and first question.`},...nm]);if(d.scorecard){if(d.reply)setMsgs(p=>[...p,{role:"assistant",content:d.reply}]);setTimeout(()=>{setSc(d.scorecard);setScr("done");},1200);}else{setMsgs(p=>[...p,{role:"assistant",content:d.reply}]);setQn(p=>p+1);}}catch(e:unknown){setEr(e instanceof Error?e.message:"Failed");}finally{setLd(false);}}
 
-  async function send() {
-    if (!input.trim() || loading) return;
-    const txt = input.trim(); setInput(""); setError("");
-    const newMsgs: Msg[] = [...msgs, { role: "user", content: txt }]; setMsgs(newMsgs); setLoading(true);
-    try {
-      const full: Msg[] = [{ role: "user", content: `I am a candidate for ${role} interview. Start with greeting and first question.` }, ...newMsgs];
-      const data = await callAPI(full);
-      if (data.scorecard) {
-        if (data.reply) setMsgs(p => [...p, { role: "assistant", content: data.reply }]);
-        setTimeout(() => { setScores(data.scorecard); setScreen("score"); }, 1200);
-      } else {
-        setMsgs(p => [...p, { role: "assistant", content: data.reply }]); setQCount(p => p + 1);
-      }
-    } catch (e: unknown) { setError(e instanceof Error ? e.message : "Failed"); }
-    finally { setLoading(false); }
-  }
+  if(scr==="sel")return(
+    <main style={{minHeight:"100vh",background:"var(--bg)",paddingBottom:76}}>
+      <header style={{padding:"14px 16px",borderBottom:"1px solid var(--border)",display:"flex",alignItems:"center",gap:8,background:"rgba(250,251,253,0.95)",backdropFilter:"blur(16px)"}}>
+        <Link href="/" style={{color:"var(--text-light)",fontSize:13,textDecoration:"none"}}>←</Link>
+        <h1 style={{fontFamily:"'Playfair Display',serif",fontSize:20,fontWeight:700,color:"var(--text-dark)"}}>AI Mock Interview</h1>
+      </header>
+      <div style={{maxWidth:560,margin:"0 auto",padding:"20px 16px"}}>
+        <p style={{fontSize:13,color:"var(--text-body)",marginBottom:16,lineHeight:1.5}}>Practice with AI that scores every answer. 5 questions, instant feedback, completely free.</p>
+        {INTERVIEW_CATS.map((c,i)=>(
+          <button key={c.id} className="anim-up" onClick={()=>{setCat(c);setRole(c.roles[0]);setScr("set");}} style={{display:"flex",alignItems:"center",gap:14,width:"100%",padding:"15px 16px",marginBottom:8,borderRadius:14,background:"var(--bg-card)",border:"1px solid var(--border)",boxShadow:"var(--shadow-sm)",cursor:"pointer",textAlign:"left",color:"var(--text-dark)",animationDelay:`${i*0.06}s`}}>
+            <div style={{width:44,height:44,borderRadius:12,background:`${c.color}10`,display:"flex",alignItems:"center",justifyContent:"center",fontSize:22,flexShrink:0}}>{c.icon}</div>
+            <div style={{flex:1}}><div style={{fontSize:14,fontWeight:700}}>{c.title}</div><div style={{fontSize:11,color:"var(--text-light)",marginTop:1}}>{c.sub}</div></div>
+            <span style={{color:"var(--text-light)",fontSize:16}}>→</span>
+          </button>))}
+      </div><BottomNav /></main>);
 
-  // ─── SELECT SCREEN ───
-  if (screen === "select") {
-    return (
-      <main style={{ minHeight: "100vh", background: "#0a0b10", paddingBottom: 80 }}>
-        <header style={{ padding: "14px 16px", borderBottom: "1px solid rgba(255,255,255,0.04)", display: "flex", alignItems: "center", gap: 8 }}>
-          <Link href="/" style={{ color: "#888", fontSize: 13, textDecoration: "none" }}>←</Link>
-          <h1 style={{ fontFamily: "'Outfit',sans-serif", fontSize: 18, fontWeight: 800 }}>AI Mock Interview</h1>
-        </header>
-        <div style={{ maxWidth: 640, margin: "0 auto", padding: "24px 16px" }}>
-          <p style={{ fontSize: 13, color: "#6b7280", marginBottom: 8, lineHeight: 1.5 }}>
-            30-40% candidates fail in the interview round after clearing written exams. Practice with AI and don&apos;t be one of them.
-          </p>
-          <p style={{ fontSize: 11, fontWeight: 700, color: "#555", letterSpacing: 1.2, textTransform: "uppercase", marginBottom: 10 }}>Choose your interview</p>
-          {INTERVIEW_CATS.map((c, i) => (
-            <button key={c.id} className="fade-up" onClick={() => { setCat(c); setRole(c.roles[0]); setScreen("setup"); }}
-              style={{ display: "flex", alignItems: "center", gap: 14, width: "100%", padding: "16px", marginBottom: 8, borderRadius: 14, background: "rgba(255,255,255,0.025)", border: "1px solid rgba(255,255,255,0.05)", cursor: "pointer", textAlign: "left", animationDelay: `${i * 0.07}s`, transition: "border-color 0.2s", color: "#fff" }}>
-              <div style={{ width: 46, height: 46, borderRadius: 12, background: `${c.color}15`, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 24, flexShrink: 0 }}>{c.icon}</div>
-              <div style={{ flex: 1 }}>
-                <div style={{ fontSize: 15, fontWeight: 700 }}>{c.title}</div>
-                <div style={{ fontSize: 11, color: "#6b7280", marginTop: 2 }}>{c.sub}</div>
-              </div>
-              <span style={{ color: "#555", fontSize: 18 }}>→</span>
-            </button>
-          ))}
-          <p style={{ textAlign: "center", fontSize: 11, color: "#444", marginTop: 16 }}>5 questions • ~10 min • AI scores each answer • 100% Free</p>
-        </div>
-        <BottomNav />
-      </main>
-    );
-  }
+  if(scr==="set")return(
+    <main style={{minHeight:"100vh",background:"var(--bg)",paddingBottom:76}}>
+      <div style={{maxWidth:560,margin:"0 auto",padding:"28px 16px"}} className="anim-up">
+        <button onClick={()=>setScr("sel")} style={{background:"none",border:"none",color:"var(--text-light)",fontSize:13,cursor:"pointer",padding:0,marginBottom:20}}>← Back</button>
+        <div style={{width:52,height:52,borderRadius:14,background:`${cat.color}10`,display:"flex",alignItems:"center",justifyContent:"center",fontSize:26,marginBottom:12}}>{cat.icon}</div>
+        <h2 style={{fontFamily:"'Playfair Display',serif",fontSize:22,fontWeight:700,color:"var(--text-dark)",marginBottom:3}}>{cat.title}</h2>
+        <p style={{color:"var(--text-light)",fontSize:13,marginBottom:22}}>Select your target role</p>
+        {cat.roles.map(r=>(<button key={r} onClick={()=>setRole(r)} style={{display:"block",width:"100%",padding:"12px 16px",marginBottom:6,borderRadius:10,textAlign:"left",fontSize:13,fontWeight:600,cursor:"pointer",background:role===r?`${cat.color}08`:"var(--bg-card)",border:`1.5px solid ${role===r?cat.color:"var(--border)"}`,color:role===r?"var(--text-dark)":"var(--text-light)"}}>{role===r?"● ":"○ "}{r}</button>))}
+        <button onClick={begin} style={{width:"100%",marginTop:18,padding:"14px",background:cat.color,color:"#fff",border:"none",borderRadius:12,fontSize:14,fontWeight:700,cursor:"pointer",boxShadow:`0 4px 16px ${cat.color}40`}}>Start Mock Interview →</button>
+      </div><BottomNav /></main>);
 
-  // ─── SETUP SCREEN ───
-  if (screen === "setup") {
-    return (
-      <main style={{ minHeight: "100vh", background: "#0a0b10", paddingBottom: 80 }}>
-        <div style={{ maxWidth: 640, margin: "0 auto", padding: "32px 16px" }} className="fade-up">
-          <button onClick={() => setScreen("select")} style={{ background: "none", border: "none", color: "#888", fontSize: 13, cursor: "pointer", marginBottom: 20, padding: 0 }}>← Back</button>
-          <div style={{ width: 56, height: 56, borderRadius: 16, background: `${cat.color}15`, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 28, marginBottom: 12 }}>{cat.icon}</div>
-          <h2 style={{ fontFamily: "'Outfit',sans-serif", fontSize: 22, fontWeight: 800, marginBottom: 4 }}>{cat.title}</h2>
-          <p style={{ color: "#6b7280", fontSize: 13, marginBottom: 24 }}>Select role to start practicing</p>
-          <p style={{ fontSize: 10, fontWeight: 700, color: "#555", letterSpacing: 1, textTransform: "uppercase", marginBottom: 8 }}>Interview Role</p>
-          {cat.roles.map(r => (
-            <button key={r} onClick={() => setRole(r)} style={{
-              display: "block", width: "100%", padding: "12px 16px", marginBottom: 6, borderRadius: 10, textAlign: "left", fontSize: 14, fontWeight: 600, cursor: "pointer", transition: "all 0.2s",
-              background: role === r ? `${cat.color}15` : "transparent", border: `1.5px solid ${role === r ? cat.color : "rgba(255,255,255,0.06)"}`, color: role === r ? "#fff" : "#888",
-            }}>{role === r ? "● " : "○ "}{r}</button>
-          ))}
-          <button onClick={startInterview} style={{ width: "100%", marginTop: 20, padding: "14px", background: cat.color, color: "#fff", border: "none", borderRadius: 12, fontSize: 15, fontWeight: 700, cursor: "pointer" }}>Start Mock Interview →</button>
-        </div>
-        <BottomNav />
-      </main>
-    );
-  }
+  if(scr==="done"&&sc){const sk=Object.keys(sc).filter(k=>typeof sc[k]==="number");return(
+    <main style={{minHeight:"100vh",background:"var(--bg)",display:"flex",alignItems:"center",justifyContent:"center",padding:16}}>
+      <div className="anim-up" style={{background:"var(--bg-card)",borderRadius:20,padding:"28px 20px",maxWidth:460,width:"100%",textAlign:"center",border:"1px solid var(--border)",boxShadow:"var(--shadow-lg)"}}>
+        <div style={{fontSize:40,marginBottom:6}}>🎯</div>
+        <h2 style={{fontFamily:"'Playfair Display',serif",fontSize:22,fontWeight:700,color:"var(--text-dark)",marginBottom:2}}>Your Scorecard</h2>
+        <p style={{color:"var(--text-light)",fontSize:12,marginBottom:18}}>{cat.title} — {role}</p>
+        <div style={{display:"flex",justifyContent:"center",flexWrap:"wrap",gap:2,marginBottom:18}}>{sk.map(k=><Ring key={k} score={sc[k] as number} label={k} color={cat.color} />)}</div>
+        {sc.summary&&<div style={{borderRadius:10,padding:"12px 14px",textAlign:"left",marginBottom:10,background:`${cat.color}06`,borderLeft:`3px solid ${cat.color}`}}><div style={{fontSize:9,fontWeight:700,color:cat.color,letterSpacing:1,textTransform:"uppercase",marginBottom:3}}>Summary</div><div style={{fontSize:12,color:"var(--text-body)",lineHeight:1.6}}>{sc.summary as string}</div></div>}
+        {sc.tip&&<div style={{borderRadius:10,padding:"12px 14px",textAlign:"left",marginBottom:16,background:"rgba(245,158,11,0.08)",borderLeft:"3px solid #F59E0B"}}><div style={{fontSize:9,fontWeight:700,color:"#F59E0B",letterSpacing:1,textTransform:"uppercase",marginBottom:3}}>💡 Tip</div><div style={{fontSize:12,color:"var(--text-body)",lineHeight:1.6}}>{sc.tip as string}</div></div>}
+        <button onClick={()=>setScr("sel")} style={{width:"100%",padding:"13px",background:cat.color,color:"#fff",border:"none",borderRadius:12,fontSize:14,fontWeight:700,cursor:"pointer"}}>Try Another Interview</button>
+      </div></main>);}
 
-  // ─── SCORECARD ───
-  if (screen === "score" && scores) {
-    const scoreKeys = Object.keys(scores).filter(k => typeof scores[k] === "number");
-    return (
-      <main style={{ minHeight: "100vh", background: "#0a0b10", display: "flex", alignItems: "center", justifyContent: "center", padding: 16 }}>
-        <div className="fade-up" style={{ background: "rgba(255,255,255,0.03)", borderRadius: 20, padding: "28px 20px", maxWidth: 480, width: "100%", textAlign: "center", border: "1px solid rgba(255,255,255,0.06)" }}>
-          <div style={{ fontSize: 44, marginBottom: 8 }}>🎯</div>
-          <h2 style={{ fontFamily: "'Outfit',sans-serif", fontSize: 22, fontWeight: 800, marginBottom: 2 }}>Your Scorecard</h2>
-          <p style={{ color: "#888", fontSize: 12, marginBottom: 20 }}>{cat.title} — {role}</p>
-          <div style={{ display: "flex", justifyContent: "center", flexWrap: "wrap", gap: 4, marginBottom: 20 }}>
-            {scoreKeys.map(k => <ScoreCircle key={k} score={scores[k] as number} label={k} color={cat.color} />)}
-          </div>
-          {scores.summary && (
-            <div style={{ borderRadius: 10, padding: "12px 14px", textAlign: "left", marginBottom: 10, background: `${cat.color}0C`, borderLeft: `3px solid ${cat.color}` }}>
-              <div style={{ fontSize: 9, fontWeight: 700, color: cat.color, letterSpacing: 1, textTransform: "uppercase", marginBottom: 4 }}>Summary</div>
-              <div style={{ fontSize: 12, color: "#c9cdd3", lineHeight: 1.6 }}>{scores.summary}</div>
-            </div>
-          )}
-          {scores.tip && (
-            <div style={{ borderRadius: 10, padding: "12px 14px", textAlign: "left", marginBottom: 16, background: "rgba(251,191,36,0.08)", borderLeft: "3px solid #f59e0b" }}>
-              <div style={{ fontSize: 9, fontWeight: 700, color: "#f59e0b", letterSpacing: 1, textTransform: "uppercase", marginBottom: 4 }}>💡 Improvement Tip</div>
-              <div style={{ fontSize: 12, color: "#c9cdd3", lineHeight: 1.6 }}>{scores.tip}</div>
-            </div>
-          )}
-          <button onClick={() => setScreen("select")} style={{ width: "100%", padding: "13px", background: cat.color, color: "#fff", border: "none", borderRadius: 12, fontSize: 14, fontWeight: 700, cursor: "pointer" }}>Try Another Interview</button>
-        </div>
-      </main>
-    );
-  }
-
-  // ─── CHAT SCREEN ───
-  return (
-    <main style={{ height: "100dvh", display: "flex", flexDirection: "column", background: "#0a0b10" }}>
-      <div style={{ padding: "10px 16px", borderBottom: "1px solid rgba(255,255,255,0.04)", display: "flex", alignItems: "center", justifyContent: "space-between", flexShrink: 0 }}>
-        <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-          <div style={{ width: 32, height: 32, borderRadius: 8, background: `${cat.color}15`, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 16 }}>{cat.icon}</div>
-          <div>
-            <div style={{ fontSize: 13, fontWeight: 700 }}>{role}</div>
-            <div style={{ fontSize: 10, color: "#888" }}>Q {Math.min(qCount, 5)} of 5</div>
-          </div>
-        </div>
-        <div style={{ display: "flex", gap: 3 }}>
-          {[1, 2, 3, 4, 5].map(n => <div key={n} style={{ width: 20, height: 3, borderRadius: 2, background: n <= qCount ? cat.color : "rgba(255,255,255,0.06)" }} />)}
+  return(
+    <main style={{height:"100dvh",display:"flex",flexDirection:"column",background:"var(--bg)"}}>
+      <div style={{padding:"10px 16px",borderBottom:"1px solid var(--border)",display:"flex",alignItems:"center",justifyContent:"space-between",flexShrink:0,background:"rgba(250,251,253,0.95)",backdropFilter:"blur(16px)"}}>
+        <div style={{display:"flex",alignItems:"center",gap:8}}><div style={{width:30,height:30,borderRadius:8,background:`${cat.color}10`,display:"flex",alignItems:"center",justifyContent:"center",fontSize:15}}>{cat.icon}</div><div><div style={{fontSize:13,fontWeight:700,color:"var(--text-dark)"}}>{role}</div><div style={{fontSize:10,color:"var(--text-light)"}}>Question {Math.min(qn,5)} of 5</div></div></div>
+        <div style={{display:"flex",gap:3}}>{[1,2,3,4,5].map(n=><div key={n} style={{width:18,height:3,borderRadius:2,background:n<=qn?cat.color:"#E8ECF1"}} />)}</div>
+      </div>
+      <div style={{flex:1,overflow:"auto",padding:"14px"}} className="no-scroll">
+        {msgs.map((m,i)=>(<div key={i} style={{display:"flex",justifyContent:m.role==="user"?"flex-end":"flex-start",marginBottom:10}} className="anim-up"><div style={{maxWidth:"84%",padding:"11px 15px",fontSize:13,lineHeight:1.6,whiteSpace:"pre-wrap",borderRadius:m.role==="user"?"14px 14px 4px 14px":"14px 14px 14px 4px",background:m.role==="user"?cat.color:"var(--bg-card)",color:m.role==="user"?"#fff":"var(--text-body)",border:m.role==="user"?"none":"1px solid var(--border)",boxShadow:m.role==="user"?"none":"var(--shadow-sm)"}}>{m.role==="assistant"&&<div style={{fontSize:9,fontWeight:700,color:cat.color,letterSpacing:1,textTransform:"uppercase",marginBottom:4}}>Interviewer</div>}{m.content}</div></div>))}
+        {ld&&<div style={{display:"flex",gap:4,padding:"10px 16px",background:"var(--bg-card)",border:"1px solid var(--border)",borderRadius:14,width:"fit-content",boxShadow:"var(--shadow-sm)"}}>{[0,1,2].map(n=><div key={n} style={{width:6,height:6,borderRadius:"50%",background:cat.color,animation:`pulseDot 1.2s ease ${n*0.2}s infinite`}} />)}</div>}
+        {er&&<p style={{fontSize:11,color:"#EF4444",background:"rgba(239,68,68,0.1)",padding:"8px 12px",borderRadius:8,textAlign:"center"}}>{er}</p>}
+        <div ref={end} />
+      </div>
+      <div style={{padding:"8px 14px 16px",borderTop:"1px solid var(--border)",flexShrink:0,background:"var(--bg)"}}>
+        <div style={{display:"flex",gap:8,alignItems:"flex-end"}}>
+          <textarea ref={iRef} value={inp} onChange={e=>setInp(e.target.value)} onKeyDown={e=>{if(e.key==="Enter"&&!e.shiftKey){e.preventDefault();send();}}} placeholder="Type your answer..." disabled={ld} rows={2} style={{flex:1,background:"var(--bg-card)",border:"1px solid var(--border)",borderRadius:12,padding:"10px 14px",fontSize:13,color:"var(--text-dark)",resize:"none",fontFamily:"inherit",outline:"none"}} />
+          <button onClick={send} disabled={ld||!inp.trim()} style={{width:40,height:40,borderRadius:10,border:"none",fontSize:17,cursor:"pointer",flexShrink:0,background:!inp.trim()||ld?"rgba(255,255,255,0.06)":cat.color,color:!inp.trim()||ld?"var(--text-faint)":"#fff",boxShadow:inp.trim()&&!ld?`0 2px 8px ${cat.color}40`:"none"}}>↑</button>
         </div>
       </div>
-
-      <div style={{ flex: 1, overflow: "auto", padding: "16px 14px" }} className="hide-scrollbar">
-        {msgs.map((m, i) => (
-          <div key={i} style={{ display: "flex", justifyContent: m.role === "user" ? "flex-end" : "flex-start", marginBottom: 12 }} className="fade-up">
-            <div style={{
-              maxWidth: "84%", padding: "12px 16px", fontSize: 13, lineHeight: 1.6, whiteSpace: "pre-wrap",
-              borderRadius: m.role === "user" ? "16px 16px 4px 16px" : "16px 16px 16px 4px",
-              background: m.role === "user" ? cat.color : "rgba(255,255,255,0.04)",
-              color: m.role === "user" ? "#fff" : "#c9cdd3",
-            }}>
-              {m.role === "assistant" && <div style={{ fontSize: 9, fontWeight: 700, color: cat.color, letterSpacing: 1, textTransform: "uppercase", marginBottom: 4 }}>Interviewer</div>}
-              {m.content}
-            </div>
-          </div>
-        ))}
-        {loading && (
-          <div style={{ display: "flex", gap: 5, padding: "12px 18px", background: "rgba(255,255,255,0.04)", borderRadius: 16, width: "fit-content" }}>
-            {[0, 1, 2].map(n => <div key={n} style={{ width: 7, height: 7, borderRadius: "50%", background: cat.color, animation: `pulse-dot 1.2s ease ${n * 0.2}s infinite` }} />)}
-          </div>
-        )}
-        {error && <p style={{ fontSize: 11, color: "#f87171", background: "rgba(239,68,68,0.1)", padding: "8px 12px", borderRadius: 8, textAlign: "center" }}>{error}</p>}
-        <div ref={endRef} />
-      </div>
-
-      <div style={{ padding: "10px 14px 16px", borderTop: "1px solid rgba(255,255,255,0.04)", flexShrink: 0 }}>
-        <div style={{ display: "flex", gap: 8, alignItems: "flex-end" }}>
-          <textarea ref={inputRef} value={input} onChange={e => setInput(e.target.value)}
-            onKeyDown={e => { if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); send(); } }}
-            placeholder="Type your answer..." disabled={loading} rows={2}
-            style={{ flex: 1, background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)", borderRadius: 12, padding: "10px 14px", fontSize: 13, color: "#fff", resize: "none", fontFamily: "inherit", outline: "none" }}
-          />
-          <button onClick={send} disabled={loading || !input.trim()} style={{
-            width: 42, height: 42, borderRadius: 10, border: "none", fontSize: 18, cursor: "pointer", flexShrink: 0,
-            background: !input.trim() || loading ? "rgba(255,255,255,0.04)" : cat.color, color: !input.trim() || loading ? "#555" : "#fff",
-          }}>↑</button>
-        </div>
-        <p style={{ textAlign: "center", fontSize: 9, color: "#444", marginTop: 6 }}>Enter to send • Shift+Enter for new line</p>
-      </div>
-    </main>
-  );
+    </main>);
 }
