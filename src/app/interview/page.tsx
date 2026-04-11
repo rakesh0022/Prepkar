@@ -71,6 +71,7 @@ export default function PracticePage() {
       const d = await api([{ role: "user", content: startMsg }, ...nm]);
       if (d.scorecard) {
         if (d.reply) setMsgs(p => [...p, { role: "assistant", content: d.reply }]);
+        try { await fetch("/api/scores", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ examName: cat.title, stageName: stage.label, scoreOverall: d.scorecard.overall || 0, scoreData: d.scorecard, questionCount: stage.questionCount }) }); } catch { /* not logged in */ }
         setTimeout(() => { setSc(d.scorecard); setScr("done"); }, 1200);
       } else { setMsgs(p => [...p, { role: "assistant", content: d.reply }]); setQn(p => p + 1); }
     } catch (e: unknown) { setEr(e instanceof Error ? e.message : "Failed"); }
@@ -197,6 +198,9 @@ export default function PracticePage() {
             <button onClick={() => { setScr("stage"); }} style={{ flex: 1, padding: "13px", background: "#F3F4F6", color: "#374151", border: "none", borderRadius: 12, fontSize: 13, fontWeight: 700, cursor: "pointer" }}>Try Another Stage</button>
             <button onClick={begin} style={{ flex: 1, padding: "13px", background: cat.color, color: "#fff", border: "none", borderRadius: 12, fontSize: 13, fontWeight: 700, cursor: "pointer" }}>Retry {stage.label}</button>
           </div>
+          <Link href="/dashboard" style={{ textDecoration: "none", display: "block", marginTop: 10 }}>
+            <div style={{ padding: "11px", borderRadius: 10, border: "1px solid var(--border)", textAlign: "center", fontSize: 12, fontWeight: 600, color: "#6B7280" }}>📊 View All My Scores →</div>
+          </Link>
         </div>
       </main>
     );
@@ -251,7 +255,7 @@ export default function PracticePage() {
         {isMcq && (
           <div style={{ display: "flex", gap: 6, marginBottom: 8 }}>
             {["A", "B", "C", "D"].map(opt => (
-              <button key={opt} onClick={() => { setInp(opt); setTimeout(() => { const fakeInp = opt; setInp(""); setEr(""); const nm: Msg[] = [...msgs, { role: "user", content: fakeInp }]; setMsgs(nm); setLd(true); const isMcqS = stage.id.includes("mcq") || stage.id.includes("prelims") || stage.id.includes("cbt") || stage.id === "prelims_csat" || stage.id === "written_mcq"; const startMsg = isMcqS ? `I want to practice ${stage.label} for ${cat.title}. Start with the first MCQ question.` : `I am a candidate for ${cat.title} ${stage.label}. Start with greeting and first question.`; api([{ role: "user", content: startMsg }, ...nm]).then(d => { if (d.scorecard) { if (d.reply) setMsgs(p => [...p, { role: "assistant", content: d.reply }]); setTimeout(() => { setSc(d.scorecard); setScr("done"); }, 1200); } else { setMsgs(p => [...p, { role: "assistant", content: d.reply }]); setQn(p => p + 1); } }).catch(e => setEr(e instanceof Error ? e.message : "Failed")).finally(() => setLd(false)); }, 0); }}
+              <button key={opt} onClick={() => { setInp(opt); setTimeout(() => { const fakeInp = opt; setInp(""); setEr(""); const nm: Msg[] = [...msgs, { role: "user", content: fakeInp }]; setMsgs(nm); setLd(true); const isMcqS = stage.id.includes("mcq") || stage.id.includes("prelims") || stage.id.includes("cbt") || stage.id === "prelims_csat" || stage.id === "written_mcq"; const startMsg = isMcqS ? `I want to practice ${stage.label} for ${cat.title}. Start with the first MCQ question.` : `I am a candidate for ${cat.title} ${stage.label}. Start with greeting and first question.`; api([{ role: "user", content: startMsg }, ...nm]).then(async d => { if (d.scorecard) { if (d.reply) setMsgs(p => [...p, { role: "assistant", content: d.reply }]); try { await fetch("/api/scores", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ examName: cat.title, stageName: stage.label, scoreOverall: d.scorecard.overall || 0, scoreData: d.scorecard, questionCount: stage.questionCount }) }); } catch { /* not logged in */ } setTimeout(() => { setSc(d.scorecard); setScr("done"); }, 1200); } else { setMsgs(p => [...p, { role: "assistant", content: d.reply }]); setQn(p => p + 1); } }).catch(e => setEr(e instanceof Error ? e.message : "Failed")).finally(() => setLd(false)); }, 0); }}
                 disabled={ld}
                 style={{
                   flex: 1, padding: "10px", borderRadius: 10, fontSize: 15, fontWeight: 700,

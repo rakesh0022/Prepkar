@@ -7,6 +7,7 @@ const tabs = [
   { href: "/jobs",      icon: "💼", label: "Explore"  },
   { href: "/interview", icon: "🎯", label: "Practice" },
   { href: "/stories",   icon: "⭐", label: "Stories"  },
+  { href: "/dashboard", icon: "👤", label: "Profile"  },
 ];
 
 export default function BottomNav() {
@@ -26,7 +27,7 @@ export default function BottomNav() {
         return (
           <Link key={t.href} href={t.href} style={{
             display: "flex", flexDirection: "column", alignItems: "center", gap: 2,
-            textDecoration: "none", padding: "3px 18px", position: "relative",
+            textDecoration: "none", padding: "3px 14px", position: "relative",
           }}>
             {on && (
               <div style={{
@@ -36,12 +37,12 @@ export default function BottomNav() {
               }} />
             )}
             <span style={{
-              fontSize: 20,
+              fontSize: 18,
               filter: on ? "none" : "grayscale(60%) opacity(0.45)",
               transition: "filter 0.2s",
             }}>{t.icon}</span>
             <span style={{
-              fontSize: 10, fontWeight: on ? 700 : 500,
+              fontSize: 9, fontWeight: on ? 700 : 500,
               color: on ? "#2563EB" : "#9CA3AF",
               transition: "color 0.2s",
             }}>{t.label}</span>
