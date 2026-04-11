@@ -8,6 +8,7 @@ import TargetExams from "@/components/home/TargetExams";
 import InterviewCTA from "@/components/home/InterviewCTA";
 import StoriesStrip from "@/components/home/StoriesStrip";
 import MentorshipBanner from "@/components/home/MentorshipBanner";
+import LatestNews from "@/components/home/LatestNews";
 import WaitlistModal from "@/components/WaitlistModal";
 import { HERO_STORIES, COUNTDOWNS, STORIES, JOBS, getTodaysQuiz } from "@/components/data";
 import { useStreak } from "@/hooks/useStreak";
@@ -260,37 +261,10 @@ export default function Home() {
           </div>
         </section>
 
-        {/* ═══ EXPLORE + PRACTICE CTAs ═══ */}
-        <section style={{ padding: "28px 0 0" }}>
-          <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-            <Link href="/jobs" style={{ textDecoration: "none" }}>
-              <div style={{
-                background: "#FFFFFF", borderRadius: 14, padding: "18px 20px",
-                border: "1px solid var(--border)", boxShadow: "var(--shadow-sm)",
-                display: "flex", alignItems: "center", justifyContent: "space-between",
-              }}>
-                <div>
-                  <div style={{ fontSize: 15, fontWeight: 700, color: "#111827" }}>Explore All {JOBS.length} Careers</div>
-                  <div style={{ fontSize: 12, color: "#6B7280", marginTop: 2 }}>Salary, lifestyle, roadmap for every govt job</div>
-                </div>
-                <div style={{ fontSize: 24 }}>💼</div>
-              </div>
-            </Link>
-            <Link href="/interview" style={{ textDecoration: "none" }}>
-              <div style={{
-                background: "#FFFFFF", borderRadius: 14, padding: "18px 20px",
-                border: "1px solid var(--border)", boxShadow: "var(--shadow-sm)",
-                display: "flex", alignItems: "center", justifyContent: "space-between",
-              }}>
-                <div>
-                  <div style={{ fontSize: 15, fontWeight: 700, color: "#111827" }}>Practice Mock Interview</div>
-                  <div style={{ fontSize: 12, color: "#6B7280", marginTop: 2 }}>AI interviewer scores every answer</div>
-                </div>
-                <div style={{ fontSize: 24 }}>🎯</div>
-              </div>
-            </Link>
-          </div>
-        </section>
+        {/* ═══ LATEST NEWS ═══ */}
+        <div style={{ paddingTop: 20 }}>
+          <LatestNews />
+        </div>
 
         {/* ═══ FOOTER ═══ */}
         <footer style={{ textAlign: "center", padding: "32px 0 8px" }}>

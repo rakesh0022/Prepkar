@@ -2,10 +2,8 @@
 import Link from "next/link";
 
 const CATS = [
-  { id: "bank_po",   icon: "🏦", title: "Bank PO / Clerk",  sub: "SBI, IBPS, RBI",       color: "#16a34a" },
-  { id: "govt_job",  icon: "🏛️", title: "Govt Job",         sub: "SSC, UPSC, State PSC",  color: "#ef4444" },
-  { id: "fresher_it",icon: "💼", title: "Fresher / IT",     sub: "TCS, Infosys, Wipro",   color: "#3b82f6" },
-  { id: "mba",       icon: "🎓", title: "MBA Admission",    sub: "IIM, XAT, CAT PI",      color: "#f59e0b" },
+  { id: "bank_po",  icon: "🏦", title: "Bank PO / Clerk",  sub: "SBI, IBPS, RBI",      color: "#16a34a" },
+  { id: "govt_job", icon: "🏛️", title: "Govt Job",         sub: "SSC, UPSC, State PSC", color: "#ef4444" },
 ];
 
 export default function InterviewCTA() {
@@ -21,22 +19,21 @@ export default function InterviewCTA() {
         </p>
       </div>
 
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8 }}>
+      <div style={{ display: "flex", gap: 10 }}>
         {CATS.map(cat => (
-          <Link key={cat.id} href={`/interview?cat=${cat.id}`} style={{ textDecoration: "none" }}>
+          <Link key={cat.id} href={`/interview?cat=${cat.id}`} style={{ textDecoration: "none", flex: 1 }}>
             <div style={{
-              borderRadius: 14, padding: "16px 12px", textAlign: "center",
+              borderRadius: 14, padding: "20px 16px", textAlign: "center",
               background: "#FFFFFF",
               border: "1px solid var(--border)",
               boxShadow: "var(--shadow-sm)",
-              transition: "box-shadow 0.2s",
             }}>
-              <div style={{ fontSize: 26, marginBottom: 6 }}>{cat.icon}</div>
-              <div style={{ fontSize: 12, fontWeight: 700, color: "#111827", lineHeight: 1.3 }}>{cat.title}</div>
-              <div style={{ fontSize: 10, color: "#9CA3AF", marginTop: 2 }}>{cat.sub}</div>
+              <div style={{ fontSize: 30, marginBottom: 8 }}>{cat.icon}</div>
+              <div style={{ fontSize: 13, fontWeight: 700, color: "#111827", lineHeight: 1.3 }}>{cat.title}</div>
+              <div style={{ fontSize: 10, color: "#9CA3AF", marginTop: 3 }}>{cat.sub}</div>
               <div style={{
-                marginTop: 8, fontSize: 10, fontWeight: 700, color: cat.color,
-                background: `${cat.color}10`, padding: "4px 10px", borderRadius: 6, display: "inline-block",
+                marginTop: 10, fontSize: 11, fontWeight: 700, color: cat.color,
+                background: `${cat.color}10`, padding: "6px 14px", borderRadius: 8, display: "inline-block",
               }}>
                 Free Practice →
               </div>
