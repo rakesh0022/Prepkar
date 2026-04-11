@@ -14,6 +14,7 @@ function JobsInner() {
   const params = useSearchParams();
   const [filter, setFilter] = useState("all");
   const [qualFilter, setQualFilter] = useState<Qualification | "all">("all");
+  const [search, setSearch] = useState("");
   const [sel, setSel] = useState<Job | null>(null);
 
   useEffect(() => {
@@ -24,8 +25,19 @@ function JobsInner() {
   const list = JOBS.filter(j => {
     const catMatch = filter === "all" || j.category === filter;
     const qualMatch = qualFilter === "all" || j.qualification === qualFilter;
-    return catMatch && qualMatch;
+    const searchMatch = !search.trim() || 
+      j.title.toLowerCase().includes(search.toLowerCase()) ||
+      j.org.toLowerCase().includes(search.toLowerCase()) ||
+      j.grade.toLowerCase().includes(search.toLowerCase()) ||
+      j.category.toLowerCase().includes(search.toLowerCase());
+    return catMatch && qualMatch && searchMatch;
   });
+
+  function shareJob(e: React.MouseEvent, job: Job) {
+    e.stopPropagation();
+    const text = `🎯 *${job.title}*\n🏢 ${job.org}\n👥 ${job.vacancies.toLocaleString()} vacancies\n💰 ${job.inHand}/month\n📅 Last date: ${job.lastDate}\n\nCheck full details 👇\nhttps://prepkar.vercel.app/jobs?id=${job.id}`;
+    window.open(`https://wa.me/?text=${encodeURIComponent(text)}`, "_blank");
+  }
 
   return (
     <main style={{ minHeight: "100vh", background: "var(--bg)", paddingBottom: 76 }}>
@@ -34,6 +46,31 @@ function JobsInner() {
           <Link href="/" style={{ color: "#6B7280", fontSize: 13, textDecoration: "none" }}>←</Link>
           <h1 style={{ fontFamily: "'Playfair Display',serif", fontSize: 20, fontWeight: 700, color: "#111827" }}>Explore Careers</h1>
           <span style={{ marginLeft: "auto", fontSize: 11, color: "#9CA3AF", fontWeight: 600 }}>{list.length} jobs</span>
+        </div>
+
+        {/* Search bar */}
+        <div style={{ position: "relative", marginBottom: 10 }}>
+          <span style={{ position: "absolute", left: 12, top: "50%", transform: "translateY(-50%)", fontSize: 14, color: "#9CA3AF" }}>🔍</span>
+          <input
+            type="text"
+            placeholder="Search jobs, exams, departments..."
+            value={search}
+            onChange={e => setSearch(e.target.value)}
+            style={{
+              width: "100%", padding: "10px 12px 10px 36px", borderRadius: 12,
+              border: "1px solid var(--border)", background: "#FFFFFF",
+              fontSize: 13, color: "#111827", outline: "none",
+              fontFamily: "inherit", boxSizing: "border-box",
+            }}
+          />
+          {search && (
+            <button onClick={() => setSearch("")} style={{
+              position: "absolute", right: 10, top: "50%", transform: "translateY(-50%)",
+              background: "rgba(0,0,0,0.06)", border: "none", borderRadius: "50%",
+              width: 20, height: 20, fontSize: 10, cursor: "pointer", color: "#6B7280",
+              display: "flex", alignItems: "center", justifyContent: "center",
+            }}>✕</button>
+          )}
         </div>
 
         {/* Category filter */}
@@ -62,13 +99,11 @@ function JobsInner() {
       </header>
 
       <div style={{ maxWidth: 560, margin: "0 auto", padding: "14px 16px" }}>
-        <p style={{ fontSize: 12, color: "#6B7280", marginBottom: 14 }}>Tap any career to see the complete roadmap, lifestyle, and how you serve the nation.</p>
-
         {list.length === 0 && (
           <div style={{ textAlign: "center", padding: "40px 0", color: "#9CA3AF" }}>
             <div style={{ fontSize: 40, marginBottom: 8 }}>🔍</div>
-            <p style={{ fontSize: 14, fontWeight: 600 }}>No jobs match your filters</p>
-            <p style={{ fontSize: 12, marginTop: 4 }}>Try a different category or qualification</p>
+            <p style={{ fontSize: 14, fontWeight: 600 }}>No jobs match {search ? `"${search}"` : "your filters"}</p>
+            <p style={{ fontSize: 12, marginTop: 4 }}>Try a different search or filter</p>
           </div>
         )}
 
@@ -97,7 +132,19 @@ function JobsInner() {
               <span style={{ fontSize: 11, color: "#374151" }}>💰 {job.inHand}/mo</span>
               <span style={{ fontSize: 11, color: "#374151" }}>📅 {job.lastDate}</span>
             </div>
-            <div style={{ fontSize: 11, color: "#2563EB", marginTop: 8, fontWeight: 600 }}>Roadmap · Lifestyle · Impact →</div>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginTop: 8 }}>
+              <div style={{ fontSize: 11, color: "#2563EB", fontWeight: 600 }}>Roadmap · Salary · Syllabus →</div>
+              <button
+                onClick={(e) => shareJob(e, job)}
+                style={{
+                  background: "#25D366", color: "#fff", border: "none", borderRadius: 6,
+                  padding: "4px 10px", fontSize: 10, fontWeight: 700, cursor: "pointer",
+                  display: "flex", alignItems: "center", gap: 4,
+                }}
+              >
+                📱 Share
+              </button>
+            </div>
           </div>
         ))}
       </div>

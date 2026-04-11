@@ -60,6 +60,9 @@ export interface Job {
   fitGuide: FitGuide;
   successStory: { emoji: string; name: string; line: string };
   applyLink?: string;
+  syllabus?: string[];
+  pyqLinks?: { label: string; url: string }[];
+  salaryBreakdown?: { basic: number; da: number; hra: Record<string, number>; ta: number; other: number };
 }
 
 // ─── Jobs data ────────────────────────────────────────────────────────────────
@@ -117,6 +120,14 @@ export const JOBS: Job[] = [
       { title: "Chief Manager", salary: "₹1,50,000/month", years: "Year 15–20" },
       { title: "AGM / DGM", salary: "₹2,00,000+/month", years: "Year 20+" },
     ],
+    syllabus: ["Reasoning Ability", "Quantitative Aptitude", "English Language", "General/Financial Awareness", "Computer Aptitude", "Descriptive English (Letter/Essay)"],
+    pyqLinks: [
+      { label: "SBI PO Prelims 2024 Paper", url: "https://www.google.com/search?q=SBI+PO+Prelims+2024+previous+year+paper+pdf" },
+      { label: "SBI PO Mains 2024 Paper", url: "https://www.google.com/search?q=SBI+PO+Mains+2024+previous+year+paper+pdf" },
+      { label: "SBI PO Interview Questions", url: "https://www.google.com/search?q=SBI+PO+interview+questions+asked+2024" },
+    ],
+    salaryBreakdown: { basic: 27620, da: 14090, hra: { metro: 8286, urban: 5524, rural: 3714 }, ta: 3600, other: 4500 },
+
   },
   {
     id: "ssc-cgl-2026",
@@ -170,6 +181,13 @@ export const JOBS: Job[] = [
       { title: "Dy. Commissioner", salary: "₹1,30,000/month", years: "Year 18–25" },
       { title: "Commissioner", salary: "₹2,00,000+/month", years: "Year 25+" },
     ],
+    syllabus: ["General Intelligence & Reasoning", "General Awareness", "Quantitative Aptitude", "English Comprehension", "Statistics", "General Studies (Finance & Economics)"],
+    pyqLinks: [
+      { label: "SSC CGL Tier-I 2024 Papers", url: "https://www.google.com/search?q=SSC+CGL+Tier+1+2024+previous+year+paper+pdf" },
+      { label: "SSC CGL Tier-II 2024 Papers", url: "https://www.google.com/search?q=SSC+CGL+Tier+2+2024+previous+year+paper+pdf" },
+    ],
+    salaryBreakdown: { basic: 44900, da: 22900, hra: { metro: 13470, urban: 8980, rural: 6040 }, ta: 3600, other: 2000 },
+
   },
   {
     id: "rrb-ntpc-2026",
@@ -223,6 +241,13 @@ export const JOBS: Job[] = [
       { title: "Sr. DOM / ADRM", salary: "₹1,20,000/month", years: "Year 18–25" },
       { title: "DRM", salary: "₹1,80,000+/month", years: "Year 25+" },
     ],
+    syllabus: ["Mathematics", "General Intelligence & Reasoning", "General Awareness", "General Science"],
+    pyqLinks: [
+      { label: "RRB NTPC CBT-1 2024 Papers", url: "https://www.google.com/search?q=RRB+NTPC+CBT+1+previous+year+paper+pdf" },
+      { label: "RRB NTPC CBT-2 Papers", url: "https://www.google.com/search?q=RRB+NTPC+CBT+2+previous+year+paper+pdf" },
+    ],
+    salaryBreakdown: { basic: 29200, da: 14900, hra: { metro: 8760, urban: 5840, rural: 3930 }, ta: 3600, other: 2000 },
+
   },
   {
     id: "upsc-cse-2026",
@@ -276,6 +301,14 @@ export const JOBS: Job[] = [
       { title: "Secretary", salary: "₹2,00,000/month", years: "Year 16–25" },
       { title: "Chief Secretary", salary: "₹2,50,000+/month", years: "Year 25+" },
     ],
+    syllabus: ["Indian Heritage & Culture", "History & Geography of World", "Constitution & Polity", "Social Justice", "International Relations", "Economics", "Environment & Ecology", "Science & Technology", "Ethics & Integrity", "Essay", "Optional Subject"],
+    pyqLinks: [
+      { label: "UPSC Prelims 2024 GS Paper", url: "https://www.google.com/search?q=UPSC+Prelims+2024+GS+Paper+1+pdf" },
+      { label: "UPSC Mains 2024 Papers", url: "https://www.google.com/search?q=UPSC+Mains+2024+question+paper+pdf" },
+      { label: "UPSC Toppers Answer Copies", url: "https://www.google.com/search?q=UPSC+toppers+answer+sheet+copy+pdf" },
+    ],
+    salaryBreakdown: { basic: 56100, da: 28600, hra: { metro: 16830, urban: 11220, rural: 7540 }, ta: 7200, other: 15000 },
+
   },
   // ─── NEW JOBS ───────────────────────────────────────────────────────────
   {
@@ -330,6 +363,13 @@ export const JOBS: Job[] = [
       { title: "Manager", salary: "₹75,000/month", years: "Year 10–18" },
       { title: "Senior Manager", salary: "₹1,00,000+/month", years: "Year 18+" },
     ],
+    syllabus: ["English Language", "Numerical Ability", "Reasoning Ability", "General/Financial Awareness", "Computer Aptitude"],
+    pyqLinks: [
+      { label: "IBPS Clerk Prelims 2024", url: "https://www.google.com/search?q=IBPS+Clerk+Prelims+2024+previous+year+paper+pdf" },
+      { label: "IBPS Clerk Mains 2024", url: "https://www.google.com/search?q=IBPS+Clerk+Mains+2024+previous+year+paper+pdf" },
+    ],
+    salaryBreakdown: { basic: 19900, da: 10150, hra: { metro: 5970, urban: 3980, rural: 2686 }, ta: 3600, other: 2000 },
+
   },
   {
     id: "rbi-grade-b-2026",
@@ -383,6 +423,13 @@ export const JOBS: Job[] = [
       { title: "Grade E (GM)", salary: "₹2,00,000/month", years: "Year 16–22" },
       { title: "ED / Deputy Governor", salary: "₹2,50,000+/month", years: "Year 22+" },
     ],
+    syllabus: ["Economic & Social Issues", "English Language", "Quantitative Aptitude", "Reasoning", "Finance & Management", "Economics Paper"],
+    pyqLinks: [
+      { label: "RBI Grade B Phase-I 2024", url: "https://www.google.com/search?q=RBI+Grade+B+Phase+1+2024+previous+year+paper+pdf" },
+      { label: "RBI Grade B Phase-II 2024", url: "https://www.google.com/search?q=RBI+Grade+B+Phase+2+2024+previous+year+paper+pdf" },
+    ],
+    salaryBreakdown: { basic: 55200, da: 28150, hra: { metro: 16560, urban: 11040, rural: 7430 }, ta: 3600, other: 8000 },
+
   },
   {
     id: "lic-aao-2026",
@@ -436,6 +483,12 @@ export const JOBS: Job[] = [
       { title: "Manager", salary: "₹1,05,000/month", years: "Year 12–18" },
       { title: "Sr. Manager / ZM", salary: "₹1,40,000+/month", years: "Year 18+" },
     ],
+    syllabus: ["Reasoning Ability", "Quantitative Aptitude", "English Language", "General Knowledge & Current Affairs", "Insurance & Financial Market Awareness"],
+    pyqLinks: [
+      { label: "LIC AAO 2024 Paper", url: "https://www.google.com/search?q=LIC+AAO+2024+previous+year+paper+pdf" },
+    ],
+    salaryBreakdown: { basic: 33000, da: 16830, hra: { metro: 9900, urban: 6600, rural: 4440 }, ta: 3600, other: 3000 },
+
   },
   {
     id: "nda-2026",
@@ -490,6 +543,14 @@ export const JOBS: Job[] = [
       { title: "Colonel", salary: "₹1,60,000/month", years: "Year 18–24" },
       { title: "Brigadier+", salary: "₹2,00,000+/month", years: "Year 24+" },
     ],
+    syllabus: ["Mathematics (Algebra, Trigonometry, Calculus, Statistics)", "General Ability (English, GK, Physics, Chemistry, Geography, History, Current Affairs)"],
+    pyqLinks: [
+      { label: "NDA 2024 Maths Paper", url: "https://www.google.com/search?q=NDA+2024+Mathematics+question+paper+pdf" },
+      { label: "NDA 2024 GAT Paper", url: "https://www.google.com/search?q=NDA+2024+GAT+question+paper+pdf" },
+      { label: "NDA SSB Interview Tips", url: "https://www.google.com/search?q=NDA+SSB+interview+preparation+tips" },
+    ],
+    salaryBreakdown: { basic: 56100, da: 28600, hra: { metro: 0, urban: 0, rural: 0 }, ta: 3600, other: 12000 },
+
   },
   {
     id: "ssc-chsl-2026",
@@ -543,6 +604,12 @@ export const JOBS: Job[] = [
       { title: "Section Officer", salary: "₹72,000/month", years: "Year 18–25" },
       { title: "Under Secretary", salary: "₹1,00,000+/month", years: "Year 25+" },
     ],
+    syllabus: ["General Intelligence", "English Language", "Quantitative Aptitude", "General Awareness"],
+    pyqLinks: [
+      { label: "SSC CHSL 2024 Papers", url: "https://www.google.com/search?q=SSC+CHSL+2024+previous+year+paper+pdf" },
+    ],
+    salaryBreakdown: { basic: 19900, da: 10150, hra: { metro: 5970, urban: 3980, rural: 2686 }, ta: 3600, other: 1500 },
+
   },
   {
     id: "uppsc-2026",
@@ -596,6 +663,13 @@ export const JOBS: Job[] = [
       { title: "Div. Commissioner (IAS)", salary: "₹1,50,000/month", years: "Year 20–28" },
       { title: "Secy Level (IAS)", salary: "₹2,00,000+/month", years: "Year 28+" },
     ],
+    syllabus: ["General Studies Paper I & II (CSAT)", "Hindi", "Essay", "General Studies I-IV (Mains)", "Optional Subject"],
+    pyqLinks: [
+      { label: "UPPSC Prelims 2024 Papers", url: "https://www.google.com/search?q=UPPSC+PCS+Prelims+2024+question+paper+pdf" },
+      { label: "UPPSC Mains Papers", url: "https://www.google.com/search?q=UPPSC+PCS+Mains+previous+year+paper+pdf" },
+    ],
+    salaryBreakdown: { basic: 44900, da: 22900, hra: { metro: 13470, urban: 8980, rural: 6040 }, ta: 3600, other: 5000 },
+
   },
   {
     id: "delhi-police-2026",
@@ -649,6 +723,12 @@ export const JOBS: Job[] = [
       { title: "Sub Inspector", salary: "₹60,000/month", years: "Year 16–22" },
       { title: "Inspector / SHO", salary: "₹80,000+/month", years: "Year 22+" },
     ],
+    syllabus: ["General Knowledge / Current Affairs", "Reasoning", "Numerical Ability", "English / Hindi Comprehension"],
+    pyqLinks: [
+      { label: "Delhi Police Constable 2024 Papers", url: "https://www.google.com/search?q=Delhi+Police+Constable+2024+previous+year+paper+pdf" },
+    ],
+    salaryBreakdown: { basic: 21700, da: 11070, hra: { metro: 6510, urban: 4340, rural: 2930 }, ta: 3600, other: 4000 },
+
   },
   {
     id: "rrb-group-d-2026",
@@ -702,6 +782,12 @@ export const JOBS: Job[] = [
       { title: "Sr. PWI", salary: "₹55,000/month", years: "Year 18–25" },
       { title: "IOW / DEN", salary: "₹75,000+/month", years: "Year 25+" },
     ],
+    syllabus: ["Mathematics", "General Intelligence & Reasoning", "General Science", "General Awareness & Current Affairs"],
+    pyqLinks: [
+      { label: "RRB Group D 2024 Papers", url: "https://www.google.com/search?q=RRB+Group+D+2024+previous+year+paper+pdf" },
+    ],
+    salaryBreakdown: { basic: 18000, da: 9180, hra: { metro: 5400, urban: 3600, rural: 2430 }, ta: 3600, other: 1500 },
+
   },
   {
     id: "ibps-po-2026",
@@ -755,6 +841,13 @@ export const JOBS: Job[] = [
       { title: "Senior Manager", salary: "₹1,00,000/month", years: "Year 10–15" },
       { title: "Chief Manager", salary: "₹1,30,000+/month", years: "Year 15+" },
     ],
+    syllabus: ["English Language", "Quantitative Aptitude", "Reasoning Ability", "General/Financial Awareness", "Computer Aptitude", "Descriptive English"],
+    pyqLinks: [
+      { label: "IBPS PO Prelims 2024", url: "https://www.google.com/search?q=IBPS+PO+Prelims+2024+previous+year+paper+pdf" },
+      { label: "IBPS PO Mains 2024", url: "https://www.google.com/search?q=IBPS+PO+Mains+2024+previous+year+paper+pdf" },
+    ],
+    salaryBreakdown: { basic: 36000, da: 18360, hra: { metro: 10800, urban: 7200, rural: 4860 }, ta: 3600, other: 3000 },
+
   },
   {
     id: "ssc-mts-2026",
@@ -807,6 +900,12 @@ export const JOBS: Job[] = [
       { title: "UDC", salary: "₹38,000/month", years: "Year 10–18" },
       { title: "Assistant", salary: "₹50,000+/month", years: "Year 18+" },
     ],
+    syllabus: ["General English", "General Intelligence & Reasoning", "Numerical Aptitude", "General Awareness"],
+    pyqLinks: [
+      { label: "SSC MTS 2024 Papers", url: "https://www.google.com/search?q=SSC+MTS+2024+previous+year+paper+pdf" },
+    ],
+    salaryBreakdown: { basic: 18000, da: 9180, hra: { metro: 5400, urban: 3600, rural: 2430 }, ta: 3600, other: 1000 },
+
   },
   {
     id: "cds-2026",
@@ -860,6 +959,13 @@ export const JOBS: Job[] = [
       { title: "Lt. Colonel", salary: "₹1,40,000/month", years: "Year 13–18" },
       { title: "Colonel+", salary: "₹1,60,000+/month", years: "Year 18+" },
     ],
+    syllabus: ["English", "General Knowledge", "Elementary Mathematics", "Intelligence & Personality (SSB)"],
+    pyqLinks: [
+      { label: "CDS 2024 Papers", url: "https://www.google.com/search?q=CDS+2024+question+paper+pdf" },
+      { label: "CDS SSB Interview Guide", url: "https://www.google.com/search?q=CDS+SSB+interview+preparation+guide" },
+    ],
+    salaryBreakdown: { basic: 56100, da: 28600, hra: { metro: 0, urban: 0, rural: 0 }, ta: 3600, other: 12000 },
+
   },
   {
     id: "rrb-alp-2026",
@@ -913,6 +1019,12 @@ export const JOBS: Job[] = [
       { title: "Loco Foreman", salary: "₹70,000/month", years: "Year 18–25" },
       { title: "Power Controller", salary: "₹85,000+/month", years: "Year 25+" },
     ],
+    syllabus: ["Mathematics", "General Intelligence & Reasoning", "General Science", "General Awareness", "Technical Ability (Trade-specific)"],
+    pyqLinks: [
+      { label: "RRB ALP 2024 Papers", url: "https://www.google.com/search?q=RRB+ALP+2024+previous+year+paper+pdf" },
+    ],
+    salaryBreakdown: { basic: 19900, da: 10150, hra: { metro: 5970, urban: 3980, rural: 2686 }, ta: 3600, other: 5000 },
+
   },
   {
     id: "ssc-gd-2026",
@@ -966,6 +1078,12 @@ export const JOBS: Job[] = [
       { title: "Sub Inspector", salary: "₹56,000/month", years: "Year 16–22" },
       { title: "Inspector+", salary: "₹72,000+/month", years: "Year 22+" },
     ],
+    syllabus: ["General Intelligence & Reasoning", "General Knowledge & General Awareness", "Elementary Mathematics", "English / Hindi"],
+    pyqLinks: [
+      { label: "SSC GD 2024 Papers", url: "https://www.google.com/search?q=SSC+GD+Constable+2024+previous+year+paper+pdf" },
+    ],
+    salaryBreakdown: { basic: 21700, da: 11070, hra: { metro: 0, urban: 0, rural: 0 }, ta: 3600, other: 8000 },
+
   },
 ];
 
@@ -1044,4 +1162,20 @@ export function formatShortDate(dateStr: string): string {
 export function getTodaysQuiz(): QuizQuestion {
   const dayOfYear = Math.floor((Date.now() - new Date(new Date().getFullYear(), 0, 0).getTime()) / (1000 * 60 * 60 * 24));
   return DAILY_QUIZ_POOL[dayOfYear % DAILY_QUIZ_POOL.length];
+}
+
+// ─── Salary Calculator ────────────────────────────────────────────────────────
+export type CityType = "metro" | "urban" | "rural";
+export const CITY_TYPES: { id: CityType; label: string; examples: string }[] = [
+  { id: "metro", label: "Metro", examples: "Delhi, Mumbai, Chennai, Kolkata, Bangalore, Hyderabad" },
+  { id: "urban", label: "Urban", examples: "Jaipur, Lucknow, Bhopal, Patna, Ranchi, Chandigarh" },
+  { id: "rural", label: "Rural", examples: "Tehsil HQ, Small towns, Village postings" },
+];
+
+export function calculateSalary(breakdown: NonNullable<Job["salaryBreakdown"]>, city: CityType) {
+  const hra = breakdown.hra[city] || 0;
+  const gross = breakdown.basic + breakdown.da + hra + breakdown.ta + breakdown.other;
+  const nps = Math.round(breakdown.basic * 0.10);
+  const inHand = gross - nps;
+  return { basic: breakdown.basic, da: breakdown.da, hra, ta: breakdown.ta, other: breakdown.other, gross, nps, inHand };
 }

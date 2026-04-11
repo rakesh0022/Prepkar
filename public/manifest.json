@@ -1,11 +1,11 @@
 {
-  "name": "PrepKar - AI Mock Interview",
-  "short_name": "PrepKar",
-  "description": "Free AI mock interview practice for Bank PO, MBA, Fresher IT, and Government jobs",
+  "name": "NaukriYatra — Sapne se Selection Tak",
+  "short_name": "NaukriYatra",
+  "description": "Free AI mock interview, 17+ govt job roadmaps, salary calculators. Your complete sarkari naukri preparation companion.",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#0f1117",
-  "theme_color": "#0f1117",
+  "background_color": "#F8F9FB",
+  "theme_color": "#2563EB",
   "icons": [
     {
       "src": "/icon-192.png",
