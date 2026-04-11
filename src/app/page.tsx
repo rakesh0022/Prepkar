@@ -196,23 +196,23 @@ export default function Home() {
           <MentorshipBanner onJoin={() => setShowWaitlist(true)} />
         </div>
 
-        {/* ═══ WHY GOVERNMENT JOB ═══ */}
+        {/* ═══ GOVT vs PRIVATE — GENUINE COMPARISON ═══ */}
         <section className="anim-up-6" style={{ padding: "8px 0 0" }}>
           <h2 style={{ fontFamily: "'Playfair Display',serif", fontSize: 20, fontWeight: 700, color: "#111827", marginBottom: 4 }}>
-            Why a Government Job?
+            Government vs Private — Real Talk
           </h2>
           <p style={{ fontSize: 13, color: "#6B7280", marginBottom: 16 }}>
-            The difference is real — and it compounds over a lifetime.
+            Both have genuine strengths. Here&apos;s an honest comparison to help you decide.
           </p>
 
           <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
             {[
-              { icon: "🏠", title: "Housing", govt: "Govt quarter or HRA ₹15K–₹30K paid by employer", pvt: "Pay rent from your own salary", color: "#2563EB" },
-              { icon: "🏥", title: "Medical", govt: "Free healthcare for entire family — forever", pvt: "Pay premiums, limited coverage", color: "#16A34A" },
-              { icon: "💰", title: "Pension", govt: "Monthly pension after retirement — for life", pvt: "No pension. Only PF if lucky", color: "#D97706" },
-              { icon: "⏰", title: "Work-Life Balance", govt: "Fixed hours, 30 leaves/year, weekends off", pvt: "Overtime, weekend calls, burnout", color: "#0D9488" },
-              { icon: "🔒", title: "Job Security", govt: "Cannot be laid off. Permanent from Day 1", pvt: "Layoffs, PIPs, restructuring", color: "#7C3AED" },
-              { icon: "📈", title: "Growth", govt: "Clear promotion path, no politics", pvt: "Depends on manager, company politics", color: "#EA580C" },
+              { icon: "💰", title: "Starting Salary", govt: "₹25K–₹80K/month depending on post. Grows steadily with DA revisions every 6 months.", pvt: "₹15K–₹2L/month. Higher ceiling in IT/Finance but variable. Top MNCs pay more upfront.", color: "#2563EB" },
+              { icon: "🔒", title: "Job Security", govt: "Virtually impossible to be fired. Permanent from Day 1. No layoffs, no PIPs, no restructuring.", pvt: "Performance-based. Risk of layoffs during downturns. But top performers can fast-track to leadership.", color: "#16A34A" },
+              { icon: "🏥", title: "Healthcare", govt: "Free medical for entire family including parents — for life. CGHS/RELHS covers almost everything.", pvt: "Company insurance (₹3–10L cover). Good at top MNCs but ends when you leave. Parents often excluded.", color: "#0D9488" },
+              { icon: "📈", title: "Career Growth", govt: "Time-bound promotions. Transparent path. Slower but guaranteed. Seniority matters.", pvt: "Merit-based. Faster growth possible. Can become VP by 35. But politics and manager dependency exist.", color: "#D97706" },
+              { icon: "🏠", title: "Lifestyle", govt: "Fixed hours (9:30–5:30), 30+ leaves, govt housing or HRA, pension. Predictable and stable.", pvt: "Flexible but demanding. WFH options, gym perks, stock options. But long hours and weekend calls common.", color: "#7C3AED" },
+              { icon: "🎯", title: "Purpose & Impact", govt: "Direct impact on millions. Build infrastructure, enforce law, manage districts. Power and authority.", pvt: "Innovation and speed. Build products used globally. Entrepreneurial spirit. Can earn while creating.", color: "#EA580C" },
             ].map((b, i) => (
               <div key={i} style={{
                 background: "#FFFFFF", borderRadius: 14, padding: "14px 16px",
@@ -229,23 +229,34 @@ export default function Home() {
                   <div style={{ fontSize: 13, fontWeight: 700, color: "#111827", marginBottom: 8 }}>{b.title}</div>
                   <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 6 }}>
                     <div style={{
-                      background: `${b.color}08`, borderRadius: 8, padding: "7px 10px",
-                      border: `1px solid ${b.color}18`,
+                      background: `${b.color}06`, borderRadius: 8, padding: "7px 10px",
+                      border: `1px solid ${b.color}12`,
                     }}>
-                      <div style={{ fontSize: 9, fontWeight: 700, color: b.color, letterSpacing: 0.5, marginBottom: 3 }}>GOVT JOB ✓</div>
+                      <div style={{ fontSize: 9, fontWeight: 700, color: b.color, letterSpacing: 0.5, marginBottom: 3 }}>GOVERNMENT</div>
                       <div style={{ fontSize: 11, color: "#374151", lineHeight: 1.4 }}>{b.govt}</div>
                     </div>
                     <div style={{
                       background: "#F9FAFB", borderRadius: 8, padding: "7px 10px",
                       border: "1px solid rgba(0,0,0,0.04)",
                     }}>
-                      <div style={{ fontSize: 9, fontWeight: 700, color: "#9CA3AF", letterSpacing: 0.5, marginBottom: 3 }}>PRIVATE JOB</div>
-                      <div style={{ fontSize: 11, color: "#9CA3AF", lineHeight: 1.4 }}>{b.pvt}</div>
+                      <div style={{ fontSize: 9, fontWeight: 700, color: "#6B7280", letterSpacing: 0.5, marginBottom: 3 }}>PRIVATE</div>
+                      <div style={{ fontSize: 11, color: "#374151", lineHeight: 1.4 }}>{b.pvt}</div>
                     </div>
                   </div>
                 </div>
               </div>
             ))}
+          </div>
+
+          {/* Bottom note */}
+          <div style={{
+            marginTop: 12, borderRadius: 12, padding: "12px 14px",
+            background: "linear-gradient(135deg, #EFF6FF, #F0FDFA)",
+            border: "1px solid rgba(37,99,235,0.1)",
+          }}>
+            <p style={{ fontSize: 12, color: "#374151", lineHeight: 1.6, margin: 0 }}>
+              <strong style={{ color: "#111827" }}>Bottom line:</strong> Government jobs win on security, pension, and lifetime benefits. Private sector wins on starting salary, growth speed, and flexibility. The right choice depends on what <em>you</em> value most. NaukriYatra is here to help you crack whichever path you choose.
+            </p>
           </div>
         </section>
 
