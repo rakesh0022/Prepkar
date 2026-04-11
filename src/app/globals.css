@@ -1,0 +1,69 @@
+@import "tailwindcss";
+
+/* ─── Design tokens — LIGHT THEME ────────────────────────────────────────── */
+:root {
+  --bg:          #F8F9FB;
+  --bg-warm:     #F3F4F8;
+  --bg-card:     #FFFFFF;
+  --bg-card-2:   #F5F6FA;
+  --bg-hero:     linear-gradient(145deg, #1E3A5F 0%, #0F2440 50%, #162D50 100%);
+
+  --border:       rgba(0,0,0,0.07);
+  --border-light: rgba(0,0,0,0.04);
+
+  --accent:       #2563EB;
+  --accent-teal:  #0D9488;
+  --accent-green: #16A34A;
+  --accent-amber: #D97706;
+  --accent-red:   #DC2626;
+
+  --text-dark:  #111827;
+  --text-body:  #374151;
+  --text-light: #6B7280;
+  --text-faint: #9CA3AF;
+
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+  --shadow-md: 0 4px 16px rgba(0,0,0,0.08), 0 1px 4px rgba(0,0,0,0.05);
+  --shadow-lg: 0 8px 32px rgba(0,0,0,0.1);
+
+  --radius: 14px;
+}
+
+/* ─── Animations ─────────────────────────────────────────────────────────── */
+@keyframes fadeUp   { from { opacity:0; transform:translateY(18px); } to { opacity:1; transform:translateY(0); } }
+@keyframes fadeIn   { from { opacity:0; } to { opacity:1; } }
+@keyframes float    { 0%,100% { transform:translateY(0); } 50% { transform:translateY(-5px); } }
+@keyframes shimmer  { 0% { background-position:-200% 0; } 100% { background-position:200% 0; } }
+@keyframes pulseDot { 0%,100% { opacity:0.3; } 50% { opacity:1; } }
+@keyframes pulse    { 0%,100% { transform: scale(1); } 50% { transform: scale(1.05); } }
+
+.anim-up   { animation: fadeUp 0.5s cubic-bezier(0.22,1,0.36,1) both; }
+.anim-up-1 { animation: fadeUp 0.5s cubic-bezier(0.22,1,0.36,1) 0.07s both; }
+.anim-up-2 { animation: fadeUp 0.5s cubic-bezier(0.22,1,0.36,1) 0.14s both; }
+.anim-up-3 { animation: fadeUp 0.5s cubic-bezier(0.22,1,0.36,1) 0.21s both; }
+.anim-up-4 { animation: fadeUp 0.5s cubic-bezier(0.22,1,0.36,1) 0.28s both; }
+.anim-up-5 { animation: fadeUp 0.5s cubic-bezier(0.22,1,0.36,1) 0.35s both; }
+.anim-up-6 { animation: fadeUp 0.5s cubic-bezier(0.22,1,0.36,1) 0.42s both; }
+.anim-fade { animation: fadeIn 0.4s ease both; }
+
+/* ─── Utilities ──────────────────────────────────────────────────────────── */
+.no-scroll::-webkit-scrollbar { display:none; }
+.no-scroll { -ms-overflow-style:none; scrollbar-width:none; }
+.hide-scrollbar::-webkit-scrollbar { display:none; }
+.hide-scrollbar { -ms-overflow-style:none; scrollbar-width:none; }
+
+/* ─── Base ───────────────────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; }
+html { color-scheme: light; }
+body {
+  background: var(--bg);
+  color: var(--text-body);
+  -webkit-font-smoothing: antialiased;
+  margin: 0;
+}
+button, a { -webkit-tap-highlight-color: transparent; }
+
+/* ─── Scrollbar (desktop) ────────────────────────────────────────────────── */
+::-webkit-scrollbar       { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.1); border-radius: 3px; }
