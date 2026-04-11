@@ -1,6 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
 
-// System prompts for each interview category
+// Force Node.js runtime — Edge runtime has restricted process.env access on Vercel
+export const runtime = "nodejs";
+
+// ─── System prompts ───────────────────────────────────────────────────────────
 const SYSTEM_PROMPTS: Record<string, string> = {
   bank_po: `You are a senior bank interview panelist conducting a Bank PO/Clerk interview in India. Ask questions typically asked in SBI PO, IBPS, or RBI interviews. Topics include: banking awareness, current affairs, personal questions (why banking?), financial inclusion, RBI policies, digital banking, NPA management, and scenario-based questions.
 
@@ -43,38 +46,41 @@ Rules:
 {"scorecard":{"overall":X,"communication":X,"subject_knowledge":X,"composure":X,"analytical_thinking":X,"summary":"2-3 lines of overall feedback","tip":"1 actionable improvement tip"}}`,
 };
 
+// ─── POST /api/interview ──────────────────────────────────────────────────────
 export async function POST(req: NextRequest) {
   try {
     const { messages, category, role } = await req.json();
 
+    // Read key server-side only — never exposed to client
     const apiKey = process.env.GEMINI_API_KEY;
-    if (!apiKey) {
+
+    // Validate key exists and looks plausible (not empty / whitespace)
+    if (!apiKey || apiKey.trim().length < 10) {
+      console.error("ENV CHECK: GEMINI_API_KEY is", apiKey ? "too short" : "MISSING");
       return NextResponse.json(
         { error: "API key not configured in environment" },
         { status: 500 }
       );
     }
 
-    const systemPrompt = SYSTEM_PROMPTS[category] || SYSTEM_PROMPTS.fresher_it;
+    const systemPrompt = SYSTEM_PROMPTS[category] ?? SYSTEM_PROMPTS.fresher_it;
 
-    // Convert messages to Gemini format (uses "model" instead of "assistant")
-    const geminiContents = messages.map((msg: { role: string; content: string }) => ({
-      role: msg.role === "assistant" ? "model" : "user",
-      parts: [{ text: msg.content }],
-    }));
+    // Convert messages to Gemini format ("model" instead of "assistant")
+    const geminiContents = messages.map(
+      (msg: { role: string; content: string }) => ({
+        role: msg.role === "assistant" ? "model" : "user",
+        parts: [{ text: msg.content }],
+      })
+    );
 
-    const res = await fetch(
+    const geminiRes = await fetch(
       `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`,
       {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           system_instruction: {
-            parts: [
-              {
-                text: systemPrompt + `\n\nThe candidate is preparing for: ${role}`,
-              },
-            ],
+            parts: [{ text: `${systemPrompt}\n\nThe candidate is preparing for: ${role}` }],
           },
           contents: geminiContents,
           generationConfig: {
@@ -85,29 +91,27 @@ export async function POST(req: NextRequest) {
       }
     );
 
-    if (!res.ok) {
-      const errData = await res.json();
+    if (!geminiRes.ok) {
+      const errData = await geminiRes.json();
       console.error("Gemini API error:", errData);
-      throw new Error(errData.error?.message || "Gemini API request failed");
+      throw new Error(errData.error?.message ?? "Gemini API request failed");
     }
 
-    const data = await res.json();
-    const reply =
-      data.candidates?.[0]?.content?.parts?.[0]?.text ||
+    const data = await geminiRes.json();
+    const reply: string =
+      data.candidates?.[0]?.content?.parts?.[0]?.text ??
       "Sorry, something went wrong. Please try again.";
 
-    // Check if this response contains a scorecard
-    let scorecard = null;
+    // Extract scorecard JSON if present
+    let scorecard: Record<string, unknown> | null = null;
     try {
       const jsonMatch = reply.match(/\{[\s\S]*"scorecard"[\s\S]*\}/);
       if (jsonMatch) {
-        const parsed = JSON.parse(jsonMatch[0]);
-        if (parsed.scorecard) {
-          scorecard = parsed.scorecard;
-        }
+        const parsed = JSON.parse(jsonMatch[0]) as { scorecard?: Record<string, unknown> };
+        if (parsed.scorecard) scorecard = parsed.scorecard;
       }
     } catch {
-      // Not a scorecard response, that's fine
+      // Not a scorecard response — that's fine
     }
 
     return NextResponse.json({
@@ -118,8 +122,7 @@ export async function POST(req: NextRequest) {
     });
   } catch (error: unknown) {
     console.error("Interview API error:", error);
-    const message =
-      error instanceof Error ? error.message : "Failed to get AI response";
+    const message = error instanceof Error ? error.message : "Failed to get AI response";
     return NextResponse.json({ error: message }, { status: 500 });
   }
 }
