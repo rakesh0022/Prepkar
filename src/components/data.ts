@@ -1106,13 +1106,108 @@ export const QUALIFICATION_FILTERS: { id: Qualification | "all"; label: string }
   { id: "Post Graduate", label: "Post Graduate" },
 ];
 
-// ─── Interview categories ─────────────────────────────────────────────────────
-export const INTERVIEW_CATS = [
-  { id: "bank_po",    title: "Bank PO / Clerk",  sub: "SBI, IBPS, RBI",       icon: "🏦", color: "#0C7C59", roles: ["SBI PO", "IBPS Clerk", "RBI Grade B"] },
-  { id: "fresher_it", title: "Fresher / IT Job",  sub: "TCS, Infosys, Wipro",  icon: "💼", color: "#2563eb", roles: ["TCS HR Round", "Infosys Interview", "Generic Fresher"] },
-  { id: "mba",        title: "MBA Admission",     sub: "CAT, XAT, IIM",        icon: "🎓", color: "#d97706", roles: ["IIM Interview", "XLRI Interview", "General MBA PI"] },
-  { id: "govt_job",   title: "Government Job",    sub: "SSC, UPSC, PSC",       icon: "🏛️", color: "#dc2626", roles: ["UPSC Personality Test", "SSC Interview", "State PSC Interview"] },
+// ─── Practice categories with stage-wise options ──────────────────────────────
+export interface PracticeStage {
+  id: string;
+  label: string;
+  icon: string;
+  description: string;
+  questionCount: number;
+}
+
+export interface PracticeCategory {
+  id: string;
+  title: string;
+  sub: string;
+  icon: string;
+  color: string;
+  stages: PracticeStage[];
+}
+
+export const PRACTICE_CATS: PracticeCategory[] = [
+  {
+    id: "sbi_po",
+    title: "SBI PO",
+    sub: "State Bank of India",
+    icon: "🏦",
+    color: "#0C7C59",
+    stages: [
+      { id: "prelims_mcq", label: "Prelims MCQ", icon: "📝", description: "Reasoning, Quant, English — timed MCQs like the real exam", questionCount: 10 },
+      { id: "mains_mcq", label: "Mains Practice", icon: "📖", description: "GA, Banking Awareness, Data Analysis — higher difficulty", questionCount: 10 },
+      { id: "descriptive", label: "Descriptive Writing", icon: "✍️", description: "Essay and letter writing — AI evaluates your answer", questionCount: 2 },
+      { id: "interview", label: "Interview Panel", icon: "🎯", description: "Face a 5-question AI panel — scored on all parameters", questionCount: 5 },
+    ],
+  },
+  {
+    id: "ssc_cgl",
+    title: "SSC CGL",
+    sub: "Staff Selection Commission",
+    icon: "📋",
+    color: "#2563EB",
+    stages: [
+      { id: "tier1_mcq", label: "Tier-I MCQ", icon: "📝", description: "GK, Reasoning, Quant, English — screening round practice", questionCount: 10 },
+      { id: "tier2_mcq", label: "Tier-II MCQ", icon: "📖", description: "Advanced Maths, English, Statistics — rank-deciding", questionCount: 10 },
+      { id: "interview", label: "Document & Interview", icon: "🎯", description: "Practice answering verification and personality questions", questionCount: 5 },
+    ],
+  },
+  {
+    id: "upsc_cse",
+    title: "UPSC CSE",
+    sub: "Civil Services — IAS/IPS",
+    icon: "🏛️",
+    color: "#7C3AED",
+    stages: [
+      { id: "prelims_gs", label: "Prelims GS", icon: "📝", description: "General Studies MCQ — History, Polity, Geography, Science, Current Affairs", questionCount: 10 },
+      { id: "prelims_csat", label: "CSAT Practice", icon: "🧠", description: "Comprehension, Logic, Decision Making, Basic Numeracy", questionCount: 10 },
+      { id: "mains_essay", label: "Mains Essay", icon: "✍️", description: "Write essays on philosophical, social, economic topics — AI evaluates", questionCount: 1 },
+      { id: "personality_test", label: "Personality Test", icon: "🎯", description: "5-question AI board interview — scored on all IAS panel parameters", questionCount: 5 },
+    ],
+  },
+  {
+    id: "rrb_ntpc",
+    title: "RRB NTPC",
+    sub: "Railway Recruitment",
+    icon: "🚂",
+    color: "#DC2626",
+    stages: [
+      { id: "cbt1_mcq", label: "CBT-1 Practice", icon: "📝", description: "Maths, GI & Reasoning, General Awareness, General Science", questionCount: 10 },
+      { id: "cbt2_mcq", label: "CBT-2 Practice", icon: "📖", description: "Advanced level — rank-deciding questions", questionCount: 10 },
+    ],
+  },
+  {
+    id: "ibps_po",
+    title: "IBPS PO / Clerk",
+    sub: "11 Public Sector Banks",
+    icon: "🏦",
+    color: "#0D9488",
+    stages: [
+      { id: "prelims_mcq", label: "Prelims MCQ", icon: "📝", description: "Reasoning, Quant, English — similar pattern to SBI", questionCount: 10 },
+      { id: "mains_mcq", label: "Mains Practice", icon: "📖", description: "GA, Computer, Banking Awareness — higher difficulty", questionCount: 10 },
+      { id: "interview", label: "Interview Panel", icon: "🎯", description: "5-question AI panel for Bank PO interview round", questionCount: 5 },
+    ],
+  },
+  {
+    id: "defence",
+    title: "NDA / CDS",
+    sub: "Armed Forces Entry",
+    icon: "🎖️",
+    color: "#B45309",
+    stages: [
+      { id: "written_mcq", label: "Written Exam MCQ", icon: "📝", description: "Maths, English, GK — NDA/CDS written paper practice", questionCount: 10 },
+      { id: "ssb_interview", label: "SSB Interview", icon: "🎯", description: "AI simulates the SSB personal interview round", questionCount: 5 },
+    ],
+  },
 ];
+
+// Keep backward compat
+export const INTERVIEW_CATS = PRACTICE_CATS.map(c => ({
+  id: c.id,
+  title: c.title,
+  sub: c.sub,
+  icon: c.icon,
+  color: c.color,
+  roles: c.stages.map(s => s.label),
+}));
 
 // ─── Hero stories ─────────────────────────────────────────────────────────────
 export const HERO_STORIES = [
