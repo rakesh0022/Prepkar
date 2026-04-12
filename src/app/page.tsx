@@ -121,13 +121,13 @@ export default function Home() {
           <DailyChallenge quiz={quiz} answer={answer} onAnswer={saveAnswer} />
         </div>
 
-        {/* ═══ MOTIVATION FACTS ═══ */}
+        {/* ═══ PLATFORM HIGHLIGHTS ═══ */}
         <section className="anim-up-2" style={{ paddingBottom: 8 }}>
           <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 10 }}>
             {[
-              { n: "25L+", l: "Vacancies in 2026", c: "#16A34A" },
-              { n: "₹56K", l: "Starting IAS salary", c: "#2563EB" },
-              { n: "FREE", l: "Travel for Railway officers", c: "#DC2626" },
+              { n: "17+", l: "Govt Exams Covered", c: "#2563EB" },
+              { n: "6", l: "Practice Stages per Exam", c: "#16A34A" },
+              { n: "AI", l: "Scores Every Answer", c: "#7C3AED" },
             ].map((f, i) => (
               <div key={i} style={{
                 background: "#FFFFFF", borderRadius: 14, padding: "16px 12px",
@@ -151,9 +151,12 @@ export default function Home() {
           <h2 style={{ fontFamily: "'Playfair Display',serif", fontSize: 20, fontWeight: 700, color: "#111827", marginBottom: 4 }}>
             What if you become...
           </h2>
-          <p style={{ fontSize: 13, color: "#6B7280", marginBottom: 14 }}>
-            Tap to explore the life, salary, and roadmap
-          </p>
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 14 }}>
+            <p style={{ fontSize: 13, color: "#6B7280", margin: 0 }}>
+              Tap to explore the life, salary, and roadmap
+            </p>
+            <span style={{ fontSize: 11, color: "#9CA3AF", flexShrink: 0 }}>Swipe →</span>
+          </div>
 
           <div className="no-scroll" style={{ display: "flex", gap: 12, overflowX: "auto", paddingBottom: 8 }}>
             {[
@@ -197,66 +200,53 @@ export default function Home() {
           <MentorshipBanner onJoin={() => setShowWaitlist(true)} />
         </div>
 
-        {/* ═══ GOVT vs PRIVATE — GENUINE COMPARISON ═══ */}
+        {/* ═══ GOVT vs PRIVATE — CLEAN COMPARISON ═══ */}
         <section className="anim-up-6" style={{ padding: "8px 0 0" }}>
           <h2 style={{ fontFamily: "'Playfair Display',serif", fontSize: 20, fontWeight: 700, color: "#111827", marginBottom: 4 }}>
-            Government vs Private — Real Talk
+            Government vs Private
           </h2>
           <p style={{ fontSize: 13, color: "#6B7280", marginBottom: 16 }}>
-            Both have genuine strengths. Here&apos;s an honest comparison to help you decide.
+            An honest look at both paths.
           </p>
 
-          <div className="desktop-2col" style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-            {[
-              { icon: "💰", title: "Starting Salary", govt: "₹25K–₹80K/month depending on post. Grows steadily with DA revisions every 6 months.", pvt: "₹15K–₹2L/month. Higher ceiling in IT/Finance but variable. Top MNCs pay more upfront.", color: "#2563EB" },
-              { icon: "🔒", title: "Job Security", govt: "Virtually impossible to be fired. Permanent from Day 1. No layoffs, no PIPs, no restructuring.", pvt: "Performance-based. Risk of layoffs during downturns. But top performers can fast-track to leadership.", color: "#16A34A" },
-              { icon: "🏥", title: "Healthcare", govt: "Free medical for entire family including parents — for life. CGHS/RELHS covers almost everything.", pvt: "Company insurance (₹3–10L cover). Good at top MNCs but ends when you leave. Parents often excluded.", color: "#0D9488" },
-              { icon: "📈", title: "Career Growth", govt: "Time-bound promotions. Transparent path. Slower but guaranteed. Seniority matters.", pvt: "Merit-based. Faster growth possible. Can become VP by 35. But politics and manager dependency exist.", color: "#D97706" },
-              { icon: "🏠", title: "Lifestyle", govt: "Fixed hours (9:30–5:30), 30+ leaves, govt housing or HRA, pension. Predictable and stable.", pvt: "Flexible but demanding. WFH options, gym perks, stock options. But long hours and weekend calls common.", color: "#7C3AED" },
-              { icon: "🎯", title: "Purpose & Impact", govt: "Direct impact on millions. Build infrastructure, enforce law, manage districts. Power and authority.", pvt: "Innovation and speed. Build products used globally. Entrepreneurial spirit. Can earn while creating.", color: "#EA580C" },
-            ].map((b, i) => (
-              <div key={i} style={{
-                background: "#FFFFFF", borderRadius: 14, padding: "14px 16px",
-                border: "1px solid var(--border)", boxShadow: "var(--shadow-sm)",
-                display: "flex", gap: 14, alignItems: "flex-start",
-              }}>
-                <div style={{
-                  width: 40, height: 40, borderRadius: 12, flexShrink: 0,
-                  background: `${b.color}0D`,
-                  display: "flex", alignItems: "center", justifyContent: "center", fontSize: 20,
-                }}>{b.icon}</div>
+          {/* Two-column header */}
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8, marginBottom: 8 }}>
+            <div style={{ background: "#2563EB", borderRadius: 10, padding: "10px", textAlign: "center" }}>
+              <span style={{ fontSize: 13, fontWeight: 700, color: "#fff" }}>🏛️ Government</span>
+            </div>
+            <div style={{ background: "#374151", borderRadius: 10, padding: "10px", textAlign: "center" }}>
+              <span style={{ fontSize: 13, fontWeight: 700, color: "#fff" }}>🏢 Private</span>
+            </div>
+          </div>
 
-                <div style={{ flex: 1, minWidth: 0 }}>
-                  <div style={{ fontSize: 13, fontWeight: 700, color: "#111827", marginBottom: 8 }}>{b.title}</div>
-                  <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 6 }}>
-                    <div style={{
-                      background: `${b.color}06`, borderRadius: 8, padding: "7px 10px",
-                      border: `1px solid ${b.color}12`,
-                    }}>
-                      <div style={{ fontSize: 9, fontWeight: 700, color: b.color, letterSpacing: 0.5, marginBottom: 3 }}>GOVERNMENT</div>
-                      <div style={{ fontSize: 11, color: "#374151", lineHeight: 1.4 }}>{b.govt}</div>
-                    </div>
-                    <div style={{
-                      background: "#F9FAFB", borderRadius: 8, padding: "7px 10px",
-                      border: "1px solid rgba(0,0,0,0.04)",
-                    }}>
-                      <div style={{ fontSize: 9, fontWeight: 700, color: "#6B7280", letterSpacing: 0.5, marginBottom: 3 }}>PRIVATE</div>
-                      <div style={{ fontSize: 11, color: "#374151", lineHeight: 1.4 }}>{b.pvt}</div>
-                    </div>
+          <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+            {[
+              { topic: "Salary", govt: "₹25K–₹80K start. Steady growth with DA revisions.", pvt: "₹15K–₹2L start. Higher ceiling in IT/Finance." },
+              { topic: "Security", govt: "Cannot be fired. Permanent from Day 1.", pvt: "Performance-based. Layoff risk exists." },
+              { topic: "Healthcare", govt: "Free for entire family — for life.", pvt: "₹3–10L insurance. Ends when you leave." },
+              { topic: "Growth", govt: "Time-bound promotions. Slower but guaranteed.", pvt: "Merit-based. Can become VP by 35." },
+              { topic: "Lifestyle", govt: "9:30–5:30, 30 leaves, pension, housing.", pvt: "WFH, stock options, but long hours." },
+              { topic: "Impact", govt: "Govern districts. Enforce law. Build India.", pvt: "Build products. Innovate. Scale globally." },
+            ].map((row, i) => (
+              <div key={i} style={{ background: "#FFFFFF", borderRadius: 10, border: "1px solid var(--border)", overflow: "hidden" }}>
+                <div style={{ background: "#F9FAFB", padding: "6px 12px", borderBottom: "1px solid var(--border)" }}>
+                  <span style={{ fontSize: 12, fontWeight: 700, color: "#111827" }}>{row.topic}</span>
+                </div>
+                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 0 }}>
+                  <div style={{ padding: "8px 12px", borderRight: "1px solid var(--border)" }}>
+                    <div style={{ fontSize: 12, color: "#374151", lineHeight: 1.5 }}>{row.govt}</div>
+                  </div>
+                  <div style={{ padding: "8px 12px" }}>
+                    <div style={{ fontSize: 12, color: "#374151", lineHeight: 1.5 }}>{row.pvt}</div>
                   </div>
                 </div>
               </div>
             ))}
           </div>
 
-          {/* Bottom note */}
-          <div style={{
-            marginTop: 12, borderRadius: 12, padding: "12px 14px",
-            background: "linear-gradient(135deg, #EFF6FF, #F0FDFA)",
-            border: "1px solid rgba(37,99,235,0.1)",
-          }}>
+          <div style={{ marginTop: 12, borderRadius: 10, padding: "12px 14px", background: "#F9FAFB", border: "1px solid var(--border)" }}>
             <p style={{ fontSize: 12, color: "#374151", lineHeight: 1.6, margin: 0 }}>
-              <strong style={{ color: "#111827" }}>Bottom line:</strong> Government jobs win on security, pension, and lifetime benefits. Private sector wins on starting salary, growth speed, and flexibility. The right choice depends on what <em>you</em> value most. NaukriYatra is here to help you crack whichever path you choose.
+              <strong>The right choice depends on you.</strong> Government wins on security and pension. Private wins on salary ceiling and speed. NaukriYatra helps you crack whichever path you choose.
             </p>
           </div>
         </section>

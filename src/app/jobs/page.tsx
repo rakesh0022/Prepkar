@@ -9,12 +9,12 @@ import { JOBS, JOB_CATEGORIES, QUALIFICATION_FILTERS, type Job, type Qualificati
 const CAT_COLOR: Record<string, string> = { banking: "#0C7C59", ssc: "#2563EB", railway: "#DC2626", upsc: "#7C3AED", defence: "#0D9488", state: "#EA580C" };
 const CAT_ICON: Record<string, string> = { banking: "🏦", ssc: "📋", railway: "🚂", upsc: "🏛️", defence: "🎖️", state: "🗳️" };
 const CAT_BG: Record<string, string> = {
-  banking: "linear-gradient(135deg, #ECFDF5, #F0FDF4)",
-  ssc: "linear-gradient(135deg, #EFF6FF, #DBEAFE)",
-  railway: "linear-gradient(135deg, #FEF2F2, #FEE2E2)",
-  upsc: "linear-gradient(135deg, #FAF5FF, #F3E8FF)",
-  defence: "linear-gradient(135deg, #F0FDFA, #CCFBF1)",
-  state: "linear-gradient(135deg, #FFF7ED, #FFEDD5)",
+  banking: "#FFFFFF",
+  ssc: "#FFFFFF",
+  railway: "#FFFFFF",
+  upsc: "#FFFFFF",
+  defence: "#FFFFFF",
+  state: "#FFFFFF",
 };
 
 function Pill({ label, on, color, click }: { label: string; on: boolean; color: string; click: () => void }) {
@@ -23,64 +23,50 @@ function Pill({ label, on, color, click }: { label: string; on: boolean; color: 
 
 function JobCard({ job, onOpen, onShare }: { job: Job; onOpen: () => void; onShare: (e: React.MouseEvent) => void }) {
   const color = CAT_COLOR[job.category] || "#2563EB";
-  const bg = CAT_BG[job.category] || "linear-gradient(135deg, #F9FAFB, #F3F4F6)";
-  const icon = CAT_ICON[job.category] || "💼";
 
   return (
     <div onClick={onOpen} className="anim-up" style={{
-      background: "#FFFFFF", borderRadius: 16, overflow: "hidden",
+      background: "#FFFFFF", borderRadius: 14, overflow: "hidden",
       border: "1px solid var(--border)", boxShadow: "var(--shadow-sm)",
-      cursor: "pointer", marginBottom: 12, transition: "box-shadow 0.2s, transform 0.2s",
+      cursor: "pointer", marginBottom: 12,
+      borderLeft: `3px solid ${color}`,
     }}>
-      {/* Category color header band */}
-      <div style={{ background: bg, padding: "14px 16px 12px", position: "relative" }}>
-        {/* Category icon floating */}
-        <div style={{
-          position: "absolute", top: 10, right: 14,
-          width: 44, height: 44, borderRadius: 12,
-          background: `${color}12`, border: `1px solid ${color}20`,
-          display: "flex", alignItems: "center", justifyContent: "center",
-          fontSize: 22,
-        }}>{icon}</div>
+      <div style={{ padding: "14px 16px" }}>
+        {/* Title row */}
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 8 }}>
+          <div style={{ flex: 1 }}>
+            <div style={{ display: "flex", gap: 5, marginBottom: 4, flexWrap: "wrap" }}>
+              {job.isNew && <span style={{ background: "#F0FDF4", color: "#16A34A", fontSize: 9, fontWeight: 700, padding: "2px 7px", borderRadius: 6 }}>NEW</span>}
+              {job.isHot && <span style={{ background: "#FEF2F2", color: "#DC2626", fontSize: 9, fontWeight: 700, padding: "2px 7px", borderRadius: 6 }}>TRENDING</span>}
+            </div>
+            <div style={{ fontSize: 15, fontWeight: 700, color: "#111827", lineHeight: 1.3 }}>{job.title}</div>
+            <div style={{ fontSize: 11, color: "#6B7280", marginTop: 2 }}>{job.org}</div>
+          </div>
+          <div style={{ textAlign: "right", flexShrink: 0, marginLeft: 12 }}>
+            <div style={{ fontSize: 18, fontWeight: 800, color, fontFamily: "'Outfit'" }}>{job.vacancies.toLocaleString()}</div>
+            <div style={{ fontSize: 9, color: "#9CA3AF" }}>posts</div>
+          </div>
+        </div>
 
-        <div style={{ display: "flex", gap: 5, marginBottom: 6, flexWrap: "wrap" }}>
-          {job.isNew && <span style={{ background: "#16A34A", color: "#fff", fontSize: 9, fontWeight: 700, padding: "2px 8px", borderRadius: 10 }}>NEW</span>}
-          {job.isHot && <span style={{ background: "#DC2626", color: "#fff", fontSize: 9, fontWeight: 700, padding: "2px 8px", borderRadius: 10 }}>🔥 TRENDING</span>}
+        {/* Info row */}
+        <div style={{ display: "flex", gap: 14, marginBottom: 8 }}>
+          <span style={{ fontSize: 12, color: "#374151" }}>💰 {job.inHand}/mo</span>
+          <span style={{ fontSize: 12, color: "#374151" }}>📅 {job.lastDate}</span>
         </div>
-        <div style={{ fontSize: 16, fontWeight: 800, color: "#111827", lineHeight: 1.3, paddingRight: 50, fontFamily: "'Outfit',sans-serif" }}>{job.title}</div>
-        <div style={{ fontSize: 11, color: "#6B7280", marginTop: 3 }}>{job.org}</div>
-      </div>
 
-      {/* Stats row */}
-      <div style={{ padding: "12px 16px", display: "flex", gap: 0 }}>
-        <div style={{ flex: 1, borderRight: "1px solid rgba(0,0,0,0.05)", paddingRight: 12 }}>
-          <div style={{ fontSize: 9, color: "#9CA3AF", fontWeight: 600, letterSpacing: 0.5, textTransform: "uppercase" }}>Vacancies</div>
-          <div style={{ fontSize: 18, fontWeight: 800, color, fontFamily: "'Outfit'" }}>{job.vacancies.toLocaleString()}</div>
+        {/* Bottom */}
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+          <div style={{ display: "flex", gap: 5 }}>
+            <span style={{ background: "#F3F4F6", color: "#6B7280", fontSize: 9, fontWeight: 600, padding: "3px 8px", borderRadius: 6 }}>🎓 {job.qualification}</span>
+            <span style={{ background: "#F3F4F6", color: "#6B7280", fontSize: 9, fontWeight: 600, padding: "3px 8px", borderRadius: 6 }}>{job.difficulty}</span>
+          </div>
+          <button onClick={onShare} style={{
+            background: "#F3F4F6", color: "#374151", border: "none", borderRadius: 6,
+            padding: "4px 10px", fontSize: 10, fontWeight: 600, cursor: "pointer",
+          }}>
+            Share ↗
+          </button>
         </div>
-        <div style={{ flex: 1, borderRight: "1px solid rgba(0,0,0,0.05)", padding: "0 12px" }}>
-          <div style={{ fontSize: 9, color: "#9CA3AF", fontWeight: 600, letterSpacing: 0.5, textTransform: "uppercase" }}>In-Hand</div>
-          <div style={{ fontSize: 14, fontWeight: 700, color: "#111827", fontFamily: "'Outfit'" }}>{job.inHand}</div>
-        </div>
-        <div style={{ flex: 1, paddingLeft: 12 }}>
-          <div style={{ fontSize: 9, color: "#9CA3AF", fontWeight: 600, letterSpacing: 0.5, textTransform: "uppercase" }}>Last Date</div>
-          <div style={{ fontSize: 12, fontWeight: 600, color: "#374151" }}>{job.lastDate}</div>
-        </div>
-      </div>
-
-      {/* Bottom bar */}
-      <div style={{ padding: "0 16px 12px", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-        <div style={{ display: "flex", gap: 6 }}>
-          <span style={{ background: "#EFF6FF", color: "#2563EB", fontSize: 9, fontWeight: 600, padding: "3px 8px", borderRadius: 8 }}>🎓 {job.qualification}</span>
-          <span style={{ background: `${color}08`, color, fontSize: 9, fontWeight: 600, padding: "3px 8px", borderRadius: 8 }}>{job.difficulty}</span>
-        </div>
-        <button onClick={onShare} style={{
-          background: "#25D366", color: "#fff", border: "none", borderRadius: 8,
-          padding: "5px 10px", fontSize: 10, fontWeight: 700, cursor: "pointer",
-          display: "flex", alignItems: "center", gap: 4,
-          boxShadow: "0 1px 4px rgba(37,211,102,0.3)",
-        }}>
-          📱 Share
-        </button>
       </div>
     </div>
   );
