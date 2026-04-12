@@ -1232,9 +1232,12 @@ export const STORIES = [
 
 // ─── Countdowns ───────────────────────────────────────────────────────────────
 export const COUNTDOWNS: Countdown[] = [
-  { name: "UPSC Prelims",   date: "Jun 1",  days: 53, color: "#7c3aed" },
-  { name: "SBI PO Prelims", date: "Jun 15", days: 67, color: "#0C7C59" },
-  { name: "SSC CGL Tier I", date: "Jun 20", days: 72, color: "#2563eb" },
+  { name: "UPSC Prelims",     date: "2026-06-01", days: 0, color: "#7c3aed" },
+  { name: "SBI PO Prelims",   date: "2026-08-01", days: 0, color: "#0C7C59" },
+  { name: "SSC CGL Tier I",   date: "2026-06-20", days: 0, color: "#2563eb" },
+  { name: "RRB NTPC CBT-1",   date: "2026-07-15", days: 0, color: "#DC2626" },
+  { name: "IBPS PO Prelims",  date: "2026-10-05", days: 0, color: "#0D9488" },
+  { name: "NDA Written",      date: "2026-09-14", days: 0, color: "#B45309" },
 ];
 
 // ─── Daily Quiz Pool ──────────────────────────────────────────────────────────

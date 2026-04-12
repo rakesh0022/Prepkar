@@ -151,37 +151,43 @@ export default function Home() {
           <h2 style={{ fontFamily: "'Playfair Display',serif", fontSize: 20, fontWeight: 700, color: "#111827", marginBottom: 4 }}>
             What if you become...
           </h2>
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 14 }}>
-            <p style={{ fontSize: 13, color: "#6B7280", margin: 0 }}>
-              Tap to explore the life, salary, and roadmap
-            </p>
-            <span style={{ fontSize: 11, color: "#9CA3AF", flexShrink: 0 }}>Swipe →</span>
-          </div>
+          <p style={{ fontSize: 13, color: "#6B7280", marginBottom: 14 }}>
+            Tap to explore the life, salary, and roadmap
+          </p>
 
-          <div className="no-scroll" style={{ display: "flex", gap: 12, overflowX: "auto", paddingBottom: 8 }}>
-            {[
-              { title: "District Magistrate", sub: "UPSC → IAS", perk: "Bungalow + Vehicle + ₹2.5L/month", emoji: "🏛️", bg: "linear-gradient(135deg,#4c1d95,#6d28d9)", link: "/jobs?id=upsc-cse-2026" },
-              { title: "Bank PO → Manager", sub: "SBI PO Exam", perk: "₹52K start + Housing + Medical", emoji: "🏦", bg: "linear-gradient(135deg,#064e3b,#0C7C59)", link: "/jobs?id=sbi-po-2026" },
-              { title: "Income Tax Inspector", sub: "SSC CGL Exam", perk: "₹65K + Govt Quarter + Raids", emoji: "📋", bg: "linear-gradient(135deg,#1e3a5f,#2563eb)", link: "/jobs?id=ssc-cgl-2026" },
-              { title: "Station Master", sub: "RRB NTPC Exam", perk: "FREE trains for life + Uniform", emoji: "🚂", bg: "linear-gradient(135deg,#7f1d1d,#dc2626)", link: "/jobs?id=rrb-ntpc-2026" },
-              { title: "RBI Officer", sub: "RBI Grade B", perk: "₹1.05L/month + Metro posting", emoji: "💰", bg: "linear-gradient(135deg,#0F4C81,#1D7ED8)", link: "/jobs?id=rbi-grade-b-2026" },
-              { title: "Army Officer", sub: "NDA Exam", perk: "₹65K + Adventure + Honor", emoji: "🎖️", bg: "linear-gradient(135deg,#134E4A,#0D9488)", link: "/jobs?id=nda-2026" },
-            ].map((d, i) => (
-              <Link key={i} href={d.link} style={{ textDecoration: "none", flexShrink: 0 }}>
-                <div style={{
-                  width: 200, borderRadius: 16, padding: "22px 18px", color: "#fff",
-                  background: d.bg, boxShadow: "var(--shadow-md)",
-                }}>
-                  <div style={{ fontSize: 32, marginBottom: 10 }}>{d.emoji}</div>
-                  <div style={{ fontSize: 15, fontWeight: 700, marginBottom: 3 }}>{d.title}</div>
-                  <div style={{ fontSize: 11, opacity: 0.7, marginBottom: 10 }}>{d.sub}</div>
+          <div style={{ position: "relative" }}>
+            {/* Scroll container */}
+            <div id="dreamScroll" className="no-scroll" style={{ display: "flex", gap: 10, overflowX: "auto", paddingBottom: 8, scrollBehavior: "smooth" }}>
+              {[
+                { title: "District Magistrate", sub: "UPSC → IAS", perk: "Bungalow + Vehicle + ₹2.5L/month", emoji: "🏛️", bg: "linear-gradient(135deg,#4c1d95,#6d28d9)", link: "/jobs?id=upsc-cse-2026" },
+                { title: "Bank PO → Manager", sub: "SBI PO Exam", perk: "₹52K start + Housing + Medical", emoji: "🏦", bg: "linear-gradient(135deg,#064e3b,#0C7C59)", link: "/jobs?id=sbi-po-2026" },
+                { title: "Income Tax Inspector", sub: "SSC CGL Exam", perk: "₹65K + Govt Quarter + Raids", emoji: "📋", bg: "linear-gradient(135deg,#1e3a5f,#2563eb)", link: "/jobs?id=ssc-cgl-2026" },
+                { title: "Station Master", sub: "RRB NTPC Exam", perk: "FREE trains for life + Uniform", emoji: "🚂", bg: "linear-gradient(135deg,#7f1d1d,#dc2626)", link: "/jobs?id=rrb-ntpc-2026" },
+                { title: "RBI Officer", sub: "RBI Grade B", perk: "₹1.05L/month + Metro posting", emoji: "💰", bg: "linear-gradient(135deg,#0F4C81,#1D7ED8)", link: "/jobs?id=rbi-grade-b-2026" },
+                { title: "Army Officer", sub: "NDA Exam", perk: "₹65K + Adventure + Honor", emoji: "🎖️", bg: "linear-gradient(135deg,#134E4A,#0D9488)", link: "/jobs?id=nda-2026" },
+              ].map((d, i) => (
+                <Link key={i} href={d.link} style={{ textDecoration: "none", flexShrink: 0 }}>
                   <div style={{
-                    fontSize: 11, fontWeight: 600, background: "rgba(255,255,255,0.15)",
-                    padding: "5px 10px", borderRadius: 8, display: "inline-block",
-                  }}>{d.perk}</div>
-                </div>
-              </Link>
-            ))}
+                    width: 170, borderRadius: 16, padding: "20px 16px", color: "#fff",
+                    background: d.bg, boxShadow: "var(--shadow-md)",
+                  }}>
+                    <div style={{ fontSize: 28, marginBottom: 8 }}>{d.emoji}</div>
+                    <div style={{ fontSize: 14, fontWeight: 700, marginBottom: 3 }}>{d.title}</div>
+                    <div style={{ fontSize: 10, opacity: 0.7, marginBottom: 10 }}>{d.sub}</div>
+                    <div style={{
+                      fontSize: 10, fontWeight: 600, background: "rgba(255,255,255,0.15)",
+                      padding: "4px 9px", borderRadius: 8, display: "inline-block",
+                    }}>{d.perk}</div>
+                  </div>
+                </Link>
+              ))}
+            </div>
+
+            {/* Arrow buttons */}
+            <button onClick={() => { const el = document.getElementById("dreamScroll"); if (el) el.scrollBy({ left: -180, behavior: "smooth" }); }}
+              style={{ position: "absolute", left: -6, top: "40%", width: 32, height: 32, borderRadius: "50%", border: "1px solid var(--border)", background: "rgba(255,255,255,0.95)", boxShadow: "var(--shadow-sm)", cursor: "pointer", fontSize: 14, display: "flex", alignItems: "center", justifyContent: "center" }}>←</button>
+            <button onClick={() => { const el = document.getElementById("dreamScroll"); if (el) el.scrollBy({ left: 180, behavior: "smooth" }); }}
+              style={{ position: "absolute", right: -6, top: "40%", width: 32, height: 32, borderRadius: "50%", border: "1px solid var(--border)", background: "rgba(255,255,255,0.95)", boxShadow: "var(--shadow-sm)", cursor: "pointer", fontSize: 14, display: "flex", alignItems: "center", justifyContent: "center" }}>→</button>
           </div>
         </section>
 
@@ -200,43 +206,52 @@ export default function Home() {
           <MentorshipBanner onJoin={() => setShowWaitlist(true)} />
         </div>
 
-        {/* ═══ GOVT vs PRIVATE — CLEAN COMPARISON ═══ */}
+        {/* ═══ GOVT vs PRIVATE — ENGAGING COMPARISON ═══ */}
         <section className="anim-up-6" style={{ padding: "8px 0 0" }}>
           <h2 style={{ fontFamily: "'Playfair Display',serif", fontSize: 20, fontWeight: 700, color: "#111827", marginBottom: 4 }}>
             Government vs Private
           </h2>
           <p style={{ fontSize: 13, color: "#6B7280", marginBottom: 16 }}>
-            An honest look at both paths.
+            Which path fits your life? Here&apos;s the real picture.
           </p>
 
-          {/* Two-column header */}
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8, marginBottom: 8 }}>
-            <div style={{ background: "#2563EB", borderRadius: 10, padding: "10px", textAlign: "center" }}>
-              <span style={{ fontSize: 13, fontWeight: 700, color: "#fff" }}>🏛️ Government</span>
-            </div>
-            <div style={{ background: "#374151", borderRadius: 10, padding: "10px", textAlign: "center" }}>
-              <span style={{ fontSize: 13, fontWeight: 700, color: "#fff" }}>🏢 Private</span>
-            </div>
-          </div>
-
-          <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+          <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
             {[
-              { topic: "Salary", govt: "₹25K–₹80K start. Steady growth with DA revisions.", pvt: "₹15K–₹2L start. Higher ceiling in IT/Finance." },
-              { topic: "Security", govt: "Cannot be fired. Permanent from Day 1.", pvt: "Performance-based. Layoff risk exists." },
-              { topic: "Healthcare", govt: "Free for entire family — for life.", pvt: "₹3–10L insurance. Ends when you leave." },
-              { topic: "Growth", govt: "Time-bound promotions. Slower but guaranteed.", pvt: "Merit-based. Can become VP by 35." },
-              { topic: "Lifestyle", govt: "9:30–5:30, 30 leaves, pension, housing.", pvt: "WFH, stock options, but long hours." },
-              { topic: "Impact", govt: "Govern districts. Enforce law. Build India.", pvt: "Build products. Innovate. Scale globally." },
+              { topic: "Job Security", icon: "🔒", govt: "Can't be fired. Permanent from Day 1.", pvt: "Performance-based. Layoff risk in downturns.", winner: "govt" },
+              { topic: "Starting Salary", icon: "💰", govt: "₹25K–₹80K/month. Grows with DA revisions.", pvt: "₹15K–₹2L/month. Higher ceiling in tech.", winner: "pvt" },
+              { topic: "Healthcare", icon: "🏥", govt: "Free medical for full family — for life.", pvt: "₹3–10L cover. Ends when you leave.", winner: "govt" },
+              { topic: "Career Growth", icon: "📈", govt: "Guaranteed promotions every few years.", pvt: "Merit-based. VP by 35 is possible.", winner: "pvt" },
+              { topic: "Work-Life Balance", icon: "⚖️", govt: "9:30–5:30. 30 leaves. Pension.", pvt: "WFH options but long hours & stress.", winner: "govt" },
+              { topic: "Impact", icon: "🌍", govt: "Govern districts. Build India.", pvt: "Build products. Scale globally.", winner: "tie" },
             ].map((row, i) => (
-              <div key={i} style={{ background: "#FFFFFF", borderRadius: 10, border: "1px solid var(--border)", overflow: "hidden" }}>
-                <div style={{ background: "#F9FAFB", padding: "6px 12px", borderBottom: "1px solid var(--border)" }}>
-                  <span style={{ fontSize: 12, fontWeight: 700, color: "#111827" }}>{row.topic}</span>
+              <div key={i} style={{
+                background: "#FFFFFF", borderRadius: 14, padding: "16px",
+                border: "1px solid var(--border)", boxShadow: "var(--shadow-sm)",
+              }}>
+                <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 10 }}>
+                  <span style={{ fontSize: 20 }}>{row.icon}</span>
+                  <span style={{ fontSize: 14, fontWeight: 700, color: "#111827" }}>{row.topic}</span>
+                  {row.winner !== "tie" && (
+                    <span style={{
+                      marginLeft: "auto", fontSize: 9, fontWeight: 700, padding: "2px 8px", borderRadius: 6,
+                      background: row.winner === "govt" ? "#EFF6FF" : "#F0FDF4",
+                      color: row.winner === "govt" ? "#2563EB" : "#16A34A",
+                    }}>{row.winner === "govt" ? "🏛️ Govt wins" : "🏢 Private wins"}</span>
+                  )}
                 </div>
-                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 0 }}>
-                  <div style={{ padding: "8px 12px", borderRight: "1px solid var(--border)" }}>
+                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 }}>
+                  <div style={{
+                    padding: "10px 12px", borderRadius: 10, borderLeft: "3px solid #2563EB",
+                    background: row.winner === "govt" ? "#EFF6FF" : "#FAFAFA",
+                  }}>
+                    <div style={{ fontSize: 9, fontWeight: 700, color: "#2563EB", letterSpacing: 0.5, marginBottom: 4 }}>GOVT</div>
                     <div style={{ fontSize: 12, color: "#374151", lineHeight: 1.5 }}>{row.govt}</div>
                   </div>
-                  <div style={{ padding: "8px 12px" }}>
+                  <div style={{
+                    padding: "10px 12px", borderRadius: 10, borderLeft: "3px solid #6B7280",
+                    background: row.winner === "pvt" ? "#F0FDF4" : "#FAFAFA",
+                  }}>
+                    <div style={{ fontSize: 9, fontWeight: 700, color: "#6B7280", letterSpacing: 0.5, marginBottom: 4 }}>PRIVATE</div>
                     <div style={{ fontSize: 12, color: "#374151", lineHeight: 1.5 }}>{row.pvt}</div>
                   </div>
                 </div>
@@ -244,10 +259,14 @@ export default function Home() {
             ))}
           </div>
 
-          <div style={{ marginTop: 12, borderRadius: 10, padding: "12px 14px", background: "#F9FAFB", border: "1px solid var(--border)" }}>
-            <p style={{ fontSize: 12, color: "#374151", lineHeight: 1.6, margin: 0 }}>
-              <strong>The right choice depends on you.</strong> Government wins on security and pension. Private wins on salary ceiling and speed. NaukriYatra helps you crack whichever path you choose.
-            </p>
+          {/* Score summary */}
+          <div style={{
+            marginTop: 14, borderRadius: 14, padding: "16px 18px",
+            background: "linear-gradient(135deg, #1E3A5F, #0F2440)",
+            color: "#fff", textAlign: "center",
+          }}>
+            <div style={{ fontSize: 14, fontWeight: 700, marginBottom: 6 }}>Final Score: Govt 3 — Private 2 — Tie 1</div>
+            <div style={{ fontSize: 12, opacity: 0.8 }}>Both are great paths. Pick what matches your values.</div>
           </div>
         </section>
 
