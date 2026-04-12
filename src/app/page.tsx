@@ -109,7 +109,7 @@ export default function Home() {
         </div>
       </section>
 
-      <div style={{ maxWidth: 560, margin: "0 auto", padding: "0 16px" }}>
+      <div style={{ maxWidth: "var(--max-width)", margin: "0 auto", padding: "0 16px" }}>
 
         {/* ═══ STREAK BAR ═══ */}
         <div className="anim-up-1" style={{ paddingTop: 20 }}>
@@ -206,7 +206,7 @@ export default function Home() {
             Both have genuine strengths. Here&apos;s an honest comparison to help you decide.
           </p>
 
-          <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+          <div className="desktop-2col" style={{ display: "flex", flexDirection: "column", gap: 8 }}>
             {[
               { icon: "💰", title: "Starting Salary", govt: "₹25K–₹80K/month depending on post. Grows steadily with DA revisions every 6 months.", pvt: "₹15K–₹2L/month. Higher ceiling in IT/Finance but variable. Top MNCs pay more upfront.", color: "#2563EB" },
               { icon: "🔒", title: "Job Security", govt: "Virtually impossible to be fired. Permanent from Day 1. No layoffs, no PIPs, no restructuring.", pvt: "Performance-based. Risk of layoffs during downturns. But top performers can fast-track to leadership.", color: "#16A34A" },
@@ -272,7 +272,12 @@ export default function Home() {
             Naukri<span style={{ color: "#2563EB" }}>Yatra</span>
           </div>
           <p style={{ fontSize: 11, color: "#6B7280" }}>Sapne se Selection Tak</p>
-          <p style={{ fontSize: 10, color: "#9CA3AF", marginTop: 6 }}>© 2026 NaukriYatra · Made in India</p>
+          <div style={{ display: "flex", justifyContent: "center", gap: 16, marginTop: 12, flexWrap: "wrap" }}>
+            <a href="/about" style={{ fontSize: 11, color: "#9CA3AF", textDecoration: "none" }}>About</a>
+            <a href="/contact" style={{ fontSize: 11, color: "#9CA3AF", textDecoration: "none" }}>Contact</a>
+            <a href="/privacy" style={{ fontSize: 11, color: "#9CA3AF", textDecoration: "none" }}>Privacy Policy</a>
+          </div>
+          <p style={{ fontSize: 10, color: "#9CA3AF", marginTop: 8 }}>© 2026 NaukriYatra · Made in India 🇮🇳</p>
         </footer>
       </div>
 

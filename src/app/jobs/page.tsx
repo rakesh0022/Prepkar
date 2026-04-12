@@ -171,7 +171,7 @@ function JobsInner() {
         </div>
       </header>
 
-      <div style={{ maxWidth: 560, margin: "0 auto", padding: "14px 16px" }}>
+      <div style={{ maxWidth: "var(--max-width)", margin: "0 auto", padding: "14px 16px" }}>
 
         {/* Summary banner */}
         {!search && filter === "all" && qualFilter === "all" && (
@@ -206,11 +206,13 @@ function JobsInner() {
           </div>
         )}
 
-        {list.map((job, i) => (
-          <div key={job.id} style={{ animationDelay: `${Math.min(i * 0.04, 0.3)}s` }}>
-            <JobCard job={job} onOpen={() => setSel(job)} onShare={(e) => shareJob(e, job)} />
-          </div>
-        ))}
+        <div className="desktop-2col">
+          {list.map((job, i) => (
+            <div key={job.id} style={{ animationDelay: `${Math.min(i * 0.04, 0.3)}s` }}>
+              <JobCard job={job} onOpen={() => setSel(job)} onShare={(e) => shareJob(e, job)} />
+            </div>
+          ))}
+        </div>
       </div>
       {sel && <JobDetailSheet job={sel} onClose={() => setSel(null)} />}
       <BottomNav />

@@ -86,7 +86,7 @@ export default function DashboardPage() {
         </div>
       </header>
 
-      <div style={{ maxWidth: 560, margin: "0 auto", padding: "20px 16px" }}>
+      <div style={{ maxWidth: "var(--max-width)", margin: "0 auto", padding: "20px 16px" }}>
 
         {/* Stats cards */}
         <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 10, marginBottom: 24 }}>

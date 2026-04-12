@@ -27,6 +27,19 @@
   --shadow-lg: 0 8px 32px rgba(0,0,0,0.1);
 
   --radius: 14px;
+  --max-width: 560px;
+}
+
+/* Desktop overrides */
+@media (min-width: 768px) {
+  :root {
+    --max-width: 720px;
+  }
+}
+@media (min-width: 1024px) {
+  :root {
+    --max-width: 960px;
+  }
 }
 
 /* ─── Animations ─────────────────────────────────────────────────────────── */
@@ -52,6 +65,41 @@
 .hide-scrollbar::-webkit-scrollbar { display:none; }
 .hide-scrollbar { -ms-overflow-style:none; scrollbar-width:none; }
 
+/* ─── Responsive helpers ─────────────────────────────────────────────────── */
+.desktop-only { display: none; }
+.mobile-only { display: block; }
+@media (min-width: 768px) {
+  .desktop-only { display: block; }
+  .mobile-only { display: none; }
+}
+
+/* Desktop grid layouts */
+.desktop-2col {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+@media (min-width: 768px) {
+  .desktop-2col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+  }
+}
+
+.desktop-3col {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+@media (min-width: 1024px) {
+  .desktop-3col {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 14px;
+  }
+}
+
 /* ─── Base ───────────────────────────────────────────────────────────────── */
 *, *::before, *::after { box-sizing: border-box; }
 html { color-scheme: light; }
@@ -67,3 +115,18 @@ button, a { -webkit-tap-highlight-color: transparent; }
 ::-webkit-scrollbar       { width: 6px; height: 6px; }
 ::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.1); border-radius: 3px; }
+
+/* ─── Ad zone placeholder styling ────────────────────────────────────────── */
+.ad-zone {
+  background: #F9FAFB;
+  border: 1px dashed rgba(0,0,0,0.08);
+  border-radius: 12px;
+  padding: 16px;
+  text-align: center;
+  color: #9CA3AF;
+  font-size: 11px;
+  min-height: 90px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

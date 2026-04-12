@@ -10,8 +10,9 @@ export default function StoriesPage() {
         <Link href="/" style={{ color: "#6B7280", fontSize: 13, textDecoration: "none" }}>←</Link>
         <h1 style={{ fontFamily: "'Playfair Display',serif", fontSize: 20, fontWeight: 700, color: "#111827" }}>Success Stories</h1>
       </header>
-      <div style={{ maxWidth: 560, margin: "0 auto", padding: "20px 16px" }}>
+      <div style={{ maxWidth: "var(--max-width)", margin: "0 auto", padding: "20px 16px" }}>
         <p style={{ fontSize: 13, color: "#374151", marginBottom: 20, lineHeight: 1.6 }}>Real people. Real struggles. Real selection. If they could do it — so can you.</p>
+        <div className="desktop-2col">
         {STORIES.map((s, i) => (
           <div key={i} className="anim-up" style={{ background: "#FFFFFF", borderRadius: 16, padding: "20px 18px", border: "1px solid var(--border)", boxShadow: "var(--shadow-sm)", marginBottom: 12, animationDelay: `${i * 0.06}s` }}>
             <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 14 }}>
