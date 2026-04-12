@@ -285,6 +285,7 @@ export default function Home() {
           </div>
           <p style={{ fontSize: 11, color: "#6B7280" }}>Sapne se Selection Tak</p>
           <div style={{ display: "flex", justifyContent: "center", gap: 16, marginTop: 12, flexWrap: "wrap" }}>
+            <a href="/prepare" style={{ fontSize: 11, color: "#9CA3AF", textDecoration: "none" }}>Study Plans</a>
             <a href="/about" style={{ fontSize: 11, color: "#9CA3AF", textDecoration: "none" }}>About</a>
             <a href="/contact" style={{ fontSize: 11, color: "#9CA3AF", textDecoration: "none" }}>Contact</a>
             <a href="/privacy" style={{ fontSize: 11, color: "#9CA3AF", textDecoration: "none" }}>Privacy Policy</a>

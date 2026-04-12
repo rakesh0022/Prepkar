@@ -200,6 +200,22 @@ export default function PracticePage() {
             </button>
           ))}
         </div>
+
+        {/* Prepare nudge */}
+        <Link href="/prepare" style={{ textDecoration: "none" }}>
+          <div style={{
+            marginTop: 18, display: "flex", alignItems: "center", gap: 12,
+            background: "linear-gradient(135deg, #FFFBEB, #FEF3C7)", borderRadius: 14,
+            padding: "14px 16px", border: "1px solid rgba(245,158,11,0.15)",
+          }}>
+            <div style={{ width: 40, height: 40, borderRadius: 10, background: "rgba(245,158,11,0.12)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 20, flexShrink: 0 }}>📖</div>
+            <div style={{ flex: 1 }}>
+              <div style={{ fontSize: 13, fontWeight: 700, color: "#92400E" }}>Not sure where to start?</div>
+              <div style={{ fontSize: 11, color: "#B45309", marginTop: 2 }}>See month-wise study plans, books & topper tips</div>
+            </div>
+            <span style={{ color: "#D97706", fontSize: 14, fontWeight: 700 }}>→</span>
+          </div>
+        </Link>
       </div>
       <BottomNav />
     </main>
