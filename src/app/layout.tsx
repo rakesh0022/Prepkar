@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
+import GoogleAnalytics from "@/components/GoogleAnalytics";
 
 const siteUrl = "https://prepkar.vercel.app";
 
@@ -45,7 +46,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <link rel="manifest" href="/manifest.json" />
         <link rel="apple-touch-icon" href="/icon-192.png" />
       </head>
-      <body className="font-[DM_Sans] antialiased">{children}</body>
+      <body className="font-[DM_Sans] antialiased">
+        <GoogleAnalytics />
+        {children}
+      </body>
     </html>
   );
 }

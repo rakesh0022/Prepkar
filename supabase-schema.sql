@@ -60,3 +60,22 @@ END $$;
 CREATE INDEX IF NOT EXISTS idx_practice_sessions_user_id ON practice_sessions(user_id);
 CREATE INDEX IF NOT EXISTS idx_practice_sessions_created_at ON practice_sessions(created_at DESC);
 CREATE INDEX IF NOT EXISTS idx_subscriptions_user_id ON subscriptions(user_id);
+
+-- Waitlist / Exam Reminders table
+CREATE TABLE IF NOT EXISTS waitlist (
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  email TEXT NOT NULL,
+  type TEXT NOT NULL DEFAULT 'mentorship',
+  exam_name TEXT,
+  created_at TIMESTAMPTZ DEFAULT now(),
+  UNIQUE(email, type)
+);
+
+ALTER TABLE waitlist ENABLE ROW LEVEL SECURITY;
+
+-- Anyone can insert into waitlist (no auth required)
+DO $$ BEGIN
+  IF NOT EXISTS (SELECT 1 FROM pg_policies WHERE policyname = 'Anyone can join waitlist') THEN
+    CREATE POLICY "Anyone can join waitlist" ON waitlist FOR INSERT WITH CHECK (true);
+  END IF;
+END $$;

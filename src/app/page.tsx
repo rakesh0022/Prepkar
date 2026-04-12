@@ -29,6 +29,9 @@ export default function Home() {
   return (
     <main style={{ minHeight: "100vh", background: "var(--bg)", paddingBottom: 76 }}>
 
+      {/* Desktop top nav spacer */}
+      <div className="desktop-only" style={{ height: 56 }} />
+
       {/* ═══ HERO — FULL WIDTH, DREAM-FOCUSED ═══ */}
       <section className="anim-up" style={{
         background: "var(--bg-hero)", color: "#fff",
