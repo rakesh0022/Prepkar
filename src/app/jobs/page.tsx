@@ -31,6 +31,24 @@ function JobCard({ job, onOpen, onShare }: { job: Job; onOpen: () => void; onSha
       cursor: "pointer", marginBottom: 12,
       borderLeft: `3px solid ${color}`,
     }}>
+      {/* Job thumbnail */}
+      {job.image && (
+        <div style={{ width: "100%", height: 100, overflow: "hidden", position: "relative" }}>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={job.image}
+            alt={job.title}
+            width={600}
+            height={400}
+            style={{ width: "100%", height: "100%", objectFit: "cover" }}
+            onError={(e) => { (e.target as HTMLImageElement).parentElement!.style.display = "none"; }}
+          />
+          <div style={{
+            position: "absolute", bottom: 0, left: 0, right: 0, height: 40,
+            background: "linear-gradient(transparent, rgba(255,255,255,0.95))",
+          }} />
+        </div>
+      )}
       <div style={{ padding: "14px 16px" }}>
         {/* Title row */}
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 8 }}>

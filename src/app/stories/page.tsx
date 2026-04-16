@@ -17,7 +17,22 @@ export default function StoriesPage() {
           {STORIES.map((s, i) => (
             <div key={i} className="anim-up" style={{ background: "#FFFFFF", borderRadius: 16, padding: "20px 18px", border: "1px solid var(--border)", boxShadow: "var(--shadow-sm)", marginBottom: 12, animationDelay: `${i * 0.06}s` }}>
               <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 14 }}>
-                <div style={{ width: 48, height: 48, borderRadius: 14, fontSize: 26, display: "flex", alignItems: "center", justifyContent: "center", background: `${s.color}0D` }}>{s.emoji}</div>
+                <div style={{ width: 48, height: 48, borderRadius: 14, fontSize: 26, display: "flex", alignItems: "center", justifyContent: "center", background: `${s.color}0D`, overflow: "hidden" }}>
+                  {s.image ? (
+                    <>
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img
+                        src={s.image}
+                        alt={s.name}
+                        width={48}
+                        height={48}
+                        style={{ width: 48, height: 48, objectFit: "cover", borderRadius: 14 }}
+                        onError={(e) => { (e.target as HTMLImageElement).style.display = "none"; (e.target as HTMLImageElement).nextElementSibling && ((e.target as HTMLImageElement).nextElementSibling as HTMLElement).style.removeProperty("display"); }}
+                      />
+                      <span style={{ display: "none" }}>{s.emoji}</span>
+                    </>
+                  ) : s.emoji}
+                </div>
                 <div style={{ flex: 1 }}>
                   <div style={{ fontSize: 14, fontWeight: 700, color: "#111827" }}>{s.name}</div>
                   <div style={{ fontSize: 11, fontWeight: 700, color: s.color }}>{s.achievement}</div>

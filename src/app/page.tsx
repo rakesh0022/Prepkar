@@ -24,7 +24,7 @@ export default function Home() {
   useEffect(() => { const t = setInterval(() => setSi(i => (i + 1) % HERO_STORIES.length), 5000); return () => clearInterval(t); }, []);
   const s = HERO_STORIES[si];
 
-  const storiesForStrip = STORIES.map(s => ({ ...s, bgColor: s.color }));
+  const storiesForStrip = STORIES.map(s => ({ ...s, bgColor: s.color, image: s.image }));
 
   return (
     <main style={{ minHeight: "100vh", background: "var(--bg)", paddingBottom: 76 }}>
@@ -68,7 +68,19 @@ export default function Home() {
                 background: "linear-gradient(135deg, rgba(94,234,212,0.3), rgba(59,130,246,0.3))",
                 border: "2px solid rgba(94,234,212,0.4)",
                 display: "flex", alignItems: "center", justifyContent: "center", fontSize: 18,
-              }}>{s.emoji}</div>
+                overflow: "hidden",
+              }}>
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={s.image}
+                  alt={s.name}
+                  width={38}
+                  height={38}
+                  style={{ width: 38, height: 38, objectFit: "cover", borderRadius: "50%" }}
+                  onError={(e) => { (e.target as HTMLImageElement).style.display = "none"; (e.target as HTMLImageElement).nextElementSibling && ((e.target as HTMLImageElement).nextElementSibling as HTMLElement).style.removeProperty("display"); }}
+                />
+                <span style={{ display: "none" }}>{s.emoji}</span>
+              </div>
               <div>
                 <div style={{ fontSize: 13, fontWeight: 700, color: "#fff" }}>{s.name}</div>
                 <div style={{ fontSize: 11, color: "#5EEAD4", fontWeight: 600 }}>{s.role}</div>
@@ -209,69 +221,38 @@ export default function Home() {
           <MentorshipBanner onJoin={() => setShowWaitlist(true)} />
         </div>
 
-        {/* ═══ GOVT vs PRIVATE — ENGAGING COMPARISON ═══ */}
-        <section className="anim-up-6" style={{ padding: "8px 0 0" }}>
-          <h2 style={{ fontFamily: "'Playfair Display',serif", fontSize: 20, fontWeight: 700, color: "#111827", marginBottom: 4 }}>
-            Government vs Private
-          </h2>
-          <p style={{ fontSize: 13, color: "#6B7280", marginBottom: 16 }}>
-            Which path fits your life? Here&apos;s the real picture.
-          </p>
-
-          <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-            {[
-              { topic: "Job Security", icon: "🔒", govt: "Can't be fired. Permanent from Day 1.", pvt: "Performance-based. Layoff risk in downturns.", winner: "govt" },
-              { topic: "Starting Salary", icon: "💰", govt: "₹25K–₹80K/month. Grows with DA revisions.", pvt: "₹15K–₹2L/month. Higher ceiling in tech.", winner: "pvt" },
-              { topic: "Healthcare", icon: "🏥", govt: "Free medical for full family — for life.", pvt: "₹3–10L cover. Ends when you leave.", winner: "govt" },
-              { topic: "Career Growth", icon: "📈", govt: "Guaranteed promotions every few years.", pvt: "Merit-based. VP by 35 is possible.", winner: "pvt" },
-              { topic: "Work-Life Balance", icon: "⚖️", govt: "9:30–5:30. 30 leaves. Pension.", pvt: "WFH options but long hours & stress.", winner: "govt" },
-              { topic: "Impact", icon: "🌍", govt: "Govern districts. Build India.", pvt: "Build products. Scale globally.", winner: "tie" },
-            ].map((row, i) => (
-              <div key={i} style={{
-                background: "#FFFFFF", borderRadius: 14, padding: "16px",
-                border: "1px solid var(--border)", boxShadow: "var(--shadow-sm)",
-              }}>
-                <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 10 }}>
-                  <span style={{ fontSize: 20 }}>{row.icon}</span>
-                  <span style={{ fontSize: 14, fontWeight: 700, color: "#111827" }}>{row.topic}</span>
-                  {row.winner !== "tie" && (
-                    <span style={{
-                      marginLeft: "auto", fontSize: 9, fontWeight: 700, padding: "2px 8px", borderRadius: 6,
-                      background: row.winner === "govt" ? "#EFF6FF" : "#F0FDF4",
-                      color: row.winner === "govt" ? "#2563EB" : "#16A34A",
-                    }}>{row.winner === "govt" ? "🏛️ Govt wins" : "🏢 Private wins"}</span>
-                  )}
-                </div>
-                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 }}>
-                  <div style={{
-                    padding: "10px 12px", borderRadius: 10, borderLeft: "3px solid #2563EB",
-                    background: row.winner === "govt" ? "#EFF6FF" : "#FAFAFA",
-                  }}>
-                    <div style={{ fontSize: 9, fontWeight: 700, color: "#2563EB", letterSpacing: 0.5, marginBottom: 4 }}>GOVT</div>
-                    <div style={{ fontSize: 12, color: "#374151", lineHeight: 1.5 }}>{row.govt}</div>
-                  </div>
-                  <div style={{
-                    padding: "10px 12px", borderRadius: 10, borderLeft: "3px solid #6B7280",
-                    background: row.winner === "pvt" ? "#F0FDF4" : "#FAFAFA",
-                  }}>
-                    <div style={{ fontSize: 9, fontWeight: 700, color: "#6B7280", letterSpacing: 0.5, marginBottom: 4 }}>PRIVATE</div>
-                    <div style={{ fontSize: 12, color: "#374151", lineHeight: 1.5 }}>{row.pvt}</div>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-
-          {/* Score summary */}
-          <div style={{
-            marginTop: 14, borderRadius: 14, padding: "16px 18px",
+        {/* ═══ GOVT vs PRIVATE — COMPACT LINK ═══ */}
+        <Link href="/compare" style={{ textDecoration: "none" }}>
+          <div className="anim-up-6" style={{
+            marginTop: 8, borderRadius: 14, padding: "16px",
             background: "linear-gradient(135deg, #1E3A5F, #0F2440)",
-            color: "#fff", textAlign: "center",
+            color: "#fff", display: "flex", alignItems: "center", gap: 14,
           }}>
-            <div style={{ fontSize: 14, fontWeight: 700, marginBottom: 6 }}>Final Score: Govt 3 — Private 2 — Tie 1</div>
-            <div style={{ fontSize: 12, opacity: 0.8 }}>Both are great paths. Pick what matches your values.</div>
+            <div style={{ fontSize: 28 }}>⚖️</div>
+            <div style={{ flex: 1 }}>
+              <div style={{ fontSize: 14, fontWeight: 700 }}>Government vs Private Career</div>
+              <div style={{ fontSize: 11, opacity: 0.7, marginTop: 2 }}>Job security, salary, growth — see the full comparison</div>
+            </div>
+            <span style={{ opacity: 0.6, fontSize: 16 }}>→</span>
           </div>
-        </section>
+        </Link>
+
+        {/* ═══ CURRENT AFFAIRS TEASER ═══ */}
+        <Link href="/current-affairs" style={{ textDecoration: "none" }}>
+          <div className="anim-up-6" style={{
+            marginTop: 14, borderRadius: 14, padding: "16px",
+            background: "linear-gradient(135deg, #EFF6FF, #F0FDFA)",
+            border: "1px solid rgba(37,99,235,0.1)",
+            display: "flex", alignItems: "center", gap: 14,
+          }}>
+            <div style={{ width: 44, height: 44, borderRadius: 12, background: "#2563EB", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 22, flexShrink: 0 }}>📰</div>
+            <div style={{ flex: 1 }}>
+              <div style={{ fontSize: 14, fontWeight: 700, color: "#111827" }}>Daily Current Affairs</div>
+              <div style={{ fontSize: 11, color: "#6B7280", marginTop: 2 }}>35+ facts for April 2026 · Updated daily</div>
+            </div>
+            <span style={{ color: "#2563EB", fontWeight: 700, fontSize: 14 }}>→</span>
+          </div>
+        </Link>
 
         {/* ═══ LATEST NEWS ═══ */}
         <div style={{ paddingTop: 20 }}>
@@ -285,10 +266,12 @@ export default function Home() {
           </div>
           <p style={{ fontSize: 11, color: "#6B7280" }}>Sapne se Selection Tak</p>
           <div style={{ display: "flex", justifyContent: "center", gap: 16, marginTop: 12, flexWrap: "wrap" }}>
+            <a href="/current-affairs" style={{ fontSize: 11, color: "#9CA3AF", textDecoration: "none" }}>Current Affairs</a>
             <a href="/prepare" style={{ fontSize: 11, color: "#9CA3AF", textDecoration: "none" }}>Study Plans</a>
+            <a href="/compare" style={{ fontSize: 11, color: "#9CA3AF", textDecoration: "none" }}>Govt vs Private</a>
             <a href="/about" style={{ fontSize: 11, color: "#9CA3AF", textDecoration: "none" }}>About</a>
             <a href="/contact" style={{ fontSize: 11, color: "#9CA3AF", textDecoration: "none" }}>Contact</a>
-            <a href="/privacy" style={{ fontSize: 11, color: "#9CA3AF", textDecoration: "none" }}>Privacy Policy</a>
+            <a href="/privacy" style={{ fontSize: 11, color: "#9CA3AF", textDecoration: "none" }}>Privacy</a>
           </div>
           <p style={{ fontSize: 10, color: "#9CA3AF", marginTop: 8 }}>© 2026 NaukriYatra · Made in India 🇮🇳</p>
         </footer>

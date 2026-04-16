@@ -63,12 +63,14 @@ export interface Job {
   syllabus?: string[];
   pyqLinks?: { label: string; url: string }[];
   salaryBreakdown?: { basic: number; da: number; hra: Record<string, number>; ta: number; other: number };
+  image?: string;
 }
 
 // ─── Jobs data ────────────────────────────────────────────────────────────────
 export const JOBS: Job[] = [
   {
     id: "sbi-po-2026",
+    image: "/images/jobs/sbi-po.png",
     title: "SBI Probationary Officer",
     org: "State Bank of India",
     vacancies: 2000,
@@ -131,6 +133,7 @@ export const JOBS: Job[] = [
   },
   {
     id: "ssc-cgl-2026",
+    image: "/images/jobs/ssc-cgl.png",
     title: "SSC CGL 2026",
     org: "Staff Selection Commission",
     vacancies: 14582,
@@ -191,6 +194,7 @@ export const JOBS: Job[] = [
   },
   {
     id: "rrb-ntpc-2026",
+    image: "/images/jobs/rrb-ntpc.png",
     title: "RRB NTPC Graduate Level",
     org: "Railway Recruitment Board",
     vacancies: 11558,
@@ -251,6 +255,7 @@ export const JOBS: Job[] = [
   },
   {
     id: "upsc-cse-2026",
+    image: "/images/jobs/upsc-cse.png",
     title: "UPSC Civil Services (IAS/IPS)",
     org: "Union Public Service Commission",
     vacancies: 1056,
@@ -313,6 +318,7 @@ export const JOBS: Job[] = [
   // ─── NEW JOBS ───────────────────────────────────────────────────────────
   {
     id: "ibps-clerk-2026",
+    image: "/images/jobs/ibps-clerk.png",
     title: "IBPS Clerk 2026",
     org: "Institute of Banking Personnel Selection",
     vacancies: 6128,
@@ -373,6 +379,7 @@ export const JOBS: Job[] = [
   },
   {
     id: "rbi-grade-b-2026",
+    image: "/images/jobs/rbi-grade-b.png",
     title: "RBI Grade B Officer",
     org: "Reserve Bank of India",
     vacancies: 294,
@@ -433,6 +440,7 @@ export const JOBS: Job[] = [
   },
   {
     id: "lic-aao-2026",
+    image: "/images/jobs/lic-aao.png",
     title: "LIC AAO (Asst. Admin Officer)",
     org: "Life Insurance Corporation of India",
     vacancies: 750,
@@ -492,6 +500,7 @@ export const JOBS: Job[] = [
   },
   {
     id: "nda-2026",
+    image: "/images/jobs/nda.png",
     title: "NDA (National Defence Academy)",
     org: "Union Public Service Commission",
     vacancies: 400,
@@ -554,6 +563,7 @@ export const JOBS: Job[] = [
   },
   {
     id: "ssc-chsl-2026",
+    image: "/images/jobs/ssc-chsl.png",
     title: "SSC CHSL (10+2 Level)",
     org: "Staff Selection Commission",
     vacancies: 4500,
@@ -613,6 +623,7 @@ export const JOBS: Job[] = [
   },
   {
     id: "uppsc-2026",
+    image: "/images/jobs/uppsc.png",
     title: "UPPSC PCS 2026",
     org: "UP Public Service Commission",
     vacancies: 630,
@@ -673,6 +684,7 @@ export const JOBS: Job[] = [
   },
   {
     id: "delhi-police-2026",
+    image: "/images/jobs/delhi-police.png",
     title: "Delhi Police Constable",
     org: "Staff Selection Commission",
     vacancies: 6433,
@@ -732,6 +744,7 @@ export const JOBS: Job[] = [
   },
   {
     id: "rrb-group-d-2026",
+    image: "/images/jobs/rrb-group-d.png",
     title: "RRB Group D (Track Maintainer)",
     org: "Railway Recruitment Board",
     vacancies: 32000,
@@ -791,6 +804,7 @@ export const JOBS: Job[] = [
   },
   {
     id: "ibps-po-2026",
+    image: "/images/jobs/ibps-po.png",
     title: "IBPS PO 2026",
     org: "Institute of Banking Personnel Selection",
     vacancies: 3400,
@@ -851,6 +865,7 @@ export const JOBS: Job[] = [
   },
   {
     id: "ssc-mts-2026",
+    image: "/images/jobs/ssc-mts.png",
     title: "SSC MTS (Multi-Tasking Staff)",
     org: "Staff Selection Commission",
     vacancies: 8326,
@@ -909,6 +924,7 @@ export const JOBS: Job[] = [
   },
   {
     id: "cds-2026",
+    image: "/images/jobs/cds.png",
     title: "CDS (Combined Defence Services)",
     org: "Union Public Service Commission",
     vacancies: 459,
@@ -969,6 +985,7 @@ export const JOBS: Job[] = [
   },
   {
     id: "rrb-alp-2026",
+    image: "/images/jobs/rrb-alp.png",
     title: "RRB ALP (Asst Loco Pilot)",
     org: "Railway Recruitment Board",
     vacancies: 5696,
@@ -1028,6 +1045,7 @@ export const JOBS: Job[] = [
   },
   {
     id: "ssc-gd-2026",
+    image: "/images/jobs/ssc-gd.png",
     title: "SSC GD Constable",
     org: "Staff Selection Commission",
     vacancies: 46617,
@@ -1211,23 +1229,23 @@ export const INTERVIEW_CATS = PRACTICE_CATS.map(c => ({
 
 // ─── Hero stories ─────────────────────────────────────────────────────────────
 export const HERO_STORIES = [
-  { quote: "Failed 3 times. Family said stop trying. 4th attempt — selected as Income Tax Inspector.", name: "Priya S.", role: "SSC CGL 2024", emoji: "💪" },
-  { quote: "Small village, no coaching, just a phone and free YouTube. Cleared SBI PO in first attempt.", name: "Arun K.", role: "SBI PO 2023", emoji: "🌟" },
-  { quote: "Started preparation at 28. Everyone said too late. Cleared UPSC at 30. It's never too late.", name: "Vikram R.", role: "IAS 2024", emoji: "🔥" },
+  { quote: "Failed 3 times. Family said stop trying. 4th attempt — selected as Income Tax Inspector.", name: "Priya S.", role: "SSC CGL 2024", emoji: "💪", image: "/images/stories/priya-s.png" },
+  { quote: "Small village, no coaching, just a phone and free YouTube. Cleared SBI PO in first attempt.", name: "Arun K.", role: "SBI PO 2023", emoji: "🌟", image: "/images/stories/arun-k.png" },
+  { quote: "Started preparation at 28. Everyone said too late. Cleared UPSC at 30. It's never too late.", name: "Vikram R.", role: "IAS 2024", emoji: "🔥", image: "/images/stories/vikram-r.png" },
 ];
 
 // ─── Success stories ──────────────────────────────────────────────────────────
 export const STORIES = [
-  { name: "Tina Dabi",    achievement: "AIR 1, UPSC 2015",       now: "IAS Officer, Rajasthan", quote: "NCERT books were my foundation. I didn't chase too many sources — I mastered a few and revised them multiple times. Consistency and self-belief are the only secrets.", emoji: "👩‍💼", tag: "UPSC",    color: "#7c3aed" },
-  { name: "Arunraj K",    achievement: "SBI PO 2023, 1st Attempt", now: "PO, SBI Chennai",       quote: "I come from a farming family in rural Tamil Nadu. I prepared in my village library with just a smartphone. I gave 200+ mock tests. The day I saw my name in the selection list, my mother cried for an hour.", emoji: "👨‍💼", tag: "Banking", color: "#0C7C59" },
-  { name: "Priya Sharma", achievement: "SSC CGL 2024",            now: "IT Inspector, Delhi",    quote: "I failed 3 times. My family wanted me to stop. I cried many nights alone. But I kept going. 4th attempt — cracked it. Now I earn ₹65,000/month with a government quarter in Delhi.", emoji: "👩‍💻", tag: "SSC",     color: "#2563eb" },
-  { name: "Rohit Meena",  achievement: "RRB NTPC 2023",           now: "Station Master, Kota",   quote: "FREE train travel for my family — forever. Last month I took my parents to Kerala. First time they saw the sea. My mother said 'beta, you changed our life.'", emoji: "🧑‍✈️", tag: "Railway", color: "#dc2626" },
-  { name: "Kavita Yadav", achievement: "LIC AAO 2024, 1st Attempt", now: "AAO, LIC Lucknow", quote: "B.Sc graduate, no coaching. Only YouTube and free PDFs. 5-day work week, ₹48K salary, and my parents finally believe in me. If I can do it from a village in UP, anyone can.", emoji: "👩‍🏫", tag: "Banking", color: "#0C7C59" },
-  { name: "Deepak Nagar", achievement: "Delhi Police 2024", now: "Constable, South Delhi", quote: "12th pass from Haryana. Everyone said apply to a factory. I trained for 3 months — running 5 km daily. Selected among 6,400. Delhi posting confirmed. Family is proud.", emoji: "👮", tag: "Defence", color: "#0d9488" },
-  { name: "Sunil Sharma", achievement: "SSC MTS 2024", now: "MTS, Ministry of Home Affairs", quote: "10th pass. Father is a daily wage worker. I studied on a borrowed phone in the village library. SSC MTS selected. Now I prepare for SSC CGL while working in Delhi. Salary goes to family.", emoji: "📂", tag: "SSC", color: "#2563eb" },
-  { name: "Anurag Yadav", achievement: "UPPSC PCS 2023", now: "SDM, Prayagraj", quote: "Village school, Hindi medium. 3 years of self-study with only NCERT and newspaper. UPPSC SDM at 27. First government officer in my family. The bungalow still feels like a dream.", emoji: "🏛️", tag: "State PSC", color: "#ea580c" },
-  { name: "Capt. Meera R", achievement: "NDA 2021, SSB Cleared", now: "Captain, Indian Army", quote: "Failed SSB twice. Third time, I walked in knowing exactly who I was. Cleared with AIR 42. NDA training was the toughest 3 years of my life — and the best. Serving at Rajouri now.", emoji: "🎖️", tag: "Defence", color: "#0d9488" },
-  { name: "Manish Tiwari", achievement: "IBPS PO 2024", now: "PO, Punjab National Bank", quote: "Failed SBI PO twice with the same preparation. Applied for IBPS PO — same syllabus, different exam. Selected in PNB. Now Manager in 4 years. The path matters less than the destination.", emoji: "🏦", tag: "Banking", color: "#0C7C59" },
+  { name: "Tina Dabi",    achievement: "AIR 1, UPSC 2015",       now: "IAS Officer, Rajasthan", quote: "NCERT books were my foundation. I didn't chase too many sources — I mastered a few and revised them multiple times. Consistency and self-belief are the only secrets.", emoji: "👩‍💼", tag: "UPSC",    color: "#7c3aed", image: "/images/stories/tina-dabi.png" },
+  { name: "Arunraj K",    achievement: "SBI PO 2023, 1st Attempt", now: "PO, SBI Chennai",       quote: "I come from a farming family in rural Tamil Nadu. I prepared in my village library with just a smartphone. I gave 200+ mock tests. The day I saw my name in the selection list, my mother cried for an hour.", emoji: "👨‍💼", tag: "Banking", color: "#0C7C59", image: "/images/stories/arunraj-k.png" },
+  { name: "Priya Sharma", achievement: "SSC CGL 2024",            now: "IT Inspector, Delhi",    quote: "I failed 3 times. My family wanted me to stop. I cried many nights alone. But I kept going. 4th attempt — cracked it. Now I earn ₹65,000/month with a government quarter in Delhi.", emoji: "👩‍💻", tag: "SSC",     color: "#2563eb", image: "/images/stories/priya-sharma.png" },
+  { name: "Rohit Meena",  achievement: "RRB NTPC 2023",           now: "Station Master, Kota",   quote: "FREE train travel for my family — forever. Last month I took my parents to Kerala. First time they saw the sea. My mother said 'beta, you changed our life.'", emoji: "🧑‍✈️", tag: "Railway", color: "#dc2626", image: "/images/stories/rohit-meena.png" },
+  { name: "Kavita Yadav", achievement: "LIC AAO 2024, 1st Attempt", now: "AAO, LIC Lucknow", quote: "B.Sc graduate, no coaching. Only YouTube and free PDFs. 5-day work week, ₹48K salary, and my parents finally believe in me. If I can do it from a village in UP, anyone can.", emoji: "👩‍🏫", tag: "Banking", color: "#0C7C59", image: "/images/stories/kavita-yadav.png" },
+  { name: "Deepak Nagar", achievement: "Delhi Police 2024", now: "Constable, South Delhi", quote: "12th pass from Haryana. Everyone said apply to a factory. I trained for 3 months — running 5 km daily. Selected among 6,400. Delhi posting confirmed. Family is proud.", emoji: "👮", tag: "Defence", color: "#0d9488", image: "/images/stories/deepak-nagar.png" },
+  { name: "Sunil Sharma", achievement: "SSC MTS 2024", now: "MTS, Ministry of Home Affairs", quote: "10th pass. Father is a daily wage worker. I studied on a borrowed phone in the village library. SSC MTS selected. Now I prepare for SSC CGL while working in Delhi. Salary goes to family.", emoji: "📂", tag: "SSC", color: "#2563eb", image: "/images/stories/sunil-sharma.png" },
+  { name: "Anurag Yadav", achievement: "UPPSC PCS 2023", now: "SDM, Prayagraj", quote: "Village school, Hindi medium. 3 years of self-study with only NCERT and newspaper. UPPSC SDM at 27. First government officer in my family. The bungalow still feels like a dream.", emoji: "🏛️", tag: "State PSC", color: "#ea580c", image: "/images/stories/anurag-yadav.png" },
+  { name: "Capt. Meera R", achievement: "NDA 2021, SSB Cleared", now: "Captain, Indian Army", quote: "Failed SSB twice. Third time, I walked in knowing exactly who I was. Cleared with AIR 42. NDA training was the toughest 3 years of my life — and the best. Serving at Rajouri now.", emoji: "🎖️", tag: "Defence", color: "#0d9488", image: "/images/stories/meera-r.png" },
+  { name: "Manish Tiwari", achievement: "IBPS PO 2024", now: "PO, Punjab National Bank", quote: "Failed SBI PO twice with the same preparation. Applied for IBPS PO — same syllabus, different exam. Selected in PNB. Now Manager in 4 years. The path matters less than the destination.", emoji: "🏦", tag: "Banking", color: "#0C7C59", image: "/images/stories/manish-tiwari.png" },
 ];
 
 // ─── Countdowns ───────────────────────────────────────────────────────────────
@@ -1272,6 +1290,66 @@ export const DAILY_QUIZ_POOL: QuizQuestion[] = [
   { topic: "Science", question: "Which planet is known as the 'Red Planet'?", options: ["Venus", "Jupiter", "Mars", "Saturn"], correct: 2, explanation: "Mars is called the Red Planet due to iron oxide (rust) on its surface giving it a reddish appearance." },
   { topic: "Current Affairs", question: "Which Indian city hosted the 2024 Chess Olympiad?", options: ["Delhi", "Mumbai", "Chennai", "Budapest"], correct: 3, explanation: "The 2024 Chess Olympiad was held in Budapest, Hungary. India won gold in both open and women's sections." },
   { topic: "Indian History", question: "Who gave the slogan 'Jai Jawan Jai Kisan'?", options: ["Mahatma Gandhi", "Lal Bahadur Shastri", "Jawaharlal Nehru", "Sardar Patel"], correct: 1, explanation: "Lal Bahadur Shastri coined 'Jai Jawan Jai Kisan' during the 1965 Indo-Pak war." },
+  // ─── Extended Pool (60 more) ───
+  { topic: "Indian Polity", question: "What is the minimum age to become President of India?", options: ["25", "30", "35", "40"], correct: 2, explanation: "Article 58 of the Constitution prescribes a minimum age of 35 years for the office of President." },
+  { topic: "Geography", question: "Which is the largest freshwater lake in India?", options: ["Dal Lake", "Wular Lake", "Chilika Lake", "Loktak Lake"], correct: 1, explanation: "Wular Lake in Jammu & Kashmir is the largest freshwater lake in India. Chilika is brackish water." },
+  { topic: "Economics", question: "What is the full form of MUDRA in PM MUDRA Yojana?", options: ["Micro Units Development Refinance Agency", "Multi Unit Disbursement & Reform Agency", "Micro Urban Development & Refinance Authority", "Monetary Units Development & Reform Agency"], correct: 0, explanation: "MUDRA = Micro Units Development and Refinance Agency, launched in 2015 for loans to micro enterprises." },
+  { topic: "Science", question: "Which gas is most abundant in Earth's atmosphere?", options: ["Oxygen", "Carbon Dioxide", "Nitrogen", "Argon"], correct: 2, explanation: "Nitrogen makes up about 78% of Earth's atmosphere, followed by oxygen at 21%." },
+  { topic: "Banking", question: "What is the maximum deposit insured by DICGC per depositor per bank?", options: ["₹1 lakh", "₹3 lakh", "₹5 lakh", "₹10 lakh"], correct: 2, explanation: "DICGC (Deposit Insurance and Credit Guarantee Corporation) insures deposits up to ₹5 lakh per depositor per bank since 2020." },
+  { topic: "Reasoning", question: "If WATER is coded as 22-1-20-5-18, how is FIRE coded?", options: ["6-9-18-5", "5-8-17-4", "7-10-19-6", "6-9-17-5"], correct: 0, explanation: "Each letter is replaced by its alphabetical position: F=6, I=9, R=18, E=5." },
+  { topic: "Mathematics", question: "The sum of first 50 natural numbers is:", options: ["1250", "1275", "1300", "1225"], correct: 1, explanation: "Sum = n(n+1)/2 = 50×51/2 = 1275." },
+  { topic: "General Knowledge", question: "Which Indian state has the largest area?", options: ["Madhya Pradesh", "Maharashtra", "Rajasthan", "Uttar Pradesh"], correct: 2, explanation: "Rajasthan is the largest Indian state by area at 3,42,239 sq km." },
+  { topic: "Indian History", question: "Who was the first Governor-General of independent India?", options: ["Lord Mountbatten", "C. Rajagopalachari", "Jawaharlal Nehru", "Dr. Rajendra Prasad"], correct: 0, explanation: "Lord Mountbatten was the first Governor-General of independent India (1947-48). C. Rajagopalachari was the first Indian to hold the post." },
+  { topic: "Current Affairs", question: "Which Indian state became the first to implement a Universal Basic Income?", options: ["Kerala", "Sikkim", "Goa", "Delhi"], correct: 1, explanation: "Sikkim proposed and began piloting a Universal Basic Income scheme, becoming a pioneer in India." },
+  { topic: "Indian Polity", question: "Which amendment is known as the 'Mini Constitution'?", options: ["42nd", "44th", "73rd", "86th"], correct: 0, explanation: "The 42nd Amendment (1976) is called the 'Mini Constitution' because it made the most extensive changes to the Constitution." },
+  { topic: "Geography", question: "Siachen Glacier is located in which mountain range?", options: ["Pir Panjal", "Karakoram", "Greater Himalaya", "Zanskar"], correct: 1, explanation: "Siachen Glacier, the world's highest battlefield, is located in the Karakoram range in Ladakh." },
+  { topic: "Economics", question: "What does SLR stand for in banking?", options: ["Standard Lending Rate", "Statutory Liquidity Ratio", "Scheduled Lending Requirement", "Standard Liability Ratio"], correct: 1, explanation: "SLR = Statutory Liquidity Ratio — the percentage of deposits banks must maintain in liquid assets like gold, govt securities." },
+  { topic: "Science", question: "Which organ in the human body produces insulin?", options: ["Liver", "Kidney", "Pancreas", "Thyroid"], correct: 2, explanation: "The pancreas produces insulin through its beta cells in the Islets of Langerhans." },
+  { topic: "Banking", question: "What is the tagline of State Bank of India?", options: ["The Banker to Every Indian", "Your Own Bank", "India's International Bank", "Pure Banking Nothing Else"], correct: 0, explanation: "SBI's tagline is 'The Banker to Every Indian.' 'Pure Banking Nothing Else' is SBI's earlier tagline." },
+  { topic: "English", question: "Choose the correct meaning of the idiom 'Burn the midnight oil':", options: ["Waste resources", "Work late into the night", "Start a fire", "Cook dinner"], correct: 1, explanation: "'Burn the midnight oil' means to work or study late into the night." },
+  { topic: "Mathematics", question: "If the radius of a circle is doubled, its area becomes:", options: ["Double", "Triple", "Four times", "Six times"], correct: 2, explanation: "Area = πr². If r becomes 2r, area = π(2r)² = 4πr². So area becomes 4 times." },
+  { topic: "Reasoning", question: "A is B's sister. C is B's mother. D is C's father. E is D's mother. How is A related to D?", options: ["Granddaughter", "Daughter", "Grandmother", "Grandfather"], correct: 0, explanation: "D is C's father, C is B's mother, A is B's sister. So D is grandfather of A and B — A is D's granddaughter." },
+  { topic: "General Knowledge", question: "Which planet has the most moons in our solar system?", options: ["Jupiter", "Saturn", "Uranus", "Neptune"], correct: 1, explanation: "Saturn has the most confirmed moons (146 as of 2024), surpassing Jupiter's count." },
+  { topic: "Indian History", question: "The Jallianwala Bagh massacre took place in which year?", options: ["1917", "1919", "1921", "1930"], correct: 1, explanation: "The Jallianwala Bagh massacre occurred on April 13, 1919 in Amritsar, under orders of General Dyer." },
+  { topic: "Indian Polity", question: "How many members can the President nominate to Rajya Sabha?", options: ["8", "10", "12", "14"], correct: 2, explanation: "The President can nominate 12 members to Rajya Sabha from fields of literature, science, art, and social service." },
+  { topic: "Geography", question: "Which river flows through the maximum number of Indian states?", options: ["Ganga", "Godavari", "Krishna", "Narmada"], correct: 1, explanation: "Godavari flows through 7 states: Maharashtra, Telangana, AP, Chhattisgarh, MP, Odisha, Karnataka." },
+  { topic: "Economics", question: "What is India's largest source of tax revenue?", options: ["Income Tax", "Corporate Tax", "GST", "Customs Duty"], correct: 2, explanation: "GST (Goods and Services Tax) is now India's largest source of tax revenue, surpassing income tax since 2020." },
+  { topic: "Science", question: "What is the hardest natural substance on Earth?", options: ["Iron", "Platinum", "Diamond", "Tungsten"], correct: 2, explanation: "Diamond is the hardest naturally occurring substance, scoring 10 on the Mohs hardness scale." },
+  { topic: "Banking", question: "Which committee recommended setting up of NABARD?", options: ["Narasimham Committee", "Shivaraman Committee", "Rangarajan Committee", "Kelkar Committee"], correct: 1, explanation: "The B. Sivaraman Committee (1979) recommended setting up NABARD for agricultural and rural development banking." },
+  { topic: "English", question: "Choose the correct synonym of 'PRAGMATIC':", options: ["Idealistic", "Practical", "Dramatic", "Prophetic"], correct: 1, explanation: "Pragmatic means dealing with things sensibly and realistically — its synonym is 'practical'." },
+  { topic: "Mathematics", question: "What is the LCM of 12, 18, and 24?", options: ["48", "72", "96", "144"], correct: 1, explanation: "12 = 2²×3, 18 = 2×3², 24 = 2³×3. LCM = 2³×3² = 72." },
+  { topic: "Reasoning", question: "Find the odd one out: 3, 5, 11, 14, 17, 21", options: ["3", "14", "17", "21"], correct: 1, explanation: "All others are odd numbers. 14 is the only even number in the series." },
+  { topic: "General Knowledge", question: "Who wrote the Indian national anthem 'Jana Gana Mana'?", options: ["Rabindranath Tagore", "Bankim Chandra", "Sarojini Naidu", "Muhammad Iqbal"], correct: 0, explanation: "Rabindranath Tagore wrote 'Jana Gana Mana', adopted as India's national anthem on January 24, 1950." },
+  { topic: "Current Affairs", question: "Digital India programme was launched in which year?", options: ["2014", "2015", "2016", "2017"], correct: 1, explanation: "Digital India was launched on July 1, 2015 by PM Modi to ensure government services are available electronically." },
+  { topic: "Indian Polity", question: "Which part of the Indian Constitution deals with Fundamental Duties?", options: ["Part III", "Part IV", "Part IVA", "Part V"], correct: 2, explanation: "Part IVA (Article 51A) contains the 11 Fundamental Duties, added by the 42nd Amendment in 1976." },
+  { topic: "Geography", question: "Which is the highest peak in South India?", options: ["Dodda Betta", "Anai Mudi", "Guru Shikhar", "Mahendragiri"], correct: 1, explanation: "Anai Mudi (2,695m) in the Anaimalai Hills, Kerala, is the highest peak in South India." },
+  { topic: "Economics", question: "The Planning Commission was replaced by which body?", options: ["Finance Commission", "NITI Aayog", "National Development Council", "RBI"], correct: 1, explanation: "NITI Aayog (National Institution for Transforming India) replaced the Planning Commission on January 1, 2015." },
+  { topic: "Science", question: "Which blood group is known as the universal donor?", options: ["A+", "B+", "AB+", "O-"], correct: 3, explanation: "O negative (O-) is the universal donor because it can be given to any blood group without causing a reaction." },
+  { topic: "Banking", question: "What is the full form of KYC in banking?", options: ["Know Your Customer", "Keep Your Card", "Know Your Credit", "Key Your Code"], correct: 0, explanation: "KYC = Know Your Customer — a mandatory identity verification process for all banking transactions in India." },
+  { topic: "English", question: "Choose the antonym of 'AFFLUENT':", options: ["Rich", "Destitute", "Influential", "Abundant"], correct: 1, explanation: "Affluent means wealthy. Its antonym is 'destitute' meaning extremely poor." },
+  { topic: "Mathematics", question: "A shopkeeper gives a 20% discount and still earns 25% profit. If the cost price is ₹400, what is the marked price?", options: ["₹500", "₹600", "₹625", "₹650"], correct: 2, explanation: "SP = 400 × 1.25 = ₹500. SP = MP × 0.8, so MP = 500/0.8 = ₹625." },
+  { topic: "Reasoning", question: "If January 1, 2024 is Monday, what day is March 1, 2024?", options: ["Wednesday", "Thursday", "Friday", "Saturday"], correct: 2, explanation: "Jan has 31 days, Feb has 29 (2024 is leap year) = 60 days from Jan 1. 60 ÷ 7 = 8 weeks + 4 days. Monday + 4 = Friday." },
+  { topic: "General Knowledge", question: "Which city is known as the 'Silicon Valley of India'?", options: ["Hyderabad", "Pune", "Bengaluru", "Chennai"], correct: 2, explanation: "Bengaluru is called the Silicon Valley of India due to its concentration of IT companies and tech startups." },
+  { topic: "Indian History", question: "In which session did the Congress demand 'Purna Swaraj'?", options: ["Calcutta 1928", "Lahore 1929", "Karachi 1931", "Lucknow 1916"], correct: 1, explanation: "The Lahore session of 1929, presided by Jawaharlal Nehru, demanded Purna Swaraj (complete independence)." },
+  { topic: "Indian Polity", question: "Who appoints the Chief Election Commissioner of India?", options: ["Prime Minister", "President", "Parliament", "Supreme Court"], correct: 1, explanation: "The Chief Election Commissioner is appointed by the President of India, as per Article 324." },
+  { topic: "Geography", question: "Which dam is the tallest in India?", options: ["Bhakra Dam", "Tehri Dam", "Hirakud Dam", "Sardar Sarovar"], correct: 1, explanation: "Tehri Dam on the Bhagirathi River in Uttarakhand is the tallest dam in India at 260.5 meters." },
+  { topic: "Economics", question: "What is the fiscal deficit target for India in FY26 Union Budget?", options: ["3.5% of GDP", "4.5% of GDP", "4.9% of GDP", "5.1% of GDP"], correct: 1, explanation: "The Union Budget 2025-26 set a fiscal deficit target of around 4.5% of GDP." },
+  { topic: "Science", question: "Which vitamin deficiency causes night blindness?", options: ["Vitamin A", "Vitamin B", "Vitamin C", "Vitamin D"], correct: 0, explanation: "Vitamin A deficiency causes night blindness (nyctalopia). Vitamin A is essential for rhodopsin production in the retina." },
+  { topic: "Banking", question: "What is the current CRR (Cash Reserve Ratio) of RBI?", options: ["3.5%", "4.0%", "4.5%", "5.0%"], correct: 1, explanation: "RBI's Cash Reserve Ratio is 4.0% — the percentage of deposits banks must keep with RBI as cash." },
+  { topic: "English", question: "Choose the correctly spelled word:", options: ["Occassion", "Occasion", "Ocassion", "Occassion"], correct: 1, explanation: "The correct spelling is 'Occasion' with two c's and one s." },
+  { topic: "Mathematics", question: "The average of first 10 prime numbers is:", options: ["12.9", "12.5", "10.1", "15.2"], correct: 0, explanation: "First 10 primes: 2,3,5,7,11,13,17,19,23,29. Sum = 129. Average = 129/10 = 12.9." },
+  { topic: "Reasoning", question: "Which number will replace the question mark? 7, 26, 63, 124, ?", options: ["195", "215", "208", "217"], correct: 1, explanation: "Pattern: 2³-1=7, 3³-1=26, 4³-1=63, 5³-1=124, 6³-1=215." },
+  { topic: "General Knowledge", question: "The currency of Japan is:", options: ["Yuan", "Won", "Yen", "Ringgit"], correct: 2, explanation: "The Japanese Yen (¥) is the official currency of Japan." },
+  { topic: "Indian History", question: "Who founded the Arya Samaj?", options: ["Raja Ram Mohan Roy", "Swami Dayanand Saraswati", "Swami Vivekananda", "Ramakrishna Paramahamsa"], correct: 1, explanation: "Swami Dayanand Saraswati founded Arya Samaj in 1875 in Bombay. His motto was 'Back to the Vedas'." },
+  { topic: "Indian Polity", question: "What is the maximum strength of Lok Sabha?", options: ["545", "550", "552", "543"], correct: 2, explanation: "The maximum strength of Lok Sabha is 552 — 530 from states, 20 from UTs, and 2 nominated Anglo-Indians (now discontinued, but constitutional limit remains)." },
+  { topic: "Geography", question: "Which soil type is best for cotton cultivation?", options: ["Alluvial", "Red", "Black (Regur)", "Laterite"], correct: 2, explanation: "Black soil (Regur/Cotton soil) is best for cotton cultivation due to its moisture retention capacity." },
+  { topic: "Economics", question: "Who is known as the father of Indian economic reforms?", options: ["P.V. Narasimha Rao", "Manmohan Singh", "Amartya Sen", "Raghuram Rajan"], correct: 1, explanation: "Dr. Manmohan Singh, as Finance Minister in 1991, introduced the LPG (Liberalization, Privatization, Globalization) reforms." },
+  { topic: "Science", question: "Newton's First Law of Motion is also known as:", options: ["Law of Acceleration", "Law of Inertia", "Law of Reaction", "Law of Gravity"], correct: 1, explanation: "Newton's First Law — a body at rest stays at rest, a body in motion stays in motion — is called the Law of Inertia." },
+  { topic: "Banking", question: "Which bank is known as the 'Bankers' Bank' in India?", options: ["SBI", "NABARD", "RBI", "SIDBI"], correct: 2, explanation: "RBI is called the Bankers' Bank because it provides banking services to all commercial banks and acts as their lender of last resort." },
+  { topic: "Current Affairs", question: "Which country hosted the COP28 climate summit in 2023?", options: ["Egypt", "UAE", "Brazil", "Germany"], correct: 1, explanation: "COP28 was held in Dubai, UAE in November-December 2023 under the presidency of Sultan Al Jaber." },
+  { topic: "Reasoning", question: "In a row of 40 students, M is 11th from the left and N is 16th from the right. How many students are between them?", options: ["13", "14", "12", "15"], correct: 0, explanation: "M's position from left = 11. N's position from left = 40 - 16 + 1 = 25. Students between = 25 - 11 - 1 = 13." },
+  { topic: "Mathematics", question: "A boat goes 12 km upstream in 3 hours and 12 km downstream in 2 hours. Speed of the current is:", options: ["1 km/hr", "2 km/hr", "1.5 km/hr", "3 km/hr"], correct: 0, explanation: "Upstream speed = 12/3 = 4 km/hr. Downstream speed = 12/2 = 6 km/hr. Speed of current = (6-4)/2 = 1 km/hr." },
+  { topic: "General Knowledge", question: "Who is the author of the book 'Wings of Fire'?", options: ["Amartya Sen", "A.P.J. Abdul Kalam", "Vikram Sarabhai", "Homi Bhabha"], correct: 1, explanation: "Wings of Fire is the autobiography of Dr. A.P.J. Abdul Kalam, co-authored with Arun Tiwari." },
 ];
 
 // ─── Utilities ────────────────────────────────────────────────────────────────

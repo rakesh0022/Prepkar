@@ -19,6 +19,7 @@ export default function PracticePage() {
   const [scr, setScr] = useState<"sel" | "stage" | "chat" | "done">("sel");
   const [cat, setCat] = useState<PracticeCategory>(PRACTICE_CATS[0]);
   const [stage, setStage] = useState<PracticeStage>(PRACTICE_CATS[0].stages[0]);
+  const [lang, setLang] = useState<"english" | "hindi" | "hinglish">("english");
   const [msgs, setMsgs] = useState<Msg[]>([]);
   const [inp, setInp] = useState("");
   const [ld, setLd] = useState(false);
@@ -53,7 +54,7 @@ export default function PracticePage() {
   async function api(m: Msg[]) {
     const r = await fetch("/api/interview", {
       method: "POST", headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ messages: m, category: cat.id, role: `${cat.title} - ${stage.label}`, stage: stage.id }),
+      body: JSON.stringify({ messages: m, category: cat.id, role: `${cat.title} - ${stage.label}`, stage: stage.id, lang }),
     });
     if (!r.ok) { const e = await r.json(); throw new Error(e.error || "Failed"); }
     return r.json();
@@ -68,11 +69,12 @@ export default function PracticePage() {
     setScr("chat"); setMsgs([]); setQn(0); setSc(null); setEr(""); setLd(true);
     const isMcq = stage.id.includes("mcq") || stage.id.includes("prelims") || stage.id.includes("cbt") || stage.id === "prelims_csat" || stage.id === "written_mcq";
     const isDesc = stage.id === "descriptive" || stage.id === "mains_essay";
+    const langHint = lang === "hindi" ? " Answer in Hindi (Devanagari)." : lang === "hinglish" ? " Answer in Hinglish (Hindi in Roman script mixed with English)." : "";
     const startMsg = isMcq
-      ? `I want to practice ${stage.label} for ${cat.title}. Start with the first MCQ question.`
+      ? `I want to practice ${stage.label} for ${cat.title}. Start with the first MCQ question.${langHint}`
       : isDesc
-      ? `I want to practice ${stage.label} for ${cat.title}. Give me the first writing prompt.`
-      : `I am a candidate for ${cat.title} ${stage.label}. Start with greeting and first question.`;
+      ? `I want to practice ${stage.label} for ${cat.title}. Give me the first writing prompt.${langHint}`
+      : `I am a candidate for ${cat.title} ${stage.label}. Start with greeting and first question.${langHint}`;
     try {
       const d = await api([{ role: "user", content: startMsg }]);
       setMsgs([{ role: "assistant", content: d.reply }]); setQn(1);
@@ -165,7 +167,7 @@ export default function PracticePage() {
         {isLoggedIn && subStatus && !subStatus.isPro && (
           <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", background: "#FFFBEB", borderRadius: 10, padding: "10px 14px", marginBottom: 16, border: "1px solid rgba(245,158,11,0.15)" }}>
             <div>
-              <div style={{ fontSize: 12, fontWeight: 700, color: "#92400E" }}>Free Plan: {subStatus.freeTestsRemaining} of 2 tests remaining</div>
+              <div style={{ fontSize: 12, fontWeight: 700, color: "#92400E" }}>Free Plan: {subStatus.freeTestsRemaining} of 5 tests remaining</div>
               <div style={{ fontSize: 10, color: "#B45309", marginTop: 2 }}>Resets every 30 days</div>
             </div>
             <Link href="/pricing" style={{ textDecoration: "none" }}>
@@ -256,6 +258,26 @@ export default function PracticePage() {
           </button>
         ))}
 
+        {/* Language selector */}
+        <div style={{ fontSize: 11, fontWeight: 700, color: "#9CA3AF", letterSpacing: 1.5, textTransform: "uppercase", marginBottom: 10, marginTop: 20 }}>🌐 Language / भाषा</div>
+        <div style={{ display: "flex", gap: 8, marginBottom: 6 }}>
+          {([
+            { id: "english" as const, label: "English", desc: "Questions in English" },
+            { id: "hindi" as const, label: "हिंदी", desc: "प्रश्न हिंदी में" },
+            { id: "hinglish" as const, label: "Hinglish", desc: "Mix of Hindi + English" },
+          ]).map(l => (
+            <button key={l.id} onClick={() => setLang(l.id)} style={{
+              flex: 1, padding: "10px 8px", borderRadius: 12, textAlign: "center", cursor: "pointer",
+              background: lang === l.id ? `${cat.color}08` : "#FFFFFF",
+              border: lang === l.id ? `2px solid ${cat.color}` : "1px solid var(--border)",
+              boxShadow: "var(--shadow-sm)",
+            }}>
+              <div style={{ fontSize: 13, fontWeight: 700, color: lang === l.id ? cat.color : "#111827" }}>{l.label}</div>
+              <div style={{ fontSize: 9, color: "#9CA3AF", marginTop: 2 }}>{l.desc}</div>
+            </button>
+          ))}
+        </div>
+
         <button onClick={begin} style={{
           width: "100%", marginTop: 18, padding: "14px",
           background: cat.color, color: "#fff", border: "none", borderRadius: 12,
@@ -296,6 +318,14 @@ export default function PracticePage() {
             <button onClick={() => setScr("stage")} style={{ flex: 1, padding: "13px", background: "#F3F4F6", color: "#374151", border: "none", borderRadius: 12, fontSize: 13, fontWeight: 700, cursor: "pointer" }}>Try Another</button>
             <button onClick={begin} style={{ flex: 1, padding: "13px", background: cat.color, color: "#fff", border: "none", borderRadius: 12, fontSize: 13, fontWeight: 700, cursor: "pointer" }}>Retry</button>
           </div>
+          {/* Share Score on WhatsApp */}
+          <button onClick={() => {
+            const overall = sk.find(k => k === "overall") ? sc["overall"] : sk.length > 0 ? sc[sk[0]] : 0;
+            const text = `🎯 I just scored ${overall}/10 on ${cat.title} — ${stage.label} practice on NaukriYatra!\n\n${sc.weakest_topic ? `📌 Weakest: ${sc.weakest_topic}\n` : ""}${sc.tip ? `💡 Tip: ${sc.tip}\n\n` : "\n"}Try it free 👇\nhttps://prepkar.vercel.app/interview`;
+            window.open(`https://wa.me/?text=${encodeURIComponent(text)}`, "_blank");
+          }} style={{ width: "100%", marginTop: 10, padding: "12px", borderRadius: 12, border: "none", background: "#25D366", color: "#fff", fontSize: 13, fontWeight: 700, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", gap: 8 }}>
+            <span>📤</span> Share Score on WhatsApp
+          </button>
           <Link href="/dashboard" style={{ textDecoration: "none", display: "block", marginTop: 10 }}>
             <div style={{ padding: "11px", borderRadius: 10, border: "1px solid var(--border)", textAlign: "center", fontSize: 12, fontWeight: 600, color: "#6B7280" }}>📊 View All My Scores →</div>
           </Link>

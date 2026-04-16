@@ -1,6 +1,6 @@
 import { createClient } from "@/lib/supabase/client";
 
-export const FREE_TEST_LIMIT = 2;
+export const FREE_TEST_LIMIT = 5;
 
 export const PLANS = [
   { id: "monthly", label: "Monthly", price: 99, period: "month", badge: "POPULAR", color: "#2563EB", days: 30 },

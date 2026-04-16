@@ -4,6 +4,35 @@
 
 ---
 
+## Do I Need Separate Mobile & Desktop Images?
+
+**Short answer: No.** Your site is a single-column responsive layout. The same image file serves both screens — CSS `object-fit: cover` handles the cropping automatically.
+
+**What actually matters is COMPOSITION.** A wide desktop banner gets cropped into a narrower rectangle on mobile. If the subject is at the edge, mobile users lose it. So every prompt below follows the **"center-weighted safe zone"** rule:
+
+```
+┌─────────────────────────────────────────┐
+│         DESKTOP sees full width         │
+│    ┌───────────────────────────┐        │
+│    │   MOBILE crops to here    │        │
+│    │                           │        │
+│    │   ★ SUBJECT IN CENTER ★   │        │
+│    │                           │        │
+│    └───────────────────────────┘        │
+│      ← background / atmosphere →        │
+└─────────────────────────────────────────┘
+```
+
+**Rules baked into every prompt below:**
+- Main subject always **centered** (not left/right aligned)
+- Important details within the **middle 60%** of the frame
+- Left and right edges are atmospheric only (gradients, blur, patterns)
+- Vertical composition stays compact — nothing critical at very top/bottom
+
+This means one image, works everywhere. No double work.
+
+---
+
 ## Folder Structure
 
 ```
@@ -65,175 +94,229 @@ public/images/
 ## PRIORITY 1 — Highest Impact (Do These First)
 
 ### 1. Hero Background — `hero/hero-bg.png`
-- **Size:** 1200 × 800px (will be CSS background, compressed)
-- **What:** An aspirational scene. Young Indian student sitting in a simple room, studying on phone/laptop, with a dream bubble showing government buildings / officer life. Warm golden study lamp light.
-- **Style:** Illustrated, NOT photorealistic. Soft watercolor or flat vector style. Muted warm tones (deep navy, warm amber, soft teal).
-- **Copilot prompt:** `Flat illustration, Indian student studying at night with phone and books on a simple wooden desk, warm lamp light, dream bubble above showing Indian government building and officer silhouette, navy blue and warm amber color palette, minimal clean style, no text`
-- **Leonardo prompt:** `Flat vector illustration of young Indian student studying at small desk with mobile phone, warm desk lamp, books scattered, dreamy soft light, background shows faint silhouette of Parliament House and Ashoka Pillar, color palette navy blue warm gold and teal, clean minimal style, no text, 16:9 aspect ratio`
+- **Size:** 1200 × 800px
+- **Responsive note:** On mobile this crops to roughly 560×800 (portrait feel). On desktop it's 960×800 (landscape). So the **student + desk must be dead center.** The dream bubble / building silhouettes can spread wider — they're atmosphere, not essential.
+- **What:** Young Indian student sitting in a simple room, studying on phone/laptop, dream bubble showing government buildings. Warm golden lamp light.
+- **Style:** Illustrated, NOT photorealistic. Soft watercolor or flat vector. Muted warm tones (navy, amber, teal).
+
+**Copilot prompt:**
+```
+Flat illustration, Indian student studying at night with phone and books on a simple wooden desk, warm lamp light, dream bubble above showing Indian government building and officer silhouette, navy blue and warm amber color palette, minimal clean style, no text, subject perfectly centered in the frame, atmospheric details only at the left and right edges, main subject occupies center 60 percent of the image
+```
+
+**Leonardo prompt:**
+```
+Flat vector illustration of young Indian student studying at small desk with mobile phone, warm desk lamp, books scattered, dreamy soft light, background shows faint silhouette of Parliament House and Ashoka Pillar spread at edges, student centered in the middle of the composition, color palette navy blue warm gold and teal, clean minimal style, no text, 3:2 aspect ratio
+```
+
+**Midjourney prompt:**
+```
+flat illustration, Indian student studying at wooden desk with phone and books, warm lamp glow, dream bubble with government building silhouette, navy and amber palette, subject dead center, atmospheric edges, minimal clean style, no text --ar 3:2 --style raw
+```
+
+---
 
 ### 2. OG / Social Share Card — `branding/og-image.png`
-- **Size:** 1200 × 630px (exact OG standard)
-- **What:** Brand card for WhatsApp/Twitter/LinkedIn shares. NaukriYatra logo + tagline "Sapne se Selection Tak" + 3-4 feature icons.
-- **Style:** Dark navy gradient background (#1E3A5F → #0F2440), white text, teal accent (#5EEAD4). Professional, not cluttered.
-- **Copilot prompt:** `Professional social media card design, dark navy blue gradient background, text "NaukriYatra" in bold white and "Sapne se Selection Tak" in teal, small icons for AI practice, government jobs, exam prep, clean modern layout, 1200x630 pixels, no mockup`
-- **Note:** You can also keep the auto-generated OG from `opengraph-image.tsx` — it already works. This is for a polished custom version.
+- **Size:** 1200 × 630px (exact OG standard — this one is fixed, no cropping)
+- **Responsive note:** Not applicable — OG images have a fixed display size on WhatsApp/Twitter/LinkedIn.
+- **What:** Brand card. NaukriYatra logo + tagline + feature icons.
+- **Style:** Dark navy gradient background, white text, teal accent.
+
+**Copilot prompt:**
+```
+Professional social media card design, dark navy blue gradient background, text "NaukriYatra" in bold white centered at top and "Sapne se Selection Tak" in teal below it, four small icons in a row at bottom for AI practice government jobs exam prep and salary info, clean modern layout, 1200x630 pixels, no mockup, no border
+```
+
+**Canva approach (recommended):** Open Canva → Custom size 1200×630 → Dark navy gradient → Type "NaukriYatra" in Outfit Bold white → "Sapne se Selection Tak" in teal → Add 4 icon circles → Export PNG.
+
+---
 
 ### 3. Logo — `branding/logo.png` + `branding/logo-dark.png`
 - **Size:** 400 × 100px (horizontal) + 200 × 200px (square version)
-- **What:** "NaukriYatra" wordmark. "Naukri" in dark/white, "Yatra" in brand teal (#2563EB or #5EEAD4).
-- **Style:** Use Outfit font (already loaded on the site). Bold, clean.
-- **Best tool:** Canva (free) — type it out with the exact font, export as PNG with transparent background.
-- **Note:** Don't overthink this. A clean wordmark in Outfit Bold works perfectly.
+- **Responsive note:** Logo is text-based, scales fine everywhere.
+- **What:** "NaukriYatra" wordmark. "Naukri" in dark/white, "Yatra" in brand blue (#2563EB).
+- **Best tool:** Canva (free) — type it in Outfit Bold, export PNG with transparent bg.
 
 ---
 
 ## PRIORITY 2 — Story Avatars (Makes the Site Feel Human)
 
-All story avatars: **200 × 200px, PNG, illustrated portrait style**
+**Size:** 200 × 200px, PNG
+**Responsive note:** Avatars are always displayed as small circles/squares (38px–48px). Since they're square and centered on a face, they crop perfectly at any size. **No responsive concern at all.**
 
-Use ONE consistent style for all 13 — this is crucial. If you use Copilot for one, use it for all. The style should be: **soft illustrated portrait, Indian features, warm background, slightly stylized (not photorealistic), friendly expression.**
+Use ONE consistent style for all 13. Do them all in one session.
 
 ### Shared prompt template:
 ```
 Soft illustrated portrait of [DESCRIPTION], Indian features, warm friendly expression, 
 simple solid color background [COLOR], clean digital illustration style, 
-head and shoulders only, slightly stylized not photorealistic, 200x200 square
+face and shoulders perfectly centered, slightly stylized not photorealistic, 
+square format 1:1 aspect ratio
 ```
 
-| File | Character | Prompt Description | Background Color |
-|------|-----------|-------------------|-----------------|
-| `stories/priya-s.png` | Young woman, 25 | `young Indian woman age 25, confident smile, simple kurta` | `light coral` |
-| `stories/arun-k.png` | Young man, 24 | `young Indian man age 24, determined look, simple shirt collar` | `soft green` |
-| `stories/vikram-r.png` | Man, 30 | `Indian man age 30, slight beard, glasses, wise expression` | `warm amber` |
-| `stories/tina-dabi.png` | Woman, 28, professional | `young Indian woman age 28, professional look, blazer` | `light purple` |
-| `stories/arunraj-k.png` | Young man, 24, formal | `young Indian man age 24, formal shirt, bank employee look` | `soft teal` |
-| `stories/priya-sharma.png` | Woman, 26 | `Indian woman age 26, slightly tired but proud expression, simple top` | `light blue` |
-| `stories/rohit-meena.png` | Man, 25, uniform hint | `Indian man age 25, railway uniform collar hint, proud smile` | `soft red` |
-| `stories/kavita-yadav.png` | Woman, 27 | `Indian woman age 27, warm village look, bindi, confident` | `soft green` |
-| `stories/deepak-nagar.png` | Man, 22, fit | `young Indian man age 22, fit athletic build, crew cut, police look` | `dark teal` |
-| `stories/sunil-sharma.png` | Man, 21, simple | `very young Indian man age 21, simple look, humble expression, thin` | `light blue` |
-| `stories/anurag-yadav.png` | Man, 27, glasses | `Indian man age 27, glasses, intelligent look, formal collar` | `warm orange` |
-| `stories/meera-r.png` | Woman, 24, army | `young Indian woman age 24, short hair, confident strong expression, army feel` | `olive green` |
-| `stories/manish-tiwari.png` | Man, 28, banker | `Indian man age 28, clean shaven, bank professional look, tie hint` | `soft teal` |
+| # | File | Character | Prompt add-on | Background |
+|---|------|-----------|---------------|------------|
+| 1 | `stories/priya-s.png` | Woman, 25 | `young Indian woman age 25, confident smile, simple kurta, hair tied back` | light coral |
+| 2 | `stories/arun-k.png` | Man, 24 | `young Indian man age 24, determined look, simple shirt collar, slight stubble` | soft green |
+| 3 | `stories/vikram-r.png` | Man, 30 | `Indian man age 30, slight beard, round glasses, wise calm expression` | warm amber |
+| 4 | `stories/tina-dabi.png` | Woman, 28 | `young Indian woman age 28, professional blazer, confident, straight hair` | light purple |
+| 5 | `stories/arunraj-k.png` | Man, 24 | `young Indian man age 24, formal white shirt, bank employee look, neat hair` | soft teal |
+| 6 | `stories/priya-sharma.png` | Woman, 26 | `Indian woman age 26, slightly tired but proud expression, simple top, earrings` | light blue |
+| 7 | `stories/rohit-meena.png` | Man, 25 | `Indian man age 25, railway uniform collar hint, proud wide smile, mustache` | soft red |
+| 8 | `stories/kavita-yadav.png` | Woman, 27 | `Indian woman age 27, warm village look, bindi, dupatta on shoulder, confident smile` | soft green |
+| 9 | `stories/deepak-nagar.png` | Man, 22 | `young Indian man age 22, fit athletic build, crew cut hair, strong jawline` | dark teal |
+| 10 | `stories/sunil-sharma.png` | Man, 21 | `very young Indian man age 21, thin build, humble gentle expression, simple shirt` | light blue |
+| 11 | `stories/anurag-yadav.png` | Man, 27 | `Indian man age 27, rectangular glasses, intelligent look, formal collar, neat part` | warm orange |
+| 12 | `stories/meera-r.png` | Woman, 24 | `young Indian woman age 24, short hair, confident strong expression, army-green collar` | olive green |
+| 13 | `stories/manish-tiwari.png` | Man, 28 | `Indian man age 28, clean shaven, professional look, subtle tie, kind eyes` | soft teal |
+
+**Midjourney batch prompt (do all 13 with same style):**
+```
+soft illustrated portrait of [DESCRIPTION], Indian features, warm friendly expression, 
+simple solid [COLOR] background, clean digital art style, face centered, 
+head and shoulders only, stylized not photorealistic --ar 1:1 --style raw
+```
 
 ---
 
 ## PRIORITY 3 — Job Card Images (17 thumbnails)
 
-All job images: **600 × 400px, PNG, illustrated scene style**
-
-These appear on job cards and job detail sheets. They should show the WORKPLACE or LIFESTYLE of that job — what the user is dreaming about.
+**Size:** 600 × 400px, PNG
+**Responsive note:** On mobile, these render at ~560×100px (cropped shorter). On desktop, at ~450×100px per card (in 2-column grid). The card uses `object-fit: cover` with a fixed 100px height — so the image is heavily cropped vertically. This means:
+- **Subject must be in the CENTER both horizontally and vertically**
+- **No important details at top/bottom** — only the middle band shows on cards
+- **Wide scene compositions work best** — think panoramic/landscape feel
+- The full image shows in the job detail sheet, so it should still look complete
 
 ### Shared prompt template:
 ```
 Flat illustration of [SCENE], Indian context, clean minimal vector style, 
-[PRIMARY COLOR] and white color palette, no text, no people's faces, 
-professional and aspirational, 3:2 aspect ratio
+[PRIMARY COLOR] and white color palette, no text, no people faces, 
+professional and aspirational, main subject centered in middle of frame, 
+important elements within center 60 percent, atmospheric edges, 
+wide landscape composition, 3:2 aspect ratio
 ```
 
-| File | Job | Scene Description | Primary Color |
-|------|-----|-------------------|--------------|
-| `jobs/sbi-po.png` | SBI PO | `modern Indian bank branch interior, SBI logo colors, computer screens, clean office` | Green #0C7C59 |
-| `jobs/ssc-cgl.png` | SSC CGL | `Indian government office with files, computer desk, official nameplate, tea cup` | Blue #2563EB |
-| `jobs/rrb-ntpc.png` | RRB NTPC | `Indian railway station platform, train approaching, station master cabin` | Red #DC2626 |
-| `jobs/upsc-cse.png` | UPSC CSE | `Indian Parliament building silhouette with Ashoka pillar, official car, bungalow gate` | Purple #7C3AED |
-| `jobs/ibps-clerk.png` | IBPS Clerk | `small town bank branch counter, passbook, customer window, simple clean interior` | Teal #0D9488 |
-| `jobs/rbi-grade-b.png` | RBI Grade B | `Reserve Bank of India building facade, official seal, modern interior with charts` | Navy #0F4C81 |
-| `jobs/lic-aao.png` | LIC AAO | `LIC branch office, insurance papers on desk, family photo frame on wall, professional` | Blue #1D4ED8 |
-| `jobs/nda.png` | NDA | `Indian Military Academy Dehradun building, parade ground, cadets marching silhouette` | Olive #134E4A |
-| `jobs/ssc-chsl.png` | SSC CHSL | `government postal office or court clerk desk, typewriter/computer, stamp pad, files` | Blue #2563EB |
-| `jobs/uppsc.png` | UPPSC | `SDM office in Indian small town, desk with Indian flag, official seal, ceiling fan` | Orange #EA580C |
-| `jobs/delhi-police.png` | Delhi Police | `Delhi police station exterior, police jeep, India Gate in background, badge close-up` | Teal #0D9488 |
-| `jobs/rrb-group-d.png` | RRB Group D | `railway track maintenance scene, tools, Indian railway workshop, simple dignified` | Red #DC2626 |
-| `jobs/ibps-po.png` | IBPS PO | `Indian nationalized bank branch, professional desk, loan documents, warm interior` | Green #0C7C59 |
-| `jobs/ssc-mts.png` | SSC MTS | `central government ministry corridor, file room, simple desk, humble but dignified` | Blue #2563EB |
-| `jobs/cds.png` | CDS | `Indian army officer mess, formal dining, medals display, regimental flags` | Olive #134E4A |
-| `jobs/rrb-alp.png` | RRB ALP | `train locomotive cabin interior, controls dashboard, railway track ahead, sunrise` | Red #DC2626 |
-| `jobs/ssc-gd.png` | SSC GD | `CRPF/BSF border post, Indian flag, watchtower, mountain backdrop, dignified` | Blue #2563EB |
+| # | File | Job | Scene (centered composition) | Color |
+|---|------|-----|------------------------------|-------|
+| 1 | `jobs/sbi-po.png` | SBI PO | `modern Indian bank branch interior, centered desk with computer screens, SBI green tones, clean office, bookshelves at edges` | #0C7C59 |
+| 2 | `jobs/ssc-cgl.png` | SSC CGL | `Indian government office, centered desk with files and nameplate, computer, tea cup, corridor fading at edges` | #2563EB |
+| 3 | `jobs/rrb-ntpc.png` | RRB NTPC | `Indian railway station, centered platform with train approaching, station master cabin visible, tracks extending to edges` | #DC2626 |
+| 4 | `jobs/upsc-cse.png` | UPSC CSE | `Indian Parliament building centered in frame, Ashoka pillar, official car at base, trees at edges` | #7C3AED |
+| 5 | `jobs/ibps-clerk.png` | IBPS Clerk | `small town bank branch counter centered, passbook and pen, customer window, simple clean interior` | #0D9488 |
+| 6 | `jobs/rbi-grade-b.png` | RBI Grade B | `RBI building facade centered, official seal, modern glass door, pillars spreading to edges` | #0F4C81 |
+| 7 | `jobs/lic-aao.png` | LIC AAO | `LIC branch office centered, desk with insurance papers, family photo frame, calm professional atmosphere` | #1D4ED8 |
+| 8 | `jobs/nda.png` | NDA | `Indian Military Academy building centered, parade ground, cadet silhouettes marching, mountains at edges` | #134E4A |
+| 9 | `jobs/ssc-chsl.png` | SSC CHSL | `government office clerk desk centered, computer and stamp pad, file shelves, corridor at edges` | #2563EB |
+| 10 | `jobs/uppsc.png` | UPPSC | `SDM office desk centered, Indian tricolor flag, official seal, ceiling fan above, windows at edges` | #EA580C |
+| 11 | `jobs/delhi-police.png` | Delhi Police | `police station centered, Delhi police jeep, India Gate faintly in background, trees at edges` | #0D9488 |
+| 12 | `jobs/rrb-group-d.png` | RRB Group D | `railway workshop centered, tools on workbench, train wheels, tracks stretching to edges` | #DC2626 |
+| 13 | `jobs/ibps-po.png` | IBPS PO | `bank branch centered, professional desk with loan papers, warm interior lighting, plants at edges` | #0C7C59 |
+| 14 | `jobs/ssc-mts.png` | SSC MTS | `government ministry file room centered, simple desk with papers, long corridor fading at edges` | #2563EB |
+| 15 | `jobs/cds.png` | CDS | `army officer mess centered, formal dining table, medals and regimental flags, windows at edges` | #134E4A |
+| 16 | `jobs/rrb-alp.png` | RRB ALP | `train locomotive cabin centered, controls dashboard, railway track ahead through windshield, sunrise at edges` | #DC2626 |
+| 17 | `jobs/ssc-gd.png` | SSC GD | `border outpost centered, Indian flag on pole, watchtower, mountains and fence spreading to edges` | #2563EB |
+
+**Midjourney batch prompt:**
+```
+flat illustration of [SCENE], Indian context, clean minimal vector style, 
+[COLOR] and white palette, no text, no faces, subject dead center, 
+atmospheric details at edges, wide landscape --ar 3:2 --style raw
+```
 
 ---
 
 ## PRIORITY 4 — Section Illustrations
 
-| File | Section | Size | Description | Prompt |
-|------|---------|------|-------------|--------|
-| `sections/mentorship.png` | Mentorship Banner | 600 × 300px | Two people talking — a mentor (in formal clothes) and a student (casual, notebook). Indian context. | `Flat illustration, Indian mentor in formal clothes talking to young student with notebook, warm friendly scene, golden yellow and white palette, minimal clean, no text` |
-| `sections/govt-vs-private.png` | Govt vs Private | 600 × 300px | Split scene: left = government building + stable life icons, right = corporate tower + fast-paced icons. | `Split illustration, left side Indian government building with tree and pension symbol, right side modern glass corporate tower with clock, versus comparison, blue and gray palette, flat minimal` |
-| `sections/daily-challenge.png` | Daily Quiz | 400 × 200px | A hand holding a phone showing an MCQ question, brain/lightbulb icon. | `Flat illustration, hand holding smartphone showing quiz question with options A B C D, lightbulb above, blue and teal palette, minimal clean, Indian style` |
+**Responsive note:** These are banner-style (2:1 ratio). On mobile they render full-width at ~560×280. On desktop ~960×300. The horizontal crop is mild, so centering the subject is enough.
+
+| # | File | Size | Scene | Prompt |
+|---|------|------|-------|--------|
+| 1 | `sections/mentorship.png` | 600×300 | Mentor + student talking | **Copilot:** `Flat illustration, Indian mentor in formal clothes and young student with notebook sitting face to face, both centered in frame, warm friendly scene, golden yellow and white palette, minimal clean, no text, 2:1 aspect ratio` |
+| 2 | `sections/govt-vs-private.png` | 600×300 | Split comparison | **Copilot:** `Split flat illustration, left side Indian government building with tree and stability symbols, right side glass corporate tower with speed symbols, centered split line, blue and gray palette, minimal clean, no text, 2:1 ratio` |
+| 3 | `sections/daily-challenge.png` | 400×200 | Phone quiz | **Copilot:** `Flat illustration, smartphone centered in frame showing quiz question with A B C D options, lightbulb icon above phone, blue and teal palette, minimal clean, no text, 2:1 ratio` |
 
 ---
 
 ## PRIORITY 5 — Page Headers
 
-| File | Page | Size | Description | Prompt |
-|------|------|------|-------------|--------|
-| `pages/about-header.png` | About Us | 800 × 300px | India map silhouette with dots showing students across the country connecting to NaukriYatra. | `Flat illustration, India map outline with glowing dots in small towns connected by lines to a central education platform icon, navy and teal, minimal, no text` |
-| `pages/pricing-header.png` | Pricing | 800 × 300px | Ascending steps/tiers showing Free → Pro → Lifetime with student climbing. | `Flat illustration, three ascending platforms labeled with trophy icons, small student figure climbing steps, blue gradient, aspirational, clean minimal` |
-| `pages/prepare-header.png` | Prepare | 800 × 300px | An open study planner/calendar with books, coffee, and a roadmap path. | `Flat illustration, open study planner on desk with coffee cup, stack of books, winding road path showing progress, warm amber and blue, minimal clean` |
-| `pages/login-illustration.png` | Login | 400 × 400px | A door opening with light coming through, showing a government building on the other side. | `Flat illustration, door opening with warm light streaming through, silhouette of Indian government building visible through doorway, blue and gold, aspirational, square format` |
+**Responsive note:** Page headers are displayed full-width. On mobile ~560px wide, desktop ~960px. Same centering rule — subject in the middle, atmosphere at edges.
+
+| # | File | Size | Scene | Prompt |
+|---|------|------|-------|--------|
+| 1 | `pages/about-header.png` | 800×300 | India map with dots | **Copilot:** `Flat illustration, India map outline centered, glowing dots in small towns connected by thin lines to a central platform icon in the middle, navy and teal, atmospheric gradient edges, minimal, no text` |
+| 2 | `pages/pricing-header.png` | 800×300 | Ascending tiers | **Copilot:** `Flat illustration, three ascending step platforms centered with trophy icons, small student figure climbing stairs in the middle, blue gradient, edges fade to soft color, aspirational clean minimal, no text` |
+| 3 | `pages/prepare-header.png` | 800×300 | Study roadmap | **Copilot:** `Flat illustration, open study planner centered on desk with coffee cup, stack of books, winding road path showing progress in center, warm amber and blue, soft edges, minimal clean, no text` |
+| 4 | `pages/login-illustration.png` | 400×400 | Door to opportunity | **Copilot:** `Flat illustration, door opening centered in frame with warm light streaming through, Indian government building silhouette visible through doorway in the center, blue and gold, aspirational, square format, no text` |
 
 ---
 
 ## PRIORITY 6 — PWA & Branding
 
-| File | Purpose | Size | Description |
-|------|---------|------|-------------|
-| `branding/favicon.ico` | Browser tab | 32 × 32px | "NY" monogram in brand blue (#2563EB) |
-| `branding/icon-192.png` | PWA icon | 192 × 192px | NaukriYatra logo mark on white background |
-| `branding/icon-512.png` | PWA splash | 512 × 512px | Same as above, larger |
+| File | Purpose | Size | Notes |
+|------|---------|------|-------|
+| `branding/favicon.ico` | Browser tab | 32×32px | "NY" monogram in #2563EB. Use Canva or realfavicongenerator.net |
+| `branding/icon-192.png` | PWA icon | 192×192px | Logo mark centered on white, with padding |
+| `branding/icon-512.png` | PWA splash | 512×512px | Same as 192, just bigger |
 
-**Best approach:** Use Canva to create the logo mark, then export at all 3 sizes.
+These are fixed-size icons — no responsive concern.
 
 ---
 
 ## Recommended Tools (Free → Paid)
 
-| Tool | Cost | Best For | Style |
+| Tool | Cost | Best For | Notes |
 |------|------|----------|-------|
-| **Microsoft Copilot** (copilot.microsoft.com) | Free | Quick illustrations, avatars | Varies, DALL-E 3 |
-| **Leonardo.ai** | Free (150/day) | Consistent style across sets | Control over style seeds |
-| **Canva** | Free tier | Logo, OG card, branding assets | Templates, export control |
-| **Midjourney** | $10/month | Premium illustrations, hero image | Best quality, consistent |
-| **Ideogram** | Free tier | Text-in-image (good for OG) | Clean, handles text well |
+| **Microsoft Copilot** (copilot.microsoft.com) | Free | Quick illustrations, all categories | Uses DALL-E 3. Good for one-offs |
+| **Leonardo.ai** | Free (150/day) | Consistent batch work (all 13 avatars, all 17 jobs) | Use "style reference" to keep same look |
+| **Canva** | Free | Logo, OG card, favicons, branding | Best for text + layout based assets |
+| **Midjourney** | $10/mo | Premium quality hero + job illustrations | Best consistency with `--style raw` |
+| **Ideogram** | Free | OG card (handles text well) | Good alternative for social cards |
 
-### Pro Tips:
-1. **Do ALL avatars in ONE session** on the same tool — keeps the style consistent
-2. **Use Leonardo's "style reference"** feature: generate one avatar you like, then use it as reference for the rest
-3. **For job thumbnails:** same approach — pick one style, generate all 17 in a batch
-4. **Export as PNG** with transparent background where possible (avatars, logo)
-5. **Compress everything** through tinypng.com before adding to the repo — keeps the site fast
+### Workflow — Do It in This Order:
+1. **Avatars first** (13 images) — do ALL in one Leonardo/Copilot session for style consistency
+2. **Job thumbnails** (17 images) — same tool, same session, same style
+3. **Hero image** (1 image) — spend more time on this one, try multiple tools
+4. **Section illustrations** (3 images) — quick wins
+5. **Branding** (logo, OG, favicons) — Canva, 30 minutes
+6. **Page headers** (4 images) — last priority, only if time permits
 
 ---
 
 ## How to Add Images
 
 1. Generate images using any tool above
-2. Rename them exactly as listed in this guide
-3. Drop them into `public/images/[folder]/`
-4. Commit and push — the site auto-switches from emoji to image
+2. Rename them **exactly** as listed (case-sensitive)
+3. Drop into `public/images/[folder]/`
+4. Run `tinypng.com` on all files (compress 60-80%)
+5. `git add -A && git commit -m "add images" && git push origin main`
+6. Done — site auto-switches from emoji to real images
 
-**No code changes needed.** The `onError` fallback ensures emojis show if any image is missing.
+**No code changes needed.** The `onError` fallback keeps emojis until images exist.
 
 ---
 
 ## Image Optimization Checklist
 
-Before pushing to production:
-
-- [ ] All PNGs compressed via tinypng.com (saves 60-80% file size)
+- [ ] All PNGs compressed via tinypng.com
 - [ ] Avatars are exactly square (200×200)
 - [ ] Job thumbnails are 3:2 ratio (600×400)
 - [ ] OG image is exactly 1200×630
-- [ ] No image exceeds 200KB after compression
-- [ ] Test on mobile — images should load fast on 4G
-- [ ] Check WhatsApp share preview with the new OG image
+- [ ] Hero image is 1200×800
+- [ ] No single image exceeds 200KB after compression
+- [ ] Subject centered in every image (mobile crop test)
+- [ ] All 13 avatars have the same illustration style
+- [ ] All 17 job thumbnails have the same illustration style
+- [ ] Test WhatsApp share preview with new OG image
 
 ---
 
 ## What NOT to Do
 
-- **Don't use real photographs of real people** for success stories — these are fictional characters
-- **Don't use copyrighted logos** (SBI, UPSC, Railway logos) directly — illustrate the workplace instead
-- **Don't mix styles** — if avatars are watercolor, ALL should be watercolor
-- **Don't skip compression** — uncompressed PNGs will kill mobile load times
-- **Don't use Midjourney's photorealistic mode** — illustrated style ages better and avoids uncanny valley
+- **Don't make separate mobile/desktop images** — one centered image handles both
+- **Don't put important details at edges** — mobile crops the sides
+- **Don't use real photographs of real people** for stories — these are fictional
+- **Don't use copyrighted logos** (SBI, UPSC, Railway) directly — illustrate the workplace
+- **Don't mix styles** — if avatars are watercolor, ALL must be watercolor
+- **Don't skip compression** — uncompressed PNGs kill mobile load times
+- **Don't use photorealistic AI images** — illustrated style ages better, no uncanny valley

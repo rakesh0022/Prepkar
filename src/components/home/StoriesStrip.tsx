@@ -9,6 +9,7 @@ interface Story {
   emoji: string;
   tag: string;
   color: string;
+  image?: string;
 }
 
 interface Props {
@@ -46,7 +47,23 @@ export default function StoriesStrip({ stories }: Props) {
                 width: 40, height: 40, borderRadius: 12, flexShrink: 0,
                 background: `${s.color}10`,
                 display: "flex", alignItems: "center", justifyContent: "center", fontSize: 22,
-              }}>{s.emoji}</div>
+                overflow: "hidden",
+              }}>
+                {s.image ? (
+                  <>
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src={s.image}
+                      alt={s.name}
+                      width={40}
+                      height={40}
+                      style={{ width: 40, height: 40, objectFit: "cover", borderRadius: 12 }}
+                      onError={(e) => { (e.target as HTMLImageElement).style.display = "none"; (e.target as HTMLImageElement).nextElementSibling && ((e.target as HTMLImageElement).nextElementSibling as HTMLElement).style.removeProperty("display"); }}
+                    />
+                    <span style={{ display: "none" }}>{s.emoji}</span>
+                  </>
+                ) : s.emoji}
+              </div>
               <div>
                 <div style={{ fontSize: 13, fontWeight: 700, color: "#111827" }}>{s.name}</div>
                 <div style={{ fontSize: 10, color: s.color, fontWeight: 700 }}>{s.achievement}</div>
