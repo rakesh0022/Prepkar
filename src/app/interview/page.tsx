@@ -19,7 +19,7 @@ export default function PracticePage() {
   const [scr, setScr] = useState<"sel" | "stage" | "chat" | "done">("sel");
   const [cat, setCat] = useState<PracticeCategory>(PRACTICE_CATS[0]);
   const [stage, setStage] = useState<PracticeStage>(PRACTICE_CATS[0].stages[0]);
-  const [lang, setLang] = useState<"english" | "hindi" | "hinglish">("english");
+  const [lang, setLang] = useState<"english" | "hindi" | "marathi" | "kannada" | "tamil">("english");
   const [msgs, setMsgs] = useState<Msg[]>([]);
   const [inp, setInp] = useState("");
   const [ld, setLd] = useState(false);
@@ -69,7 +69,8 @@ export default function PracticePage() {
     setScr("chat"); setMsgs([]); setQn(0); setSc(null); setEr(""); setLd(true);
     const isMcq = stage.id.includes("mcq") || stage.id.includes("prelims") || stage.id.includes("cbt") || stage.id === "prelims_csat" || stage.id === "written_mcq";
     const isDesc = stage.id === "descriptive" || stage.id === "mains_essay";
-    const langHint = lang === "hindi" ? " Answer in Hindi (Devanagari)." : lang === "hinglish" ? " Answer in Hinglish (Hindi in Roman script mixed with English)." : "";
+    const langHintMap: Record<string, string> = { hindi: " Answer in Hindi (Devanagari).", marathi: " Answer in Marathi (Devanagari).", kannada: " Answer in Kannada.", tamil: " Answer in Tamil." };
+    const langHint = langHintMap[lang] || "";
     const startMsg = isMcq
       ? `I want to practice ${stage.label} for ${cat.title}. Start with the first MCQ question.${langHint}`
       : isDesc
@@ -177,11 +178,27 @@ export default function PracticePage() {
         )}
 
         {/* Social proof */}
-        <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 20, background: "#F0FDF4", borderRadius: 10, padding: "8px 14px", border: "1px solid rgba(22,163,74,0.12)" }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 14, background: "#F0FDF4", borderRadius: 10, padding: "8px 14px", border: "1px solid rgba(22,163,74,0.12)" }}>
           <span style={{ fontSize: 16 }}>🎯</span>
           <span style={{ fontSize: 12, color: "#065F46", fontWeight: 600 }}>{practiceCount.toLocaleString()} sessions this month</span>
           <div style={{ width: 6, height: 6, borderRadius: "50%", background: "#16A34A", marginLeft: "auto", animation: "pulseDot 2s ease infinite" }} />
         </div>
+
+        {/* Prepare nudge — at top */}
+        <Link href="/prepare" style={{ textDecoration: "none" }}>
+          <div style={{
+            marginBottom: 18, display: "flex", alignItems: "center", gap: 12,
+            background: "linear-gradient(135deg, #FFFBEB, #FEF3C7)", borderRadius: 14,
+            padding: "14px 16px", border: "1px solid rgba(245,158,11,0.15)",
+          }}>
+            <div style={{ width: 40, height: 40, borderRadius: 10, background: "rgba(245,158,11,0.12)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 20, flexShrink: 0 }}>📖</div>
+            <div style={{ flex: 1 }}>
+              <div style={{ fontSize: 13, fontWeight: 700, color: "#92400E" }}>Not sure where to start?</div>
+              <div style={{ fontSize: 11, color: "#B45309", marginTop: 2 }}>See month-wise study plans, books & topper tips</div>
+            </div>
+            <span style={{ color: "#D97706", fontSize: 14, fontWeight: 700 }}>→</span>
+          </div>
+        </Link>
 
         <div style={{ fontSize: 11, fontWeight: 700, color: "#9CA3AF", letterSpacing: 1.5, textTransform: "uppercase", marginBottom: 10 }}>Choose Your Exam</div>
 
@@ -202,22 +219,6 @@ export default function PracticePage() {
             </button>
           ))}
         </div>
-
-        {/* Prepare nudge */}
-        <Link href="/prepare" style={{ textDecoration: "none" }}>
-          <div style={{
-            marginTop: 18, display: "flex", alignItems: "center", gap: 12,
-            background: "linear-gradient(135deg, #FFFBEB, #FEF3C7)", borderRadius: 14,
-            padding: "14px 16px", border: "1px solid rgba(245,158,11,0.15)",
-          }}>
-            <div style={{ width: 40, height: 40, borderRadius: 10, background: "rgba(245,158,11,0.12)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 20, flexShrink: 0 }}>📖</div>
-            <div style={{ flex: 1 }}>
-              <div style={{ fontSize: 13, fontWeight: 700, color: "#92400E" }}>Not sure where to start?</div>
-              <div style={{ fontSize: 11, color: "#B45309", marginTop: 2 }}>See month-wise study plans, books & topper tips</div>
-            </div>
-            <span style={{ color: "#D97706", fontSize: 14, fontWeight: 700 }}>→</span>
-          </div>
-        </Link>
       </div>
       <BottomNav />
     </main>
@@ -260,14 +261,16 @@ export default function PracticePage() {
 
         {/* Language selector */}
         <div style={{ fontSize: 11, fontWeight: 700, color: "#9CA3AF", letterSpacing: 1.5, textTransform: "uppercase", marginBottom: 10, marginTop: 20 }}>🌐 Language / भाषा</div>
-        <div style={{ display: "flex", gap: 8, marginBottom: 6 }}>
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 8, marginBottom: 6 }}>
           {([
-            { id: "english" as const, label: "English", desc: "Questions in English" },
-            { id: "hindi" as const, label: "हिंदी", desc: "प्रश्न हिंदी में" },
-            { id: "hinglish" as const, label: "Hinglish", desc: "Mix of Hindi + English" },
+            { id: "english" as const, label: "English", desc: "English" },
+            { id: "hindi" as const, label: "हिंदी", desc: "Hindi" },
+            { id: "marathi" as const, label: "मराठी", desc: "Marathi" },
+            { id: "kannada" as const, label: "ಕನ್ನಡ", desc: "Kannada" },
+            { id: "tamil" as const, label: "தமிழ்", desc: "Tamil" },
           ]).map(l => (
             <button key={l.id} onClick={() => setLang(l.id)} style={{
-              flex: 1, padding: "10px 8px", borderRadius: 12, textAlign: "center", cursor: "pointer",
+              padding: "10px 6px", borderRadius: 12, textAlign: "center", cursor: "pointer",
               background: lang === l.id ? `${cat.color}08` : "#FFFFFF",
               border: lang === l.id ? `2px solid ${cat.color}` : "1px solid var(--border)",
               boxShadow: "var(--shadow-sm)",

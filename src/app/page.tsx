@@ -171,8 +171,12 @@ export default function Home() {
           </p>
 
           <div style={{ position: "relative" }}>
+            {/* Fade edges to hint scrollability */}
+            <div style={{ position: "absolute", left: 0, top: 0, bottom: 8, width: 20, background: "linear-gradient(to right, var(--bg), transparent)", zIndex: 2, pointerEvents: "none", borderRadius: "16px 0 0 16px" }} />
+            <div style={{ position: "absolute", right: 0, top: 0, bottom: 8, width: 20, background: "linear-gradient(to left, var(--bg), transparent)", zIndex: 2, pointerEvents: "none", borderRadius: "0 16px 16px 0" }} />
+
             {/* Scroll container */}
-            <div id="dreamScroll" className="no-scroll" style={{ display: "flex", gap: 10, overflowX: "auto", paddingBottom: 8, scrollBehavior: "smooth" }}>
+            <div id="dreamScroll" className="no-scroll" style={{ display: "flex", gap: 10, overflowX: "auto", paddingBottom: 8, scrollBehavior: "smooth", scrollSnapType: "x mandatory" }}>
               {[
                 { title: "District Magistrate", sub: "UPSC → IAS", perk: "Bungalow + Vehicle + ₹2.5L/month", emoji: "🏛️", bg: "linear-gradient(135deg,#4c1d95,#6d28d9)", link: "/jobs?id=upsc-cse-2026" },
                 { title: "Bank PO → Manager", sub: "SBI PO Exam", perk: "₹52K start + Housing + Medical", emoji: "🏦", bg: "linear-gradient(135deg,#064e3b,#0C7C59)", link: "/jobs?id=sbi-po-2026" },
@@ -181,7 +185,7 @@ export default function Home() {
                 { title: "RBI Officer", sub: "RBI Grade B", perk: "₹1.05L/month + Metro posting", emoji: "💰", bg: "linear-gradient(135deg,#0F4C81,#1D7ED8)", link: "/jobs?id=rbi-grade-b-2026" },
                 { title: "Army Officer", sub: "NDA Exam", perk: "₹65K + Adventure + Honor", emoji: "🎖️", bg: "linear-gradient(135deg,#134E4A,#0D9488)", link: "/jobs?id=nda-2026" },
               ].map((d, i) => (
-                <Link key={i} href={d.link} style={{ textDecoration: "none", flexShrink: 0 }}>
+                <Link key={i} href={d.link} style={{ textDecoration: "none", flexShrink: 0, scrollSnapAlign: "start" }}>
                   <div style={{
                     width: 170, borderRadius: 16, padding: "20px 16px", color: "#fff",
                     background: d.bg, boxShadow: "var(--shadow-md)",
@@ -197,12 +201,6 @@ export default function Home() {
                 </Link>
               ))}
             </div>
-
-            {/* Arrow buttons */}
-            <button onClick={() => { const el = document.getElementById("dreamScroll"); if (el) el.scrollBy({ left: -180, behavior: "smooth" }); }}
-              style={{ position: "absolute", left: -6, top: "40%", width: 32, height: 32, borderRadius: "50%", border: "1px solid var(--border)", background: "rgba(255,255,255,0.95)", boxShadow: "var(--shadow-sm)", cursor: "pointer", fontSize: 14, display: "flex", alignItems: "center", justifyContent: "center" }}>←</button>
-            <button onClick={() => { const el = document.getElementById("dreamScroll"); if (el) el.scrollBy({ left: 180, behavior: "smooth" }); }}
-              style={{ position: "absolute", right: -6, top: "40%", width: 32, height: 32, borderRadius: "50%", border: "1px solid var(--border)", background: "rgba(255,255,255,0.95)", boxShadow: "var(--shadow-sm)", cursor: "pointer", fontSize: 14, display: "flex", alignItems: "center", justifyContent: "center" }}>→</button>
           </div>
         </section>
 
@@ -259,21 +257,40 @@ export default function Home() {
           <LatestNews />
         </div>
 
-        {/* ═══ FOOTER ═══ */}
-        <footer style={{ textAlign: "center", padding: "32px 0 8px" }}>
-          <div style={{ fontFamily: "'Outfit'", fontSize: 15, fontWeight: 800, color: "#111827", marginBottom: 3 }}>
-            Naukri<span style={{ color: "#2563EB" }}>Yatra</span>
+        {/* ═══ FOOTER — PREMIUM ═══ */}
+        <footer style={{ marginTop: 24, borderRadius: 20, padding: "28px 20px 20px", background: "linear-gradient(135deg, #0F2440, #1E3A5F)", color: "#fff" }}>
+          <div style={{ textAlign: "center", marginBottom: 20 }}>
+            <div style={{ fontFamily: "'Outfit'", fontSize: 18, fontWeight: 800, marginBottom: 4 }}>
+              Naukri<span style={{ color: "#5EEAD4" }}>Yatra</span>
+            </div>
+            <p style={{ fontSize: 12, color: "rgba(255,255,255,0.5)", margin: 0 }}>Sapne se Selection Tak</p>
           </div>
-          <p style={{ fontSize: 11, color: "#6B7280" }}>Sapne se Selection Tak</p>
-          <div style={{ display: "flex", justifyContent: "center", gap: 16, marginTop: 12, flexWrap: "wrap" }}>
-            <a href="/current-affairs" style={{ fontSize: 11, color: "#9CA3AF", textDecoration: "none" }}>Current Affairs</a>
-            <a href="/prepare" style={{ fontSize: 11, color: "#9CA3AF", textDecoration: "none" }}>Study Plans</a>
-            <a href="/compare" style={{ fontSize: 11, color: "#9CA3AF", textDecoration: "none" }}>Govt vs Private</a>
-            <a href="/about" style={{ fontSize: 11, color: "#9CA3AF", textDecoration: "none" }}>About</a>
-            <a href="/contact" style={{ fontSize: 11, color: "#9CA3AF", textDecoration: "none" }}>Contact</a>
-            <a href="/privacy" style={{ fontSize: 11, color: "#9CA3AF", textDecoration: "none" }}>Privacy</a>
+
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 20, marginBottom: 20 }}>
+            <div>
+              <div style={{ fontSize: 10, fontWeight: 700, color: "rgba(255,255,255,0.35)", letterSpacing: 1.5, textTransform: "uppercase", marginBottom: 10 }}>Prepare</div>
+              <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+                <a href="/current-affairs" style={{ fontSize: 12, color: "rgba(255,255,255,0.7)", textDecoration: "none" }}>Current Affairs</a>
+                <a href="/prepare" style={{ fontSize: 12, color: "rgba(255,255,255,0.7)", textDecoration: "none" }}>Study Plans</a>
+                <a href="/interview" style={{ fontSize: 12, color: "rgba(255,255,255,0.7)", textDecoration: "none" }}>AI Practice</a>
+                <a href="/jobs" style={{ fontSize: 12, color: "rgba(255,255,255,0.7)", textDecoration: "none" }}>Explore Careers</a>
+              </div>
+            </div>
+            <div>
+              <div style={{ fontSize: 10, fontWeight: 700, color: "rgba(255,255,255,0.35)", letterSpacing: 1.5, textTransform: "uppercase", marginBottom: 10 }}>Company</div>
+              <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+                <a href="/about" style={{ fontSize: 12, color: "rgba(255,255,255,0.7)", textDecoration: "none" }}>About Us</a>
+                <a href="/contact" style={{ fontSize: 12, color: "rgba(255,255,255,0.7)", textDecoration: "none" }}>Contact</a>
+                <a href="/compare" style={{ fontSize: 12, color: "rgba(255,255,255,0.7)", textDecoration: "none" }}>Govt vs Private</a>
+                <a href="/privacy" style={{ fontSize: 12, color: "rgba(255,255,255,0.7)", textDecoration: "none" }}>Privacy Policy</a>
+              </div>
+            </div>
           </div>
-          <p style={{ fontSize: 10, color: "#9CA3AF", marginTop: 8 }}>© 2026 NaukriYatra · Made in India 🇮🇳</p>
+
+          <div style={{ borderTop: "1px solid rgba(255,255,255,0.1)", paddingTop: 14, display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+            <p style={{ fontSize: 10, color: "rgba(255,255,255,0.35)", margin: 0 }}>© 2026 NaukriYatra</p>
+            <p style={{ fontSize: 10, color: "rgba(255,255,255,0.35)", margin: 0 }}>Made with ❤️ in India 🇮🇳</p>
+          </div>
         </footer>
       </div>
 

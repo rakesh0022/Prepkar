@@ -62,11 +62,14 @@ function isLikelyAbuse(text: string): boolean {
 // ─── Stage-aware system prompts ───────────────────────────────────────────────
 function getSystemPrompt(category: string, stage: string, role: string, lang: string = "english"): string {
   // Language instruction
-  const langInstruction = lang === "hindi"
-    ? `\n6. LANGUAGE: You MUST ask all questions and give all feedback in Hindi (Devanagari script). The candidate will also answer in Hindi. Only the scorecard JSON keys should remain in English.\n`
-    : lang === "hinglish"
-    ? `\n6. LANGUAGE: You MUST ask questions and give feedback in Hinglish (Hindi written in Roman/English script mixed with English words, like how Indian students naturally speak). Example: "Yeh question GDP growth ke baare mein hai." The candidate will also answer in Hinglish. Only the scorecard JSON keys should remain in English.\n`
-    : `\n6. LANGUAGE: Ask all questions and give all feedback in English.\n`;
+  const langMap: Record<string, string> = {
+    hindi: "You MUST ask all questions and give all feedback in Hindi (Devanagari script). The candidate will also answer in Hindi.",
+    marathi: "You MUST ask all questions and give all feedback in Marathi (Devanagari script). The candidate will also answer in Marathi.",
+    kannada: "You MUST ask all questions and give all feedback in Kannada (Kannada script). The candidate will also answer in Kannada.",
+    tamil: "You MUST ask all questions and give all feedback in Tamil (Tamil script). The candidate will also answer in Tamil.",
+    english: "Ask all questions and give all feedback in English.",
+  };
+  const langInstruction = `\n6. LANGUAGE: ${langMap[lang] || langMap.english} Only the scorecard JSON keys should remain in English.\n`;
 
   // Hard guardrail prefix for ALL prompts
   const guardrail = `CRITICAL RULES YOU MUST NEVER BREAK:
@@ -192,7 +195,7 @@ export async function POST(req: NextRequest) {
     }
 
     // ── Validate language ──
-    const validLangs = new Set(["english", "hindi", "hinglish"]);
+    const validLangs = new Set(["english", "hindi", "marathi", "kannada", "tamil"]);
     const selectedLang = validLangs.has(lang) ? lang : "english";
 
     // ── Rate limit: max 20 messages per session ──
