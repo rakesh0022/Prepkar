@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 
+export const dynamic = "force-dynamic";
+
 export const metadata: Metadata = {
   title: "AI Practice — SBI PO, SSC CGL, UPSC, Railway Mock Tests — NaukriYatra",
   description: "Free AI-powered mock tests for government exams. Practice Prelims MCQ, Mains, Descriptive & Interview stages for SBI PO, SSC CGL, UPSC CSE, RRB NTPC, IBPS, NDA. Instant AI scoring with feedback.",

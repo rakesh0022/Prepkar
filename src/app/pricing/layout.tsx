@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 
+export const dynamic = "force-dynamic";
+
 export const metadata: Metadata = {
   title: "Pricing — ₹99/month Unlimited AI Practice — NaukriYatra",
   description: "NaukriYatra Pro plans starting at ₹99/month. Unlimited AI mock tests, all exam stages, detailed scoring. Yearly ₹499, Lifetime ₹999. 5 free tests included.",
