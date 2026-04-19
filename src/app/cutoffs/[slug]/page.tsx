@@ -5,6 +5,41 @@ import Link from 'next/link';
 import BottomNav from '@/components/BottomNav';
 import cutoffs from '@/data/cutoffs.json';
 
+// ─── Types ────────────────────────────────────────────────────────────────────
+interface CutoffBreakdown {
+  general: number;
+  obc: number;
+  sc: number;
+  st: number;
+  ews: number;
+}
+
+interface YearData {
+  year: number;
+  vacancies: number;
+  applicants: number;
+  selected: number;
+  mains?: boolean;
+  tier1Cutoff?: CutoffBreakdown;
+  tier2Cutoff?: CutoffBreakdown;
+  prelimsCutoff?: CutoffBreakdown | number;
+}
+
+// ─── Helpers ──────────────────────────────────────────────────────────────────
+function getCutoffBreakdown(d: YearData): CutoffBreakdown {
+  if (d.tier1Cutoff) return d.tier1Cutoff;
+  if (d.prelimsCutoff && typeof d.prelimsCutoff === 'object') return d.prelimsCutoff;
+  return { general: 0, obc: 0, sc: 0, st: 0, ews: 0 };
+}
+
+function getGeneralCutoff(d: YearData): number {
+  if (d.tier1Cutoff) return d.tier1Cutoff.general;
+  if (d.prelimsCutoff) {
+    return typeof d.prelimsCutoff === 'number' ? d.prelimsCutoff : d.prelimsCutoff.general;
+  }
+  return 0;
+}
+
 export default function CutoffDetailPage({ params }: { params: { slug: string } }) {
   const exam = cutoffs.find(e => e.slug === params.slug);
 
@@ -26,14 +61,13 @@ export default function CutoffDetailPage({ params }: { params: { slug: string } 
     'Railway': '#fff7ed',
   };
 
-  const sortedData = [...exam.data].sort((a, b) => a.year - b.year);
+  const sortedData = [...(exam.data as YearData[])].sort((a, b) => a.year - b.year);
 
   // Calculate average cutoffs for context
-  const avgCutoff = sortedData.reduce((sum, d) => {
-    if ('tier1Cutoff' in d) return sum + d.tier1Cutoff.general;
-    if ('prelimsCutoff' in d) return sum + (typeof d.prelimsCutoff === 'number' ? d.prelimsCutoff : d.prelimsCutoff.general);
-    return sum;
-  }, 0) / sortedData.length;
+  const avgCutoff = sortedData.reduce((sum, d) => sum + getGeneralCutoff(d), 0) / sortedData.length;
+
+  const firstCutoff = getGeneralCutoff(sortedData[0]);
+  const lastCutoff = getGeneralCutoff(sortedData[sortedData.length - 1]);
 
   return (
     <main style={{ minHeight: '100vh', background: 'var(--bg)', paddingBottom: 76 }}>
@@ -78,10 +112,10 @@ export default function CutoffDetailPage({ params }: { params: { slug: string } 
         <div style={{ backgroundColor: categoryBgColors[exam.category] || '#f0f9ff', border: `1px solid ${categoryColors[exam.category] || '#6366f1'}33`, borderRadius: '12px', padding: '16px', marginBottom: '24px' }}>
           <h2 style={{ fontSize: '16px', fontWeight: 'bold', marginBottom: '8px', color: '#111827' }}>📈 Trend Analysis</h2>
           <p style={{ fontSize: '13px', color: '#374151', lineHeight: '1.6', marginBottom: '8px' }}>
-            <strong>Difficulty Trend:</strong> {exam.trend}
+            <strong>Difficulty Trend:</strong> {(exam as { trend?: string }).trend}
           </p>
           <p style={{ fontSize: '13px', color: '#374151', lineHeight: '1.6' }}>
-            <strong>Overall Analysis:</strong> {exam.analysis}
+            <strong>Overall Analysis:</strong> {(exam as { analysis?: string }).analysis}
           </p>
         </div>
 
@@ -90,26 +124,24 @@ export default function CutoffDetailPage({ params }: { params: { slug: string } 
           <h2 style={{ fontSize: '16px', fontWeight: 'bold', marginBottom: '16px', color: '#111827' }}>📊 Cutoff Progression</h2>
           
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(60px, 1fr))', gap: '4px' }}>
-            {sortedData.map((year, idx) => {
-              let cutoffValue = 0;
-              if ('tier1Cutoff' in year) cutoffValue = year.tier1Cutoff.general;
-              if ('prelimsCutoff' in year) cutoffValue = typeof year.prelimsCutoff === 'number' ? year.prelimsCutoff : year.prelimsCutoff.general;
-              
+            {sortedData.map((yearData, idx) => {
+              const cutoffValue = getGeneralCutoff(yearData);
               const heightPercent = (cutoffValue / 150) * 100; // Max 150 for scaling
-              const isIncreasing = idx > 0 && cutoffValue > sortedData[idx - 1].tier1Cutoff?.general || cutoffValue > sortedData[idx - 1].prelimsCutoff?.general;
+              const prevCutoff = idx > 0 ? getGeneralCutoff(sortedData[idx - 1]) : 0;
+              const isIncreasing = idx > 0 && cutoffValue > prevCutoff;
 
               return (
-                <div key={year.year} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px' }}>
-                  <div style={{ fontSize: '10px', fontWeight: 'bold', color: '#111827' }}>{cutoffValue}</div>
+                <div key={yearData.year} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px' }}>
+                  <div style={{ fontSize: '10px', fontWeight: 'bold', color: isIncreasing ? '#22c55e' : '#ef4444' }}>{cutoffValue}</div>
                   <div style={{
                     width: '100%',
                     height: '100px',
                     backgroundColor: categoryColors[exam.category] || '#6366f1',
                     borderRadius: '4px 4px 0 0',
-                    opacity: heightPercent / 100,
+                    opacity: Math.max(heightPercent / 100, 0.2),
                     minHeight: '20px',
                   }} />
-                  <div style={{ fontSize: '10px', color: '#6b7280' }}>{year.year % 100}</div>
+                  <div style={{ fontSize: '10px', color: '#6b7280' }}>{yearData.year % 100}</div>
                 </div>
               );
             })}
@@ -132,14 +164,14 @@ export default function CutoffDetailPage({ params }: { params: { slug: string } 
                 </tr>
               </thead>
               <tbody>
-                {sortedData.map((year, idx) => {
-                  const ratio = Math.round(year.applicants / year.selected);
+                {sortedData.map((yearData, idx) => {
+                  const ratio = Math.round(yearData.applicants / yearData.selected);
                   return (
-                    <tr key={year.year} style={{ borderBottom: '1px solid var(--border)', backgroundColor: idx % 2 === 0 ? '#f9fafb' : 'white' }}>
-                      <td style={{ padding: '8px', fontWeight: '600', color: '#111827' }}>{year.year}</td>
-                      <td style={{ padding: '8px', textAlign: 'right', color: '#111827' }}>{year.vacancies.toLocaleString()}</td>
-                      <td style={{ padding: '8px', textAlign: 'right', color: '#6b7280' }}>{(year.applicants / 100000).toFixed(1)}L+</td>
-                      <td style={{ padding: '8px', textAlign: 'right', color: '#111827' }}>{year.selected.toLocaleString()}</td>
+                    <tr key={yearData.year} style={{ borderBottom: '1px solid var(--border)', backgroundColor: idx % 2 === 0 ? '#f9fafb' : 'white' }}>
+                      <td style={{ padding: '8px', fontWeight: '600', color: '#111827' }}>{yearData.year}</td>
+                      <td style={{ padding: '8px', textAlign: 'right', color: '#111827' }}>{yearData.vacancies.toLocaleString()}</td>
+                      <td style={{ padding: '8px', textAlign: 'right', color: '#6b7280' }}>{(yearData.applicants / 100000).toFixed(1)}L+</td>
+                      <td style={{ padding: '8px', textAlign: 'right', color: '#111827' }}>{yearData.selected.toLocaleString()}</td>
                       <td style={{ padding: '8px', textAlign: 'right', fontWeight: 'bold', color: categoryColors[exam.category] || '#6366f1' }}>1:{ratio.toLocaleString()}</td>
                     </tr>
                   );
@@ -165,19 +197,16 @@ export default function CutoffDetailPage({ params }: { params: { slug: string } 
                 </tr>
               </thead>
               <tbody>
-                {sortedData.map((year, idx) => {
-                  let cutoffs = { general: 0, obc: 0, sc: 0, st: 0, ews: 0 };
-                  if ('tier1Cutoff' in year) cutoffs = year.tier1Cutoff;
-                  if ('prelimsCutoff' in year && typeof year.prelimsCutoff === 'object') cutoffs = year.prelimsCutoff;
-                  
+                {sortedData.map((yearData, idx) => {
+                  const breakdown = getCutoffBreakdown(yearData);
                   return (
-                    <tr key={year.year} style={{ borderBottom: '1px solid var(--border)', backgroundColor: idx % 2 === 0 ? '#f9fafb' : 'white' }}>
-                      <td style={{ padding: '10px', fontWeight: '600', color: '#111827' }}>{year.year}</td>
-                      <td style={{ padding: '10px', textAlign: 'center', fontWeight: '600', color: categoryColors[exam.category] || '#6366f1' }}>{cutoffs.general || 'N/A'}</td>
-                      <td style={{ padding: '10px', textAlign: 'center', color: '#111827' }}>{cutoffs.obc || 'N/A'}</td>
-                      <td style={{ padding: '10px', textAlign: 'center', color: '#111827' }}>{cutoffs.sc || 'N/A'}</td>
-                      <td style={{ padding: '10px', textAlign: 'center', color: '#111827' }}>{cutoffs.st || 'N/A'}</td>
-                      <td style={{ padding: '10px', textAlign: 'center', color: '#111827' }}>{cutoffs.ews || 'N/A'}</td>
+                    <tr key={yearData.year} style={{ borderBottom: '1px solid var(--border)', backgroundColor: idx % 2 === 0 ? '#f9fafb' : 'white' }}>
+                      <td style={{ padding: '10px', fontWeight: '600', color: '#111827' }}>{yearData.year}</td>
+                      <td style={{ padding: '10px', textAlign: 'center', fontWeight: '600', color: categoryColors[exam.category] || '#6366f1' }}>{breakdown.general || 'N/A'}</td>
+                      <td style={{ padding: '10px', textAlign: 'center', color: '#111827' }}>{breakdown.obc || 'N/A'}</td>
+                      <td style={{ padding: '10px', textAlign: 'center', color: '#111827' }}>{breakdown.sc || 'N/A'}</td>
+                      <td style={{ padding: '10px', textAlign: 'center', color: '#111827' }}>{breakdown.st || 'N/A'}</td>
+                      <td style={{ padding: '10px', textAlign: 'center', color: '#111827' }}>{breakdown.ews || 'N/A'}</td>
                     </tr>
                   );
                 })}
@@ -196,13 +225,7 @@ export default function CutoffDetailPage({ params }: { params: { slug: string } 
             {sortedData.length > 1 && (
               <>
                 <li>
-                  <strong>Difficulty:</strong> Cutoffs have {
-                    sortedData[sortedData.length - 1].tier1Cutoff?.general || sortedData[sortedData.length - 1].prelimsCutoff?.general > sortedData[0].tier1Cutoff?.general || sortedData[0].prelimsCutoff?.general
-                      ? 'increased significantly' : 'remained stable'
-                  } indicating {
-                    sortedData[sortedData.length - 1].tier1Cutoff?.general || sortedData[sortedData.length - 1].prelimsCutoff?.general > sortedData[0].tier1Cutoff?.general || sortedData[0].prelimsCutoff?.general
-                      ? 'growing competition' : 'consistent difficulty'
-                  }
+                  <strong>Difficulty:</strong> Cutoffs have {lastCutoff > firstCutoff ? 'increased significantly' : 'remained stable'} indicating {lastCutoff > firstCutoff ? 'growing competition' : 'consistent difficulty'}
                 </li>
                 <li><strong>Vacancies:</strong> {
                   sortedData[sortedData.length - 1].vacancies > sortedData[0].vacancies ? 'More positions offered in recent years' : 'Fewer positions in recent recruitment'
