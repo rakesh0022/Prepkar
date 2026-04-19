@@ -1,82 +1,90 @@
-"use client";
-import Link from "next/link";
-import BottomNav from "@/components/BottomNav";
+'use client';
 
-const ROWS = [
-  { topic: "Job Security", icon: "🔒", govt: "Can't be fired. Permanent from Day 1.", pvt: "Performance-based. Layoff risk in downturns.", winner: "govt" },
-  { topic: "Starting Salary", icon: "💰", govt: "₹25K–₹80K/month. Grows with DA revisions.", pvt: "₹15K–₹2L/month. Higher ceiling in tech.", winner: "pvt" },
-  { topic: "Healthcare", icon: "🏥", govt: "Free medical for full family — for life.", pvt: "₹3–10L cover. Ends when you leave.", winner: "govt" },
-  { topic: "Career Growth", icon: "📈", govt: "Guaranteed promotions every few years.", pvt: "Merit-based. VP by 35 is possible.", winner: "pvt" },
-  { topic: "Work-Life Balance", icon: "⚖️", govt: "9:30–5:30. 30 leaves. Pension.", pvt: "WFH options but long hours & stress.", winner: "govt" },
-  { topic: "Retirement", icon: "🏖️", govt: "Pension (OPS/NPS) + gratuity + medical for life.", pvt: "EPF + self-funded. No pension. Medical ends.", winner: "govt" },
-  { topic: "Impact", icon: "🌍", govt: "Govern districts. Build India.", pvt: "Build products. Scale globally.", winner: "tie" },
-  { topic: "Entry Difficulty", icon: "🎯", govt: "Extremely competitive exams. 0.1-2% selection rate.", pvt: "Interview-based. Easier entry but harder to stay.", winner: "pvt" },
-];
+import Link from 'next/link';
+import BottomNav from '@/components/BottomNav';
+import comparisons from '@/data/comparisons.json';
 
 export default function ComparePage() {
-  const govtWins = ROWS.filter(r => r.winner === "govt").length;
-  const pvtWins = ROWS.filter(r => r.winner === "pvt").length;
-  const ties = ROWS.filter(r => r.winner === "tie").length;
-
   return (
-    <main style={{ minHeight: "100vh", background: "var(--bg)", paddingBottom: 76 }}>
+    <main style={{ minHeight: '100vh', background: 'var(--bg)', paddingBottom: 76 }}>
       <div className="desktop-only" style={{ height: 56 }} />
-      <header style={{ padding: "14px 16px", borderBottom: "1px solid var(--border)", display: "flex", alignItems: "center", gap: 8 }}>
-        <Link href="/" style={{ color: "#6B7280", fontSize: 15, textDecoration: "none" }}>←</Link>
-        <h1 style={{ fontFamily: "'Playfair Display',serif", fontSize: 22, fontWeight: 700, color: "#111827" }}>Government vs Private</h1>
-      </header>
 
-      <div style={{ maxWidth: "var(--max-width)", margin: "0 auto", padding: "20px 16px" }}>
-        <p style={{ fontSize: 13, color: "#6B7280", marginBottom: 20, lineHeight: 1.6 }}>
-          Which path fits your life? Here&apos;s the real, honest comparison across {ROWS.length} key factors.
-        </p>
+      {/* Hero Section */}
+      <div style={{ background: 'linear-gradient(135deg, #6d28d9 0%, #8b5cf6 100%)', color: 'white', padding: '40px 16px', textAlign: 'center' }}>
+        <h1 style={{ fontSize: '28px', fontWeight: 'bold', marginBottom: '12px' }}>Comparison Guides</h1>
+        <p style={{ fontSize: '14px', opacity: 0.9 }}>Make the right career choice with our detailed comparisons</p>
+      </div>
 
-        <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-          {ROWS.map((row, i) => (
-            <div key={i} className="anim-up" style={{
-              background: "#FFFFFF", borderRadius: 14, padding: "16px",
-              border: "1px solid var(--border)", boxShadow: "var(--shadow-sm)",
-              animationDelay: `${i * 0.04}s`,
-            }}>
-              <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 10 }}>
-                <span style={{ fontSize: 20 }}>{row.icon}</span>
-                <span style={{ fontSize: 14, fontWeight: 700, color: "#111827" }}>{row.topic}</span>
-                {row.winner !== "tie" && (
-                  <span style={{
-                    marginLeft: "auto", fontSize: 9, fontWeight: 700, padding: "2px 8px", borderRadius: 6,
-                    background: row.winner === "govt" ? "#EFF6FF" : "#F0FDF4",
-                    color: row.winner === "govt" ? "#2563EB" : "#16A34A",
-                  }}>{row.winner === "govt" ? "🏛️ Govt wins" : "🏢 Private wins"}</span>
-                )}
-                {row.winner === "tie" && (
-                  <span style={{ marginLeft: "auto", fontSize: 9, fontWeight: 700, padding: "2px 8px", borderRadius: 6, background: "#F3F4F6", color: "#6B7280" }}>🤝 Tie</span>
-                )}
+      {/* Comparisons Grid */}
+      <div style={{ maxWidth: 'var(--max-width)', margin: '0 auto', padding: '24px 16px' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '16px', marginBottom: '24px' }}>
+          {comparisons.map((comparison) => (
+            <Link
+              key={comparison.slug}
+              href={`/compare/${comparison.slug}`}
+              style={{
+                backgroundColor: 'white',
+                borderRadius: '12px',
+                overflow: 'hidden',
+                textDecoration: 'none',
+                color: 'inherit',
+                border: '1px solid var(--border)',
+                display: 'flex',
+                flexDirection: 'column',
+                transition: 'all 0.3s',
+              }}
+              onMouseEnter={(e) => {
+                (e.currentTarget).style.boxShadow = '0 8px 16px rgba(109, 40, 217, 0.15)';
+                (e.currentTarget).style.transform = 'translateY(-4px)';
+              }}
+              onMouseLeave={(e) => {
+                (e.currentTarget).style.boxShadow = 'none';
+                (e.currentTarget).style.transform = 'translateY(0)';
+              }}
+            >
+              {/* Header */}
+              <div style={{ backgroundColor: '#f3f4f6', padding: '12px 16px', borderBottom: '1px solid var(--border)' }}>
+                <span style={{ display: 'inline-block', backgroundColor: '#6d28d9', color: 'white', padding: '4px 10px', borderRadius: '16px', fontSize: '11px', fontWeight: '600' }}>
+                  {comparison.category}
+                </span>
               </div>
-              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 }}>
-                <div style={{ padding: "10px 12px", borderRadius: 10, borderLeft: "3px solid #2563EB", background: row.winner === "govt" ? "#EFF6FF" : "#FAFAFA" }}>
-                  <div style={{ fontSize: 9, fontWeight: 700, color: "#2563EB", letterSpacing: 0.5, marginBottom: 4 }}>GOVT</div>
-                  <div style={{ fontSize: 12, color: "#374151", lineHeight: 1.5 }}>{row.govt}</div>
-                </div>
-                <div style={{ padding: "10px 12px", borderRadius: 10, borderLeft: "3px solid #6B7280", background: row.winner === "pvt" ? "#F0FDF4" : "#FAFAFA" }}>
-                  <div style={{ fontSize: 9, fontWeight: 700, color: "#6B7280", letterSpacing: 0.5, marginBottom: 4 }}>PRIVATE</div>
-                  <div style={{ fontSize: 12, color: "#374151", lineHeight: 1.5 }}>{row.pvt}</div>
+
+              {/* Content */}
+              <div style={{ padding: '16px', flex: 1 }}>
+                <h3 style={{ fontSize: '15px', fontWeight: 'bold', marginBottom: '8px', color: '#111827' }}>
+                  {comparison.title}
+                </h3>
+                <p style={{ fontSize: '13px', color: '#6b7280', marginBottom: '12px', lineHeight: '1.5' }}>
+                  {comparison.description}
+                </p>
+                <div style={{ color: '#6d28d9', fontSize: '13px', fontWeight: '600' }}>
+                  Read Comparison →
                 </div>
               </div>
-            </div>
+            </Link>
           ))}
         </div>
 
-        <div style={{ marginTop: 16, borderRadius: 14, padding: "18px", background: "linear-gradient(135deg, #1E3A5F, #0F2440)", color: "#fff", textAlign: "center" }}>
-          <div style={{ fontSize: 15, fontWeight: 700, marginBottom: 6 }}>Final Score: Govt {govtWins} — Private {pvtWins} — Tie {ties}</div>
-          <div style={{ fontSize: 12, opacity: 0.8 }}>Both are great paths. Pick what matches your values.</div>
+        {/* Info Box */}
+        <div style={{ backgroundColor: '#eff6ff', border: '1px solid #bfdbfe', borderRadius: '12px', padding: '16px', marginTop: '24px' }}>
+          <h3 style={{ fontSize: '14px', fontWeight: 'bold', color: '#0369a1', marginBottom: '8px' }}>💡 Choose Wisely</h3>
+          <p style={{ fontSize: '13px', color: '#0c4a6e', lineHeight: '1.6' }}>
+            Each comparison covers salary, career growth, lifestyle, work-life balance, and more. Read multiple guides to understand your career path better.
+          </p>
         </div>
+      </div>
 
-        <Link href="/jobs" style={{ textDecoration: "none" }}>
-          <div style={{ marginTop: 14, padding: "14px", borderRadius: 14, textAlign: "center", background: "#2563EB", color: "#fff", fontSize: 14, fontWeight: 700 }}>
-            Explore 17+ Government Careers →
+      {/* CTA Section */}
+      <div style={{ backgroundColor: '#6d28d9', color: 'white', padding: '24px 16px', textAlign: 'center', marginTop: '24px' }}>
+        <h2 style={{ fontSize: '18px', fontWeight: 'bold', marginBottom: '8px' }}>Ready to Start Preparing?</h2>
+        <p style={{ fontSize: '13px', opacity: 0.9, marginBottom: '12px' }}>After choosing your path, begin your structured exam preparation</p>
+        <Link href="/prepare" style={{ textDecoration: 'none' }}>
+          <div style={{ display: 'inline-block', backgroundColor: 'white', color: '#6d28d9', padding: '10px 24px', borderRadius: '6px', fontWeight: '600', fontSize: '14px' }}>
+            Start Preparing →
           </div>
         </Link>
       </div>
+
       <BottomNav />
     </main>
   );

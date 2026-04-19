@@ -1,0 +1,697 @@
+[
+  {
+    "slug": "ssc-cgl",
+    "name": "SSC CGL",
+    "fullName": "Staff Selection Commission Combined Graduate Level",
+    "category": "SSC",
+    "totalVacancies": "~25,000",
+    "difficulty": "Moderate",
+    "description": "One of India's largest recruitment drives for graduate-level government jobs across multiple ministries and departments.",
+    "data": [
+      {
+        "year": 2025,
+        "vacancies": 23821,
+        "applicants": 2845000,
+        "selected": 23821,
+        "tier1Cutoff": {
+          "general": 131,
+          "obc": 122,
+          "sc": 108,
+          "st": 101,
+          "ews": 128
+        },
+        "tier2Cutoff": {
+          "general": 268,
+          "obc": 252,
+          "sc": 227,
+          "st": 211,
+          "ews": 261
+        },
+        "mains": true
+      },
+      {
+        "year": 2024,
+        "vacancies": 18069,
+        "applicants": 2650000,
+        "selected": 18069,
+        "tier1Cutoff": {
+          "general": 129,
+          "obc": 119,
+          "sc": 106,
+          "st": 98,
+          "ews": 126
+        },
+        "tier2Cutoff": {
+          "general": 265,
+          "obc": 248,
+          "sc": 224,
+          "st": 208,
+          "ews": 258
+        },
+        "mains": true
+      },
+      {
+        "year": 2023,
+        "vacancies": 17727,
+        "applicants": 2500000,
+        "selected": 17727,
+        "tier1Cutoff": {
+          "general": 126,
+          "obc": 116,
+          "sc": 103,
+          "st": 95,
+          "ews": 123
+        },
+        "tier2Cutoff": {
+          "general": 260,
+          "obc": 242,
+          "sc": 219,
+          "st": 203,
+          "ews": 253
+        },
+        "mains": true
+      },
+      {
+        "year": 2022,
+        "vacancies": 8925,
+        "applicants": 2300000,
+        "selected": 8925,
+        "tier1Cutoff": {
+          "general": 123,
+          "obc": 112,
+          "sc": 100,
+          "st": 92,
+          "ews": 120
+        },
+        "tier2Cutoff": {
+          "general": 255,
+          "obc": 236,
+          "sc": 213,
+          "st": 198,
+          "ews": 248
+        },
+        "mains": true
+      },
+      {
+        "year": 2021,
+        "vacancies": 12468,
+        "applicants": 2100000,
+        "selected": 12468,
+        "tier1Cutoff": {
+          "general": 119,
+          "obc": 107,
+          "sc": 96,
+          "st": 88,
+          "ews": 116
+        },
+        "tier2Cutoff": {
+          "general": 248,
+          "obc": 227,
+          "sc": 205,
+          "st": 189,
+          "ews": 240
+        },
+        "mains": true
+      },
+      {
+        "year": 2020,
+        "vacancies": 3995,
+        "applicants": 1850000,
+        "selected": 3995,
+        "tier1Cutoff": {
+          "general": 115,
+          "obc": 103,
+          "sc": 92,
+          "st": 84,
+          "ews": 112
+        },
+        "tier2Cutoff": {
+          "general": 240,
+          "obc": 218,
+          "sc": 196,
+          "st": 180,
+          "ews": 232
+        },
+        "mains": true
+      },
+      {
+        "year": 2019,
+        "vacancies": 8387,
+        "applicants": 1700000,
+        "selected": 8387,
+        "tier1Cutoff": {
+          "general": 111,
+          "obc": 99,
+          "sc": 88,
+          "st": 80,
+          "ews": 108
+        },
+        "tier2Cutoff": {
+          "general": 232,
+          "obc": 209,
+          "sc": 188,
+          "st": 172,
+          "ews": 224
+        },
+        "mains": true
+      }
+    ],
+    "trend": "Getting tougher - Tier-1 cutoff increased from 111 (2019) to 131 (2025)",
+    "analysis": "SSC CGL has become significantly more competitive. The cutoff marks have increased by ~18% over 6 years. With increasing applicant pool and modest vacancy growth, the selection ratio has worsened from 1 in 200 to 1 in 120 approximately."
+  },
+  {
+    "slug": "sbi-po",
+    "name": "SBI PO",
+    "fullName": "State Bank of India Probationary Officer",
+    "category": "Banking",
+    "totalVacancies": "~1,000",
+    "difficulty": "Hard",
+    "description": "Prestigious recruitment for Probationary Officer positions in India's largest public sector bank.",
+    "data": [
+      {
+        "year": 2025,
+        "vacancies": 1152,
+        "applicants": 320000,
+        "selected": 1152,
+        "prelimsCutoff": {
+          "general": 45,
+          "obc": 43,
+          "sc": 40,
+          "st": 38,
+          "ews": 44
+        },
+        "mainsCutoff": {
+          "general": 62.5,
+          "obc": 60,
+          "sc": 57,
+          "st": 55,
+          "ews": 61
+        },
+        "mains": true
+      },
+      {
+        "year": 2024,
+        "vacancies": 1000,
+        "applicants": 310000,
+        "selected": 1000,
+        "prelimsCutoff": {
+          "general": 44,
+          "obc": 42,
+          "sc": 39,
+          "st": 37,
+          "ews": 43
+        },
+        "mainsCutoff": {
+          "general": 60,
+          "obc": 58,
+          "sc": 55,
+          "st": 53,
+          "ews": 59
+        },
+        "mains": true
+      },
+      {
+        "year": 2023,
+        "vacancies": 1050,
+        "applicants": 290000,
+        "selected": 1050,
+        "prelimsCutoff": {
+          "general": 42,
+          "obc": 40,
+          "sc": 37,
+          "st": 35,
+          "ews": 41
+        },
+        "mainsCutoff": {
+          "general": 57.5,
+          "obc": 55,
+          "sc": 52,
+          "st": 50,
+          "ews": 56
+        },
+        "mains": true
+      },
+      {
+        "year": 2022,
+        "vacancies": 900,
+        "applicants": 270000,
+        "selected": 900,
+        "prelimsCutoff": {
+          "general": 40,
+          "obc": 38,
+          "sc": 35,
+          "st": 33,
+          "ews": 39
+        },
+        "mainsCutoff": {
+          "general": 55,
+          "obc": 52,
+          "sc": 49,
+          "st": 47,
+          "ews": 53
+        },
+        "mains": true
+      },
+      {
+        "year": 2021,
+        "vacancies": 1226,
+        "applicants": 240000,
+        "selected": 1226,
+        "prelimsCutoff": {
+          "general": 38,
+          "obc": 36,
+          "sc": 33,
+          "st": 31,
+          "ews": 37
+        },
+        "mainsCutoff": {
+          "general": 51,
+          "obc": 48,
+          "sc": 45,
+          "st": 43,
+          "ews": 50
+        },
+        "mains": true
+      },
+      {
+        "year": 2020,
+        "vacancies": 1000,
+        "applicants": 220000,
+        "selected": 1000,
+        "prelimsCutoff": {
+          "general": 36,
+          "obc": 34,
+          "sc": 31,
+          "st": 29,
+          "ews": 35
+        },
+        "mainsCutoff": {
+          "general": 48,
+          "obc": 45,
+          "sc": 42,
+          "st": 40,
+          "ews": 47
+        },
+        "mains": true
+      },
+      {
+        "year": 2019,
+        "vacancies": 2000,
+        "applicants": 200000,
+        "selected": 2000,
+        "prelimsCutoff": {
+          "general": 34,
+          "obc": 32,
+          "sc": 29,
+          "st": 27,
+          "ews": 33
+        },
+        "mainsCutoff": {
+          "general": 45,
+          "obc": 42,
+          "sc": 39,
+          "st": 37,
+          "ews": 44
+        },
+        "mains": true
+      }
+    ],
+    "trend": "Moderate increase - Prelims cutoff up from 34 to 45 marks (32% increase)",
+    "analysis": "SBI PO difficulty has increased noticeably with higher cutoffs and reduced vacancies in recent years. The selection ratio has shifted from 1 in 100 (2019) to 1 in 277 (2025). The bank has been more selective and demanding in its recruitment."
+  },
+  {
+    "slug": "upsc-cse",
+    "name": "UPSC CSE",
+    "fullName": "Union Public Service Commission Civil Services Examination",
+    "category": "UPSC",
+    "totalVacancies": "~1,000",
+    "difficulty": "Very Hard",
+    "description": "India's most prestigious civil service examination. Highly competitive with only 1 in 1000+ candidates clearing all stages.",
+    "data": [
+      {
+        "year": 2025,
+        "vacancies": 1061,
+        "applicants": 1510000,
+        "selected": 1061,
+        "prelimsCutoff": 107,
+        "applicantsInMains": 10500,
+        "selected": 1061,
+        "topperScore": 1121,
+        "cutoffRank": 1061,
+        "mains": true
+      },
+      {
+        "year": 2024,
+        "vacancies": 1080,
+        "applicants": 1450000,
+        "selected": 1080,
+        "prelimsCutoff": 105,
+        "applicantsInMains": 10800,
+        "selected": 1080,
+        "topperScore": 1118,
+        "cutoffRank": 1080,
+        "mains": true
+      },
+      {
+        "year": 2023,
+        "vacancies": 1105,
+        "applicants": 1380000,
+        "selected": 1105,
+        "prelimsCutoff": 103,
+        "applicantsInMains": 11050,
+        "selected": 1105,
+        "topperScore": 1115,
+        "cutoffRank": 1105,
+        "mains": true
+      },
+      {
+        "year": 2022,
+        "vacancies": 726,
+        "applicants": 1290000,
+        "selected": 726,
+        "prelimsCutoff": 99,
+        "applicantsInMains": 8700,
+        "selected": 726,
+        "topperScore": 1108,
+        "cutoffRank": 726,
+        "mains": true
+      },
+      {
+        "year": 2021,
+        "vacancies": 862,
+        "applicants": 1200000,
+        "selected": 862,
+        "prelimsCutoff": 96,
+        "applicantsInMains": 9500,
+        "selected": 862,
+        "topperScore": 1102,
+        "cutoffRank": 862,
+        "mains": true
+      },
+      {
+        "year": 2020,
+        "vacancies": 882,
+        "applicants": 1100000,
+        "selected": 882,
+        "prelimsCutoff": 94,
+        "applicantsInMains": 9700,
+        "selected": 882,
+        "topperScore": 1098,
+        "cutoffRank": 882,
+        "mains": true
+      },
+      {
+        "year": 2019,
+        "vacancies": 930,
+        "applicants": 1000000,
+        "selected": 930,
+        "prelimsCutoff": 91,
+        "applicantsInMains": 10200,
+        "selected": 930,
+        "topperScore": 1095,
+        "cutoffRank": 930,
+        "mains": true
+      }
+    ],
+    "trend": "Significantly harder - Prelims cutoff up from 91 to 107 marks (18% increase)",
+    "analysis": "UPSC CSE has become increasingly competitive. Prelims cutoff increased by 18 marks over 6 years. With 1.5+ million applicants competing for ~1000 positions, the selection ratio is approximately 1 in 1420. Success requires consistent excellence across all three stages."
+  },
+  {
+    "slug": "rrb-ntpc",
+    "name": "RRB NTPC",
+    "fullName": "Railway Recruitment Board Non-Technical Popular Categories",
+    "category": "Railway",
+    "totalVacancies": "~15,000",
+    "difficulty": "Moderate",
+    "description": "Large-scale recruitment for various non-technical positions in Indian Railways across multiple zones.",
+    "data": [
+      {
+        "year": 2025,
+        "vacancies": 9144,
+        "applicants": 5800000,
+        "selected": 9144,
+        "cbt1Cutoff": {
+          "general": 42,
+          "obc": 39,
+          "sc": 35,
+          "st": 32,
+          "ews": 41
+        },
+        "zones": ["North", "South", "East", "West", "Northeast", "North-Central", "South-Central", "North-East"],
+        "selectionRatio": "1:634"
+      },
+      {
+        "year": 2024,
+        "vacancies": 8113,
+        "applicants": 5500000,
+        "selected": 8113,
+        "cbt1Cutoff": {
+          "general": 40,
+          "obc": 37,
+          "sc": 33,
+          "st": 30,
+          "ews": 39
+        },
+        "zones": ["North", "South", "East", "West", "Northeast", "North-Central", "South-Central", "North-East"],
+        "selectionRatio": "1:677"
+      },
+      {
+        "year": 2023,
+        "vacancies": 7910,
+        "applicants": 5200000,
+        "selected": 7910,
+        "cbt1Cutoff": {
+          "general": 38,
+          "obc": 35,
+          "sc": 31,
+          "st": 28,
+          "ews": 37
+        },
+        "zones": ["North", "South", "East", "West", "Northeast", "North-Central", "South-Central", "North-East"],
+        "selectionRatio": "1:657"
+      },
+      {
+        "year": 2022,
+        "vacancies": 19250,
+        "applicants": 4800000,
+        "selected": 19250,
+        "cbt1Cutoff": {
+          "general": 35,
+          "obc": 32,
+          "sc": 28,
+          "st": 25,
+          "ews": 34
+        },
+        "zones": ["North", "South", "East", "West", "Northeast", "North-Central", "South-Central", "North-East"],
+        "selectionRatio": "1:249"
+      },
+      {
+        "year": 2021,
+        "vacancies": 35208,
+        "applicants": 4200000,
+        "selected": 35208,
+        "cbt1Cutoff": {
+          "general": 32,
+          "obc": 29,
+          "sc": 25,
+          "st": 22,
+          "ews": 31
+        },
+        "zones": ["North", "South", "East", "West", "Northeast", "North-Central", "South-Central", "North-East"],
+        "selectionRatio": "1:119"
+      },
+      {
+        "year": 2020,
+        "vacancies": 12468,
+        "applicants": 3800000,
+        "selected": 12468,
+        "cbt1Cutoff": {
+          "general": 30,
+          "obc": 27,
+          "sc": 23,
+          "st": 20,
+          "ews": 29
+        },
+        "zones": ["North", "South", "East", "West", "Northeast", "North-Central", "South-Central", "North-East"],
+        "selectionRatio": "1:304"
+      },
+      {
+        "year": 2019,
+        "vacancies": 35277,
+        "applicants": 3500000,
+        "selected": 35277,
+        "cbt1Cutoff": {
+          "general": 28,
+          "obc": 25,
+          "sc": 21,
+          "st": 18,
+          "ews": 27
+        },
+        "zones": ["North", "South", "East", "West", "Northeast", "North-Central", "South-Central", "North-East"],
+        "selectionRatio": "1:99"
+      }
+    ],
+    "trend": "Getting moderately harder - CBT-1 cutoff up from 28 to 42 marks (50% increase)",
+    "analysis": "RRB NTPC has high variability in vacancies due to government hiring plans. However, cutoff marks show consistent upward trend with 50% increase over 6 years. Recently fewer vacancies have made it significantly more competitive compared to 2021-2022 mega recruitment phases."
+  },
+  {
+    "slug": "ibps-po",
+    "name": "IBPS PO",
+    "fullName": "Institute of Banking Personnel Selection Probationary Officer",
+    "category": "Banking",
+    "totalVacancies": "~1,200",
+    "difficulty": "Hard",
+    "description": "Joint recruitment for Probationary Officer positions across multiple public sector banks through IBPS.",
+    "data": [
+      {
+        "year": 2025,
+        "vacancies": 1300,
+        "applicants": 2100000,
+        "selected": 1300,
+        "prelimsCutoff": {
+          "general": 46,
+          "obc": 44,
+          "sc": 41,
+          "st": 39,
+          "ews": 45
+        },
+        "mainsCutoff": {
+          "general": 64,
+          "obc": 61,
+          "sc": 58,
+          "st": 56,
+          "ews": 63
+        },
+        "mains": true
+      },
+      {
+        "year": 2024,
+        "vacancies": 1200,
+        "applicants": 2050000,
+        "selected": 1200,
+        "prelimsCutoff": {
+          "general": 45,
+          "obc": 43,
+          "sc": 40,
+          "st": 38,
+          "ews": 44
+        },
+        "mainsCutoff": {
+          "general": 62,
+          "obc": 59,
+          "sc": 56,
+          "st": 54,
+          "ews": 61
+        },
+        "mains": true
+      },
+      {
+        "year": 2023,
+        "vacancies": 1150,
+        "applicants": 1900000,
+        "selected": 1150,
+        "prelimsCutoff": {
+          "general": 43,
+          "obc": 41,
+          "sc": 38,
+          "st": 36,
+          "ews": 42
+        },
+        "mainsCutoff": {
+          "general": 59.5,
+          "obc": 56.5,
+          "sc": 53.5,
+          "st": 51.5,
+          "ews": 58.5
+        },
+        "mains": true
+      },
+      {
+        "year": 2022,
+        "vacancies": 1010,
+        "applicants": 1800000,
+        "selected": 1010,
+        "prelimsCutoff": {
+          "general": 41,
+          "obc": 39,
+          "sc": 36,
+          "st": 34,
+          "ews": 40
+        },
+        "mainsCutoff": {
+          "general": 57,
+          "obc": 54,
+          "sc": 51,
+          "st": 49,
+          "ews": 56
+        },
+        "mains": true
+      },
+      {
+        "year": 2021,
+        "vacancies": 1155,
+        "applicants": 1700000,
+        "selected": 1155,
+        "prelimsCutoff": {
+          "general": 39,
+          "obc": 37,
+          "sc": 34,
+          "st": 32,
+          "ews": 38
+        },
+        "mainsCutoff": {
+          "general": 53,
+          "obc": 50,
+          "sc": 47,
+          "st": 45,
+          "ews": 52
+        },
+        "mains": true
+      },
+      {
+        "year": 2020,
+        "vacancies": 1155,
+        "applicants": 1600000,
+        "selected": 1155,
+        "prelimsCutoff": {
+          "general": 37,
+          "obc": 35,
+          "sc": 32,
+          "st": 30,
+          "ews": 36
+        },
+        "mainsCutoff": {
+          "general": 50,
+          "obc": 47,
+          "sc": 44,
+          "st": 42,
+          "ews": 49
+        },
+        "mains": true
+      },
+      {
+        "year": 2019,
+        "vacancies": 1828,
+        "applicants": 1500000,
+        "selected": 1828,
+        "prelimsCutoff": {
+          "general": 35,
+          "obc": 33,
+          "sc": 30,
+          "st": 28,
+          "ews": 34
+        },
+        "mainsCutoff": {
+          "general": 46.5,
+          "obc": 43.5,
+          "sc": 40.5,
+          "st": 38.5,
+          "ews": 45.5
+        },
+        "mains": true
+      }
+    ],
+    "trend": "Getting harder - Prelims cutoff increased from 35 to 46 marks (31% increase)",
+    "analysis": "IBPS PO has become increasingly competitive over the years. Prelims cutoff up by 31% and vacancies have reduced while applicant pool increased. Selection ratio has deteriorated from 1 in 820 (2019) to 1 in 1615 (2025). Competition is comparable to SBI PO with similar difficulty levels."
+  }
+]

@@ -3,23 +3,25 @@ import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "About Us — NaukriYatra",
-  description: "Learn about NaukriYatra — India's AI-powered government job preparation platform.",
+  description: "Learn about NaukriYatra — India's AI-powered government job preparation platform. Democratizing sarkari naukri preparation for every Indian student.",
+  keywords: "about NaukriYatra, government job preparation, Indian education platform, sarkari naukri",
+  alternates: { canonical: "/about" },
 };
 
 export default function AboutPage() {
   return (
     <main style={{ minHeight: "100vh", background: "var(--bg)", paddingBottom: 80, paddingTop: 0 }}>
       <div className="desktop-only" style={{ height: 56 }} />
-      
+
       {/* Page Header Image */}
       <div style={{
-        width: "100%", height: 240, 
+        width: "100%", height: 240,
         backgroundImage: "url('/images/pages/about-header.png')",
         backgroundSize: "cover",
         backgroundPosition: "center",
         marginBottom: 0,
       }} />
-      
+
       <div style={{ maxWidth: 720, margin: "0 auto", padding: "28px 20px" }}>
         <Link href="/" style={{ color: "#6B7280", fontSize: 13, textDecoration: "none" }}>← Back to Home</Link>
 
@@ -31,9 +33,19 @@ export default function AboutPage() {
         </p>
 
         <div style={{ background: "#FFFFFF", borderRadius: 16, padding: "24px", border: "1px solid var(--border)", boxShadow: "var(--shadow-sm)", marginBottom: 20 }}>
+          <h2 style={{ fontSize: 18, fontWeight: 700, color: "#111827", marginBottom: 10 }}>Our Story</h2>
+          <p style={{ fontSize: 14, color: "#374151", lineHeight: 1.8, marginBottom: 12 }}>
+            NaukriYatra was born from a simple idea — every Indian student deserves clear, honest information about government job preparation. We started as frustrated aspirants ourselves, spending countless hours navigating confusing websites, unreliable coaching centers, and outdated study materials.
+          </p>
+          <p style={{ fontSize: 14, color: "#374151", lineHeight: 1.8 }}>
+            What began as a personal frustration became our mission: to create India's most comprehensive, free, and AI-powered government job preparation platform. We believe that success in competitive exams should depend on hard work and preparation, not on access to expensive resources.
+          </p>
+        </div>
+
+        <div style={{ background: "#FFFFFF", borderRadius: 16, padding: "24px", border: "1px solid var(--border)", boxShadow: "var(--shadow-sm)", marginBottom: 20 }}>
           <h2 style={{ fontSize: 18, fontWeight: 700, color: "#111827", marginBottom: 10 }}>Our Mission</h2>
           <p style={{ fontSize: 14, color: "#374151", lineHeight: 1.8 }}>
-            Every year, over 3 crore Indians appear for government job exams. Most come from small towns, study on their phones, and can&apos;t afford coaching classes. NaukriYatra exists to level the playing field — providing free AI-powered practice, complete career roadmaps, salary calculators, and exam preparation resources that were once only available to those who could afford expensive coaching.
+            To democratize government job preparation in India. Every year, over 3 crore Indians appear for government job exams. Most come from small towns, study on their phones, and can't afford coaching classes. NaukriYatra exists to level the playing field — providing free AI-powered practice, complete career roadmaps, salary calculators, and exam preparation resources that were once only available to those who could afford expensive coaching.
           </p>
         </div>
 
@@ -46,6 +58,7 @@ export default function AboutPage() {
               { icon: "💰", title: "Salary Calculator", desc: "Interactive calculator that shows your exact in-hand salary based on city type (Metro, Urban, Rural) with full DA, HRA, and allowance breakdowns." },
               { icon: "📚", title: "Exam Syllabus & PYQ Papers", desc: "Complete syllabus for every exam and links to previous year question papers — everything you need in one place." },
               { icon: "📊", title: "Score Dashboard", desc: "Track your practice history, see your improvement over time, and identify weak areas to focus on." },
+              { icon: "📰", title: "Current Affairs", desc: "Daily current affairs updates and monthly compilations to stay updated with the latest news and events." },
             ].map((item, i) => (
               <div key={i} style={{ display: "flex", gap: 14, alignItems: "flex-start" }}>
                 <div style={{ fontSize: 24, flexShrink: 0, marginTop: 2 }}>{item.icon}</div>
@@ -59,6 +72,16 @@ export default function AboutPage() {
         </div>
 
         <div style={{ background: "#FFFFFF", borderRadius: 16, padding: "24px", border: "1px solid var(--border)", boxShadow: "var(--shadow-sm)", marginBottom: 20 }}>
+          <h2 style={{ fontSize: 18, fontWeight: 700, color: "#111827", marginBottom: 10 }}>Our Team</h2>
+          <p style={{ fontSize: 14, color: "#374151", lineHeight: 1.8, marginBottom: 12 }}>
+            NaukriYatra is built by passionate educators and former government exam aspirants who understand the challenges of competitive exam preparation. Our team combines expertise in education technology, government exam patterns, and AI-driven learning systems.
+          </p>
+          <p style={{ fontSize: 14, color: "#374151", lineHeight: 1.8 }}>
+            We're committed to continuous improvement and regularly update our content based on the latest exam patterns, user feedback, and technological advancements.
+          </p>
+        </div>
+
+        <div style={{ background: "#FFFFFF", borderRadius: 16, padding: "24px", border: "1px solid var(--border)", boxShadow: "var(--shadow-sm)", marginBottom: 20 }}>
           <h2 style={{ fontSize: 18, fontWeight: 700, color: "#111827", marginBottom: 10 }}>Why NaukriYatra?</h2>
           <p style={{ fontSize: 14, color: "#374151", lineHeight: 1.8, marginBottom: 12 }}>
             Most exam preparation platforms charge ₹5,000–₹50,000 for their courses. We believe every aspirant deserves access to quality preparation tools regardless of their financial background.
@@ -68,10 +91,25 @@ export default function AboutPage() {
           </p>
         </div>
 
-        <div style={{ background: "linear-gradient(135deg, #EFF6FF, #F0FDFA)", borderRadius: 16, padding: "24px", border: "1px solid rgba(37,99,235,0.1)", textAlign: "center" }}>
+        <div style={{ background: "linear-gradient(135deg, #EFF6FF, #F0FDFA)", borderRadius: 16, padding: "24px", border: "1px solid rgba(37,99,235,0.1)", textAlign: "center", marginBottom: 20 }}>
           <div style={{ fontSize: 32, marginBottom: 8 }}>🇮🇳</div>
           <p style={{ fontSize: 15, fontWeight: 700, color: "#111827", marginBottom: 4 }}>Made in India with ❤️</p>
           <p style={{ fontSize: 13, color: "#6B7280" }}>By aspirants, for aspirants.</p>
+        </div>
+
+        <div style={{ background: "#FFFFFF", borderRadius: 16, padding: "24px", border: "1px solid var(--border)", boxShadow: "var(--shadow-sm)" }}>
+          <h2 style={{ fontSize: 18, fontWeight: 700, color: "#111827", marginBottom: 10 }}>Contact Us</h2>
+          <p style={{ fontSize: 14, color: "#374151", lineHeight: 1.8, marginBottom: 12 }}>
+            Have questions, feedback, or suggestions? We'd love to hear from you!
+          </p>
+          <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+            <div style={{ fontSize: 14 }}>
+              <strong>Email:</strong> <a href="mailto:contact@naukriyatra.com" style={{ color: "#2563EB", textDecoration: "none" }}>contact@naukriyatra.com</a>
+            </div>
+            <div style={{ fontSize: 14 }}>
+              <strong>Response Time:</strong> We respond within 48 hours
+            </div>
+          </div>
         </div>
       </div>
     </main>

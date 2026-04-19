@@ -4,9 +4,10 @@ import { usePathname } from "next/navigation";
 
 const tabs = [
   { href: "/",          icon: "🏠", label: "Home"     },
-  { href: "/jobs",      icon: "💼", label: "Explore"  },
-  { href: "/interview", icon: "🎯", label: "Practice" },
-  { href: "/stories",   icon: "⭐", label: "Stories"  },
+  { href: "/quiz",      icon: "📝", label: "Quiz"     },
+  { href: "/cutoffs",   icon: "📊", label: "Cutoffs"  },
+  { href: "/compare",   icon: "⚖️", label: "Compare"  },
+  { href: "/exam-calendar", icon: "📅", label: "Calendar" },
   { href: "/dashboard", icon: "👤", label: "Profile"  },
 ];
 

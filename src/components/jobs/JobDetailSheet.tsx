@@ -267,6 +267,40 @@ export default function JobDetailSheet({ job, onClose }: { job: Job; onClose: ()
             <div style={{ fontSize: 12, color: "#374151", lineHeight: 1.8, whiteSpace: "pre-line" }}>{job.dayInLife}</div>
           </div>
 
+          {/* Link to full day-in-life article */}
+          {(() => {
+            const dayInLifeMap: Record<string, string> = {
+              "ias": "ias-district-magistrate",
+              "sbi-po": "sbi-po-bank-manager",
+              "income-tax-inspector": "income-tax-inspector",
+              "station-master": "railway-station-master",
+              "rbi-grade-b": "rbi-grade-b",
+              "nda": "nda-army-officer",
+            };
+            const articleSlug = dayInLifeMap[job.id];
+            if (articleSlug) {
+              return (
+                <Link href={`/life/${articleSlug}`} style={{ textDecoration: "none" }}>
+                  <div style={{
+                    borderRadius: 12, padding: "12px 14px", marginBottom: 16,
+                    background: "linear-gradient(135deg, #F3E8FF, #FCE7F3)",
+                    border: "1px solid rgba(168,85,247,0.1)",
+                    display: "flex", alignItems: "center", gap: 10,
+                    cursor: "pointer",
+                  }}>
+                    <span style={{ fontSize: 20 }}>📖</span>
+                    <div style={{ flex: 1 }}>
+                      <div style={{ fontSize: 12, fontWeight: 700, color: "#7C3AED" }}>Read Full Story</div>
+                      <div style={{ fontSize: 11, color: "#6B7280", marginTop: 2 }}>Detailed insider account of a real day</div>
+                    </div>
+                    <span style={{ fontSize: 18, opacity: 0.6 }}>→</span>
+                  </div>
+                </Link>
+              );
+            }
+            return null;
+          })()}
+
           {/* Lifestyle */}
           <SectionLabel icon="🏠" text="Life After Selection" color="#2563EB" />
           <div style={{ borderRadius: 12, padding: "12px 14px", marginBottom: 16, background: "#EFF6FF", border: "1px solid rgba(37,99,235,0.08)" }}>

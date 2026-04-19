@@ -1,12 +1,13 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Government vs Private Job — Full Comparison 2026 — NaukriYatra",
-  description: "Government job vs private job comparison. Job security, salary, healthcare, career growth, work-life balance, retirement — honest analysis across 8 factors. Which path fits your life?",
-  keywords: ["government vs private job", "sarkari naukri vs private", "govt job benefits", "private vs government salary comparison"],
+  title: "Career Comparisons — IAS vs IPS, PO, SSC, Government vs Private — NaukriYatra",
+  description: "Compare government job paths: IAS vs IPS, SBI PO vs IBPS PO, SSC CGL vs CHSL, UPSC vs State PSC, and Government vs Private jobs. Make informed career decisions with detailed comparisons.",
+  keywords: ["IAS vs IPS", "SBI PO vs IBPS PO", "SSC CGL vs CHSL", "UPSC vs State PSC", "government vs private jobs", "career comparison", "government job comparison"],
+  alternates: { canonical: "/compare" },
   openGraph: {
-    title: "Government vs Private Job — Full Comparison — NaukriYatra",
-    description: "Honest comparison across 8 factors. Job security, salary, growth, retirement — which path fits you?",
+    title: "Career Comparisons — Choose Your Path — NaukriYatra",
+    description: "Compare popular government job paths and make informed career decisions. IAS, IPS, PO, SSC, and more.",
   },
 };
 

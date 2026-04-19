@@ -257,6 +257,91 @@ export default function Home() {
           </div>
         </Link>
 
+        {/* ═══ DAY IN THE LIFE ═══ */}
+        <Link href="/life" style={{ textDecoration: "none" }}>
+          <div className="anim-up-6" style={{
+            marginTop: 14, borderRadius: 14, padding: "16px",
+            background: "linear-gradient(135deg, #F3E8FF, #FCE7F3)",
+            border: "1px solid rgba(168,85,247,0.1)",
+            display: "flex", alignItems: "center", gap: 14,
+          }}>
+            <div style={{ width: 44, height: 44, borderRadius: 12, background: "#A855F7", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 22, flexShrink: 0 }}>👔</div>
+            <div style={{ flex: 1 }}>
+              <div style={{ fontSize: 14, fontWeight: 700, color: "#111827" }}>Day in the Life Stories</div>
+              <div style={{ fontSize: 11, color: "#6B7280", marginTop: 2 }}>IAS, SBI PO, Income Tax Inspector & more</div>
+            </div>
+            <span style={{ color: "#A855F7", fontWeight: 700, fontSize: 14 }}>→</span>
+          </div>
+        </Link>
+
+        {/* ═══ FREE QUIZZES ═══ */}
+        <Link href="/quiz" style={{ textDecoration: "none" }}>
+          <div className="anim-up-6" style={{
+            marginTop: 14, borderRadius: 14, padding: "16px",
+            background: "linear-gradient(135deg, #FEF3C7, #FED7AA)",
+            border: "1px solid rgba(217,119,6,0.1)",
+            display: "flex", alignItems: "center", gap: 14,
+          }}>
+            <div style={{ width: 44, height: 44, borderRadius: 12, background: "#D97706", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 22, flexShrink: 0 }}>📝</div>
+            <div style={{ flex: 1 }}>
+              <div style={{ fontSize: 14, fontWeight: 700, color: "#111827" }}>Free Quizzes & Practice Tests</div>
+              <div style={{ fontSize: 11, color: "#6B7280", marginTop: 2 }}>5 quizzes/day · 8 subjects · Instant feedback</div>
+            </div>
+            <span style={{ color: "#D97706", fontWeight: 700, fontSize: 14 }}>→</span>
+          </div>
+        </Link>
+
+        {/* ═══ CAREER COMPARISONS ═══ */}
+        <Link href="/compare" style={{ textDecoration: "none" }}>
+          <div className="anim-up-6" style={{
+            marginTop: 14, borderRadius: 14, padding: "16px",
+            background: "linear-gradient(135deg, #E9D5FF, #F3E8FF)",
+            border: "1px solid rgba(126,34,206,0.1)",
+            display: "flex", alignItems: "center", gap: 14,
+          }}>
+            <div style={{ width: 44, height: 44, borderRadius: 12, background: "#7E22CE", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 22, flexShrink: 0 }}>⚖️</div>
+            <div style={{ flex: 1 }}>
+              <div style={{ fontSize: 14, fontWeight: 700, color: "#111827" }}>Career Comparisons</div>
+              <div style={{ fontSize: 11, color: "#6B7280", marginTop: 2 }}>IAS vs IPS, PO vs CHSL, Govt vs Private & more</div>
+            </div>
+            <span style={{ color: "#7E22CE", fontWeight: 700, fontSize: 14 }}>→</span>
+          </div>
+        </Link>
+
+        {/* ═══ CUTOFF ANALYSIS ═══ */}
+        <Link href="/cutoffs" style={{ textDecoration: "none" }}>
+          <div className="anim-up-6" style={{
+            marginTop: 14, borderRadius: 14, padding: "16px",
+            background: "linear-gradient(135deg, #FEE2E2, #FECACA)",
+            border: "1px solid rgba(220,38,38,0.1)",
+            display: "flex", alignItems: "center", gap: 14,
+          }}>
+            <div style={{ width: 44, height: 44, borderRadius: 12, background: "#DC2626", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 22, flexShrink: 0 }}>📊</div>
+            <div style={{ flex: 1 }}>
+              <div style={{ fontSize: 14, fontWeight: 700, color: "#111827" }}>Cutoff Analysis & Trends</div>
+              <div style={{ fontSize: 11, color: "#6B7280", marginTop: 2 }}>Year-wise data · Selection ratios · Difficulty trends</div>
+            </div>
+            <span style={{ color: "#DC2626", fontWeight: 700, fontSize: 14 }}>→</span>
+          </div>
+        </Link>
+
+        {/* ═══ EXAM CALENDAR ═══ */}
+        <Link href="/exam-calendar" style={{ textDecoration: "none" }}>
+          <div className="anim-up-6" style={{
+            marginTop: 14, borderRadius: 14, padding: "16px",
+            background: "linear-gradient(135deg, #DBEAFE, #BFDBFE)",
+            border: "1px solid rgba(59,130,246,0.1)",
+            display: "flex", alignItems: "center", gap: 14,
+          }}>
+            <div style={{ width: 44, height: 44, borderRadius: 12, background: "#3B82F6", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 22, flexShrink: 0 }}>📅</div>
+            <div style={{ flex: 1 }}>
+              <div style={{ fontSize: 14, fontWeight: 700, color: "#111827" }}>Exam Calendar 2026</div>
+              <div style={{ fontSize: 11, color: "#6B7280", marginTop: 2 }}>Important dates · Registration deadlines · Countdown timers</div>
+            </div>
+            <span style={{ color: "#3B82F6", fontWeight: 700, fontSize: 14 }}>→</span>
+          </div>
+        </Link>
+
         {/* ═══ LATEST NEWS ═══ */}
         <div style={{ paddingTop: 20 }}>
           <LatestNews />
@@ -275,6 +360,7 @@ export default function Home() {
             <div>
               <div style={{ fontSize: 10, fontWeight: 700, color: "rgba(255,255,255,0.35)", letterSpacing: 1.5, textTransform: "uppercase", marginBottom: 10 }}>Prepare</div>
               <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+                <a href="/quiz" style={{ fontSize: 12, color: "rgba(255,255,255,0.7)", textDecoration: "none" }}>Practice Quizzes</a>
                 <a href="/current-affairs" style={{ fontSize: 12, color: "rgba(255,255,255,0.7)", textDecoration: "none" }}>Current Affairs</a>
                 <a href="/prepare" style={{ fontSize: 12, color: "rgba(255,255,255,0.7)", textDecoration: "none" }}>Study Plans</a>
                 <a href="/interview" style={{ fontSize: 12, color: "rgba(255,255,255,0.7)", textDecoration: "none" }}>AI Practice</a>
@@ -282,13 +368,23 @@ export default function Home() {
               </div>
             </div>
             <div>
-              <div style={{ fontSize: 10, fontWeight: 700, color: "rgba(255,255,255,0.35)", letterSpacing: 1.5, textTransform: "uppercase", marginBottom: 10 }}>Company</div>
+              <div style={{ fontSize: 10, fontWeight: 700, color: "rgba(255,255,255,0.35)", letterSpacing: 1.5, textTransform: "uppercase", marginBottom: 10 }}>Tools</div>
               <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-                <a href="/about" style={{ fontSize: 12, color: "rgba(255,255,255,0.7)", textDecoration: "none" }}>About Us</a>
-                <a href="/contact" style={{ fontSize: 12, color: "rgba(255,255,255,0.7)", textDecoration: "none" }}>Contact</a>
-                <a href="/compare" style={{ fontSize: 12, color: "rgba(255,255,255,0.7)", textDecoration: "none" }}>Govt vs Private</a>
-                <a href="/privacy" style={{ fontSize: 12, color: "rgba(255,255,255,0.7)", textDecoration: "none" }}>Privacy Policy</a>
+                <a href="/compare" style={{ fontSize: 12, color: "rgba(255,255,255,0.7)", textDecoration: "none" }}>Career Comparisons</a>
+                <a href="/cutoffs" style={{ fontSize: 12, color: "rgba(255,255,255,0.7)", textDecoration: "none" }}>Cutoff Analysis</a>
+                <a href="/exam-calendar" style={{ fontSize: 12, color: "rgba(255,255,255,0.7)", textDecoration: "none" }}>Exam Calendar</a>
+                <a href="/salary-calculator" style={{ fontSize: 12, color: "rgba(255,255,255,0.7)", textDecoration: "none" }}>Salary Calculator</a>
+                <a href="/life" style={{ fontSize: 12, color: "rgba(255,255,255,0.7)", textDecoration: "none" }}>Day in Life Stories</a>
               </div>
+            </div>
+          </div>
+
+          <div style={{ borderTop: "1px solid rgba(255,255,255,0.1)", paddingTop: 14, marginBottom: 14 }}>
+            <div style={{ fontSize: 10, fontWeight: 700, color: "rgba(255,255,255,0.35)", letterSpacing: 1.5, textTransform: "uppercase", marginBottom: 10 }}>Legal</div>
+            <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+              <a href="/privacy" style={{ fontSize: 12, color: "rgba(255,255,255,0.7)", textDecoration: "none" }}>Privacy Policy</a>
+              <a href="/terms" style={{ fontSize: 12, color: "rgba(255,255,255,0.7)", textDecoration: "none" }}>Terms of Service</a>
+              <a href="/disclaimer" style={{ fontSize: 12, color: "rgba(255,255,255,0.7)", textDecoration: "none" }}>Disclaimer</a>
             </div>
           </div>
 

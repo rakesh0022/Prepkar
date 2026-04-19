@@ -1,0 +1,240 @@
+{
+  "posts": [
+    {
+      "id": "ias-officer",
+      "name": "IAS Officer",
+      "category": "UPSC",
+      "payLevel": 10,
+      "basicPay": {
+        "entry": 56100,
+        "afterIncrements": {
+          "3years": 67700,
+          "7years": 78800,
+          "14years": 101300,
+          "20years": 118500,
+          "30years": 144200
+        }
+      },
+      "perks": {
+        "housingValue": 50000,
+        "medical": "CGHS - Free for family",
+        "vehicle": "Official car + driver + fuel",
+        "ltc": "Leave Travel Concession",
+        "pension": "NPS + Gratuity"
+      }
+    },
+    {
+      "id": "sbi-po",
+      "name": "SBI PO",
+      "category": "Banking",
+      "payScale": "JMGS-I",
+      "basicPay": {
+        "entry": 36000,
+        "afterIncrements": {
+          "3years": 42430,
+          "7years": 49910,
+          "14years": 56640,
+          "20years": 63840
+        }
+      },
+      "perks": {
+        "housingValue": 15000,
+        "medical": "Mediclaim ₹3L",
+        "lfc": "Leave Fare Concession",
+        "pension": "Pension + PF"
+      }
+    },
+    {
+      "id": "ssc-cgl-income-tax",
+      "name": "SSC CGL - Income Tax Inspector",
+      "category": "SSC",
+      "payLevel": 7,
+      "basicPay": {
+        "entry": 44900,
+        "afterIncrements": {
+          "3years": 54200,
+          "7years": 63100,
+          "14years": 81200,
+          "20years": 95000
+        }
+      },
+      "perks": {
+        "housingValue": 20000,
+        "medical": "CGHS",
+        "vehicle": "Conveyance allowance",
+        "ltc": "Leave Travel Concession",
+        "pension": "NPS + Gratuity"
+      }
+    },
+    {
+      "id": "ssc-cgl-auditor",
+      "name": "SSC CGL - Auditor",
+      "category": "SSC",
+      "payLevel": 6,
+      "basicPay": {
+        "entry": 35400,
+        "afterIncrements": {
+          "3years": 42800,
+          "7years": 49900,
+          "14years": 64200,
+          "20years": 75200
+        }
+      },
+      "perks": {
+        "housingValue": 15000,
+        "medical": "CGHS",
+        "vehicle": "Conveyance allowance",
+        "ltc": "Leave Travel Concession",
+        "pension": "NPS + Gratuity"
+      }
+    },
+    {
+      "id": "ssc-chsl",
+      "name": "SSC CHSL",
+      "category": "SSC",
+      "payLevel": 2,
+      "basicPay": {
+        "entry": 19900,
+        "afterIncrements": {
+          "3years": 24000,
+          "7years": 28000,
+          "14years": 36000,
+          "20years": 42200
+        }
+      },
+      "perks": {
+        "housingValue": 10000,
+        "medical": "CGHS",
+        "vehicle": "Conveyance allowance",
+        "ltc": "Leave Travel Concession",
+        "pension": "NPS + Gratuity"
+      }
+    },
+    {
+      "id": "rrb-ntpc",
+      "name": "RRB NTPC",
+      "category": "Railway",
+      "payLevel": 5,
+      "basicPay": {
+        "entry": 19900,
+        "afterIncrements": {
+          "3years": 24000,
+          "7years": 28000,
+          "14years": 36000,
+          "20years": 42200
+        }
+      },
+      "perks": {
+        "housingValue": 15000,
+        "medical": "Railway Medical",
+        "vehicle": "Pass benefits",
+        "ltc": "Leave Travel Concession",
+        "pension": "Pension + PF"
+      }
+    },
+    {
+      "id": "rbi-grade-b",
+      "name": "RBI Grade B",
+      "category": "Banking",
+      "payScale": "Grade B",
+      "basicPay": {
+        "entry": 55220,
+        "afterIncrements": {
+          "3years": 66780,
+          "7years": 77820,
+          "14years": 100230,
+          "20years": 117420
+        }
+      },
+      "perks": {
+        "housingValue": 25000,
+        "medical": "Mediclaim ₹5L",
+        "vehicle": "Conveyance allowance",
+        "lfc": "Leave Fare Concession",
+        "pension": "Pension + PF"
+      }
+    },
+    {
+      "id": "nda",
+      "name": "NDA",
+      "category": "Defence",
+      "payLevel": 10,
+      "basicPay": {
+        "entry": 56100,
+        "afterIncrements": {
+          "3years": 67700,
+          "7years": 78800,
+          "14years": 101300,
+          "20years": 118500,
+          "30years": 144200
+        }
+      },
+      "perks": {
+        "housingValue": 40000,
+        "medical": "Military Medical",
+        "vehicle": "Official vehicle",
+        "ltc": "Leave Travel Concession",
+        "pension": "Military Pension"
+      }
+    },
+    {
+      "id": "delhi-police",
+      "name": "Delhi Police Constable",
+      "category": "Defence",
+      "payLevel": 3,
+      "basicPay": {
+        "entry": 21700,
+        "afterIncrements": {
+          "3years": 26200,
+          "7years": 30500,
+          "14years": 39300,
+          "20years": 46000
+        }
+      },
+      "perks": {
+        "housingValue": 12000,
+        "medical": "Police Medical",
+        "vehicle": "Conveyance allowance",
+        "ltc": "Leave Travel Concession",
+        "pension": "Pension + PF"
+      }
+    },
+    {
+      "id": "ibps-po",
+      "name": "IBPS PO",
+      "category": "Banking",
+      "payScale": "JMGS-I",
+      "basicPay": {
+        "entry": 36000,
+        "afterIncrements": {
+          "3years": 42430,
+          "7years": 49910,
+          "14years": 56640,
+          "20years": 63840
+        }
+      },
+      "perks": {
+        "housingValue": 15000,
+        "medical": "Mediclaim ₹3L",
+        "lfc": "Leave Fare Concession",
+        "pension": "Pension + PF"
+      }
+    }
+  ],
+  "allowances": {
+    "da": 50,
+    "hra": {
+      "xCity": 30,
+      "yCity": 20,
+      "zCity": 10
+    },
+    "ta": {
+      "metro": 3600,
+      "nonMetro": 1800
+    }
+  },
+  "deductions": {
+    "nps": 10,
+    "professionalTax": 200
+  }
+}
