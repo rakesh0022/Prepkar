@@ -181,7 +181,7 @@ export default function SalaryCalculator() {
             </div>
           </div>
 
-          {includePerks && (
+          {includePerks && selectedPostData && (
             <div className="mt-6 pt-4 border-t">
               <h4 className="font-semibold mb-2">Perks & Benefits</h4>
               <div className="space-y-1 text-sm">
@@ -195,7 +195,7 @@ export default function SalaryCalculator() {
                 </div>
                 <div className="flex justify-between">
                   <span>Other benefits:</span>
-                  <span>{selectedPostData.perks.vehicle}, {selectedPostData.perks.ltc || selectedPostData.perks.lfc}, {selectedPostData.perks.pension}</span>
+                  <span>{selectedPostData.perks.vehicle}, {selectedPostData.perks.ltc ?? selectedPostData.perks.lfc}, {selectedPostData.perks.pension}</span>
                 </div>
                 <hr className="my-2" />
                 <div className="flex justify-between font-bold text-blue-600">
