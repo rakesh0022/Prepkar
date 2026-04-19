@@ -3,6 +3,7 @@ import Link from 'next/link';
 import BottomNav from '@/components/BottomNav';
 import cutoffs from '@/data/cutoffs.json';
 import CutoffDetail from './CutoffDetail';
+import AuthGuardWrapper from './AuthGuardWrapper';
 
 // Pre-render all slugs at build time
 export function generateStaticParams() {
@@ -36,7 +37,9 @@ export default function CutoffDetailPage({ params }: { params: { slug: string } 
           ← Back to All Exams
         </Link>
       </div>
-      <CutoffDetail exam={exam} />
+      <AuthGuardWrapper slug={params.slug}>
+        <CutoffDetail exam={exam} />
+      </AuthGuardWrapper>
       <BottomNav />
     </main>
   );
