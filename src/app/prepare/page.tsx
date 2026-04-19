@@ -60,6 +60,16 @@ export default function PreparePage() {
   if (!strategy) return (
     <main style={{ minHeight: "100vh", background: "var(--bg)", paddingBottom: 76 }}>
       <div className="desktop-only" style={{ height: 56 }} />
+      
+      {/* Page Header Image */}
+      <div style={{
+        width: "100%", height: 200, 
+        backgroundImage: "url('/images/pages/prepare-header.png')",
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        marginBottom: 0,
+      }} />
+      
       <header style={{ padding: "14px 16px", borderBottom: "1px solid var(--border)", display: "flex", alignItems: "center", gap: 8 }}>
         <Link href="/" style={{ color: "#6B7280", fontSize: 15, textDecoration: "none" }}>←</Link>
         <h1 style={{ fontFamily: "'Playfair Display',serif", fontSize: 22, fontWeight: 700, color: "#111827" }}>Preparation Strategy</h1>

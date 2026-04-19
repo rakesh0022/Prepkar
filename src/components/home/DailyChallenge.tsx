@@ -14,10 +14,17 @@ export default function DailyChallenge({ quiz, answer, onAnswer }: Props) {
     <section style={{
       marginBottom: 20, borderRadius: 18, padding: "18px 16px",
       background: "linear-gradient(135deg, #ECFDF5, #F0FDFA)",
+      backgroundImage: "url('/images/sections/daily-challenge.png')",
+      backgroundSize: "cover",
+      backgroundPosition: "center",
+      backgroundBlendMode: "overlay",
       border: "1px solid rgba(16,185,129,0.18)",
       boxShadow: "var(--shadow-sm)",
+      position: "relative",
+      overflow: "hidden",
     }}>
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 12 }}>
+      <div style={{ position: "relative", zIndex: 1 }}>
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 12 }}>
         <div>
           <div style={{ fontSize: 11, fontWeight: 700, color: "#059669", letterSpacing: 1.2, textTransform: "uppercase" }}>
             ⚡ Today&apos;s Challenge
@@ -80,6 +87,7 @@ export default function DailyChallenge({ quiz, answer, onAnswer }: Props) {
           New question every day • Your answer is saved automatically
         </p>
       )}
+      </div>
     </section>
   );
 }

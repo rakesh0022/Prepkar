@@ -10,6 +10,16 @@ export default function AboutPage() {
   return (
     <main style={{ minHeight: "100vh", background: "var(--bg)", paddingBottom: 80, paddingTop: 0 }}>
       <div className="desktop-only" style={{ height: 56 }} />
+      
+      {/* Page Header Image */}
+      <div style={{
+        width: "100%", height: 240, 
+        backgroundImage: "url('/images/pages/about-header.png')",
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        marginBottom: 0,
+      }} />
+      
       <div style={{ maxWidth: 720, margin: "0 auto", padding: "28px 20px" }}>
         <Link href="/" style={{ color: "#6B7280", fontSize: 13, textDecoration: "none" }}>← Back to Home</Link>
 

@@ -18,7 +18,7 @@ export const metadata: Metadata = {
     type: "website",
     images: [
       {
-        url: `${siteUrl}/og-image.png`,
+        url: `${siteUrl}/images/branding/og-image.png`,
         width: 1200,
         height: 630,
         alt: "NaukriYatra — Sapne se Selection Tak — Government Job Preparation",
@@ -29,7 +29,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "NaukriYatra — Sapne se Selection Tak",
     description: "Free AI mock interviews, 17+ govt job roadmaps, salary calculators. Your complete sarkari naukri preparation companion.",
-    images: [`${siteUrl}/og-image.png`],
+    images: [`${siteUrl}/images/branding/og-image.png`],
   },
   robots: { index: true, follow: true },
 };
@@ -44,7 +44,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800;900&family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
         <link rel="manifest" href="/manifest.json" />
-        <link rel="apple-touch-icon" href="/icon-192.png" />
+        <link rel="icon" href="/images/branding/favicon.ico" />
+        <link rel="apple-touch-icon" href="/images/branding/icon-192.png" />
       </head>
       <body className="font-[DM_Sans] antialiased">
         <GoogleAnalytics />

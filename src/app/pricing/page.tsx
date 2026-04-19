@@ -101,6 +101,16 @@ export default function PricingPage() {
   return (
     <main style={{ minHeight: "100vh", background: "var(--bg)", paddingBottom: 80 }}>
       <div className="desktop-only" style={{ height: 56 }} />
+      
+      {/* Page Header Image */}
+      <div style={{
+        width: "100%", height: 200, 
+        backgroundImage: "url('/images/pages/pricing-header.png')",
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        marginBottom: 0,
+      }} />
+      
       <div style={{ maxWidth: 640, margin: "0 auto", padding: "28px 20px" }}>
 
         {/* Header */}

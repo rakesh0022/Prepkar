@@ -37,7 +37,12 @@ export default function Home() {
         background: "var(--bg-hero)", color: "#fff",
         padding: "48px 24px 40px", textAlign: "center",
         borderRadius: "0 0 28px 28px", position: "relative", overflow: "hidden",
+        backgroundImage: "url('/images/hero/hero-bg.png')",
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        backgroundAttachment: "fixed",
       }}>
+        <div style={{ position: "absolute", inset: 0, background: "linear-gradient(180deg, rgba(15,23,42,0.7) 0%, rgba(15,23,42,0.5) 100%)" }} />
         <div style={{ position: "absolute", inset: 0, opacity: 0.04, backgroundImage: "radial-gradient(circle at 20% 50%, #fff 1px, transparent 1px), radial-gradient(circle at 80% 20%, #fff 1px, transparent 1px)", backgroundSize: "40px 40px" }} />
 
         <div style={{ position: "relative", zIndex: 1 }}>

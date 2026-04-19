@@ -9,10 +9,17 @@ export default function MentorshipBanner({ onJoin }: Props) {
     <section style={{
       marginBottom: 20, borderRadius: 18, padding: "22px 18px",
       background: "linear-gradient(135deg, #FFFBEB, #FEF3C7)",
+      backgroundImage: "url('/images/sections/mentorship.png')",
+      backgroundSize: "cover",
+      backgroundPosition: "center",
+      backgroundBlendMode: "overlay",
       border: "1px solid rgba(245,158,11,0.2)",
       textAlign: "center",
       boxShadow: "var(--shadow-sm)",
+      position: "relative",
+      overflow: "hidden",
     }}>
+      <div style={{ position: "relative", zIndex: 1 }}>
       <div style={{ fontSize: 34, marginBottom: 8 }}>🤝</div>
       <h3 style={{
         fontFamily: "'Outfit',sans-serif", fontSize: 17, fontWeight: 800,
@@ -35,6 +42,7 @@ export default function MentorshipBanner({ onJoin }: Props) {
       >
         Join Waitlist — Get Early Access
       </button>
+      </div>
     </section>
   );
 }

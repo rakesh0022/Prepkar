@@ -60,6 +60,12 @@ function LoginInner() {
 
   return (
     <main style={{ minHeight: "100vh", background: "var(--bg)", display: "flex", alignItems: "center", justifyContent: "center", padding: 16 }}>
+      {/* Left side - Illustration (Desktop only) */}
+      <div className="desktop-only" style={{
+        flex: 1, height: "100vh", backgroundImage: "url('/images/pages/login-illustration.png')",
+        backgroundSize: "cover", backgroundPosition: "center", borderRadius: "40px 0 0 40px",
+      }} />
+      
       <div className="anim-up" style={{ background: "#FFFFFF", borderRadius: 20, padding: "32px 24px", maxWidth: 420, width: "100%", border: "1px solid var(--border)", boxShadow: "var(--shadow-lg)" }}>
 
         <div style={{ textAlign: "center", marginBottom: 24 }}>
