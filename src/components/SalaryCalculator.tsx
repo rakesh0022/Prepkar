@@ -18,10 +18,11 @@ export default function SalaryCalculator() {
   const calculateSalary = () => {
     if (!selectedPostData) return null;
 
-    const basicPay = selectedPostData.basicPay.afterIncrements?.[`${experience}years`] || selectedPostData.basicPay.entry;
+    const incrementKey = `${experience}years` as keyof typeof selectedPostData.basicPay.afterIncrements;
+    const basicPay = (selectedPostData.basicPay.afterIncrements as Record<string, number> | undefined)?.[incrementKey] ?? selectedPostData.basicPay.entry;
     const da = (basicPay * allowances.da) / 100;
-    const hra = (basicPay * allowances.hra[cityType]) / 100;
-    const ta = allowances.ta[cityType === "xCity" ? "metro" : "nonMetro"];
+    const hra = (basicPay * (allowances.hra as Record<string, number>)[cityType]) / 100;
+    const ta = (allowances.ta as Record<string, number>)[cityType === "xCity" ? "metro" : "nonMetro"];
 
     const gross = basicPay + da + hra + ta;
     const npsDeduction = (basicPay * deductions.nps) / 100;
@@ -153,7 +154,7 @@ export default function SalaryCalculator() {
               <span>₹{Math.round(salary.da).toLocaleString()}</span>
             </div>
             <div className="flex justify-between">
-              <span>HRA ({allowances.hra[cityType]}%):</span>
+              <span>HRA ({(allowances.hra as Record<string, number>)[cityType]}%):</span>
               <span>₹{Math.round(salary.hra).toLocaleString()}</span>
             </div>
             <div className="flex justify-between">
