@@ -187,7 +187,6 @@ export const CURRENT_AFFAIRS_META = {
   disclaimer: currentAffairsData.disclaimer,
   reportErrorUrl: currentAffairsData.reportErrorUrl,
 };
-}
 
 
 
