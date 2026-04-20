@@ -62,7 +62,7 @@ export default function PracticePage() {
 
   async function begin() {
     // Gate: must be logged in
-    if (!isLoggedIn) { router.push(`/login?redirect=/interview`); return; }
+    if (!isLoggedIn) { router.push(`/login?redirect=/ai-practice`); return; }
     // Gate: check free test limit
     if (subStatus && !subStatus.canTakeTest) { router.push("/pricing"); return; }
 
@@ -142,7 +142,7 @@ export default function PracticePage() {
         <h1 style={{ fontFamily: "'Playfair Display',serif", fontSize: 22, fontWeight: 700, color: "#111827" }}>AI Practice</h1>
         {/* Show login status */}
         {!isLoggedIn && (
-          <Link href="/login?redirect=/interview" style={{ marginLeft: "auto", textDecoration: "none" }}>
+          <Link href="/login?redirect=/ai-practice" style={{ marginLeft: "auto", textDecoration: "none" }}>
             <div style={{ padding: "6px 14px", borderRadius: 8, background: "#2563EB", color: "#fff", fontSize: 11, fontWeight: 700 }}>Sign In</div>
           </Link>
         )}

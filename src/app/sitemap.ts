@@ -10,7 +10,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${baseUrl}/jobs`,                    lastModified: now, changeFrequency: "weekly",  priority: 0.9 },
     { url: `${baseUrl}/current-affairs`,         lastModified: now, changeFrequency: "daily",   priority: 0.9 },
     { url: `${baseUrl}/prepare`,                 lastModified: now, changeFrequency: "monthly", priority: 0.8 },
-    { url: `${baseUrl}/interview`,               lastModified: now, changeFrequency: "monthly", priority: 0.8 },
+    { url: `${baseUrl}/ai-practice`,             lastModified: now, changeFrequency: "monthly", priority: 0.8 },
     { url: `${baseUrl}/compare`,                 lastModified: now, changeFrequency: "monthly", priority: 0.6 },
     { url: `${baseUrl}/pricing`,                 lastModified: now, changeFrequency: "monthly", priority: 0.6 },
     { url: `${baseUrl}/stories`,                 lastModified: now, changeFrequency: "weekly",  priority: 0.5 },

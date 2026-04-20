@@ -205,7 +205,7 @@ export default function DashboardPage() {
               </div>
             </Link>
           )}
-          <Link href="/interview" style={{ textDecoration: "none" }}>
+          <Link href="/ai-practice" style={{ textDecoration: "none" }}>
             <div style={{ display: "flex", alignItems: "center", gap: 10, padding: "10px 12px", borderRadius: 10, background: "#EFF6FF", border: "1px solid rgba(37,99,235,0.12)", marginBottom: untried.length > 0 ? 8 : 0 }}>
               <span style={{ fontSize: 18 }}>🎯</span>
               <div style={{ flex: 1 }}>
@@ -216,7 +216,7 @@ export default function DashboardPage() {
             </div>
           </Link>
           {untried.length > 0 && (
-            <Link href="/interview" style={{ textDecoration: "none" }}>
+            <Link href="/ai-practice" style={{ textDecoration: "none" }}>
               <div style={{ display: "flex", alignItems: "center", gap: 10, padding: "10px 12px", borderRadius: 10, background: "#F0FDF4", border: "1px solid rgba(22,163,74,0.12)" }}>
                 <span style={{ fontSize: 18 }}>🆕</span>
                 <div style={{ flex: 1 }}>
@@ -251,7 +251,7 @@ export default function DashboardPage() {
           <div style={{ textAlign: "center", padding: "40px 0", color: "#9CA3AF" }}>
             <div style={{ fontSize: 48, marginBottom: 10 }}>📝</div>
             <p style={{ fontSize: 14, fontWeight: 600, color: "#374151" }}>No sessions yet</p>
-            <Link href="/interview" style={{ textDecoration: "none" }}>
+            <Link href="/ai-practice" style={{ textDecoration: "none" }}>
               <div style={{ display: "inline-block", marginTop: 16, padding: "10px 24px", background: "#2563EB", color: "#fff", borderRadius: 10, fontSize: 13, fontWeight: 700 }}>Start Practicing →</div>
             </Link>
           </div>

@@ -152,7 +152,7 @@ function QuizSetup() {
         </div>
 
         {/* AI Practice CTA */}
-        <a href="/interview" style={{ textDecoration: 'none' }}>
+        <a href="/ai-practice" style={{ textDecoration: 'none' }}>
           <div style={{ background: 'linear-gradient(135deg, #7c3aed 0%, #2563eb 100%)', borderRadius: '12px', padding: '16px', marginTop: '16px', display: 'flex', alignItems: 'center', gap: '14px' }}>
             <span style={{ fontSize: '32px' }}>🎯</span>
             <div>

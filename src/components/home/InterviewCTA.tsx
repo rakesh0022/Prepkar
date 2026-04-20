@@ -36,7 +36,7 @@ export default function InterviewCTA() {
         </Link>
 
         {/* Path 2: Practice */}
-        <Link href="/interview" style={{ textDecoration: "none" }}>
+        <Link href="/ai-practice" style={{ textDecoration: "none" }}>
           <div style={{
             borderRadius: 16, padding: "20px 14px 16px", textAlign: "center",
             background: "linear-gradient(160deg, #EFF6FF, #DBEAFE)",
@@ -64,7 +64,7 @@ export default function InterviewCTA() {
           { icon: "✍️", label: "Descriptive", desc: "Essay & letter writing", color: "#D97706", bg: "#FFFBEB" },
           { icon: "🎯", label: "Interview Panel", desc: "AI scores your answers", color: "#16A34A", bg: "#F0FDF4" },
         ].map((s, i) => (
-          <Link key={i} href="/interview" style={{ textDecoration: "none" }}>
+          <Link key={i} href="/ai-practice" style={{ textDecoration: "none" }}>
             <div style={{
               borderRadius: 12, padding: "12px 10px", textAlign: "center",
               background: s.bg, border: `1px solid ${s.color}15`,
@@ -77,7 +77,7 @@ export default function InterviewCTA() {
         ))}
       </div>
 
-      <Link href="/interview" style={{ textDecoration: "none" }}>
+      <Link href="/ai-practice" style={{ textDecoration: "none" }}>
         <div style={{
           padding: "12px", borderRadius: 12,
           background: "linear-gradient(90deg, #2563EB, #0D9488)",

@@ -112,7 +112,7 @@ export default function Home() {
             ))}
           </div>
 
-          <Link href="/interview" style={{ textDecoration: "none" }}>
+          <Link href="/ai-practice" style={{ textDecoration: "none" }}>
             <div style={{
               display: "inline-flex", alignItems: "center", gap: 10,
               background: "linear-gradient(90deg, #3B82F6, #14B8A6)",
@@ -363,7 +363,7 @@ export default function Home() {
                 <a href="/quiz" style={{ fontSize: 12, color: "rgba(255,255,255,0.7)", textDecoration: "none" }}>Practice Quizzes</a>
                 <a href="/current-affairs" style={{ fontSize: 12, color: "rgba(255,255,255,0.7)", textDecoration: "none" }}>Current Affairs</a>
                 <a href="/prepare" style={{ fontSize: 12, color: "rgba(255,255,255,0.7)", textDecoration: "none" }}>Study Plans</a>
-                <a href="/interview" style={{ fontSize: 12, color: "rgba(255,255,255,0.7)", textDecoration: "none" }}>AI Practice</a>
+                <a href="/ai-practice" style={{ fontSize: 12, color: "rgba(255,255,255,0.7)", textDecoration: "none" }}>AI Practice</a>
                 <a href="/jobs" style={{ fontSize: 12, color: "rgba(255,255,255,0.7)", textDecoration: "none" }}>Explore Careers</a>
               </div>
             </div>

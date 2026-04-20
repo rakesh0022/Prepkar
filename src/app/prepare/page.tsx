@@ -163,7 +163,7 @@ export default function PreparePage() {
         </div>
 
         {/* CTA */}
-        <Link href="/interview" style={{ textDecoration: "none" }}>
+        <Link href="/ai-practice" style={{ textDecoration: "none" }}>
           <div style={{
             marginTop: 24, padding: "14px", borderRadius: 14, textAlign: "center",
             background: strategy.color, color: "#fff", fontSize: 14, fontWeight: 700,

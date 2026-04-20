@@ -203,7 +203,7 @@ export default function PricingPage() {
 
         {/* Free tier note */}
         <div style={{ textAlign: "center" }}>
-          <Link href="/interview" style={{ fontSize: 12, color: "#9CA3AF", textDecoration: "none" }}>
+          <Link href="/ai-practice" style={{ fontSize: 12, color: "#9CA3AF", textDecoration: "none" }}>
             ← Continue with free tier (2 tests/month)
           </Link>
         </div>

@@ -139,7 +139,11 @@ function QuizScreen({ subject }: { subject: Subject }) {
         localStorage.getItem('quizSettings') || '{"numQuestions":10,"difficulty":"all"}'
       );
 
-      const res = await fetch(`/quizzes/${subject}.json`);
+      // Try new location first, fallback to old location
+      let res = await fetch(`/data/questions/${subject}.json`);
+      if (!res.ok) {
+        res = await fetch(`/quizzes/${subject}.json`);
+      }
       if (!res.ok) throw new Error(`Failed to load questions (${res.status})`);
 
       const data: QuizQuestion[] = await res.json();

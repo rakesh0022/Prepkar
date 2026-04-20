@@ -360,7 +360,7 @@ export default function JobDetailSheet({ job, onClose }: { job: Job; onClose: ()
           {/* CTAs */}
           <div style={{ display: "flex", gap: 8 }}>
             {job.applyLink && (<a href={job.applyLink} target="_blank" rel="noopener noreferrer" style={{ flex: 1, textDecoration: "none" }}><div style={{ padding: "13px", background: "#F9FAFB", color: "#111827", border: "1px solid var(--border)", borderRadius: 12, fontSize: 13, fontWeight: 700, textAlign: "center" }}>📝 Apply Now ↗</div></a>)}
-            <Link href="/interview" style={{ flex: 1, textDecoration: "none" }}>
+            <Link href="/ai-practice" style={{ flex: 1, textDecoration: "none" }}>
               <div style={{ padding: "13px", background: `linear-gradient(90deg,${catColor},#0D9488)`, color: "#fff", borderRadius: 12, fontSize: 13, fontWeight: 700, textAlign: "center", boxShadow: `0 4px 16px ${catColor}25` }}>🎯 Practice Interview</div>
             </Link>
           </div>
