@@ -1,5 +1,7 @@
 'use client';
 
+import BottomNav from '@/components/BottomNav';
+
 // ─── Types ────────────────────────────────────────────────────────────────────
 interface CutoffBreakdown {
   general: number;
@@ -311,6 +313,7 @@ export default function CutoffDetail({ exam }: { exam: Exam }) {
         </div>
 
       </div>
+      <BottomNav />
     </div>
   );
 }
