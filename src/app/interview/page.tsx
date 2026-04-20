@@ -164,6 +164,18 @@ export default function PracticePage() {
           {isLoggedIn ? "Select your exam to begin." : "Sign in to start practicing — it's free."}
         </p>
 
+        {/* Question Bank CTA */}
+        <Link href="/quiz" style={{ textDecoration: "none" }}>
+          <div style={{ background: "#F5F3FF", border: "1px solid rgba(109,40,217,0.15)", borderRadius: 10, padding: "10px 14px", marginBottom: 16, display: "flex", alignItems: "center", gap: 10 }}>
+            <span style={{ fontSize: 20 }}>📚</span>
+            <div style={{ flex: 1 }}>
+              <div style={{ fontSize: 12, fontWeight: 700, color: "#4C1D95" }}>Looking for static MCQs?</div>
+              <div style={{ fontSize: 10, color: "#6D28D9", marginTop: 1 }}>Visit Question Bank — subject-wise quizzes</div>
+            </div>
+            <span style={{ color: "#7C3AED", fontSize: 14 }}>→</span>
+          </div>
+        </Link>
+
         {/* Free tier info */}
         {isLoggedIn && subStatus && !subStatus.isPro && (
           <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", background: "#FFFBEB", borderRadius: 10, padding: "10px 14px", marginBottom: 16, border: "1px solid rgba(245,158,11,0.15)" }}>

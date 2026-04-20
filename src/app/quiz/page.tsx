@@ -42,8 +42,8 @@ function QuizSetup() {
 
       {/* Hero */}
       <div style={{ background: 'linear-gradient(135deg, #6d28d9 0%, #8b5cf6 100%)', color: 'white', padding: '40px 16px', textAlign: 'center' }}>
-        <h1 style={{ fontSize: '28px', fontWeight: 'bold', marginBottom: '8px' }}>Free Online Quizzes</h1>
-        <p style={{ fontSize: '14px', opacity: 0.9 }}>Master the concepts with interactive MCQ quizzes</p>
+        <h1 style={{ fontSize: '28px', fontWeight: 'bold', marginBottom: '8px' }}>📚 Question Bank</h1>
+        <p style={{ fontSize: '14px', opacity: 0.9 }}>Curated MCQ sets — subject-wise static question bank</p>
         <div style={{ fontSize: '12px', opacity: 0.8, marginTop: '8px' }}>
           📊 Attempts today: {attempts}/{limit}
         </div>
@@ -150,6 +150,18 @@ function QuizSetup() {
             <li>{limit} free quiz attempts per day (upgrade for unlimited)</li>
           </ul>
         </div>
+
+        {/* AI Practice CTA */}
+        <a href="/interview" style={{ textDecoration: 'none' }}>
+          <div style={{ background: 'linear-gradient(135deg, #7c3aed 0%, #2563eb 100%)', borderRadius: '12px', padding: '16px', marginTop: '16px', display: 'flex', alignItems: 'center', gap: '14px' }}>
+            <span style={{ fontSize: '32px' }}>🎯</span>
+            <div>
+              <div style={{ fontSize: '14px', fontWeight: 'bold', color: 'white' }}>Want AI-powered practice?</div>
+              <div style={{ fontSize: '12px', color: 'rgba(255,255,255,0.85)', marginTop: '2px' }}>Try AI Practice — exam-specific stages scored by AI</div>
+            </div>
+            <span style={{ marginLeft: 'auto', color: 'white', fontSize: '18px' }}>→</span>
+          </div>
+        </a>
       </div>
 
       <BottomNav />
