@@ -5,18 +5,14 @@ import BottomNav from "@/components/BottomNav";
 import StreakBar from "@/components/home/StreakBar";
 import DailyChallenge from "@/components/home/DailyChallenge";
 import TargetExams from "@/components/home/TargetExams";
-import InterviewCTA from "@/components/home/InterviewCTA";
 import StoriesStrip from "@/components/home/StoriesStrip";
-import MentorshipBanner from "@/components/home/MentorshipBanner";
 import LatestNews from "@/components/home/LatestNews";
-import WaitlistModal from "@/components/WaitlistModal";
-import { HERO_STORIES, COUNTDOWNS, STORIES, JOBS, getTodaysQuiz } from "@/components/data";
+import { HERO_STORIES, COUNTDOWNS, STORIES, getTodaysQuiz } from "@/components/data";
 import { useStreak } from "@/hooks/useStreak";
 import { useDailyQuizAnswer } from "@/hooks/useDailyQuiz";
 
 export default function Home() {
   const [si, setSi] = useState(0);
-  const [showWaitlist, setShowWaitlist] = useState(false);
   const { streak, isNew } = useStreak();
   const { answer, saveAnswer } = useDailyQuizAnswer();
   const quiz = getTodaysQuiz();
@@ -209,138 +205,70 @@ export default function Home() {
           </div>
         </section>
 
-        {/* ═══ INTERVIEW CTA ═══ */}
-        <div className="anim-up-4" style={{ paddingTop: 20 }}>
-          <InterviewCTA />
-        </div>
+        {/* ═══ PRACTICE SECTION ═══ */}
+        <section className="anim-up-4" style={{ paddingTop: 20 }}>
+          <h2 style={{ fontFamily: "'Playfair Display',serif", fontSize: 20, fontWeight: 700, color: "#111827", marginBottom: 4 }}>
+            Start Practicing
+          </h2>
+          <p style={{ fontSize: 13, color: "#6B7280", marginBottom: 14 }}>
+            Choose your practice mode
+          </p>
+
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
+            {/* Quiz Practice Card */}
+            <Link href="/quiz" style={{ textDecoration: "none" }}>
+              <div style={{
+                background: "linear-gradient(135deg, #FEF3C7, #FED7AA)",
+                borderRadius: 16, padding: "20px 16px", textAlign: "center",
+                border: "1px solid rgba(217,119,6,0.1)",
+                boxShadow: "var(--shadow-sm)",
+                minHeight: 160,
+                display: "flex", flexDirection: "column", justifyContent: "space-between",
+              }}>
+                <div>
+                  <div style={{ fontSize: 36, marginBottom: 10 }}>📝</div>
+                  <div style={{ fontSize: 15, fontWeight: 700, color: "#111827", marginBottom: 6 }}>Quiz Practice</div>
+                  <div style={{ fontSize: 12, color: "#6B7280", lineHeight: 1.4 }}>500+ MCQs across 8 subjects</div>
+                </div>
+                <div style={{
+                  marginTop: 14, padding: "10px", background: "#D97706", color: "#fff",
+                  borderRadius: 10, fontSize: 13, fontWeight: 700,
+                }}>
+                  Start Quiz →
+                </div>
+              </div>
+            </Link>
+
+            {/* AI Practice Card */}
+            <Link href="/ai-practice" style={{ textDecoration: "none" }}>
+              <div style={{
+                background: "linear-gradient(135deg, #E0E7FF, #DDD6FE)",
+                borderRadius: 16, padding: "20px 16px", textAlign: "center",
+                border: "1px solid rgba(109,40,217,0.1)",
+                boxShadow: "var(--shadow-sm)",
+                minHeight: 160,
+                display: "flex", flexDirection: "column", justifyContent: "space-between",
+              }}>
+                <div>
+                  <div style={{ fontSize: 36, marginBottom: 10 }}>🎯</div>
+                  <div style={{ fontSize: 15, fontWeight: 700, color: "#111827", marginBottom: 6 }}>AI Practice</div>
+                  <div style={{ fontSize: 12, color: "#6B7280", lineHeight: 1.4 }}>Essay, interview & descriptive practice</div>
+                </div>
+                <div style={{
+                  marginTop: 14, padding: "10px", background: "#6D28D9", color: "#fff",
+                  borderRadius: 10, fontSize: 13, fontWeight: 700,
+                }}>
+                  Start AI Practice →
+                </div>
+              </div>
+            </Link>
+          </div>
+        </section>
 
         {/* ═══ SUCCESS STORIES ═══ */}
         <div className="anim-up-5">
           <StoriesStrip stories={storiesForStrip} />
         </div>
-
-        {/* ═══ MENTORSHIP BANNER ═══ */}
-        <div className="anim-up-5">
-          <MentorshipBanner onJoin={() => setShowWaitlist(true)} />
-        </div>
-
-        {/* ═══ GOVT vs PRIVATE — COMPACT LINK ═══ */}
-        <Link href="/compare" style={{ textDecoration: "none" }}>
-          <div className="anim-up-6" style={{
-            marginTop: 8, borderRadius: 14, padding: "16px",
-            background: "linear-gradient(135deg, #1E3A5F, #0F2440)",
-            color: "#fff", display: "flex", alignItems: "center", gap: 14,
-          }}>
-            <div style={{ fontSize: 28 }}>⚖️</div>
-            <div style={{ flex: 1 }}>
-              <div style={{ fontSize: 14, fontWeight: 700 }}>Government vs Private Career</div>
-              <div style={{ fontSize: 11, opacity: 0.7, marginTop: 2 }}>Job security, salary, growth — see the full comparison</div>
-            </div>
-            <span style={{ opacity: 0.6, fontSize: 16 }}>→</span>
-          </div>
-        </Link>
-
-        {/* ═══ CURRENT AFFAIRS TEASER ═══ */}
-        <Link href="/current-affairs" style={{ textDecoration: "none" }}>
-          <div className="anim-up-6" style={{
-            marginTop: 14, borderRadius: 14, padding: "16px",
-            background: "linear-gradient(135deg, #EFF6FF, #F0FDFA)",
-            border: "1px solid rgba(37,99,235,0.1)",
-            display: "flex", alignItems: "center", gap: 14,
-          }}>
-            <div style={{ width: 44, height: 44, borderRadius: 12, background: "#2563EB", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 22, flexShrink: 0 }}>📰</div>
-            <div style={{ flex: 1 }}>
-              <div style={{ fontSize: 14, fontWeight: 700, color: "#111827" }}>Daily Current Affairs</div>
-              <div style={{ fontSize: 11, color: "#6B7280", marginTop: 2 }}>35+ facts for April 2026 · Updated daily</div>
-            </div>
-            <span style={{ color: "#2563EB", fontWeight: 700, fontSize: 14 }}>→</span>
-          </div>
-        </Link>
-
-        {/* ═══ DAY IN THE LIFE ═══ */}
-        <Link href="/life" style={{ textDecoration: "none" }}>
-          <div className="anim-up-6" style={{
-            marginTop: 14, borderRadius: 14, padding: "16px",
-            background: "linear-gradient(135deg, #F3E8FF, #FCE7F3)",
-            border: "1px solid rgba(168,85,247,0.1)",
-            display: "flex", alignItems: "center", gap: 14,
-          }}>
-            <div style={{ width: 44, height: 44, borderRadius: 12, background: "#A855F7", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 22, flexShrink: 0 }}>👔</div>
-            <div style={{ flex: 1 }}>
-              <div style={{ fontSize: 14, fontWeight: 700, color: "#111827" }}>Day in the Life Stories</div>
-              <div style={{ fontSize: 11, color: "#6B7280", marginTop: 2 }}>IAS, SBI PO, Income Tax Inspector & more</div>
-            </div>
-            <span style={{ color: "#A855F7", fontWeight: 700, fontSize: 14 }}>→</span>
-          </div>
-        </Link>
-
-        {/* ═══ FREE QUIZZES ═══ */}
-        <Link href="/quiz" style={{ textDecoration: "none" }}>
-          <div className="anim-up-6" style={{
-            marginTop: 14, borderRadius: 14, padding: "16px",
-            background: "linear-gradient(135deg, #FEF3C7, #FED7AA)",
-            border: "1px solid rgba(217,119,6,0.1)",
-            display: "flex", alignItems: "center", gap: 14,
-          }}>
-            <div style={{ width: 44, height: 44, borderRadius: 12, background: "#D97706", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 22, flexShrink: 0 }}>📝</div>
-            <div style={{ flex: 1 }}>
-              <div style={{ fontSize: 14, fontWeight: 700, color: "#111827" }}>Free Quizzes & Practice Tests</div>
-              <div style={{ fontSize: 11, color: "#6B7280", marginTop: 2 }}>5 quizzes/day · 8 subjects · Instant feedback</div>
-            </div>
-            <span style={{ color: "#D97706", fontWeight: 700, fontSize: 14 }}>→</span>
-          </div>
-        </Link>
-
-        {/* ═══ CAREER COMPARISONS ═══ */}
-        <Link href="/compare" style={{ textDecoration: "none" }}>
-          <div className="anim-up-6" style={{
-            marginTop: 14, borderRadius: 14, padding: "16px",
-            background: "linear-gradient(135deg, #E9D5FF, #F3E8FF)",
-            border: "1px solid rgba(126,34,206,0.1)",
-            display: "flex", alignItems: "center", gap: 14,
-          }}>
-            <div style={{ width: 44, height: 44, borderRadius: 12, background: "#7E22CE", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 22, flexShrink: 0 }}>⚖️</div>
-            <div style={{ flex: 1 }}>
-              <div style={{ fontSize: 14, fontWeight: 700, color: "#111827" }}>Career Comparisons</div>
-              <div style={{ fontSize: 11, color: "#6B7280", marginTop: 2 }}>IAS vs IPS, PO vs CHSL, Govt vs Private & more</div>
-            </div>
-            <span style={{ color: "#7E22CE", fontWeight: 700, fontSize: 14 }}>→</span>
-          </div>
-        </Link>
-
-        {/* ═══ CUTOFF ANALYSIS ═══ */}
-        <Link href="/cutoffs" style={{ textDecoration: "none" }}>
-          <div className="anim-up-6" style={{
-            marginTop: 14, borderRadius: 14, padding: "16px",
-            background: "linear-gradient(135deg, #FEE2E2, #FECACA)",
-            border: "1px solid rgba(220,38,38,0.1)",
-            display: "flex", alignItems: "center", gap: 14,
-          }}>
-            <div style={{ width: 44, height: 44, borderRadius: 12, background: "#DC2626", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 22, flexShrink: 0 }}>📊</div>
-            <div style={{ flex: 1 }}>
-              <div style={{ fontSize: 14, fontWeight: 700, color: "#111827" }}>Cutoff Analysis & Trends</div>
-              <div style={{ fontSize: 11, color: "#6B7280", marginTop: 2 }}>Year-wise data · Selection ratios · Difficulty trends</div>
-            </div>
-            <span style={{ color: "#DC2626", fontWeight: 700, fontSize: 14 }}>→</span>
-          </div>
-        </Link>
-
-        {/* ═══ EXAM CALENDAR ═══ */}
-        <Link href="/exam-calendar" style={{ textDecoration: "none" }}>
-          <div className="anim-up-6" style={{
-            marginTop: 14, borderRadius: 14, padding: "16px",
-            background: "linear-gradient(135deg, #DBEAFE, #BFDBFE)",
-            border: "1px solid rgba(59,130,246,0.1)",
-            display: "flex", alignItems: "center", gap: 14,
-          }}>
-            <div style={{ width: 44, height: 44, borderRadius: 12, background: "#3B82F6", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 22, flexShrink: 0 }}>📅</div>
-            <div style={{ flex: 1 }}>
-              <div style={{ fontSize: 14, fontWeight: 700, color: "#111827" }}>Exam Calendar 2026</div>
-              <div style={{ fontSize: 11, color: "#6B7280", marginTop: 2 }}>Important dates · Registration deadlines · Countdown timers</div>
-            </div>
-            <span style={{ color: "#3B82F6", fontWeight: 700, fontSize: 14 }}>→</span>
-          </div>
-        </Link>
 
         {/* ═══ LATEST NEWS ═══ */}
         <div style={{ paddingTop: 20 }}>
@@ -396,7 +324,6 @@ export default function Home() {
       </div>
 
       <BottomNav />
-      {showWaitlist && <WaitlistModal onClose={() => setShowWaitlist(false)} />}
     </main>
   );
 }
