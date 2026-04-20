@@ -3,6 +3,7 @@ import Link from "next/link";
 import BottomNav from "@/components/BottomNav";
 import dayInLifeData from "@/data/day-in-life.json";
 import { notFound } from "next/navigation";
+import ShareButton from "../ShareButton";
 
 export async function generateStaticParams() {
   return dayInLifeData.articles.map((article) => ({
@@ -112,25 +113,7 @@ export default function ArticlePage({ params }: { params: { slug: string } }) {
           <p style={{ fontSize: 14, color: "#6B7280", marginBottom: 12 }}>
             Found this helpful?
           </p>
-          <button
-            onClick={() => {
-              const text = `Just read: "${article.title}" on @NaukriYatra. Amazing insights into government job careers! Check it out → prepkar.vercel.app/life/${params.slug}`;
-              navigator.clipboard.writeText(text);
-              alert("Copied to clipboard!");
-            }}
-            style={{
-              background: "#2563EB",
-              color: "#fff",
-              padding: "10px 20px",
-              borderRadius: 8,
-              border: "none",
-              fontSize: 14,
-              fontWeight: 600,
-              cursor: "pointer",
-            }}
-          >
-            Share This Story
-          </button>
+          <ShareButton title={article.title} slug={params.slug} />
         </div>
 
         {/* Navigation */}
@@ -184,18 +167,18 @@ export default function ArticlePage({ params }: { params: { slug: string } }) {
             Take AI-powered practice tests, explore detailed roadmaps, and track your progress.
           </p>
           <Link href="/prepare" style={{ textDecoration: "none" }}>
-            <button style={{
+            <span style={{
+              display: "inline-block",
               background: "#fff",
               color: "#667eea",
               padding: "10px 24px",
               borderRadius: 8,
-              border: "none",
               fontSize: 14,
               fontWeight: 700,
               cursor: "pointer",
             }}>
               Start Your Journey →
-            </button>
+            </span>
           </Link>
         </div>
       </div>
