@@ -3,7 +3,12 @@ import Link from "next/link";
 import BottomNav from "@/components/BottomNav";
 import dayInLifeData from "@/data/day-in-life.json";
 import { notFound } from "next/navigation";
-import ShareButton from "../ShareButton";
+
+export async function generateStaticParams() {
+  return dayInLifeData.articles.map((article) => ({
+    slug: article.slug,
+  }));
+}
 
 export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
   const article = dayInLifeData.articles.find((a) => a.slug === params.slug);
@@ -107,7 +112,25 @@ export default function ArticlePage({ params }: { params: { slug: string } }) {
           <p style={{ fontSize: 14, color: "#6B7280", marginBottom: 12 }}>
             Found this helpful?
           </p>
-          <ShareButton title={article.title} slug={params.slug} />
+          <button
+            onClick={() => {
+              const text = `Just read: "${article.title}" on @NaukriYatra. Amazing insights into government job careers! Check it out → prepkar.vercel.app/life/${params.slug}`;
+              navigator.clipboard.writeText(text);
+              alert("Copied to clipboard!");
+            }}
+            style={{
+              background: "#2563EB",
+              color: "#fff",
+              padding: "10px 20px",
+              borderRadius: 8,
+              border: "none",
+              fontSize: 14,
+              fontWeight: 600,
+              cursor: "pointer",
+            }}
+          >
+            Share This Story
+          </button>
         </div>
 
         {/* Navigation */}
