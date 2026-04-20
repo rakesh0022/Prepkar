@@ -353,10 +353,11 @@ function QuizScreen({ subject }: { subject: Subject }) {
 }
 
 // ─── Page ──────────────────────────────────────────────────────────────────────
-export default function QuizTakingPage({ params }: { params: { subject: Subject } }) {
+export default async function QuizTakingPage({ params }: { params: Promise<{ subject: Subject }> }) {
+  const { subject } = await params;
   return (
-    <AuthGuard checkLimit={true} redirectAfterLogin={`/quiz/${params.subject}`}>
-      <QuizScreen subject={params.subject} />
+    <AuthGuard checkLimit={true} redirectAfterLogin={`/quiz/${subject}`}>
+      <QuizScreen subject={subject} />
     </AuthGuard>
   );
 }

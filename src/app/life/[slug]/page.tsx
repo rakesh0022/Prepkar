@@ -8,28 +8,30 @@ export function generateStaticParams() {
   return dayInLifeData.articles.map((article) => ({ slug: article.slug }));
 }
 
-export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
-  const article = dayInLifeData.articles.find((a) => a.slug === params.slug);
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
+  const { slug } = await params;
+  const article = dayInLifeData.articles.find((a) => a.slug === slug);
   if (!article) return { title: "Article Not Found" };
   return {
     title: `${article.title} | NaukriYatra`,
     description: article.description,
     keywords: `${article.title.toLowerCase()}, government job, ${article.category}, career`,
-    alternates: { canonical: `/life/${params.slug}` },
+    alternates: { canonical: `/life/${slug}` },
     openGraph: {
       title: `${article.title} | NaukriYatra`,
       description: article.description,
-      url: `https://prepkar.vercel.app/life/${params.slug}`,
+      url: `https://prepkar.vercel.app/life/${slug}`,
       type: "article",
     },
   };
 }
 
-export default function ArticlePage({ params }: { params: { slug: string } }) {
-  const article = dayInLifeData.articles.find((a) => a.slug === params.slug);
+export default async function ArticlePage({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params;
+  const article = dayInLifeData.articles.find((a) => a.slug === slug);
   if (!article) notFound();
 
-  const currentIndex = dayInLifeData.articles.findIndex((a) => a.slug === params.slug);
+  const currentIndex = dayInLifeData.articles.findIndex((a) => a.slug === slug);
   const previousArticle = currentIndex > 0 ? dayInLifeData.articles[currentIndex - 1] : null;
   const nextArticle = currentIndex < dayInLifeData.articles.length - 1 ? dayInLifeData.articles[currentIndex + 1] : null;
 

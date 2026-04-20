@@ -8,8 +8,9 @@ export async function generateStaticParams() {
   }));
 }
 
-export async function generateMetadata({ params }: { params: { slug: string } }) {
-  const exam = cutoffs.find(e => e.slug === params.slug);
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params;
+  const exam = cutoffs.find(e => e.slug === slug);
   if (!exam) return {};
 
   return {
@@ -18,8 +19,9 @@ export async function generateMetadata({ params }: { params: { slug: string } })
   };
 }
 
-export default function CutoffDetailPage({ params }: { params: { slug: string } }) {
-  const exam = cutoffs.find(e => e.slug === params.slug);
+export default async function CutoffDetailPage({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params;
+  const exam = cutoffs.find(e => e.slug === slug);
 
   if (!exam) {
     notFound();

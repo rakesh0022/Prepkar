@@ -8,8 +8,9 @@ export async function generateStaticParams() {
   }));
 }
 
-export async function generateMetadata({ params }: { params: { slug: string } }) {
-  const comparison = comparisons.find((c) => c.slug === params.slug);
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params;
+  const comparison = comparisons.find((c) => c.slug === slug);
   if (!comparison) return {};
 
   return {
@@ -24,15 +25,16 @@ export async function generateMetadata({ params }: { params: { slug: string } })
   };
 }
 
-export default function ComparisonPage({ params }: { params: { slug: string } }) {
-  const comparison = comparisons.find((c) => c.slug === params.slug);
+export default async function ComparisonPage({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params;
+  const comparison = comparisons.find((c) => c.slug === slug);
 
   if (!comparison) {
     notFound();
   }
 
   const allSlugs = comparisons.map((c) => c.slug);
-  const currentIndex = allSlugs.indexOf(params.slug);
+  const currentIndex = allSlugs.indexOf(slug);
   const prevComparison = currentIndex > 0 ? comparisons[currentIndex - 1] : null;
   const nextComparison = currentIndex < comparisons.length - 1 ? comparisons[currentIndex + 1] : null;
 
