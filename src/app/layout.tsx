@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import GoogleAnalytics from "@/components/GoogleAnalytics";
+import Header from "@/components/Header";
 
 const siteUrl = "https://prepkar.vercel.app";
 
@@ -72,6 +73,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       </head>
       <body className="font-[DM_Sans] antialiased">
         <GoogleAnalytics />
+        <Header />
         {children}
       </body>
     </html>

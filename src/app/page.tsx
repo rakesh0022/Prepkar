@@ -2,6 +2,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import BottomNav from "@/components/BottomNav";
+import Footer from "@/components/Footer";
 import StreakBar from "@/components/home/StreakBar";
 import DailyChallenge from "@/components/home/DailyChallenge";
 import TargetExams from "@/components/home/TargetExams";
@@ -275,52 +276,114 @@ export default function Home() {
           <LatestNews />
         </div>
 
-        {/* ═══ FOOTER — PREMIUM ═══ */}
-        <footer style={{ marginTop: 24, borderRadius: 20, padding: "28px 20px 20px", background: "linear-gradient(135deg, #0F2440, #1E3A5F)", color: "#fff" }}>
-          <div style={{ textAlign: "center", marginBottom: 20 }}>
-            <div style={{ fontFamily: "'Outfit'", fontSize: 18, fontWeight: 800, marginBottom: 4 }}>
-              Naukri<span style={{ color: "#5EEAD4" }}>Yatra</span>
-            </div>
-            <p style={{ fontSize: 12, color: "rgba(255,255,255,0.5)", margin: 0 }}>Sapne se Selection Tak</p>
-          </div>
+        {/* ═══ EXPLORE MORE TOOLS ═══ */}
+        <section style={{ paddingTop: 32 }}>
+          <h2 style={{
+            fontFamily: "'Playfair Display',serif",
+            fontSize: 20,
+            fontWeight: 700,
+            color: '#111827',
+            marginBottom: 4,
+          }}>
+            Explore More Tools
+          </h2>
+          <p style={{ fontSize: 13, color: '#6B7280', marginBottom: 16 }}>
+            Everything you need for exam preparation
+          </p>
 
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 20, marginBottom: 20 }}>
-            <div>
-              <div style={{ fontSize: 10, fontWeight: 700, color: "rgba(255,255,255,0.35)", letterSpacing: 1.5, textTransform: "uppercase", marginBottom: 10 }}>Prepare</div>
-              <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-                <a href="/quiz" style={{ fontSize: 12, color: "rgba(255,255,255,0.7)", textDecoration: "none" }}>Practice Quizzes</a>
-                <a href="/current-affairs" style={{ fontSize: 12, color: "rgba(255,255,255,0.7)", textDecoration: "none" }}>Current Affairs</a>
-                <a href="/prepare" style={{ fontSize: 12, color: "rgba(255,255,255,0.7)", textDecoration: "none" }}>Study Plans</a>
-                <a href="/ai-practice" style={{ fontSize: 12, color: "rgba(255,255,255,0.7)", textDecoration: "none" }}>AI Practice</a>
-                <a href="/jobs" style={{ fontSize: 12, color: "rgba(255,255,255,0.7)", textDecoration: "none" }}>Explore Careers</a>
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))',
+            gap: 12,
+          }}>
+            {/* Salary Calculator */}
+            <Link href="/salary-calculator" style={{ textDecoration: 'none' }}>
+              <div style={{
+                background: '#FFFFFF',
+                borderRadius: 14,
+                padding: '20px 16px',
+                textAlign: 'center',
+                border: '1px solid var(--border)',
+                boxShadow: 'var(--shadow-sm)',
+                transition: 'transform 0.2s, box-shadow 0.2s',
+              }}>
+                <div style={{ fontSize: 32, marginBottom: 10 }}>💰</div>
+                <div style={{ fontSize: 14, fontWeight: 700, color: '#111827', marginBottom: 4 }}>
+                  Salary Calculator
+                </div>
+                <div style={{ fontSize: 11, color: '#6B7280', lineHeight: 1.4 }}>
+                  Calculate in-hand salary
+                </div>
               </div>
-            </div>
-            <div>
-              <div style={{ fontSize: 10, fontWeight: 700, color: "rgba(255,255,255,0.35)", letterSpacing: 1.5, textTransform: "uppercase", marginBottom: 10 }}>Tools</div>
-              <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-                <a href="/compare" style={{ fontSize: 12, color: "rgba(255,255,255,0.7)", textDecoration: "none" }}>Career Comparisons</a>
-                <a href="/cutoffs" style={{ fontSize: 12, color: "rgba(255,255,255,0.7)", textDecoration: "none" }}>Cutoff Analysis</a>
-                <a href="/exam-calendar" style={{ fontSize: 12, color: "rgba(255,255,255,0.7)", textDecoration: "none" }}>Exam Calendar</a>
-                <a href="/salary-calculator" style={{ fontSize: 12, color: "rgba(255,255,255,0.7)", textDecoration: "none" }}>Salary Calculator</a>
-                <a href="/life" style={{ fontSize: 12, color: "rgba(255,255,255,0.7)", textDecoration: "none" }}>Day in Life Stories</a>
+            </Link>
+
+            {/* Cutoff Analysis */}
+            <Link href="/cutoffs" style={{ textDecoration: 'none' }}>
+              <div style={{
+                background: '#FFFFFF',
+                borderRadius: 14,
+                padding: '20px 16px',
+                textAlign: 'center',
+                border: '1px solid var(--border)',
+                boxShadow: 'var(--shadow-sm)',
+                transition: 'transform 0.2s, box-shadow 0.2s',
+              }}>
+                <div style={{ fontSize: 32, marginBottom: 10 }}>📊</div>
+                <div style={{ fontSize: 14, fontWeight: 700, color: '#111827', marginBottom: 4 }}>
+                  Cutoff Analysis
+                </div>
+                <div style={{ fontSize: 11, color: '#6B7280', lineHeight: 1.4 }}>
+                  Year-wise trends
+                </div>
               </div>
-            </div>
-          </div>
+            </Link>
 
-          <div style={{ borderTop: "1px solid rgba(255,255,255,0.1)", paddingTop: 14, marginBottom: 14 }}>
-            <div style={{ fontSize: 10, fontWeight: 700, color: "rgba(255,255,255,0.35)", letterSpacing: 1.5, textTransform: "uppercase", marginBottom: 10 }}>Legal</div>
-            <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-              <a href="/privacy" style={{ fontSize: 12, color: "rgba(255,255,255,0.7)", textDecoration: "none" }}>Privacy Policy</a>
-              <a href="/terms" style={{ fontSize: 12, color: "rgba(255,255,255,0.7)", textDecoration: "none" }}>Terms of Service</a>
-              <a href="/disclaimer" style={{ fontSize: 12, color: "rgba(255,255,255,0.7)", textDecoration: "none" }}>Disclaimer</a>
-            </div>
-          </div>
+            {/* Exam Calendar */}
+            <Link href="/exam-calendar" style={{ textDecoration: 'none' }}>
+              <div style={{
+                background: '#FFFFFF',
+                borderRadius: 14,
+                padding: '20px 16px',
+                textAlign: 'center',
+                border: '1px solid var(--border)',
+                boxShadow: 'var(--shadow-sm)',
+                transition: 'transform 0.2s, box-shadow 0.2s',
+              }}>
+                <div style={{ fontSize: 32, marginBottom: 10 }}>📅</div>
+                <div style={{ fontSize: 14, fontWeight: 700, color: '#111827', marginBottom: 4 }}>
+                  Exam Calendar
+                </div>
+                <div style={{ fontSize: 11, color: '#6B7280', lineHeight: 1.4 }}>
+                  Important dates
+                </div>
+              </div>
+            </Link>
 
-          <div style={{ borderTop: "1px solid rgba(255,255,255,0.1)", paddingTop: 14, display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-            <p style={{ fontSize: 10, color: "rgba(255,255,255,0.35)", margin: 0 }}>© 2026 NaukriYatra</p>
-            <p style={{ fontSize: 10, color: "rgba(255,255,255,0.35)", margin: 0 }}>Made with ❤️ in India 🇮🇳</p>
+            {/* Day in Life Stories */}
+            <Link href="/life" style={{ textDecoration: 'none' }}>
+              <div style={{
+                background: '#FFFFFF',
+                borderRadius: 14,
+                padding: '20px 16px',
+                textAlign: 'center',
+                border: '1px solid var(--border)',
+                boxShadow: 'var(--shadow-sm)',
+                transition: 'transform 0.2s, box-shadow 0.2s',
+              }}>
+                <div style={{ fontSize: 32, marginBottom: 10 }}>👔</div>
+                <div style={{ fontSize: 14, fontWeight: 700, color: '#111827', marginBottom: 4 }}>
+                  Day in Life
+                </div>
+                <div style={{ fontSize: 11, color: '#6B7280', lineHeight: 1.4 }}>
+                  Career stories
+                </div>
+              </div>
+            </Link>
           </div>
-        </footer>
+        </section>
+
+        {/* ═══ FOOTER ═══ */}
+        <Footer />
       </div>
 
       <BottomNav />
