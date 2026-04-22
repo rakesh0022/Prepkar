@@ -122,92 +122,137 @@ function PracticeContent() {
   if (scr === "sel") return (
     <main style={{ minHeight: "100vh", background: "var(--bg)", paddingBottom: 76 }}>
       <div className="desktop-only" style={{ height: 56 }} />
-      <header style={{ padding: "14px 16px", borderBottom: "1px solid var(--border)", display: "flex", alignItems: "center", gap: 8, background: "rgba(248,249,251,0.97)", backdropFilter: "blur(16px)" }}>
-        <Link href="/" style={{ color: "#6B7280", fontSize: 15, textDecoration: "none" }}>←</Link>
-        <h1 style={{ fontFamily: "'Playfair Display',serif", fontSize: 22, fontWeight: 700, color: "#111827" }}>AI Practice</h1>
-        {/* Show subscription status (user is already logged in via AuthGuard) */}
-        {subStatus && (
-          <div style={{ marginLeft: "auto", display: "flex", alignItems: "center", gap: 6 }}>
-            {subStatus.isPro ? (
-              <span style={{ fontSize: 10, fontWeight: 700, color: "#16A34A", background: "#F0FDF4", padding: "3px 8px", borderRadius: 6, border: "1px solid rgba(22,163,74,0.12)" }}>PRO ✓</span>
-            ) : (
-              <span style={{ fontSize: 10, fontWeight: 600, color: "#6B7280", background: "#F3F4F6", padding: "3px 8px", borderRadius: 6 }}>{subStatus.freeTestsRemaining} free left</span>
-            )}
-          </div>
-        )}
-      </header>
-      <div style={{ maxWidth: "var(--max-width)", margin: "0 auto", padding: "20px 16px" }}>
-        <p style={{ fontSize: 14, color: "#374151", marginBottom: 6, lineHeight: 1.5, fontWeight: 500 }}>
-          Practice every stage — from Prelims MCQ to Final Interview
-        </p>
-        <p style={{ fontSize: 12, color: "#6B7280", marginBottom: 16 }}>
-          Select your exam to begin.
-        </p>
 
-        {/* Question Bank CTA */}
-        <Link href="/quiz" style={{ textDecoration: "none" }}>
-          <div style={{ background: "#F5F3FF", border: "1px solid rgba(109,40,217,0.15)", borderRadius: 10, padding: "10px 14px", marginBottom: 16, display: "flex", alignItems: "center", gap: 10 }}>
-            <span style={{ fontSize: 20 }}>📚</span>
-            <div style={{ flex: 1 }}>
-              <div style={{ fontSize: 12, fontWeight: 700, color: "#4C1D95" }}>Looking for static MCQs?</div>
-              <div style={{ fontSize: 10, color: "#6D28D9", marginTop: 1 }}>Visit Question Bank — subject-wise quizzes</div>
+      {/* ═══ PREMIUM HERO ═══ */}
+      <section className="anim-up" style={{
+        background: "linear-gradient(135deg, #0F2440 0%, #1E3A5F 40%, #2563EB 100%)",
+        color: "#fff", padding: "44px 16px 40px", textAlign: "center", position: "relative", overflow: "hidden",
+        borderRadius: "0 0 24px 24px",
+      }}>
+        <div style={{ position: "absolute", inset: 0, opacity: 0.05, backgroundImage: "radial-gradient(circle at 30% 40%, #fff 1px, transparent 1px), radial-gradient(circle at 70% 70%, #fff 1px, transparent 1px)", backgroundSize: "50px 50px" }} />
+        <div style={{ position: "absolute", top: -80, right: -60, width: 220, height: 220, borderRadius: "50%", background: "rgba(94,234,212,0.08)" }} />
+
+        <div style={{ position: "relative", zIndex: 1, maxWidth: "var(--max-width)", margin: "0 auto" }}>
+          <div style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "rgba(94,234,212,0.12)", borderRadius: 100, padding: "6px 16px", marginBottom: 16, backdropFilter: "blur(8px)", border: "1px solid rgba(94,234,212,0.2)" }}>
+            <span style={{ fontSize: 14 }}>🎯</span>
+            <span style={{ fontSize: 11, fontWeight: 700, color: "#5EEAD4", letterSpacing: 0.5 }}>AI-POWERED PRACTICE</span>
+          </div>
+
+          <h1 style={{ fontFamily: "'Playfair Display',serif", fontSize: 28, fontWeight: 800, lineHeight: 1.2, marginBottom: 8 }}>
+            Prelims to Interview<br/>
+            <span style={{ color: "#5EEAD4" }}>All in One Place</span>
+          </h1>
+          <p style={{ fontSize: 13, opacity: 0.75, marginBottom: 24, maxWidth: 380, margin: "0 auto 24px" }}>
+            AI scores every answer · Multi-language support · Real exam patterns
+          </p>
+
+          {/* Stats */}
+          <div style={{ display: "flex", justifyContent: "center", gap: 28 }}>
+            {[
+              { n: "6", l: "Exams" },
+              { n: "20+", l: "Stages" },
+              { n: practiceCount.toLocaleString(), l: "Sessions" },
+            ].map((s, i) => (
+              <div key={i} className="anim-up" style={{ textAlign: "center", animationDelay: `${0.15 + i * 0.1}s` }}>
+                <div style={{ fontSize: 22, fontWeight: 800, fontFamily: "'Outfit'", lineHeight: 1 }}>{s.n}</div>
+                <div style={{ fontSize: 10, opacity: 0.6, marginTop: 3 }}>{s.l}</div>
+              </div>
+            ))}
+          </div>
+
+          {/* Sub status badge */}
+          {subStatus && (
+            <div style={{ marginTop: 20 }}>
+              {subStatus.isPro ? (
+                <span className="badge badge-pro" style={{ fontSize: 11, padding: "5px 14px" }}>✨ PRO — Unlimited Access</span>
+              ) : (
+                <span style={{ fontSize: 11, fontWeight: 600, color: "rgba(255,255,255,0.7)", background: "rgba(255,255,255,0.1)", padding: "5px 14px", borderRadius: 100 }}>
+                  {subStatus.freeTestsRemaining} of 5 free tests remaining
+                </span>
+              )}
             </div>
-            <span style={{ color: "#7C3AED", fontSize: 14 }}>→</span>
-          </div>
-        </Link>
+          )}
+        </div>
+      </section>
 
-        {/* Free tier info */}
-        {subStatus && !subStatus.isPro && (
-          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", background: "#FFFBEB", borderRadius: 10, padding: "10px 14px", marginBottom: 16, border: "1px solid rgba(245,158,11,0.15)" }}>
-            <div>
-              <div style={{ fontSize: 12, fontWeight: 700, color: "#92400E" }}>Free Plan: {subStatus.freeTestsRemaining} of 5 tests remaining</div>
-              <div style={{ fontSize: 10, color: "#B45309", marginTop: 2 }}>Resets every 30 days</div>
+      <div style={{ maxWidth: "var(--max-width)", margin: "0 auto", padding: "24px 16px" }}>
+
+        {/* ═══ QUICK LINKS — consolidated ═══ */}
+        <div className="anim-up-1" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10, marginBottom: 24 }}>
+          <Link href="/quiz" style={{ textDecoration: "none" }}>
+            <div className="card-lift" style={{ background: "var(--bg-card)", border: "1px solid var(--border)", borderRadius: 14, padding: "14px", display: "flex", alignItems: "center", gap: 10, height: "100%" }}>
+              <div style={{ width: 36, height: 36, borderRadius: 10, background: "rgba(109,40,217,0.08)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 18, flexShrink: 0 }}>📚</div>
+              <div>
+                <div style={{ fontSize: 12, fontWeight: 700, color: "var(--text-dark)" }}>Question Bank</div>
+                <div style={{ fontSize: 10, color: "var(--text-light)", marginTop: 1 }}>Static MCQ sets</div>
+              </div>
             </div>
-            <Link href="/pricing" style={{ textDecoration: "none" }}>
-              <div style={{ padding: "6px 12px", borderRadius: 8, background: "#F59E0B", color: "#fff", fontSize: 10, fontWeight: 700 }}>Upgrade</div>
-            </Link>
-          </div>
-        )}
-
-        {/* Social proof */}
-        <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 14, background: "#F0FDF4", borderRadius: 10, padding: "8px 14px", border: "1px solid rgba(22,163,74,0.12)" }}>
-          <span style={{ fontSize: 16 }}>🎯</span>
-          <span style={{ fontSize: 12, color: "#065F46", fontWeight: 600 }}>{practiceCount.toLocaleString()} sessions this month</span>
-          <div style={{ width: 6, height: 6, borderRadius: "50%", background: "#16A34A", marginLeft: "auto", animation: "pulseDot 2s ease infinite" }} />
+          </Link>
+          <Link href="/prepare" style={{ textDecoration: "none" }}>
+            <div className="card-lift" style={{ background: "var(--bg-card)", border: "1px solid var(--border)", borderRadius: 14, padding: "14px", display: "flex", alignItems: "center", gap: 10, height: "100%" }}>
+              <div style={{ width: 36, height: 36, borderRadius: 10, background: "rgba(245,158,11,0.08)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 18, flexShrink: 0 }}>📖</div>
+              <div>
+                <div style={{ fontSize: 12, fontWeight: 700, color: "var(--text-dark)" }}>Study Plans</div>
+                <div style={{ fontSize: 10, color: "var(--text-light)", marginTop: 1 }}>Month-wise guides</div>
+              </div>
+            </div>
+          </Link>
         </div>
 
-        {/* Prepare nudge — at top */}
-        <Link href="/prepare" style={{ textDecoration: "none" }}>
-          <div style={{
-            marginBottom: 18, display: "flex", alignItems: "center", gap: 12,
-            background: "linear-gradient(135deg, #FFFBEB, #FEF3C7)", borderRadius: 14,
-            padding: "14px 16px", border: "1px solid rgba(245,158,11,0.15)",
-          }}>
-            <div style={{ width: 40, height: 40, borderRadius: 10, background: "rgba(245,158,11,0.12)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 20, flexShrink: 0 }}>📖</div>
-            <div style={{ flex: 1 }}>
-              <div style={{ fontSize: 13, fontWeight: 700, color: "#92400E" }}>Not sure where to start?</div>
-              <div style={{ fontSize: 11, color: "#B45309", marginTop: 2 }}>See month-wise study plans, books & topper tips</div>
+        {/* ═══ UPGRADE BANNER (free users only) ═══ */}
+        {subStatus && !subStatus.isPro && (
+          <Link href="/pricing" className="anim-up-2" style={{ textDecoration: "none", display: "block", marginBottom: 24 }}>
+            <div style={{
+              background: "linear-gradient(135deg, #F59E0B, #D97706)", borderRadius: 14,
+              padding: "14px 18px", display: "flex", alignItems: "center", gap: 12,
+              boxShadow: "0 4px 16px rgba(245,158,11,0.25)",
+            }}>
+              <span style={{ fontSize: 22 }}>💎</span>
+              <div style={{ flex: 1 }}>
+                <div style={{ fontSize: 13, fontWeight: 700, color: "#fff" }}>Upgrade to Pro</div>
+                <div style={{ fontSize: 11, color: "rgba(255,255,255,0.85)", marginTop: 1 }}>
+                  Unlimited AI practice · All exams · All stages
+                </div>
+              </div>
+              <span style={{ color: "#fff", fontSize: 16, fontWeight: 700 }}>→</span>
             </div>
-            <span style={{ color: "#D97706", fontSize: 14, fontWeight: 700 }}>→</span>
-          </div>
-        </Link>
+          </Link>
+        )}
 
-        <div style={{ fontSize: 11, fontWeight: 700, color: "#9CA3AF", letterSpacing: 1.5, textTransform: "uppercase", marginBottom: 10 }}>Choose Your Exam</div>
+        {/* ═══ EXAM SELECTION ═══ */}
+        <div className="divider-text anim-up-2" style={{ marginBottom: 16 }}>Choose Your Exam</div>
 
         <div className="desktop-2col">
           {PRACTICE_CATS.map((c, i) => (
-            <button key={c.id} className="anim-up" onClick={() => { setCat(c); setStage(c.stages[0]); setScr("stage"); }} style={{
-              display: "flex", alignItems: "center", gap: 14, width: "100%", padding: "15px 16px",
-              borderRadius: 14, background: "#FFFFFF", border: "1px solid var(--border)", boxShadow: "var(--shadow-sm)",
-              cursor: "pointer", textAlign: "left", color: "#111827", animationDelay: `${i * 0.05}s`, marginBottom: 0,
+            <button key={c.id} className="anim-up card-premium" onClick={() => { setCat(c); setStage(c.stages[0]); setScr("stage"); }} style={{
+              display: "flex", alignItems: "center", gap: 14, width: "100%", padding: "16px 18px",
+              borderRadius: 16, background: "var(--bg-card)",
+              border: "1px solid var(--border)", borderLeft: `4px solid ${c.color}`,
+              boxShadow: "var(--shadow-sm)",
+              cursor: "pointer", textAlign: "left", color: "var(--text-dark)", animationDelay: `${0.15 + i * 0.05}s`, marginBottom: 0,
             }}>
-              <div style={{ width: 48, height: 48, borderRadius: 12, background: `${c.color}0D`, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 24, flexShrink: 0 }}>{c.icon}</div>
+              <div style={{
+                width: 50, height: 50, borderRadius: 14,
+                background: `${c.color}10`,
+                display: "flex", alignItems: "center", justifyContent: "center", fontSize: 26, flexShrink: 0,
+              }}>{c.icon}</div>
               <div style={{ flex: 1 }}>
-                <div style={{ fontSize: 15, fontWeight: 700 }}>{c.title}</div>
-                <div style={{ fontSize: 11, color: "#6B7280", marginTop: 1 }}>{c.sub}</div>
-                <div style={{ fontSize: 10, color: c.color, fontWeight: 600, marginTop: 3 }}>{c.stages.length} stages</div>
+                <div style={{ fontSize: 15, fontWeight: 700, color: "var(--text-dark)" }}>{c.title}</div>
+                <div style={{ fontSize: 11, color: "var(--text-light)", marginTop: 2 }}>{c.sub}</div>
+                <div style={{
+                  display: "inline-flex", alignItems: "center", gap: 4, marginTop: 6,
+                  fontSize: 10, fontWeight: 700, color: c.color,
+                  background: `${c.color}0A`, padding: "3px 10px", borderRadius: 100,
+                }}>
+                  <span style={{ width: 5, height: 5, borderRadius: "50%", background: c.color, display: "inline-block" }} />
+                  {c.stages.length} stages
+                </div>
               </div>
-              <span style={{ color: "#9CA3AF", fontSize: 18 }}>→</span>
+              <div style={{
+                width: 32, height: 32, borderRadius: 10,
+                background: `${c.color}08`, color: c.color,
+                display: "flex", alignItems: "center", justifyContent: "center", fontSize: 16,
+              }}>→</div>
             </button>
           ))}
         </div>

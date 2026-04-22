@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { createClient } from '@/lib/supabase/client';
+import { useDarkMode } from '@/hooks/useDarkMode';
 
 const NAV_LINKS = [
   { href: '/jobs', label: '💼 Jobs' },
@@ -22,6 +23,7 @@ export default function Header() {
   const [showUserMenu, setShowUserMenu] = useState(false);
   const [showMobileMenu, setShowMobileMenu] = useState(false);
   const pathname = usePathname();
+  const { isDark, toggle: toggleDark } = useDarkMode();
 
   useEffect(() => {
     const supabase = createClient();
@@ -85,9 +87,17 @@ export default function Header() {
             ))}
           </nav>
 
-          <div style={{ position: 'relative' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+            {/* Dark mode toggle */}
+            <button
+              className="dm-toggle"
+              onClick={toggleDark}
+              aria-label={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
+              title={isDark ? '☀️ Light mode' : '🌙 Dark mode'}
+            />
+
             {isLoggedIn ? (
-              <>
+              <div style={{ position: 'relative' }}>
                 <button onClick={() => setShowUserMenu(!showUserMenu)} style={{
                   width: 36, height: 36, borderRadius: '50%',
                   background: 'linear-gradient(135deg, #5EEAD4, #3B82F6)',
@@ -100,20 +110,20 @@ export default function Header() {
                 {showUserMenu && (
                   <div style={{
                     position: 'absolute', top: '100%', right: 0, marginTop: 8,
-                    background: '#fff', borderRadius: 12, boxShadow: '0 4px 24px rgba(0,0,0,0.15)',
-                    minWidth: 200, overflow: 'hidden',
+                    background: 'var(--bg-card)', borderRadius: 12, boxShadow: '0 4px 24px rgba(0,0,0,0.15)',
+                    minWidth: 200, overflow: 'hidden', border: '1px solid var(--border)',
                   }}>
-                    <div style={{ padding: '12px 16px', borderBottom: '1px solid #E5E7EB' }}>
-                      <div style={{ fontSize: 12, color: '#6B7280', marginBottom: 2 }}>Signed in as</div>
-                      <div style={{ fontSize: 13, fontWeight: 600, color: '#111827' }}>{userEmail}</div>
+                    <div style={{ padding: '12px 16px', borderBottom: '1px solid var(--border)' }}>
+                      <div style={{ fontSize: 12, color: 'var(--text-light)', marginBottom: 2 }}>Signed in as</div>
+                      <div style={{ fontSize: 13, fontWeight: 600, color: 'var(--text-dark)' }}>{userEmail}</div>
                     </div>
                     <Link href="/dashboard" style={{ textDecoration: 'none' }}>
-                      <div style={{ padding: '10px 16px', fontSize: 14, color: '#374151', cursor: 'pointer' }}>📊 Dashboard</div>
+                      <div style={{ padding: '10px 16px', fontSize: 14, color: 'var(--text-body)', cursor: 'pointer' }}>📊 Dashboard</div>
                     </Link>
                     <Link href="/pricing" style={{ textDecoration: 'none' }}>
-                      <div style={{ padding: '10px 16px', fontSize: 14, color: '#374151', cursor: 'pointer' }}>💎 Upgrade</div>
+                      <div style={{ padding: '10px 16px', fontSize: 14, color: 'var(--text-body)', cursor: 'pointer' }}>💎 Upgrade</div>
                     </Link>
-                    <div style={{ borderTop: '1px solid #E5E7EB' }}>
+                    <div style={{ borderTop: '1px solid var(--border)' }}>
                       <button onClick={handleSignOut} style={{
                         width: '100%', padding: '10px 16px', fontSize: 14, color: '#DC2626',
                         background: 'transparent', border: 'none', textAlign: 'left', cursor: 'pointer',
@@ -123,7 +133,7 @@ export default function Header() {
                     </div>
                   </div>
                 )}
-              </>
+              </div>
             ) : (
               <button onClick={handleSignIn} style={{
                 padding: '8px 20px',
@@ -157,7 +167,15 @@ export default function Header() {
           </Link>
 
           {/* Right icons */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+
+            {/* Dark mode toggle */}
+            <button
+              className="dm-toggle"
+              onClick={toggleDark}
+              aria-label={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
+              style={{ transform: 'scale(0.85)' }}
+            />
 
             {/* Profile / Sign In icon */}
             {isLoggedIn ? (
