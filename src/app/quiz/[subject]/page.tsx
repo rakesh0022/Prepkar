@@ -25,6 +25,9 @@ interface QuizQuestion {
   explanation: string;
   difficulty: string;
   topic: string;
+  // Note: JSON files use either 'exam' or 'tags' — neither is used in UI logic
+  exam?: string[];
+  tags?: string[];
 }
 
 type Subject =
