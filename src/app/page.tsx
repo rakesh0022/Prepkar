@@ -140,9 +140,11 @@ export default function Home() {
 
         {/* ═══ DREAM CARDS ═══ */}
         <section className="anim-up-2" style={{ padding: "20px 0 0" }}>
-          <h2 style={{ fontFamily: "'Playfair Display',serif", fontSize: 20, fontWeight: 700, color: "#111827", marginBottom: 4 }}>
-            What if you become...
-          </h2>
+          <div style={{ display: "flex", alignItems: "baseline", gap: 8, marginBottom: 4 }}>
+            <h2 style={{ fontFamily: "'Playfair Display',serif", fontSize: 20, fontWeight: 700, color: "#111827", margin: 0 }}>
+              What if you become...
+            </h2>
+          </div>
           <p style={{ fontSize: 13, color: "#6B7280", marginBottom: 14 }}>
             Tap to explore the life, salary, and roadmap
           </p>
@@ -186,11 +188,34 @@ export default function Home() {
           <TargetExams exams={COUNTDOWNS} />
         </div>
 
+        {/* ═══ TRUST SIGNALS ═══ */}
+        <section className="anim-up-3" style={{ paddingTop: 20 }}>
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 10 }}>
+            {[
+              { n: "17+", l: "Govt Exams", sub: "Covered", c: "#2563EB", bg: "linear-gradient(135deg,#EFF6FF,#DBEAFE)", border: "rgba(37,99,235,0.12)" },
+              { n: "6",   l: "Practice",  sub: "Stages per Exam", c: "#16A34A", bg: "linear-gradient(135deg,#F0FDF4,#DCFCE7)", border: "rgba(22,163,74,0.12)" },
+              { n: "AI",  l: "Scores",    sub: "Every Answer", c: "#7C3AED", bg: "linear-gradient(135deg,#F5F3FF,#EDE9FE)", border: "rgba(124,58,237,0.12)" },
+            ].map((f, i) => (
+              <div key={i} style={{
+                background: f.bg, borderRadius: 14, padding: "14px 10px",
+                textAlign: "center", border: `1px solid ${f.border}`,
+              }}>
+                <div style={{ fontSize: 22, fontWeight: 800, color: f.c, fontFamily: "'Outfit'", lineHeight: 1 }}>{f.n}</div>
+                <div style={{ fontSize: 11, fontWeight: 700, color: f.c, marginTop: 3 }}>{f.l}</div>
+                <div style={{ fontSize: 10, color: "#9CA3AF", marginTop: 1, lineHeight: 1.3 }}>{f.sub}</div>
+              </div>
+            ))}
+          </div>
+        </section>
+
         {/* ═══ PRACTICE SECTION ═══ */}
-        <section className="anim-up-4" style={{ paddingTop: 20 }}>
-          <h2 style={{ fontFamily: "'Playfair Display',serif", fontSize: 20, fontWeight: 700, color: "#111827", marginBottom: 4 }}>
-            Start Practicing
-          </h2>
+        <section className="anim-up-4" style={{ paddingTop: 24 }}>
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 4 }}>
+            <h2 style={{ fontFamily: "'Playfair Display',serif", fontSize: 20, fontWeight: 700, color: "#111827", margin: 0 }}>
+              Start Practicing
+            </h2>
+            <span style={{ fontSize: 10, fontWeight: 700, color: "#16A34A", background: "#F0FDF4", padding: "3px 8px", borderRadius: 6, border: "1px solid rgba(22,163,74,0.15)" }}>FREE</span>
+          </div>
           <p style={{ fontSize: 13, color: "#6B7280", marginBottom: 14 }}>
             Choose your practice mode
           </p>
@@ -198,22 +223,22 @@ export default function Home() {
           <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
             {/* Quiz Practice Card */}
             <Link href="/quiz" style={{ textDecoration: "none" }}>
-              <div style={{
-                background: "linear-gradient(135deg, #FEF3C7, #FED7AA)",
+              <div className="card-lift" style={{
+                background: "linear-gradient(145deg, #FFFBEB, #FEF3C7, #FDE68A)",
                 borderRadius: 16, padding: "20px 16px", textAlign: "center",
-                border: "1px solid rgba(217,119,6,0.1)",
-                boxShadow: "var(--shadow-sm)",
+                border: "1px solid rgba(217,119,6,0.15)",
+                boxShadow: "0 2px 12px rgba(217,119,6,0.1)",
                 minHeight: 160,
                 display: "flex", flexDirection: "column", justifyContent: "space-between",
               }}>
                 <div>
-                  <div style={{ fontSize: 36, marginBottom: 10 }}>📝</div>
-                  <div style={{ fontSize: 15, fontWeight: 700, color: "#111827", marginBottom: 6 }}>Quiz Practice</div>
-                  <div style={{ fontSize: 12, color: "#6B7280", lineHeight: 1.4 }}>500+ MCQs across 8 subjects</div>
+                  <div style={{ fontSize: 36, marginBottom: 8 }}>📝</div>
+                  <div style={{ fontSize: 15, fontWeight: 700, color: "#111827", marginBottom: 4 }}>Quiz Practice</div>
+                  <div style={{ fontSize: 11, color: "#92400E", lineHeight: 1.4 }}>500+ MCQs · 8 subjects</div>
                 </div>
                 <div style={{
-                  marginTop: 14, padding: "10px", background: "#D97706", color: "#fff",
-                  borderRadius: 10, fontSize: 13, fontWeight: 700,
+                  marginTop: 14, padding: "10px", background: "linear-gradient(90deg,#D97706,#B45309)", color: "#fff",
+                  borderRadius: 10, fontSize: 13, fontWeight: 700, boxShadow: "0 2px 8px rgba(217,119,6,0.3)",
                 }}>
                   Start Quiz →
                 </div>
@@ -222,22 +247,22 @@ export default function Home() {
 
             {/* AI Practice Card */}
             <Link href="/ai-practice" style={{ textDecoration: "none" }}>
-              <div style={{
-                background: "linear-gradient(135deg, #E0E7FF, #DDD6FE)",
+              <div className="card-lift" style={{
+                background: "linear-gradient(145deg, #F5F3FF, #EDE9FE, #DDD6FE)",
                 borderRadius: 16, padding: "20px 16px", textAlign: "center",
-                border: "1px solid rgba(109,40,217,0.1)",
-                boxShadow: "var(--shadow-sm)",
+                border: "1px solid rgba(109,40,217,0.15)",
+                boxShadow: "0 2px 12px rgba(109,40,217,0.1)",
                 minHeight: 160,
                 display: "flex", flexDirection: "column", justifyContent: "space-between",
               }}>
                 <div>
-                  <div style={{ fontSize: 36, marginBottom: 10 }}>🎯</div>
-                  <div style={{ fontSize: 15, fontWeight: 700, color: "#111827", marginBottom: 6 }}>AI Practice</div>
-                  <div style={{ fontSize: 12, color: "#6B7280", lineHeight: 1.4 }}>Essay, interview & descriptive practice</div>
+                  <div style={{ fontSize: 36, marginBottom: 8 }}>🎯</div>
+                  <div style={{ fontSize: 15, fontWeight: 700, color: "#111827", marginBottom: 4 }}>AI Practice</div>
+                  <div style={{ fontSize: 11, color: "#5B21B6", lineHeight: 1.4 }}>Essay · Interview · Mains</div>
                 </div>
                 <div style={{
-                  marginTop: 14, padding: "10px", background: "#6D28D9", color: "#fff",
-                  borderRadius: 10, fontSize: 13, fontWeight: 700,
+                  marginTop: 14, padding: "10px", background: "linear-gradient(90deg,#6D28D9,#4C1D95)", color: "#fff",
+                  borderRadius: 10, fontSize: 13, fontWeight: 700, boxShadow: "0 2px 8px rgba(109,40,217,0.3)",
                 }}>
                   Start AI Practice →
                 </div>
@@ -259,106 +284,63 @@ export default function Home() {
         {/* ═══ EXPLORE MORE TOOLS ═══ */}
         <section style={{ paddingTop: 32 }}>
           <h2 style={{
-            fontFamily: "'Playfair Display',serif",
-            fontSize: 20,
-            fontWeight: 700,
-            color: '#111827',
-            marginBottom: 4,
+            fontFamily: "'Playfair Display',serif", fontSize: 20, fontWeight: 700,
+            color: "#111827", marginBottom: 4,
           }}>
             Explore More Tools
           </h2>
-          <p style={{ fontSize: 13, color: '#6B7280', marginBottom: 16 }}>
+          <p style={{ fontSize: 13, color: "#6B7280", marginBottom: 16 }}>
             Everything you need for exam preparation
           </p>
 
-          <div style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))',
-            gap: 12,
-          }}>
-            {/* Salary Calculator */}
-            <Link href="/salary-calculator" style={{ textDecoration: 'none' }}>
-              <div style={{
-                background: '#FFFFFF',
-                borderRadius: 14,
-                padding: '20px 16px',
-                textAlign: 'center',
-                border: '1px solid var(--border)',
-                boxShadow: 'var(--shadow-sm)',
-                transition: 'transform 0.2s, box-shadow 0.2s',
-              }}>
-                <div style={{ fontSize: 32, marginBottom: 10 }}>💰</div>
-                <div style={{ fontSize: 14, fontWeight: 700, color: '#111827', marginBottom: 4 }}>
-                  Salary Calculator
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
+            {[
+              {
+                href: "/salary-calculator", icon: "💰", label: "Salary Calculator",
+                sub: "Calculate in-hand pay",
+                bg: "linear-gradient(135deg,#ECFDF5,#D1FAE5)", border: "rgba(16,185,129,0.15)",
+                iconBg: "rgba(16,185,129,0.12)", color: "#065F46",
+              },
+              {
+                href: "/cutoffs", icon: "📊", label: "Cutoff Analysis",
+                sub: "Year-wise trends",
+                bg: "linear-gradient(135deg,#EFF6FF,#DBEAFE)", border: "rgba(37,99,235,0.15)",
+                iconBg: "rgba(37,99,235,0.1)", color: "#1E40AF",
+              },
+              {
+                href: "/exam-calendar", icon: "📅", label: "Exam Calendar",
+                sub: "Important dates",
+                bg: "linear-gradient(135deg,#FFF7ED,#FFEDD5)", border: "rgba(234,88,12,0.15)",
+                iconBg: "rgba(234,88,12,0.1)", color: "#9A3412",
+              },
+              {
+                href: "/life", icon: "👔", label: "Day in Life",
+                sub: "Real career stories",
+                bg: "linear-gradient(135deg,#FDF4FF,#FAE8FF)", border: "rgba(168,85,247,0.15)",
+                iconBg: "rgba(168,85,247,0.1)", color: "#6B21A8",
+              },
+            ].map((t) => (
+              <Link key={t.href} href={t.href} style={{ textDecoration: "none" }}>
+                <div className="card-lift" style={{
+                  background: t.bg, borderRadius: 16, padding: "18px 16px",
+                  border: `1px solid ${t.border}`,
+                  display: "flex", flexDirection: "column", gap: 10,
+                }}>
+                  <div style={{
+                    width: 44, height: 44, borderRadius: 12,
+                    background: t.iconBg,
+                    display: "flex", alignItems: "center", justifyContent: "center", fontSize: 22,
+                  }}>
+                    {t.icon}
+                  </div>
+                  <div>
+                    <div style={{ fontSize: 14, fontWeight: 700, color: "#111827", marginBottom: 2 }}>{t.label}</div>
+                    <div style={{ fontSize: 11, color: t.color, fontWeight: 500 }}>{t.sub}</div>
+                  </div>
+                  <div style={{ fontSize: 11, fontWeight: 700, color: t.color }}>Explore →</div>
                 </div>
-                <div style={{ fontSize: 11, color: '#6B7280', lineHeight: 1.4 }}>
-                  Calculate in-hand salary
-                </div>
-              </div>
-            </Link>
-
-            {/* Cutoff Analysis */}
-            <Link href="/cutoffs" style={{ textDecoration: 'none' }}>
-              <div style={{
-                background: '#FFFFFF',
-                borderRadius: 14,
-                padding: '20px 16px',
-                textAlign: 'center',
-                border: '1px solid var(--border)',
-                boxShadow: 'var(--shadow-sm)',
-                transition: 'transform 0.2s, box-shadow 0.2s',
-              }}>
-                <div style={{ fontSize: 32, marginBottom: 10 }}>📊</div>
-                <div style={{ fontSize: 14, fontWeight: 700, color: '#111827', marginBottom: 4 }}>
-                  Cutoff Analysis
-                </div>
-                <div style={{ fontSize: 11, color: '#6B7280', lineHeight: 1.4 }}>
-                  Year-wise trends
-                </div>
-              </div>
-            </Link>
-
-            {/* Exam Calendar */}
-            <Link href="/exam-calendar" style={{ textDecoration: 'none' }}>
-              <div style={{
-                background: '#FFFFFF',
-                borderRadius: 14,
-                padding: '20px 16px',
-                textAlign: 'center',
-                border: '1px solid var(--border)',
-                boxShadow: 'var(--shadow-sm)',
-                transition: 'transform 0.2s, box-shadow 0.2s',
-              }}>
-                <div style={{ fontSize: 32, marginBottom: 10 }}>📅</div>
-                <div style={{ fontSize: 14, fontWeight: 700, color: '#111827', marginBottom: 4 }}>
-                  Exam Calendar
-                </div>
-                <div style={{ fontSize: 11, color: '#6B7280', lineHeight: 1.4 }}>
-                  Important dates
-                </div>
-              </div>
-            </Link>
-
-            {/* Day in Life Stories */}
-            <Link href="/life" style={{ textDecoration: 'none' }}>
-              <div style={{
-                background: '#FFFFFF',
-                borderRadius: 14,
-                padding: '20px 16px',
-                textAlign: 'center',
-                border: '1px solid var(--border)',
-                boxShadow: 'var(--shadow-sm)',
-                transition: 'transform 0.2s, box-shadow 0.2s',
-              }}>
-                <div style={{ fontSize: 32, marginBottom: 10 }}>👔</div>
-                <div style={{ fontSize: 14, fontWeight: 700, color: '#111827', marginBottom: 4 }}>
-                  Day in Life
-                </div>
-                <div style={{ fontSize: 11, color: '#6B7280', lineHeight: 1.4 }}>
-                  Career stories
-                </div>
-              </div>
-            </Link>
+              </Link>
+            ))}
           </div>
         </section>
 

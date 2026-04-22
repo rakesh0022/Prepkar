@@ -65,6 +65,15 @@
 .hide-scrollbar::-webkit-scrollbar { display:none; }
 .hide-scrollbar { -ms-overflow-style:none; scrollbar-width:none; }
 
+/* Card hover lift effect */
+.card-lift {
+  transition: transform 0.25s cubic-bezier(0.22,1,0.36,1), box-shadow 0.25s cubic-bezier(0.22,1,0.36,1);
+}
+.card-lift:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.12), 0 2px 8px rgba(0,0,0,0.08);
+}
+
 /* ─── Responsive helpers ─────────────────────────────────────────────────── */
 .desktop-only { display: none; }
 .mobile-only { display: block; }
