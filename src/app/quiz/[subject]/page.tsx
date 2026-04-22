@@ -5,6 +5,22 @@ import Link from 'next/link';
 import AuthGuard from '@/components/AuthGuard';
 import { useQuizAttempts } from '@/hooks/useQuizAttempts';
 
+// ─── Static imports — no fetch, no network dependency ─────────────────────────
+import polityRaw        from '../../../../public/data/questions/polity.json';
+import economyRaw       from '../../../../public/data/questions/economy.json';
+import geographyRaw     from '../../../../public/data/questions/geography.json';
+import historyRaw       from '../../../../public/data/questions/history.json';
+import scienceRaw       from '../../../../public/data/questions/science.json';
+import englishRaw       from '../../../../public/data/questions/english.json';
+import reasoningRaw     from '../../../../public/data/questions/reasoning.json';
+import quantitativeRaw  from '../../../../public/data/questions/quantitative.json';
+
+// current-affairs lives in /public/quizzes/
+import currentAffairsRaw from '../../../../public/quizzes/current-affairs.json';
+
+// ─── Question bank map — keyed by subject slug ────────────────────────────────
+// (defined after interface below)
+
 interface QuizQuestion {
   id: string;
   question: string;
@@ -15,6 +31,18 @@ interface QuizQuestion {
   exam: string[];
   topic: string;
 }
+
+const QUESTION_BANK: Record<string, QuizQuestion[]> = {
+  'polity':                polityRaw        as QuizQuestion[],
+  'economy':               economyRaw       as QuizQuestion[],
+  'geography':             geographyRaw     as QuizQuestion[],
+  'history':               historyRaw       as QuizQuestion[],
+  'science':               scienceRaw       as QuizQuestion[],
+  'english':               englishRaw       as QuizQuestion[],
+  'reasoning':             reasoningRaw     as QuizQuestion[],
+  'quantitative-aptitude': quantitativeRaw  as QuizQuestion[],
+  'current-affairs':       currentAffairsRaw as unknown as QuizQuestion[],
+};
 
 type Subject = 'polity' | 'economy' | 'geography' | 'history' | 'science' |
   'current-affairs' | 'quantitative-aptitude' | 'english' | 'reasoning';
@@ -132,28 +160,23 @@ function QuizScreen({ subject }: { subject: Subject }) {
   const [errorMsg, setErrorMsg] = useState('');
   const { recordAttempt } = useQuizAttempts();
 
-  const loadQuestions = useCallback(async () => {
+  const loadQuestions = useCallback(() => {
     setLoadState('loading');
     try {
       const settings = JSON.parse(
         localStorage.getItem('quizSettings') || '{"numQuestions":10,"difficulty":"all"}'
       );
 
-      // Try new location first, fallback to old location
-      let res = await fetch(`/data/questions/${subject}.json`);
-      if (!res.ok) {
-        res = await fetch(`/quizzes/${subject}.json`);
+      const data = QUESTION_BANK[subject];
+      if (!data || data.length === 0) {
+        setLoadState('empty');
+        return;
       }
-      if (!res.ok) throw new Error(`Failed to load questions (${res.status})`);
-
-      const data: QuizQuestion[] = await res.json();
-      if (!Array.isArray(data) || data.length === 0) throw new Error('No questions found');
 
       let filtered = data;
       if (settings.difficulty && settings.difficulty !== 'all') {
-        filtered = data.filter((q) => q.difficulty === settings.difficulty);
-        // Fall back to all if filter leaves nothing
-        if (filtered.length === 0) filtered = data;
+        const byDifficulty = data.filter((q) => q.difficulty === settings.difficulty);
+        if (byDifficulty.length > 0) filtered = byDifficulty;
       }
 
       const shuffled = [...filtered].sort(() => Math.random() - 0.5);
@@ -162,8 +185,6 @@ function QuizScreen({ subject }: { subject: Subject }) {
       setQuestions(selected);
       setSelectedAnswers(new Array(selected.length).fill(null));
       setLoadState('ready');
-
-      // Record the attempt when questions actually load
       recordAttempt();
     } catch (err) {
       setErrorMsg(err instanceof Error ? err.message : 'Unknown error');
