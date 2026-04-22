@@ -23,6 +23,13 @@ export default function DailyChallenge({ quiz, answer, onAnswer }: Props) {
       position: "relative",
       overflow: "hidden",
     }}>
+      {/* Dark overlay for better text readability */}
+      <div style={{ 
+        position: "absolute", 
+        inset: 0, 
+        background: "linear-gradient(135deg, rgba(255,255,255,0.92), rgba(255,255,255,0.88))",
+        zIndex: 0,
+      }} />
       <div style={{ position: "relative", zIndex: 1 }}>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 12 }}>
         <div>
@@ -44,7 +51,7 @@ export default function DailyChallenge({ quiz, answer, onAnswer }: Props) {
         )}
       </div>
 
-      <p style={{ fontSize: 14, color: "#111827", lineHeight: 1.65, marginBottom: 12, fontWeight: 500 }}>
+      <p style={{ fontSize: 14, color: "#111827", lineHeight: 1.65, marginBottom: 12, fontWeight: 600 }}>
         {quiz.question}
       </p>
 

@@ -61,7 +61,7 @@ export default function CutoffDetail({ exam }: { exam: Exam }) {
   const categoryColor: Record<string, string> = {
     SSC: '#16a34a',
     Banking: '#2563eb',
-    UPSC: '#dc2626',
+    UPSC: '#1e40af',
     Railway: '#ea580c',
   };
   const color = categoryColor[exam.category] || '#6366f1';

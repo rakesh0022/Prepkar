@@ -404,22 +404,21 @@ function QuizScreen({ subject, questions, onDone }: {
 function QuizRoot({ subject }: { subject: Subject }) {
   const { recordAttempt } = useQuizAttempts();
 
-  // Stage: 'quiz' | 'results'
-  const [stage, setStage]       = useState<'quiz' | 'results'>('quiz');
-  const [questions, setQuestions] = useState<QuizQuestion[]>([]);
-  const [answers, setAnswers]   = useState<(number | null)[]>([]);
-  const [elapsed, setElapsed]   = useState(0);
-  const [error, setError]       = useState<string | null>(null);
+  // Load questions synchronously during state init — no useEffect, no flash
+  const [stage, setStage]     = useState<'quiz' | 'results'>('quiz');
+  const [answers, setAnswers] = useState<(number | null)[]>([]);
+  const [elapsed, setElapsed] = useState(0);
 
-  // Load questions exactly once on mount — no useCallback, no deps loop
+  const [questionsData, setQuestionsData] = useState<{ questions: QuizQuestion[]; error: string | null }>(() => {
+    return selectQuestions(subject);
+  });
+
+  const questions = questionsData.questions;
+  const error = questionsData.error;
+
+  // Record attempt once on mount
   useEffect(() => {
-    const { questions: qs, error: err } = selectQuestions(subject);
-    if (err || qs.length === 0) {
-      setError(err ?? 'No questions available.');
-      return;
-    }
-    setQuestions(qs);
-    recordAttempt();
+    if (questions.length > 0) recordAttempt();
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   if (error) {
@@ -454,8 +453,7 @@ function QuizRoot({ subject }: { subject: Subject }) {
         elapsed={elapsed}
         subject={subject}
         onRetry={() => {
-          const { questions: qs } = selectQuestions(subject);
-          setQuestions(qs);
+          setQuestionsData(selectQuestions(subject));
           setAnswers([]);
           setElapsed(0);
           setStage('quiz');
