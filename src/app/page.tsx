@@ -43,7 +43,7 @@ export default function Home() {
         <div style={{ position: "absolute", inset: 0, opacity: 0.04, backgroundImage: "radial-gradient(circle at 20% 50%, #fff 1px, transparent 1px), radial-gradient(circle at 80% 20%, #fff 1px, transparent 1px)", backgroundSize: "40px 40px" }} />
 
         <div style={{ position: "relative", zIndex: 1 }}>
-          <div style={{ fontFamily: "'Outfit'", fontSize: 20, fontWeight: 800, letterSpacing: -0.5, marginBottom: 28, opacity: 0.9 }}>
+          <div className="desktop-only" style={{ fontFamily: "'Outfit'", fontSize: 20, fontWeight: 800, letterSpacing: -0.5, marginBottom: 28, opacity: 0.9 }}>
             Naukri<span style={{ color: "#5EEAD4" }}>Yatra</span>
           </div>
 
@@ -138,33 +138,8 @@ export default function Home() {
           <DailyChallenge quiz={quiz} answer={answer} onAnswer={saveAnswer} />
         </div>
 
-        {/* ═══ PLATFORM HIGHLIGHTS ═══ */}
-        <section className="anim-up-2" style={{ paddingBottom: 8 }}>
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 10 }}>
-            {[
-              { n: "17+", l: "Govt Exams Covered", c: "#2563EB" },
-              { n: "6", l: "Practice Stages per Exam", c: "#16A34A" },
-              { n: "AI", l: "Scores Every Answer", c: "#7C3AED" },
-            ].map((f, i) => (
-              <div key={i} style={{
-                background: "#FFFFFF", borderRadius: 14, padding: "16px 12px",
-                textAlign: "center", border: "1px solid var(--border)",
-                boxShadow: "var(--shadow-sm)",
-              }}>
-                <div style={{ fontSize: 20, fontWeight: 800, color: f.c, fontFamily: "'Outfit'" }}>{f.n}</div>
-                <div style={{ fontSize: 10, color: "#9CA3AF", marginTop: 3, lineHeight: 1.3 }}>{f.l}</div>
-              </div>
-            ))}
-          </div>
-        </section>
-
-        {/* ═══ TARGET EXAMS ═══ */}
-        <div className="anim-up-3" style={{ paddingTop: 12 }}>
-          <TargetExams exams={COUNTDOWNS} />
-        </div>
-
         {/* ═══ DREAM CARDS ═══ */}
-        <section className="anim-up-3" style={{ padding: "8px 0 0" }}>
+        <section className="anim-up-2" style={{ padding: "20px 0 0" }}>
           <h2 style={{ fontFamily: "'Playfair Display',serif", fontSize: 20, fontWeight: 700, color: "#111827", marginBottom: 4 }}>
             What if you become...
           </h2>
@@ -205,6 +180,11 @@ export default function Home() {
             </div>
           </div>
         </section>
+
+        {/* ═══ TARGET EXAMS ═══ */}
+        <div className="anim-up-3" style={{ paddingTop: 20 }}>
+          <TargetExams exams={COUNTDOWNS} />
+        </div>
 
         {/* ═══ PRACTICE SECTION ═══ */}
         <section className="anim-up-4" style={{ paddingTop: 20 }}>
