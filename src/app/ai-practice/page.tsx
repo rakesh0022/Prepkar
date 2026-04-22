@@ -184,6 +184,55 @@ function PracticeContent() {
 
       <div style={{ maxWidth: "var(--max-width)", margin: "0 auto", padding: "24px 16px" }}>
 
+        {/* ═══ INTERACTIVE TEASER: SIMULATED CHAT DEMO ═══ */}
+        <div className="anim-up-1 card-premium" style={{
+          background: "linear-gradient(135deg, rgba(37,99,235,0.05), rgba(94,234,212,0.05))",
+          borderRadius: 18, padding: "16px", marginBottom: 28,
+          border: "1px solid rgba(37,99,235,0.15)",
+        }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 12 }}>
+            <div style={{ width: 8, height: 8, borderRadius: "50%", background: "#10B981", animation: "pulseDot 2s infinite" }} />
+            <div style={{ fontSize: 13, fontWeight: 700, color: "var(--text-dark)" }}>Live AI Evaluation Demo</div>
+          </div>
+          
+          <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+            {/* AI message */}
+            <div style={{ display: "flex", justifyContent: "flex-start" }}>
+              <div style={{
+                maxWidth: "85%", padding: "10px 14px", fontSize: 12, lineHeight: 1.5,
+                borderRadius: "14px 14px 14px 4px", background: "var(--bg-card)",
+                color: "var(--text-body)", border: "1px solid var(--border)",
+              }}>
+                <div style={{ fontSize: 9, fontWeight: 700, color: "#2563EB", letterSpacing: 1, textTransform: "uppercase", marginBottom: 4 }}>Interviewer</div>
+                Welcome! What are the primary functions of the Reserve Bank of India (RBI)?
+              </div>
+            </div>
+            {/* User message */}
+            <div className="anim-up" style={{ display: "flex", justifyContent: "flex-end", animationDelay: "1s", animationFillMode: "both" }}>
+              <div style={{
+                maxWidth: "85%", padding: "10px 14px", fontSize: 12, lineHeight: 1.5,
+                borderRadius: "14px 14px 4px 14px", background: "#2563EB",
+                color: "#fff",
+              }}>
+                The RBI issues currency, manages foreign exchange, and controls inflation through monetary policy like Repo Rate.
+              </div>
+            </div>
+            {/* AI feedback */}
+            <div className="anim-up" style={{ display: "flex", justifyContent: "flex-start", animationDelay: "2s", animationFillMode: "both" }}>
+              <div style={{
+                maxWidth: "85%", padding: "10px 14px", fontSize: 12, lineHeight: 1.5,
+                borderRadius: "14px 14px 14px 4px", background: "var(--bg-card)",
+                color: "var(--text-body)", border: "1px solid var(--border)",
+              }}>
+                <div style={{ fontSize: 9, fontWeight: 700, color: "#10B981", letterSpacing: 1, textTransform: "uppercase", marginBottom: 4 }}>Score: 9/10</div>
+                Excellent answer! You correctly identified its core functions. Now, can you explain what the Repo Rate is?
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* ═══ SELECT CATEGORY ═══ */}
+
         {/* ═══ QUICK LINKS — consolidated ═══ */}
         <div className="anim-up-1" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10, marginBottom: 24 }}>
           <Link href="/quiz" style={{ textDecoration: "none" }}>

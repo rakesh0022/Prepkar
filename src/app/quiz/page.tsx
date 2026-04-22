@@ -35,6 +35,7 @@ function QuizSetup() {
   const [selectedSubject, setSelectedSubject] = useState<Subject | null>(null);
   const [difficulty, setDifficulty] = useState<Difficulty>('all');
   const [numQuestions, setNumQuestions] = useState(10);
+  const [sampleAnswer, setSampleAnswer] = useState<string | null>(null);
   const { attempts, limitReached, limit } = useQuizAttempts();
   const router = useRouter();
 
@@ -103,6 +104,75 @@ function QuizSetup() {
       </section>
 
       <div style={{ maxWidth: 'var(--max-width)', margin: '0 auto', padding: '24px 16px' }}>
+        
+        {/* ═══ INTERACTIVE TEASER: SAMPLE QUESTION ═══ */}
+        <div className="anim-up card-premium" style={{
+          background: 'linear-gradient(135deg, rgba(37,99,235,0.05), rgba(109,40,217,0.05))',
+          borderRadius: 18, padding: '20px', marginBottom: 24,
+          border: '1px solid rgba(109,40,217,0.15)',
+        }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 16 }}>
+            <span style={{ fontSize: 18 }}>💡</span>
+            <div style={{ fontSize: 13, fontWeight: 700, color: 'var(--text-dark)' }}>Sample Question of the Day</div>
+          </div>
+          
+          <div style={{ fontSize: 15, fontWeight: 600, color: 'var(--text-body)', marginBottom: 16, lineHeight: 1.4 }}>
+            Which article of the Indian Constitution is related to the establishment of the Finance Commission?
+          </div>
+          
+          <div style={{ display: 'grid', gap: 10 }}>
+            {['Article 280', 'Article 324', 'Article 315', 'Article 148'].map((opt) => {
+              const isSelected = sampleAnswer === opt;
+              const isCorrect = opt === 'Article 280';
+              const showStatus = sampleAnswer !== null;
+              
+              let bg = 'var(--bg-card)';
+              let border = 'var(--border)';
+              let color = 'var(--text-body)';
+
+              if (showStatus) {
+                if (isCorrect) {
+                  bg = 'rgba(16,185,129,0.1)'; border = '#10B981'; color = '#065F46';
+                } else if (isSelected) {
+                  bg = 'rgba(239,68,68,0.1)'; border = '#EF4444'; color = '#991B1B';
+                }
+              }
+
+              return (
+                <button
+                  key={opt}
+                  onClick={() => !sampleAnswer && setSampleAnswer(opt)}
+                  style={{
+                    padding: '14px 16px', borderRadius: 12, border: `1px solid ${border}`,
+                    background: bg, color: color, fontSize: 14, fontWeight: 600,
+                    textAlign: 'left', cursor: sampleAnswer ? 'default' : 'pointer',
+                    transition: 'all 0.2s',
+                    display: 'flex', justifyContent: 'space-between', alignItems: 'center'
+                  }}
+                >
+                  <span>{opt}</span>
+                  {showStatus && isCorrect && <span>✅</span>}
+                  {showStatus && isSelected && !isCorrect && <span>❌</span>}
+                </button>
+              );
+            })}
+          </div>
+
+          {sampleAnswer && (
+            <div className="anim-up" style={{ marginTop: 16, padding: '14px', background: 'rgba(37,99,235,0.08)', borderRadius: 12, border: '1px solid rgba(37,99,235,0.2)' }}>
+              <div style={{ fontSize: 13, color: 'var(--text-dark)', fontWeight: 700, marginBottom: 4 }}>
+                {sampleAnswer === 'Article 280' ? '🎉 Correct!' : '💡 The correct answer is Article 280.'}
+              </div>
+              <div style={{ fontSize: 12, color: 'var(--text-light)', lineHeight: 1.5, marginBottom: 12 }}>
+                Article 280 of the Constitution of India provides for a Finance Commission as a quasi-judicial body. It is constituted by the president of India every fifth year or at such earlier time as he considers necessary.
+              </div>
+              <div style={{ fontSize: 12, fontWeight: 700, color: '#2563EB', display: 'flex', alignItems: 'center', gap: 6 }}>
+                <span>🔥 Want to practice 500+ more? Select a subject below!</span>
+              </div>
+            </div>
+          )}
+        </div>
+
         {/* ═══ DAILY PROGRESS BAR ═══ */}
         <div className="anim-up-1" style={{
           background: 'var(--bg-card)', borderRadius: 16, padding: '16px 18px',
