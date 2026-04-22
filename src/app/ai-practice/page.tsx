@@ -3,6 +3,7 @@ import { useState, useRef, useEffect, useCallback } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import BottomNav from "@/components/BottomNav";
+import AuthGuard from "@/components/AuthGuard";
 import { createClient } from "@/lib/supabase/client";
 import { PRACTICE_CATS, type PracticeCategory, type PracticeStage } from "@/components/data";
 import { getSubscriptionStatus, incrementTestCount, type SubscriptionStatus } from "@/lib/subscription";
@@ -15,7 +16,7 @@ function Ring({ score, label, color }: { score: number; label: string; color: st
   return (<div style={{ textAlign: "center", margin: "0 5px" }}><svg width="62" height="62" viewBox="0 0 62 62"><circle cx="31" cy="31" r={r} fill="none" stroke="rgba(0,0,0,0.06)" strokeWidth="4.5" /><circle cx="31" cy="31" r={r} fill="none" stroke={color} strokeWidth="4.5" strokeDasharray={c} strokeDashoffset={o} strokeLinecap="round" transform="rotate(-90 31 31)" style={{ transition: "stroke-dashoffset 1s ease" }} /><text x="31" y="35" textAnchor="middle" fontSize="15" fontWeight="700" fill="#111827">{score}</text></svg><div style={{ fontSize: 9, color: "#6B7280", marginTop: 1 }}>{label.replace(/_/g, " ")}</div></div>);
 }
 
-export default function PracticePage() {
+function PracticeContent() {
   const [scr, setScr] = useState<"sel" | "stage" | "chat" | "done">("sel");
   const [cat, setCat] = useState<PracticeCategory>(PRACTICE_CATS[0]);
   const [stage, setStage] = useState<PracticeStage>(PRACTICE_CATS[0].stages[0]);
@@ -26,26 +27,19 @@ export default function PracticePage() {
   const [qn, setQn] = useState(0);
   const [sc, setSc] = useState<Scores | null>(null);
   const [er, setEr] = useState("");
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [authChecked, setAuthChecked] = useState(false);
   const [subStatus, setSubStatus] = useState<SubscriptionStatus | null>(null);
   const end = useRef<HTMLDivElement>(null);
   const iRef = useRef<HTMLTextAreaElement>(null);
   const router = useRouter();
   const supabase = createClient();
 
-  // Check auth + subscription on load
-  const checkAuth = useCallback(async () => {
-    const { data: { user } } = await supabase.auth.getUser();
-    setIsLoggedIn(!!user);
-    setAuthChecked(true);
-    if (user) {
-      const status = await getSubscriptionStatus();
-      setSubStatus(status);
-    }
-  }, [supabase]);
+  // Load subscription status on mount (user is already authenticated via AuthGuard)
+  const loadSubscription = useCallback(async () => {
+    const status = await getSubscriptionStatus();
+    setSubStatus(status);
+  }, []);
 
-  useEffect(() => { checkAuth(); }, [checkAuth]);
+  useEffect(() => { loadSubscription(); }, [loadSubscription]);
   useEffect(() => { end.current?.scrollIntoView({ behavior: "smooth" }); }, [msgs, ld]);
   useEffect(() => { if (scr === "chat" && !ld) iRef.current?.focus(); }, [scr, ld, msgs]);
 
@@ -61,9 +55,7 @@ export default function PracticePage() {
   }
 
   async function begin() {
-    // Gate: must be logged in
-    if (!isLoggedIn) { router.push(`/login?redirect=/ai-practice`); return; }
-    // Gate: check free test limit
+    // Gate: check free test limit (auth is already handled by AuthGuard)
     if (subStatus && !subStatus.canTakeTest) { router.push("/pricing"); return; }
 
     setScr("chat"); setMsgs([]); setQn(0); setSc(null); setEr(""); setLd(true);
@@ -126,13 +118,6 @@ export default function PracticePage() {
     finally { setLd(false); }
   }
 
-  // Show loading while checking auth
-  if (!authChecked) return (
-    <main style={{ minHeight: "100vh", background: "var(--bg)", display: "flex", alignItems: "center", justifyContent: "center" }}>
-      <p style={{ color: "#6B7280" }}>Loading...</p>
-    </main>
-  );
-
   // ── SCREEN: Select Exam ──
   if (scr === "sel") return (
     <main style={{ minHeight: "100vh", background: "var(--bg)", paddingBottom: 76 }}>
@@ -140,13 +125,8 @@ export default function PracticePage() {
       <header style={{ padding: "14px 16px", borderBottom: "1px solid var(--border)", display: "flex", alignItems: "center", gap: 8, background: "rgba(248,249,251,0.97)", backdropFilter: "blur(16px)" }}>
         <Link href="/" style={{ color: "#6B7280", fontSize: 15, textDecoration: "none" }}>←</Link>
         <h1 style={{ fontFamily: "'Playfair Display',serif", fontSize: 22, fontWeight: 700, color: "#111827" }}>AI Practice</h1>
-        {/* Show login status */}
-        {!isLoggedIn && (
-          <Link href="/login?redirect=/ai-practice" style={{ marginLeft: "auto", textDecoration: "none" }}>
-            <div style={{ padding: "6px 14px", borderRadius: 8, background: "#2563EB", color: "#fff", fontSize: 11, fontWeight: 700 }}>Sign In</div>
-          </Link>
-        )}
-        {isLoggedIn && subStatus && (
+        {/* Show subscription status (user is already logged in via AuthGuard) */}
+        {subStatus && (
           <div style={{ marginLeft: "auto", display: "flex", alignItems: "center", gap: 6 }}>
             {subStatus.isPro ? (
               <span style={{ fontSize: 10, fontWeight: 700, color: "#16A34A", background: "#F0FDF4", padding: "3px 8px", borderRadius: 6, border: "1px solid rgba(22,163,74,0.12)" }}>PRO ✓</span>
@@ -161,7 +141,7 @@ export default function PracticePage() {
           Practice every stage — from Prelims MCQ to Final Interview
         </p>
         <p style={{ fontSize: 12, color: "#6B7280", marginBottom: 16 }}>
-          {isLoggedIn ? "Select your exam to begin." : "Sign in to start practicing — it's free."}
+          Select your exam to begin.
         </p>
 
         {/* Question Bank CTA */}
@@ -177,7 +157,7 @@ export default function PracticePage() {
         </Link>
 
         {/* Free tier info */}
-        {isLoggedIn && subStatus && !subStatus.isPro && (
+        {subStatus && !subStatus.isPro && (
           <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", background: "#FFFBEB", borderRadius: 10, padding: "10px 14px", marginBottom: 16, border: "1px solid rgba(245,158,11,0.15)" }}>
             <div>
               <div style={{ fontSize: 12, fontWeight: 700, color: "#92400E" }}>Free Plan: {subStatus.freeTestsRemaining} of 5 tests remaining</div>
@@ -298,10 +278,10 @@ export default function PracticePage() {
           background: cat.color, color: "#fff", border: "none", borderRadius: 12,
           fontSize: 14, fontWeight: 700, cursor: "pointer", boxShadow: `0 4px 16px ${cat.color}30`,
         }}>
-          {!isLoggedIn ? "Sign In to Start →" : (subStatus && !subStatus.canTakeTest) ? "Upgrade to Continue →" : `Start ${stage.label} →`}
+          {(subStatus && !subStatus.canTakeTest) ? "Upgrade to Continue →" : `Start ${stage.label} →`}
         </button>
 
-        {isLoggedIn && subStatus && !subStatus.isPro && (
+        {subStatus && !subStatus.isPro && (
           <div style={{ textAlign: "center", marginTop: 10 }}>
             <span style={{ fontSize: 11, color: "#9CA3AF" }}>
               {subStatus.freeTestsRemaining > 0
@@ -336,7 +316,7 @@ export default function PracticePage() {
           {/* Share Score on WhatsApp */}
           <button onClick={() => {
             const overall = sk.find(k => k === "overall") ? sc["overall"] : sk.length > 0 ? sc[sk[0]] : 0;
-            const text = `🎯 I just scored ${overall}/10 on ${cat.title} — ${stage.label} practice on NaukriYatra!\n\n${sc.weakest_topic ? `📌 Weakest: ${sc.weakest_topic}\n` : ""}${sc.tip ? `💡 Tip: ${sc.tip}\n\n` : "\n"}Try it free 👇\nhttps://prepkar.vercel.app/interview`;
+            const text = `🎯 I just scored ${overall}/10 on ${cat.title} — ${stage.label} practice on NaukriYatra!\n\n${sc.weakest_topic ? `📌 Weakest: ${sc.weakest_topic}\n` : ""}${sc.tip ? `💡 Tip: ${sc.tip}\n\n` : "\n"}Try it free 👇\nhttps://prepkar.vercel.app/ai-practice`;
             window.open(`https://wa.me/?text=${encodeURIComponent(text)}`, "_blank");
           }} style={{ width: "100%", marginTop: 10, padding: "12px", borderRadius: 12, border: "none", background: "#25D366", color: "#fff", fontSize: 13, fontWeight: 700, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", gap: 8 }}>
             <span>📤</span> Share Score on WhatsApp
@@ -403,5 +383,13 @@ export default function PracticePage() {
         </div>
       </div>
     </main>
+  );
+}
+
+export default function PracticePage() {
+  return (
+    <AuthGuard redirectAfterLogin="/ai-practice">
+      <PracticeContent />
+    </AuthGuard>
   );
 }

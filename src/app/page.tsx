@@ -109,19 +109,31 @@ export default function Home() {
             ))}
           </div>
 
+          <Link href="/quiz" style={{ textDecoration: "none" }}>
+            <div style={{
+              display: "inline-flex", alignItems: "center", gap: 10,
+              background: "linear-gradient(90deg, #D97706, #B45309)",
+              color: "#fff", padding: "12px 22px",
+              borderRadius: 12, fontSize: 14, fontWeight: 700,
+              boxShadow: "0 4px 20px rgba(217,119,6,0.35)",
+              marginRight: 10,
+            }}>
+              <span>📝</span> Quiz Practice
+            </div>
+          </Link>
           <Link href="/ai-practice" style={{ textDecoration: "none" }}>
             <div style={{
               display: "inline-flex", alignItems: "center", gap: 10,
-              background: "linear-gradient(90deg, #3B82F6, #14B8A6)",
-              color: "#fff", padding: "14px 28px",
-              borderRadius: 12, fontSize: 15, fontWeight: 700,
-              boxShadow: "0 4px 24px rgba(59,130,246,0.4)",
+              background: "linear-gradient(90deg, #6D28D9, #4C1D95)",
+              color: "#fff", padding: "12px 22px",
+              borderRadius: 12, fontSize: 14, fontWeight: 700,
+              boxShadow: "0 4px 20px rgba(109,40,217,0.35)",
             }}>
-              <span>🎯</span> Start Interview Practice — Free
+              <span>🎯</span> AI Practice
             </div>
           </Link>
           <p style={{ fontSize: 11, opacity: 0.4, marginTop: 10 }}>
-            AI mock interview with instant scoring
+            Free · No credit card needed
           </p>
         </div>
       </section>
@@ -208,69 +220,6 @@ export default function Home() {
           </div>
         </section>
 
-        {/* ═══ PRACTICE SECTION ═══ */}
-        <section className="anim-up-4" style={{ paddingTop: 24 }}>
-          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 4 }}>
-            <h2 style={{ fontFamily: "'Playfair Display',serif", fontSize: 20, fontWeight: 700, color: "#111827", margin: 0 }}>
-              Start Practicing
-            </h2>
-            <span style={{ fontSize: 10, fontWeight: 700, color: "#16A34A", background: "#F0FDF4", padding: "3px 8px", borderRadius: 6, border: "1px solid rgba(22,163,74,0.15)" }}>FREE</span>
-          </div>
-          <p style={{ fontSize: 13, color: "#6B7280", marginBottom: 14 }}>
-            Choose your practice mode
-          </p>
-
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
-            {/* Quiz Practice Card */}
-            <Link href="/quiz" style={{ textDecoration: "none" }}>
-              <div className="card-lift" style={{
-                background: "linear-gradient(145deg, #FFFBEB, #FEF3C7, #FDE68A)",
-                borderRadius: 16, padding: "20px 16px", textAlign: "center",
-                border: "1px solid rgba(217,119,6,0.15)",
-                boxShadow: "0 2px 12px rgba(217,119,6,0.1)",
-                minHeight: 160,
-                display: "flex", flexDirection: "column", justifyContent: "space-between",
-              }}>
-                <div>
-                  <div style={{ fontSize: 36, marginBottom: 8 }}>📝</div>
-                  <div style={{ fontSize: 15, fontWeight: 700, color: "#111827", marginBottom: 4 }}>Quiz Practice</div>
-                  <div style={{ fontSize: 11, color: "#92400E", lineHeight: 1.4 }}>500+ MCQs · 8 subjects</div>
-                </div>
-                <div style={{
-                  marginTop: 14, padding: "10px", background: "linear-gradient(90deg,#D97706,#B45309)", color: "#fff",
-                  borderRadius: 10, fontSize: 13, fontWeight: 700, boxShadow: "0 2px 8px rgba(217,119,6,0.3)",
-                }}>
-                  Start Quiz →
-                </div>
-              </div>
-            </Link>
-
-            {/* AI Practice Card */}
-            <Link href="/ai-practice" style={{ textDecoration: "none" }}>
-              <div className="card-lift" style={{
-                background: "linear-gradient(145deg, #F5F3FF, #EDE9FE, #DDD6FE)",
-                borderRadius: 16, padding: "20px 16px", textAlign: "center",
-                border: "1px solid rgba(109,40,217,0.15)",
-                boxShadow: "0 2px 12px rgba(109,40,217,0.1)",
-                minHeight: 160,
-                display: "flex", flexDirection: "column", justifyContent: "space-between",
-              }}>
-                <div>
-                  <div style={{ fontSize: 36, marginBottom: 8 }}>🎯</div>
-                  <div style={{ fontSize: 15, fontWeight: 700, color: "#111827", marginBottom: 4 }}>AI Practice</div>
-                  <div style={{ fontSize: 11, color: "#5B21B6", lineHeight: 1.4 }}>Essay · Interview · Mains</div>
-                </div>
-                <div style={{
-                  marginTop: 14, padding: "10px", background: "linear-gradient(90deg,#6D28D9,#4C1D95)", color: "#fff",
-                  borderRadius: 10, fontSize: 13, fontWeight: 700, boxShadow: "0 2px 8px rgba(109,40,217,0.3)",
-                }}>
-                  Start AI Practice →
-                </div>
-              </div>
-            </Link>
-          </div>
-        </section>
-
         {/* ═══ SUCCESS STORIES ═══ */}
         <div className="anim-up-5">
           <StoriesStrip stories={storiesForStrip} />
@@ -295,6 +244,18 @@ export default function Home() {
 
           <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
             {[
+              {
+                href: "/quiz", icon: "📝", label: "Quiz Practice",
+                sub: "500+ MCQs · 8 subjects",
+                bg: "linear-gradient(135deg,#FFFBEB,#FEF3C7)", border: "rgba(217,119,6,0.15)",
+                iconBg: "rgba(217,119,6,0.1)", color: "#92400E",
+              },
+              {
+                href: "/ai-practice", icon: "🎯", label: "AI Practice",
+                sub: "Essay · Interview · Mains",
+                bg: "linear-gradient(135deg,#F5F3FF,#EDE9FE)", border: "rgba(109,40,217,0.15)",
+                iconBg: "rgba(109,40,217,0.1)", color: "#5B21B6",
+              },
               {
                 href: "/salary-calculator", icon: "💰", label: "Salary Calculator",
                 sub: "Calculate in-hand pay",
