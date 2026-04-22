@@ -153,41 +153,44 @@ export default function Home() {
         {/* ═══ DREAM CARDS ═══ */}
         <section className="anim-up-2" style={{ padding: "20px 0 0" }}>
           <div style={{ display: "flex", alignItems: "baseline", gap: 8, marginBottom: 4 }}>
-            <h2 style={{ fontFamily: "'Playfair Display',serif", fontSize: 20, fontWeight: 700, color: "#111827", margin: 0 }}>
+            <h2 style={{ fontFamily: "'Playfair Display',serif", fontSize: 20, fontWeight: 700, color: "var(--text-dark)", margin: 0 }}>
               What if you become...
             </h2>
           </div>
-          <p style={{ fontSize: 13, color: "#6B7280", marginBottom: 14 }}>
+          <p style={{ fontSize: 13, color: "var(--text-light)", marginBottom: 14 }}>
             Tap to explore the life, salary, and roadmap
           </p>
 
           <div style={{ position: "relative" }}>
             {/* Fade edges to hint scrollability */}
-            <div style={{ position: "absolute", left: 0, top: 0, bottom: 8, width: 20, background: "linear-gradient(to right, var(--bg), transparent)", zIndex: 2, pointerEvents: "none", borderRadius: "16px 0 0 16px" }} />
-            <div style={{ position: "absolute", right: 0, top: 0, bottom: 8, width: 20, background: "linear-gradient(to left, var(--bg), transparent)", zIndex: 2, pointerEvents: "none", borderRadius: "0 16px 16px 0" }} />
+            <div style={{ position: "absolute", left: 0, top: 0, bottom: 8, width: 20, background: "linear-gradient(to right, var(--bg), transparent)", zIndex: 2, pointerEvents: "none" }} />
+            <div style={{ position: "absolute", right: 0, top: 0, bottom: 8, width: 20, background: "linear-gradient(to left, var(--bg), transparent)", zIndex: 2, pointerEvents: "none" }} />
 
             {/* Scroll container */}
-            <div id="dreamScroll" className="no-scroll" style={{ display: "flex", gap: 10, overflowX: "auto", paddingBottom: 8, scrollBehavior: "smooth", scrollSnapType: "x mandatory" }}>
+            <div id="dreamScroll" className="no-scroll" style={{ display: "flex", gap: 12, overflowX: "auto", paddingBottom: 12, scrollBehavior: "smooth", scrollSnapType: "x mandatory" }}>
               {[
-                { title: "District Magistrate", sub: "UPSC → IAS", perk: "Bungalow + Vehicle + ₹2.5L/month", emoji: "🏛️", bg: "linear-gradient(135deg,#4c1d95,#6d28d9)", link: "/jobs?id=upsc-cse-2026" },
-                { title: "Bank PO → Manager", sub: "SBI PO Exam", perk: "₹52K start + Housing + Medical", emoji: "🏦", bg: "linear-gradient(135deg,#064e3b,#0C7C59)", link: "/jobs?id=sbi-po-2026" },
-                { title: "Income Tax Inspector", sub: "SSC CGL Exam", perk: "₹65K + Govt Quarter + Raids", emoji: "📋", bg: "linear-gradient(135deg,#1e3a5f,#2563eb)", link: "/jobs?id=ssc-cgl-2026" },
-                { title: "Station Master", sub: "RRB NTPC Exam", perk: "FREE trains for life + Uniform", emoji: "🚂", bg: "linear-gradient(135deg,#7f1d1d,#dc2626)", link: "/jobs?id=rrb-ntpc-2026" },
+                { title: "District Magistrate", sub: "UPSC → IAS", perk: "Bungalow + Vehicle + ₹2.5L/month", emoji: "🏛️", bg: "linear-gradient(135deg,#4C1D95,#6D28D9)", link: "/jobs?id=upsc-cse-2026" },
+                { title: "Bank PO → Manager", sub: "SBI PO Exam", perk: "₹52K start + Housing + Medical", emoji: "🏦", bg: "linear-gradient(135deg,#064E3B,#059669)", link: "/jobs?id=sbi-po-2026" },
+                { title: "Income Tax Inspector", sub: "SSC CGL Exam", perk: "₹65K + Govt Quarter + Raids", emoji: "📋", bg: "linear-gradient(135deg,#1E3A8A,#2563EB)", link: "/jobs?id=ssc-cgl-2026" },
+                { title: "Station Master", sub: "RRB NTPC Exam", perk: "FREE trains for life + Uniform", emoji: "🚂", bg: "linear-gradient(135deg,#7F1D1D,#DC2626)", link: "/jobs?id=rrb-ntpc-2026" },
                 { title: "RBI Officer", sub: "RBI Grade B", perk: "₹1.05L/month + Metro posting", emoji: "💰", bg: "linear-gradient(135deg,#0F4C81,#1D7ED8)", link: "/jobs?id=rbi-grade-b-2026" },
                 { title: "Army Officer", sub: "NDA Exam", perk: "₹65K + Adventure + Honor", emoji: "🎖️", bg: "linear-gradient(135deg,#134E4A,#0D9488)", link: "/jobs?id=nda-2026" },
               ].map((d, i) => (
                 <Link key={i} href={d.link} style={{ textDecoration: "none", flexShrink: 0, scrollSnapAlign: "start" }}>
-                  <div style={{
-                    width: 170, borderRadius: 16, padding: "20px 16px", color: "#fff",
+                  <div className="card-premium" style={{
+                    width: 180, borderRadius: 16, padding: "20px 16px", color: "#fff",
                     background: d.bg, boxShadow: "var(--shadow-md)",
+                    display: "flex", flexDirection: "column", height: "100%",
                   }}>
-                    <div style={{ fontSize: 28, marginBottom: 8 }}>{d.emoji}</div>
-                    <div style={{ fontSize: 14, fontWeight: 700, marginBottom: 3 }}>{d.title}</div>
-                    <div style={{ fontSize: 10, opacity: 0.7, marginBottom: 10 }}>{d.sub}</div>
-                    <div style={{
-                      fontSize: 10, fontWeight: 600, background: "rgba(255,255,255,0.15)",
-                      padding: "4px 9px", borderRadius: 8, display: "inline-block",
-                    }}>{d.perk}</div>
+                    <div style={{ fontSize: 32, marginBottom: 12, filter: "drop-shadow(0 4px 8px rgba(0,0,0,0.2))" }}>{d.emoji}</div>
+                    <div style={{ fontSize: 15, fontWeight: 800, marginBottom: 4, lineHeight: 1.2 }}>{d.title}</div>
+                    <div style={{ fontSize: 11, opacity: 0.8, marginBottom: 16, fontWeight: 500 }}>{d.sub}</div>
+                    <div style={{ marginTop: "auto" }}>
+                      <div style={{
+                        fontSize: 10, fontWeight: 700, background: "rgba(255,255,255,0.2)", backdropFilter: "blur(4px)",
+                        padding: "6px 10px", borderRadius: 8, display: "inline-block", lineHeight: 1.4
+                      }}>{d.perk}</div>
+                    </div>
                   </div>
                 </Link>
               ))}
@@ -204,17 +207,17 @@ export default function Home() {
         <section className="anim-up-3" style={{ paddingTop: 20 }}>
           <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 10 }}>
             {[
-              { n: "17+", l: "Govt Exams", sub: "Covered", c: "#2563EB", bg: "linear-gradient(135deg,#EFF6FF,#DBEAFE)", border: "rgba(37,99,235,0.12)" },
-              { n: "6",   l: "Practice",  sub: "Stages per Exam", c: "#16A34A", bg: "linear-gradient(135deg,#F0FDF4,#DCFCE7)", border: "rgba(22,163,74,0.12)" },
-              { n: "AI",  l: "Scores",    sub: "Every Answer", c: "#7C3AED", bg: "linear-gradient(135deg,#F5F3FF,#EDE9FE)", border: "rgba(124,58,237,0.12)" },
+              { n: "17+", l: "Govt Exams", sub: "Covered", c: "#3B82F6", bg: "var(--bg-card)", border: "var(--border)" },
+              { n: "6",   l: "Practice",  sub: "Stages per Exam", c: "#10B981", bg: "var(--bg-card)", border: "var(--border)" },
+              { n: "AI",  l: "Scores",    sub: "Every Answer", c: "#8B5CF6", bg: "var(--bg-card)", border: "var(--border)" },
             ].map((f, i) => (
-              <div key={i} style={{
-                background: f.bg, borderRadius: 14, padding: "14px 10px",
+              <div key={i} className="card-premium" style={{
+                background: f.bg, borderRadius: 14, padding: "16px 10px",
                 textAlign: "center", border: `1px solid ${f.border}`,
               }}>
-                <div style={{ fontSize: 22, fontWeight: 800, color: f.c, fontFamily: "'Outfit'", lineHeight: 1 }}>{f.n}</div>
-                <div style={{ fontSize: 11, fontWeight: 700, color: f.c, marginTop: 3 }}>{f.l}</div>
-                <div style={{ fontSize: 10, color: "#9CA3AF", marginTop: 1, lineHeight: 1.3 }}>{f.sub}</div>
+                <div style={{ fontSize: 24, fontWeight: 800, color: f.c, fontFamily: "'Outfit'", lineHeight: 1 }}>{f.n}</div>
+                <div style={{ fontSize: 12, fontWeight: 700, color: "var(--text-dark)", marginTop: 6 }}>{f.l}</div>
+                <div style={{ fontSize: 10, color: "var(--text-light)", marginTop: 2, lineHeight: 1.3 }}>{f.sub}</div>
               </div>
             ))}
           </div>
@@ -233,72 +236,66 @@ export default function Home() {
         {/* ═══ EXPLORE MORE TOOLS ═══ */}
         <section style={{ paddingTop: 32 }}>
           <h2 style={{
-            fontFamily: "'Playfair Display',serif", fontSize: 20, fontWeight: 700,
-            color: "#111827", marginBottom: 4,
+            fontFamily: "'Playfair Display',serif", fontSize: 22, fontWeight: 800,
+            color: "var(--text-dark)", marginBottom: 4,
           }}>
             Explore More Tools
           </h2>
-          <p style={{ fontSize: 13, color: "#6B7280", marginBottom: 16 }}>
+          <p style={{ fontSize: 13, color: "var(--text-light)", marginBottom: 20 }}>
             Everything you need for exam preparation
           </p>
 
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 14 }}>
             {[
               {
                 href: "/quiz", icon: "📝", label: "Quiz Practice",
-                sub: "500+ MCQs · 8 subjects",
-                bg: "linear-gradient(135deg,#FFFBEB,#FEF3C7)", border: "rgba(217,119,6,0.15)",
-                iconBg: "rgba(217,119,6,0.1)", color: "#92400E",
+                sub: "500+ MCQs",
+                border: "#D97706", iconBg: "rgba(217,119,6,0.1)",
               },
               {
                 href: "/ai-practice", icon: "🎯", label: "AI Practice",
-                sub: "Essay · Interview · Mains",
-                bg: "linear-gradient(135deg,#F5F3FF,#EDE9FE)", border: "rgba(109,40,217,0.15)",
-                iconBg: "rgba(109,40,217,0.1)", color: "#5B21B6",
+                sub: "Essay & Interview",
+                border: "#6D28D9", iconBg: "rgba(109,40,217,0.1)",
               },
               {
-                href: "/salary-calculator", icon: "💰", label: "Salary Calculator",
-                sub: "Calculate in-hand pay",
-                bg: "linear-gradient(135deg,#ECFDF5,#D1FAE5)", border: "rgba(16,185,129,0.15)",
-                iconBg: "rgba(16,185,129,0.12)", color: "#065F46",
+                href: "/salary-calculator", icon: "💰", label: "Salary Calc",
+                sub: "In-hand pay",
+                border: "#059669", iconBg: "rgba(5,150,105,0.1)",
               },
               {
-                href: "/cutoffs", icon: "📊", label: "Cutoff Analysis",
+                href: "/cutoffs", icon: "📊", label: "Cutoffs",
                 sub: "Year-wise trends",
-                bg: "linear-gradient(135deg,#EFF6FF,#DBEAFE)", border: "rgba(37,99,235,0.15)",
-                iconBg: "rgba(37,99,235,0.1)", color: "#1E40AF",
+                border: "#2563EB", iconBg: "rgba(37,99,235,0.1)",
               },
               {
-                href: "/exam-calendar", icon: "📅", label: "Exam Calendar",
+                href: "/exam-calendar", icon: "📅", label: "Calendar",
                 sub: "Important dates",
-                bg: "linear-gradient(135deg,#FFF7ED,#FFEDD5)", border: "rgba(234,88,12,0.15)",
-                iconBg: "rgba(234,88,12,0.1)", color: "#9A3412",
+                border: "#EA580C", iconBg: "rgba(234,88,12,0.1)",
               },
               {
                 href: "/life", icon: "👔", label: "Day in Life",
-                sub: "Real career stories",
-                bg: "linear-gradient(135deg,#FDF4FF,#FAE8FF)", border: "rgba(168,85,247,0.15)",
-                iconBg: "rgba(168,85,247,0.1)", color: "#6B21A8",
+                sub: "Career stories",
+                border: "#9333EA", iconBg: "rgba(147,51,234,0.1)",
               },
             ].map((t) => (
               <Link key={t.href} href={t.href} style={{ textDecoration: "none" }}>
-                <div className="card-lift" style={{
-                  background: t.bg, borderRadius: 16, padding: "18px 16px",
-                  border: `1px solid ${t.border}`,
-                  display: "flex", flexDirection: "column", gap: 10,
+                <div className="card-premium" style={{
+                  background: "var(--bg-card)", borderRadius: 16, padding: "18px 16px",
+                  border: "1px solid var(--border)", borderLeft: `4px solid ${t.border}`,
+                  display: "flex", flexDirection: "column", gap: 12, height: "100%"
                 }}>
-                  <div style={{
-                    width: 44, height: 44, borderRadius: 12,
-                    background: t.iconBg,
-                    display: "flex", alignItems: "center", justifyContent: "center", fontSize: 22,
-                  }}>
-                    {t.icon}
+                  <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+                    <div style={{
+                      width: 40, height: 40, borderRadius: 12,
+                      background: t.iconBg,
+                      display: "flex", alignItems: "center", justifyContent: "center", fontSize: 20, flexShrink: 0
+                    }}>
+                      {t.icon}
+                    </div>
+                    <div style={{ fontSize: 14, fontWeight: 700, color: "var(--text-dark)", lineHeight: 1.2 }}>{t.label}</div>
                   </div>
-                  <div>
-                    <div style={{ fontSize: 14, fontWeight: 700, color: "#111827", marginBottom: 2 }}>{t.label}</div>
-                    <div style={{ fontSize: 11, color: t.color, fontWeight: 500 }}>{t.sub}</div>
-                  </div>
-                  <div style={{ fontSize: 11, fontWeight: 700, color: t.color }}>Explore →</div>
+                  <div style={{ fontSize: 11, color: "var(--text-light)", fontWeight: 500 }}>{t.sub}</div>
+                  <div style={{ fontSize: 11, fontWeight: 700, color: t.border, marginTop: "auto" }}>Explore →</div>
                 </div>
               </Link>
             ))}

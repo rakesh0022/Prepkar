@@ -55,7 +55,14 @@ function PracticeContent() {
   }
 
   async function begin() {
-    // Gate: check free test limit (auth is already handled by AuthGuard)
+    // Check login before starting
+    const { data } = await supabase.auth.getSession();
+    if (!data.session) {
+      window.location.href = `/login?next=/ai-practice`;
+      return;
+    }
+
+    // Gate: check free test limit
     if (subStatus && !subStatus.canTakeTest) { router.push("/pricing"); return; }
 
     setScr("chat"); setMsgs([]); setQn(0); setSc(null); setEr(""); setLd(true);
@@ -432,9 +439,5 @@ function PracticeContent() {
 }
 
 export default function PracticePage() {
-  return (
-    <AuthGuard redirectAfterLogin="/ai-practice">
-      <PracticeContent />
-    </AuthGuard>
-  );
+  return <PracticeContent />;
 }

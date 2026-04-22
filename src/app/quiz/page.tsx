@@ -6,6 +6,7 @@ import BottomNav from '@/components/BottomNav';
 import AuthGuard from '@/components/AuthGuard';
 import { useQuizAttempts } from '@/hooks/useQuizAttempts';
 import Link from 'next/link';
+import { createClient } from '@/lib/supabase/client';
 
 type Difficulty = 'easy' | 'medium' | 'hard' | 'all';
 type Subject = 'polity' | 'economy' | 'geography' | 'history' | 'science' |
@@ -40,8 +41,19 @@ function QuizSetup() {
   const handleStart = () => {
     if (!selectedSubject) { alert('Please select a subject first'); return; }
     if (limitReached) return;
-    localStorage.setItem('quizSettings', JSON.stringify({ selectedSubject, difficulty, numQuestions }));
-    router.push(`/quiz/${selectedSubject}`);
+    
+    // Check login before starting
+    const checkLogin = async () => {
+      const supabase = createClient();
+      const { data } = await supabase.auth.getSession();
+      if (!data.session) {
+        window.location.href = `/login?next=/quiz`;
+        return;
+      }
+      localStorage.setItem('quizSettings', JSON.stringify({ selectedSubject, difficulty, numQuestions }));
+      router.push(`/quiz/${selectedSubject}`);
+    };
+    checkLogin();
   };
 
   const totalQuestions = SUBJECTS.reduce((s, sub) => s + sub.questions, 0);
@@ -50,7 +62,6 @@ function QuizSetup() {
   return (
     <main style={{ minHeight: '100vh', background: 'var(--bg)', paddingBottom: 76 }}>
       <div className="desktop-only" style={{ height: 56 }} />
-
       {/* ═══ PREMIUM HERO ═══ */}
       <section className="anim-up" style={{
         background: 'linear-gradient(135deg, #4C1D95 0%, #6D28D9 30%, #7C3AED 60%, #8B5CF6 100%)',
@@ -92,7 +103,6 @@ function QuizSetup() {
       </section>
 
       <div style={{ maxWidth: 'var(--max-width)', margin: '0 auto', padding: '24px 16px' }}>
-
         {/* ═══ DAILY PROGRESS BAR ═══ */}
         <div className="anim-up-1" style={{
           background: 'var(--bg-card)', borderRadius: 16, padding: '16px 18px',
@@ -369,9 +379,5 @@ function QuizSetup() {
 }
 
 export default function QuizPage() {
-  return (
-    <AuthGuard redirectAfterLogin="/quiz">
-      <QuizSetup />
-    </AuthGuard>
-  );
+  return <QuizSetup />;
 }
