@@ -1,11 +1,290 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import type { Job } from "@/components/data";
 import { calculateSalary, CITY_TYPES, type CityType } from "@/components/data";
 
 const DIFF_COLOR: Record<string, string> = { "Moderate": "#16A34A", "Hard": "#D97706", "Very Hard": "#DC2626" };
 const CAT_COLOR: Record<string, string> = { banking: "#0C7C59", ssc: "#2563EB", railway: "#DC2626", upsc: "#7C3AED", defence: "#0D9488", state: "#EA580C" };
+
+function clamp(n: number, min: number, max: number) { return Math.min(Math.max(n, min), max); }
+
+function formatINR(n: number) {
+  const v = Math.round(n);
+  if (!Number.isFinite(v)) return "₹0";
+  return `₹${v.toLocaleString("en-IN")}`;
+}
+
+function parseMoneyToken(token: string): number | null {
+  const cleaned = token
+    .replace(/[,₹\s]/g, "")
+    .replace(/\/(mo|month|m)\b/gi, "")
+    .trim();
+
+  const m = cleaned.match(/^(\d+(?:\.\d+)?)(K|L|Cr)?$/i);
+  if (!m) return null;
+  const base = Number(m[1]);
+  if (!Number.isFinite(base)) return null;
+  const unit = (m[2] || "").toUpperCase();
+  const mult = unit === "K" ? 1000 : unit === "L" ? 100000 : unit === "CR" ? 10000000 : 1;
+  return Math.round(base * mult);
+}
+
+function parseMoneyRangeAvg(s: string): number | null {
+  const normalized = s
+    .replace(/[–—]/g, "-")
+    .replace(/to/gi, "-")
+    .replace(/\+/g, "")
+    .trim();
+
+  const tokens = normalized
+    .split(/[^0-9A-Za-z.,]+/)
+    .map(t => t.trim())
+    .filter(Boolean)
+    .filter(t => /[0-9]/.test(t));
+
+  if (tokens.length === 0) return null;
+  const vals = tokens.map(parseMoneyToken).filter((v): v is number => typeof v === "number" && Number.isFinite(v));
+  if (vals.length === 0) return null;
+  const min = Math.min(...vals);
+  const max = Math.max(...vals);
+  return Math.round((min + max) / 2);
+}
+
+function parseDayInLifeTimeline(dayInLife: string) {
+  const lines = dayInLife
+    .split("\n")
+    .map(l => l.trim())
+    .filter(Boolean);
+
+  return lines.map((line, idx) => {
+    const parts = line.split(/[–—-]/);
+    if (parts.length >= 2) {
+      const time = parts[0].trim();
+      const text = parts.slice(1).join("—").trim();
+      return { id: `${idx}`, time, text };
+    }
+    return { id: `${idx}`, time: "•", text: line };
+  });
+}
+
+function CountUpINR({ value, className, durationMs = 900 }: { value: number; className?: string; durationMs?: number }) {
+  const [shown, setShown] = useState(0);
+  useEffect(() => {
+    const target = Number.isFinite(value) ? Math.max(0, value) : 0;
+    const start = performance.now();
+    const startValue = 0;
+    const delta = target - startValue;
+    let raf = 0;
+
+    const tick = (now: number) => {
+      const t = clamp((now - start) / durationMs, 0, 1);
+      const eased = 1 - Math.pow(1 - t, 3);
+      setShown(startValue + delta * eased);
+      if (t < 1) raf = requestAnimationFrame(tick);
+    };
+
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, [value, durationMs]);
+
+  return <span className={className}>{formatINR(shown)}</span>;
+}
+
+type BenefitCardModel = {
+  id: string;
+  icon: string;
+  title: string;
+  dream: string;
+  valueText: string;
+  monthlyValue: number;
+  countsInTotal: boolean;
+  raw: string;
+};
+
+function buildBenefitCards(job: Job): BenefitCardModel[] {
+  const base = job.benefits.map((raw, idx) => ({ raw, idx }));
+
+  const cards = base.map(({ raw, idx }) => {
+    const hasMoney = /[0-9]/.test(raw) || raw.includes("₹");
+    const moneyAvg = hasMoney ? parseMoneyRangeAvg(raw) : null;
+
+    const mk = (p: Omit<BenefitCardModel, "id" | "raw">): BenefitCardModel => ({
+      id: `${idx}-${p.title}`,
+      raw,
+      ...p,
+    });
+
+    if (/(leased housing|govt quarter|government quarter|accommodation|quarters?)/i.test(raw)) {
+      const worth = moneyAvg ?? 22000;
+      return mk({
+        icon: "🏠",
+        title: "Leased Housing",
+        dream: "Live in a prime area — rent handled by the department.",
+        valueText: `Worth ${formatINR(worth)}/month`,
+        monthlyValue: worth,
+        countsInTotal: true,
+      });
+    }
+
+    if (/\bhra\b|house rent allowance/i.test(raw)) {
+      const worth = moneyAvg ?? 18000;
+      return mk({
+        icon: "🏡",
+        title: "HRA / Rent Support",
+        dream: "Big-city rent doesn’t eat your salary — you get rent support.",
+        valueText: moneyAvg ? `Cash allowance ~${formatINR(worth)}/month (already in-hand)` : `Cash allowance (already in-hand)`,
+        monthlyValue: 0,
+        countsInTotal: false,
+      });
+    }
+
+    if (/(medical|cghs|health|insurance)/i.test(raw)) {
+      const worth = moneyAvg ?? 4500;
+      return mk({
+        icon: "💊",
+        title: "Medical Coverage",
+        dream: "Cashless treatment for you + family — stress-free health.",
+        valueText: `Worth ${formatINR(worth)}/month`,
+        monthlyValue: worth,
+        countsInTotal: true,
+      });
+    }
+
+    if (/(pension|nps)/i.test(raw)) {
+      const worth = job.salaryBreakdown?.basic ? Math.round(job.salaryBreakdown.basic * 0.14) : 8000;
+      return mk({
+        icon: "🧓",
+        title: "Pension / NPS",
+        dream: "Retirement sorted — a monthly safety net building quietly.",
+        valueText: `Worth ~${formatINR(worth)}/month`,
+        monthlyValue: worth,
+        countsInTotal: true,
+      });
+    }
+
+    if (/(lfc|ltc|travel)/i.test(raw)) {
+      const worth = moneyAvg ?? 2500;
+      return mk({
+        icon: "✈️",
+        title: "LFC / LTC Travel",
+        dream: "Family trips become part of the job — travel paid, memories free.",
+        valueText: `Worth ~${formatINR(worth)}/month`,
+        monthlyValue: worth,
+        countsInTotal: true,
+      });
+    }
+
+    if (/(subsidized loans?|staff loan|loan)/i.test(raw)) {
+      const worth = moneyAvg ?? 4000;
+      return mk({
+        icon: "🏦",
+        title: "Subsidized Loans",
+        dream: "Home & car dreams become cheaper with staff-rate loans.",
+        valueText: `Worth ~${formatINR(worth)}/month`,
+        monthlyValue: worth,
+        countsInTotal: true,
+      });
+    }
+
+    if (/(paid leaves?|leaves?)/i.test(raw)) {
+      const worth = moneyAvg ?? 2500;
+      return mk({
+        icon: "🌴",
+        title: "Paid Leaves",
+        dream: "You don’t beg for breaks — you actually get life outside work.",
+        valueText: `Worth ~${formatINR(worth)}/month`,
+        monthlyValue: worth,
+        countsInTotal: true,
+      });
+    }
+
+    if (/(gratuity)/i.test(raw)) {
+      const worth = moneyAvg ?? 1500;
+      return mk({
+        icon: "🏅",
+        title: "Gratuity",
+        dream: "A solid lump-sum reward over time — future-you will thank you.",
+        valueText: `Worth ~${formatINR(worth)}/month`,
+        monthlyValue: worth,
+        countsInTotal: true,
+      });
+    }
+
+    if (/(da|dearness allowance|ta|transport allowance)/i.test(raw)) {
+      const worth = moneyAvg ?? 0;
+      return mk({
+        icon: "📈",
+        title: raw.replace(/\s*₹.*$/, "").trim() || "Allowances",
+        dream: "Inflation-proofing built in — allowances update over time.",
+        valueText: moneyAvg ? `Cash allowance ~${formatINR(worth)}/month (already in-hand)` : `Cash allowance (already in-hand)`,
+        monthlyValue: 0,
+        countsInTotal: false,
+      });
+    }
+
+    if (hasMoney) {
+      const worth = moneyAvg ?? 0;
+      return mk({
+        icon: "✨",
+        title: raw.replace(/\s*₹.*$/, "").trim() || "Special Allowance",
+        dream: "Extra allowance that quietly upgrades your everyday life.",
+        valueText: worth ? `Cash allowance ~${formatINR(worth)}/month (already in-hand)` : `Value varies by posting`,
+        monthlyValue: 0,
+        countsInTotal: false,
+      });
+    }
+
+    const fallbackWorth = 1800;
+    return mk({
+      icon: "🎁",
+      title: raw,
+      dream: "A premium perk that makes this role feel “above salary”.",
+      valueText: `Worth ~${formatINR(fallbackWorth)}/month`,
+      monthlyValue: fallbackWorth,
+      countsInTotal: true,
+    });
+  });
+
+  const seen = new Set<string>();
+  return cards.filter(c => {
+    const key = c.title.toLowerCase();
+    if (seen.has(key)) return false;
+    seen.add(key);
+    return true;
+  });
+}
+
+function equivalentPrivateCtcLpaRange(realMonthly: number) {
+  const annual = Math.max(0, realMonthly) * 12;
+  if (!annual) return null;
+  const low = Math.round((annual * 1.45) / 100000);
+  const high = Math.round((annual * 1.75) / 100000);
+  if (!low || !high) return null;
+  const lo = Math.min(low, high);
+  const hi = Math.max(low, high);
+  return { low: lo, high: hi };
+}
+
+function LifestyleTimeline({ items }: { items: { id: string; time: string; text: string }[] }) {
+  if (items.length === 0) return null;
+  return (
+    <div className="relative">
+      <div className="absolute left-3 top-1 bottom-1 w-px bg-amber-200/70" />
+      <div className="space-y-3">
+        {items.map((it) => (
+          <div key={it.id} className="relative pl-10">
+            <div className="absolute left-[9px] top-[6px] h-3 w-3 rounded-full bg-amber-500 shadow-sm" />
+            <div className="rounded-xl border border-amber-200/50 bg-white/80 px-3 py-2 shadow-sm">
+              <div className="text-[11px] font-semibold text-amber-700">{it.time}</div>
+              <div className="text-[12px] text-[var(--text-body)] leading-relaxed">{it.text}</div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
 
 function SectionLabel({ icon, text, color }: { icon: string; text: string; color: string }) {
   return (
@@ -167,6 +446,15 @@ export default function JobDetailSheet({ job, onClose }: { job: Job; onClose: ()
   const diffColor = DIFF_COLOR[job.difficulty] ?? "#6B7280";
   const catColor = CAT_COLOR[job.category] || "#2563EB";
 
+  const benefitCards = useMemo(() => buildBenefitCards(job), [job]);
+  const perksMonthly = useMemo(() => benefitCards.filter(b => b.countsInTotal).reduce((sum, b) => sum + (b.monthlyValue || 0), 0), [benefitCards]);
+  const cashMonthly = useMemo(() => {
+    if (job.salaryBreakdown) return calculateSalary(job.salaryBreakdown, "metro").inHand;
+    return parseMoneyRangeAvg(job.inHand) ?? 0;
+  }, [job.inHand, job.salaryBreakdown]);
+  const realMonthly = useMemo(() => Math.max(0, cashMonthly) + Math.max(0, perksMonthly), [cashMonthly, perksMonthly]);
+  const privateCtc = useMemo(() => equivalentPrivateCtcLpaRange(realMonthly), [realMonthly]);
+
   return (
     <div style={{ position: "fixed", inset: 0, zIndex: 100, display: "flex", alignItems: "flex-end", justifyContent: "center" }}>
       <div onClick={onClose} style={{ position: "absolute", inset: 0, background: "rgba(0,0,0,0.4)", backdropFilter: "blur(6px)" }} />
@@ -261,58 +549,144 @@ export default function JobDetailSheet({ job, onClose }: { job: Job; onClose: ()
 
           <Divider />
 
-          {/* Day in life */}
-          <SectionLabel icon="🌅" text="A Day in This Job" color="#7C3AED" />
-          <div style={{ borderRadius: 12, padding: "12px 14px", marginBottom: 16, background: "#FAF5FF", border: "1px solid rgba(124,58,237,0.08)" }}>
-            <div style={{ fontSize: 12, color: "#374151", lineHeight: 1.8, whiteSpace: "pre-line" }}>{job.dayInLife}</div>
-          </div>
-
-          {/* Link to full day-in-life article */}
-          {(() => {
-            const dayInLifeMap: Record<string, string> = {
-              "ias": "ias-district-magistrate",
-              "sbi-po": "sbi-po-bank-manager",
-              "income-tax-inspector": "income-tax-inspector",
-              "station-master": "railway-station-master",
-              "rbi-grade-b": "rbi-grade-b",
-              "nda": "nda-army-officer",
-            };
-            const articleSlug = dayInLifeMap[job.id];
-            if (articleSlug) {
-              return (
-                <Link href={`/life/${articleSlug}`} style={{ textDecoration: "none" }}>
-                  <div style={{
-                    borderRadius: 12, padding: "12px 14px", marginBottom: 16,
-                    background: "linear-gradient(135deg, #F3E8FF, #FCE7F3)",
-                    border: "1px solid rgba(168,85,247,0.1)",
-                    display: "flex", alignItems: "center", gap: 10,
-                    cursor: "pointer",
-                  }}>
-                    <span style={{ fontSize: 20 }}>📖</span>
-                    <div style={{ flex: 1 }}>
-                      <div style={{ fontSize: 12, fontWeight: 700, color: "#7C3AED" }}>Read Full Story</div>
-                      <div style={{ fontSize: 11, color: "#6B7280", marginTop: 2 }}>Detailed insider account of a real day</div>
-                    </div>
-                    <span style={{ fontSize: 18, opacity: 0.6 }}>→</span>
-                  </div>
-                </Link>
-              );
-            }
-            return null;
-          })()}
-
-          {/* Lifestyle */}
+          {/* Lifestyle preview */}
           <SectionLabel icon="🏠" text="Life After Selection" color="#2563EB" />
-          <div style={{ borderRadius: 12, padding: "12px 14px", marginBottom: 16, background: "#EFF6FF", border: "1px solid rgba(37,99,235,0.08)" }}>
-            <div style={{ fontSize: 12, color: "#374151", lineHeight: 1.8 }}>{job.lifestyle}</div>
+          <div className="mb-4 rounded-2xl border border-amber-200/40 bg-gradient-to-br from-amber-50 via-white to-white p-4 shadow-sm">
+            {(() => {
+              const lifestyleText = job.lifestyle || "";
+              const extractSentence = (re: RegExp) => {
+                const m = lifestyleText.match(re);
+                return m?.[1]?.trim();
+              };
+
+              const housingHint =
+                extractSentence(/(leased accommodation[^.]*\.)/i) ||
+                extractSentence(/(leased housing[^.]*\.)/i) ||
+                extractSentence(/(accommodation[^.]*\.)/i) ||
+                extractSentence(/(quarters?[^.]*\.)/i) ||
+                "Government housing support or rent allowance (varies by posting).";
+
+              const workHint =
+                extractSentence(/(work hours[^.]*\.)/i) ||
+                extractSentence(/(\b\d{1,2}\s*(?:am|pm)[^.]*\.)/i) ||
+                "Mostly predictable hours, with peak days during deadlines.";
+
+              const transfersHint =
+                extractSentence(/(transfers?[^.]*\.)/i) ||
+                "Transfers happen — but you get stability + growth across cities.";
+
+              const leavesHint =
+                job.benefits.find(b => /leave/i.test(b)) ||
+                "30+ paid leaves + holidays (role-dependent).";
+
+              const timeline = parseDayInLifeTimeline(job.dayInLife);
+
+              const dayInLifeMap: Record<string, string> = {
+                "ias": "ias-district-magistrate",
+                "sbi-po": "sbi-po-bank-manager",
+                "income-tax-inspector": "income-tax-inspector",
+                "station-master": "railway-station-master",
+                "rbi-grade-b": "rbi-grade-b",
+                "nda": "nda-army-officer",
+              };
+              const articleSlug = dayInLifeMap[job.id];
+
+              const highlights = [
+                { icon: "🏡", title: "Housing", detail: housingHint.replace(/\.$/, "") },
+                { icon: "⏰", title: "Work Hours", detail: workHint.replace(/\.$/, "") },
+                { icon: "🌴", title: "Leaves", detail: leavesHint.replace(/\.$/, "") },
+                { icon: "🚆", title: "Transfers", detail: transfersHint.replace(/\.$/, "") },
+              ];
+
+              return (
+                <>
+                  <div className="mb-3 text-[11px] font-semibold uppercase tracking-widest text-amber-700">Lifestyle Preview</div>
+                  <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+                    {highlights.map((h) => (
+                      <div key={h.title} className="card-lift rounded-2xl border border-[var(--border)] bg-white p-3 shadow-sm">
+                        <div className="flex items-start gap-3">
+                          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-amber-100 text-[18px] text-amber-800">
+                            {h.icon}
+                          </div>
+                          <div className="min-w-0">
+                            <div className="text-[13px] font-extrabold text-[var(--text-dark)]">{h.title}</div>
+                            <div className="mt-1 text-[12px] leading-relaxed text-[var(--text-body)]">{h.detail}</div>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+
+                  <div className="mt-4 rounded-2xl border border-amber-200/40 bg-white/70 p-3">
+                    <div className="mb-2 flex items-center justify-between gap-2">
+                      <div className="text-[11px] font-extrabold uppercase tracking-widest text-amber-700">Daily Rhythm</div>
+                      {articleSlug && (
+                        <Link href={`/life/${articleSlug}`} className="text-[11px] font-semibold text-amber-700 hover:underline">
+                          Read full story →
+                        </Link>
+                      )}
+                    </div>
+                    <LifestyleTimeline items={timeline.slice(0, 8)} />
+                  </div>
+
+                  <div className="mt-3 rounded-xl border border-[var(--border)] bg-[var(--bg-card)] px-3 py-2 text-[12px] leading-relaxed text-[var(--text-body)]">
+                    {job.lifestyle}
+                  </div>
+                </>
+              );
+            })()}
           </div>
 
           {/* Benefits */}
           <SectionLabel icon="🎁" text="Benefits & Perks" color="#D97706" />
-          <div style={{ display: "flex", flexWrap: "wrap", gap: 6, marginBottom: 16 }}>
-            {job.benefits.map((b, i) => (
-              <span key={i} style={{ background: "#FFFBEB", color: "#92400E", fontSize: 10, padding: "4px 10px", borderRadius: 8, fontWeight: 500, border: "1px solid rgba(245,158,11,0.12)" }}>✓ {b}</span>
+          <div className="mb-4 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
+            {benefitCards.map((b) => (
+              <div key={b.id} className="card-premium rounded-2xl border border-amber-200/40 bg-gradient-to-br from-amber-50 via-white to-white p-4 shadow-sm">
+                <div className="flex items-start gap-3">
+                  <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-amber-100 text-[20px] text-amber-800 shadow-sm">
+                    {b.icon}
+                  </div>
+                  <div className="min-w-0 flex-1">
+                    <div className="text-[13px] font-extrabold text-[var(--text-dark)]">{b.title}</div>
+                    <div className="mt-1 text-[12px] leading-relaxed text-[var(--text-body)]">{b.dream}</div>
+                  </div>
+                </div>
+                <div className="mt-3 flex items-center justify-between gap-3 rounded-xl border border-emerald-200/30 bg-emerald-50/60 px-3 py-2">
+                  <div className="text-[11px] font-semibold text-emerald-700">Estimated value</div>
+                  <div className="text-[12px] font-extrabold text-emerald-700">{b.valueText}</div>
+                </div>
+              </div>
             ))}
+          </div>
+
+          {privateCtc && (
+            <div className="mb-3 rounded-2xl border border-amber-200/60 bg-gradient-to-r from-amber-100 via-amber-50 to-white px-4 py-3 shadow-sm">
+              <div className="text-[10px] font-extrabold uppercase tracking-widest text-amber-800">Comparison</div>
+              <div className="mt-1 text-[13px] font-extrabold text-[var(--text-dark)]">
+                Equivalent private sector CTC: <span className="text-amber-700">₹{privateCtc.low}–{privateCtc.high} LPA</span>
+              </div>
+              <div className="mt-1 text-[12px] text-[var(--text-body)]">This is the lifestyle value most private roles match at a higher CTC.</div>
+            </div>
+          )}
+
+          <div className="mb-4 rounded-2xl border border-amber-200/50 bg-gradient-to-br from-amber-50 via-white to-white px-4 py-4 shadow-sm">
+            <div className="flex items-end justify-between gap-3">
+              <div>
+                <div className="text-[10px] font-extrabold uppercase tracking-widest text-amber-700">Total Monthly Value</div>
+                <div className="mt-1 text-[12px] text-[var(--text-body)]">
+                  In-hand ~{formatINR(cashMonthly)} + perks ~{formatINR(perksMonthly)}
+                </div>
+              </div>
+              <div className="text-right">
+                <div className="text-[12px] font-extrabold text-[var(--text-dark)]">Your REAL monthly package</div>
+                <div className="mt-1 text-[26px] font-black text-emerald-600" style={{ fontFamily: "'Outfit'" }}>
+                  <CountUpINR value={realMonthly} />
+                </div>
+              </div>
+            </div>
+            <div className="mt-2 text-[11px] text-[var(--text-light)]">
+              Cash allowances like HRA/DA may already be included in the in-hand number; the green perks are “extra lifestyle” value.
+            </div>
           </div>
 
           <Divider />
