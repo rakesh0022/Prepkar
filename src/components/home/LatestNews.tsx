@@ -66,7 +66,7 @@ export default function LatestNews() {
         {NEWS.map((n, i) => (
           <a key={i} href={n.url} target="_blank" rel="noopener noreferrer" style={{ textDecoration: "none" }}>
             <div style={{
-              background: "#FFFFFF", borderRadius: 12, padding: "12px 14px",
+              background: "var(--bg-card)", borderRadius: 12, padding: "12px 14px",
               border: "1px solid var(--border)", boxShadow: "var(--shadow-sm)",
               display: "flex", gap: 12, alignItems: "flex-start",
               transition: "box-shadow 0.2s",
@@ -78,14 +78,14 @@ export default function LatestNews() {
               <div style={{ flex: 1, minWidth: 0 }}>
                 <div style={{ display: "flex", gap: 5, marginBottom: 4, alignItems: "center" }}>
                   <span style={{
-                    fontSize: 9, fontWeight: 700, padding: "1px 6px", borderRadius: 4,
+                    fontSize: 10, fontWeight: 700, padding: "1px 6px", borderRadius: 4,
                     background: `${n.tagColor}10`, color: n.tagColor,
                   }}>{n.tag}</span>
-                  {n.hot && <span style={{ fontSize: 9, fontWeight: 700, padding: "1px 6px", borderRadius: 4, background: "#FEF2F2", color: "#DC2626" }}>🔥 NEW</span>}
-                  <span style={{ fontSize: 9, color: "#9CA3AF", marginLeft: "auto" }}>{n.date}</span>
+                  {n.hot && <span style={{ fontSize: 10, fontWeight: 700, padding: "1px 6px", borderRadius: 4, background: "#FEF2F2", color: "#DC2626" }}>🔥 NEW</span>}
+                  <span style={{ fontSize: 10, color: "var(--text-faint)", marginLeft: "auto" }}>{n.date}</span>
                 </div>
-                <div style={{ fontSize: 13, fontWeight: 600, color: "#111827", lineHeight: 1.4, marginBottom: 3 }}>{n.title}</div>
-                <div style={{ fontSize: 10, color: "#2563EB", fontWeight: 600 }}>{n.source} →</div>
+                <div style={{ fontSize: 15, fontWeight: 600, color: "var(--text-dark)", lineHeight: 1.4, marginBottom: 3 }}>{n.title}</div>
+                <div style={{ fontSize: 11, color: "#2563EB", fontWeight: 600 }}>{n.source} →</div>
               </div>
             </div>
           </a>

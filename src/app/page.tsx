@@ -37,7 +37,6 @@ export default function Home() {
         backgroundImage: "url('/images/hero/hero-bg.png')",
         backgroundSize: "cover",
         backgroundPosition: "center",
-        backgroundAttachment: "fixed",
       }}>
         <div style={{ position: "absolute", inset: 0, background: "linear-gradient(180deg, rgba(15,23,42,0.7) 0%, rgba(15,23,42,0.5) 100%)" }} />
         <div style={{ position: "absolute", inset: 0, opacity: 0.04, backgroundImage: "radial-gradient(circle at 20% 50%, #fff 1px, transparent 1px), radial-gradient(circle at 80% 20%, #fff 1px, transparent 1px)", backgroundSize: "40px 40px" }} />
@@ -54,7 +53,7 @@ export default function Home() {
             Sapne se<br />
             <span style={{ color: "#5EEAD4" }}>Selection Tak</span>
           </h1>
-          <p style={{ fontSize: 14, opacity: 0.65, marginBottom: 28, lineHeight: 1.5 }}>
+          <p style={{ fontSize: 15, opacity: 0.65, marginBottom: 28, lineHeight: 1.5 }}>
             Your journey to a government job starts here
           </p>
 
@@ -109,29 +108,30 @@ export default function Home() {
             ))}
           </div>
 
-          <Link href="/quiz" style={{ textDecoration: "none" }}>
-            <div style={{
-              display: "inline-flex", alignItems: "center", gap: 10,
-              background: "linear-gradient(90deg, #D97706, #B45309)",
-              color: "#fff", padding: "12px 22px",
-              borderRadius: 12, fontSize: 14, fontWeight: 700,
-              boxShadow: "0 4px 20px rgba(217,119,6,0.35)",
-              marginRight: 10,
-            }}>
-              <span>📝</span> Quiz Practice
-            </div>
-          </Link>
-          <Link href="/ai-practice" style={{ textDecoration: "none" }}>
-            <div style={{
-              display: "inline-flex", alignItems: "center", gap: 10,
-              background: "linear-gradient(90deg, #6D28D9, #4C1D95)",
-              color: "#fff", padding: "12px 22px",
-              borderRadius: 12, fontSize: 14, fontWeight: 700,
-              boxShadow: "0 4px 20px rgba(109,40,217,0.35)",
-            }}>
-              <span>🎯</span> AI Practice
-            </div>
-          </Link>
+          <div className="flex flex-wrap justify-center gap-2.5">
+            <Link href="/quiz" style={{ textDecoration: "none" }}>
+              <div style={{
+                display: "inline-flex", alignItems: "center", gap: 10,
+                background: "linear-gradient(90deg, #D97706, #B45309)",
+                color: "#fff", padding: "12px 22px",
+                borderRadius: 12, fontSize: 14, fontWeight: 700,
+                boxShadow: "0 4px 20px rgba(217,119,6,0.35)",
+              }}>
+                <span>📝</span> Quiz Practice
+              </div>
+            </Link>
+            <Link href="/ai-practice" style={{ textDecoration: "none" }}>
+              <div style={{
+                display: "inline-flex", alignItems: "center", gap: 10,
+                background: "linear-gradient(90deg, #6D28D9, #4C1D95)",
+                color: "#fff", padding: "12px 22px",
+                borderRadius: 12, fontSize: 14, fontWeight: 700,
+                boxShadow: "0 4px 20px rgba(109,40,217,0.35)",
+              }}>
+                <span>🎯</span> AI Practice
+              </div>
+            </Link>
+          </div>
           <p style={{ fontSize: 11, opacity: 0.4, marginTop: 10 }}>
             Free · No credit card needed
           </p>
@@ -157,7 +157,7 @@ export default function Home() {
               What if you become...
             </h2>
           </div>
-          <p style={{ fontSize: 13, color: "var(--text-light)", marginBottom: 14 }}>
+          <p style={{ fontSize: 15, color: "var(--text-light)", marginBottom: 14 }}>
             Tap to explore the life, salary, and roadmap
           </p>
 
@@ -205,7 +205,7 @@ export default function Home() {
 
         {/* ═══ TRUST SIGNALS ═══ */}
         <section className="anim-up-3" style={{ paddingTop: 20 }}>
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 10 }}>
+          <div className="grid grid-cols-2 md:grid-cols-3" style={{ gap: 10 }}>
             {[
               { n: "17+", l: "Govt Exams", sub: "Covered", c: "#3B82F6", bg: "var(--bg-card)", border: "var(--border)" },
               { n: "6",   l: "Practice",  sub: "Stages per Exam", c: "#10B981", bg: "var(--bg-card)", border: "var(--border)" },
@@ -241,7 +241,7 @@ export default function Home() {
           }}>
             Explore More Tools
           </h2>
-          <p style={{ fontSize: 13, color: "var(--text-light)", marginBottom: 20 }}>
+          <p style={{ fontSize: 15, color: "var(--text-light)", marginBottom: 20 }}>
             Everything you need for exam preparation
           </p>
 

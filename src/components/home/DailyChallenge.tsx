@@ -51,7 +51,7 @@ export default function DailyChallenge({ quiz, answer, onAnswer }: Props) {
         )}
       </div>
 
-      <p style={{ fontSize: 14, color: "#111827", lineHeight: 1.65, marginBottom: 12, fontWeight: 600 }}>
+      <p style={{ fontSize: 16, color: "var(--text-dark)", lineHeight: 1.65, marginBottom: 12, fontWeight: 600 }}>
         {quiz.question}
       </p>
 
@@ -61,17 +61,17 @@ export default function DailyChallenge({ quiz, answer, onAnswer }: Props) {
           const picked = answer === i;
           return (
             <button key={i} onClick={() => !done && onAnswer(i)} style={{
-              padding: "10px 12px", borderRadius: 10, fontSize: 13, fontWeight: 600,
+              padding: "10px 12px", borderRadius: 10, fontSize: 14, fontWeight: 600,
               cursor: done ? "default" : "pointer", textAlign: "left", transition: "all 0.2s",
               border: done && isCorrect ? "2px solid #16A34A"
                 : done && picked ? "2px solid #DC2626"
-                : "1px solid rgba(0,0,0,0.08)",
+                : "1px solid var(--border)",
               background: done && isCorrect ? "rgba(22,163,74,0.08)"
                 : done && picked ? "rgba(220,38,38,0.06)"
-                : "#FFFFFF",
+                : "var(--bg-card)",
               color: done && isCorrect ? "#16A34A"
                 : done && picked ? "#DC2626"
-                : "#374151",
+                : "var(--text-body)",
             }}>
               {done && isCorrect ? "✓ " : done && picked && !isCorrect ? "✗ " : ""}{opt}
             </button>
@@ -82,7 +82,7 @@ export default function DailyChallenge({ quiz, answer, onAnswer }: Props) {
       {done && (
         <div style={{
           marginTop: 12, background: "rgba(22,163,74,0.06)", borderRadius: 10,
-          padding: "10px 12px", fontSize: 12, color: "#065F46", lineHeight: 1.6,
+          padding: "10px 12px", fontSize: 14, color: "#065F46", lineHeight: 1.6,
           border: "1px solid rgba(22,163,74,0.12)",
         }}>
           💡 {quiz.explanation}

@@ -16,8 +16,8 @@ export default function StreakBar({ streak, isNew, quizDone }: Props) {
   return (
     <section style={{
       marginBottom: 20, borderRadius: 16, padding: "14px 16px",
-      background: "#FFFBEB",
-      border: isNew ? "1px solid rgba(245,158,11,0.3)" : "1px solid rgba(245,158,11,0.12)",
+      background: "var(--bg-card)",
+      border: isNew ? "1px solid rgba(245,158,11,0.3)" : "1px solid var(--border)",
       boxShadow: "var(--shadow-sm)",
     }}>
       <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 12 }}>

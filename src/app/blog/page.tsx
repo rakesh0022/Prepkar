@@ -71,7 +71,7 @@ export default function BlogPage() {
             </div>
             {/* Meta */}
             <div style={{ background: "var(--bg-card)", padding: "20px 24px" }}>
-              <p style={{ fontSize: 14, color: "var(--text-light)", lineHeight: 1.6, marginBottom: 16, margin: "0 0 16px" }}>
+              <p style={{ fontSize: 16, color: "var(--text-light)", lineHeight: 1.6, marginBottom: 16, margin: "0 0 16px" }}>
                 {featured.excerpt}
               </p>
               <div style={{ display: "flex", alignItems: "center", gap: 16, flexWrap: "wrap" }}>
@@ -121,7 +121,7 @@ export default function BlogPage() {
                 </div>
                 {/* Body */}
                 <div style={{ background: "var(--bg-card)", padding: "16px 20px" }}>
-                  <p style={{ fontSize: 13, color: "var(--text-light)", lineHeight: 1.5, marginBottom: 12, margin: "0 0 12px" }}>
+                  <p style={{ fontSize: 15, color: "var(--text-light)", lineHeight: 1.5, marginBottom: 12, margin: "0 0 12px" }}>
                     {post.excerpt}
                   </p>
                   <div style={{ display: "flex", alignItems: "center", gap: 12, flexWrap: "wrap" }}>
@@ -155,7 +155,7 @@ export default function BlogPage() {
           <h3 style={{ fontFamily: "'Playfair Display',serif", fontSize: 20, fontWeight: 800, marginBottom: 8 }}>
             Ready to Start Preparing?
           </h3>
-          <p style={{ fontSize: 13, opacity: 0.8, marginBottom: 20, maxWidth: 360, margin: "0 auto 20px" }}>
+          <p style={{ fontSize: 15, opacity: 0.8, marginBottom: 20, maxWidth: 360, margin: "0 auto 20px" }}>
             Free quizzes, AI-powered mock interviews, and career roadmaps — all in one place
           </p>
           <div style={{ display: "flex", justifyContent: "center", gap: 12, flexWrap: "wrap" }}>

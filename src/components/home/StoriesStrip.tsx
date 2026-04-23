@@ -37,7 +37,7 @@ export default function StoriesStrip({ stories }: Props) {
         {stories.slice(0, 4).map((s, i) => (
           <div key={i} style={{
             minWidth: 240, borderRadius: 16, padding: "16px 14px",
-            background: "#FFFFFF",
+            background: "var(--bg-card)",
             border: "1px solid var(--border)",
             boxShadow: "var(--shadow-sm)",
             flexShrink: 0,
@@ -65,12 +65,12 @@ export default function StoriesStrip({ stories }: Props) {
                 ) : s.emoji}
               </div>
               <div>
-                <div style={{ fontSize: 13, fontWeight: 700, color: "#111827" }}>{s.name}</div>
-                <div style={{ fontSize: 10, color: s.color, fontWeight: 700 }}>{s.achievement}</div>
+                <div style={{ fontSize: 14, fontWeight: 700, color: "var(--text-dark)" }}>{s.name}</div>
+                <div style={{ fontSize: 11, color: s.color, fontWeight: 700 }}>{s.achievement}</div>
               </div>
             </div>
             <p style={{
-              fontSize: 12, color: "#6B7280", fontStyle: "italic",
+              fontSize: 14, color: "var(--text-light)", fontStyle: "italic",
               lineHeight: 1.6, marginBottom: 0,
               borderLeft: `2px solid ${s.color}40`, paddingLeft: 8,
             }}>

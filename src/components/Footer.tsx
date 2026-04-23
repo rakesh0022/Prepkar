@@ -130,21 +130,21 @@ export default function Footer() {
         <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.5)', marginBottom: 14 }}>
           Get daily current affairs & exam updates in your inbox
         </div>
-        <div style={{ display: 'flex', gap: 8, maxWidth: 360, margin: '0 auto' }}>
+        <div style={{ display: 'flex', gap: 8, maxWidth: 360, margin: '0 auto', flexWrap: 'wrap' }}>
           <input
             type="email"
             placeholder="Your email address"
             style={{
-              flex: 1, padding: '10px 14px', borderRadius: 10,
+              flex: 1, minWidth: 160, padding: '10px 14px', borderRadius: 10,
               border: '1px solid rgba(255,255,255,0.15)',
               background: 'rgba(255,255,255,0.06)', color: '#fff',
-              fontSize: 12, outline: 'none',
+              fontSize: 14, outline: 'none',
             }}
           />
           <button style={{
             padding: '10px 18px', borderRadius: 10,
             background: 'linear-gradient(90deg, #5EEAD4, #3B82F6)',
-            border: 'none', color: '#0F2440', fontSize: 12, fontWeight: 700,
+            border: 'none', color: '#0F2440', fontSize: 14, fontWeight: 700,
             cursor: 'pointer', flexShrink: 0,
           }}>
             Subscribe
