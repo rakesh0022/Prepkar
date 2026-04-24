@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import { useEffect, useState } from 'react';
 import {
   Bar,
   BarChart,
@@ -234,10 +235,15 @@ function renderPart(part: string, idx: number, accent: string) {
 }
 
 export default function ComparisonClient({ comparison, prevComparison, nextComparison }: Props) {
+  const [chartsReady, setChartsReady] = useState(false);
   const parts = parseContent(comparison.content);
   const wordCount = getWordCount(comparison.content);
   const visuals = COMPARISON_VISUALS[comparison.slug] ?? COMPARISON_VISUALS['government-vs-private'];
   const theme = CATEGORY_THEME[comparison.category] ?? CATEGORY_THEME.Career;
+
+  useEffect(() => {
+    setChartsReady(true);
+  }, []);
 
   return (
     <div className="bg-[var(--bg)]">
@@ -269,17 +275,21 @@ export default function ComparisonClient({ comparison, prevComparison, nextCompa
             <div className="mb-1 text-[11px] font-extrabold uppercase tracking-[0.24em] text-[var(--text-light)]">Visual Comparison</div>
             <h2 className="text-[22px] font-black text-[var(--text-dark)]">How they stack up across the big 5</h2>
             <div className="mt-4 h-[320px] w-full sm:h-[360px]">
-              <ResponsiveContainer width="100%" height="100%">
-                <RadarChart data={visuals.radarData}>
-                  <PolarGrid stroke="#d1d5db" />
-                  <PolarAngleAxis dataKey="factor" tick={{ fill: '#374151', fontSize: 12, fontWeight: 700 }} />
-                  <PolarRadiusAxis angle={90} domain={[0, 100]} tick={false} axisLine={false} />
-                  <Radar name={visuals.leftLabel} dataKey="left" stroke={theme.accent} fill={theme.accent} fillOpacity={0.24} strokeWidth={2.5} />
-                  <Radar name={visuals.rightLabel} dataKey="right" stroke="#f97316" fill="#f97316" fillOpacity={0.14} strokeWidth={2.5} />
-                  <Legend />
-                  <Tooltip />
-                </RadarChart>
-              </ResponsiveContainer>
+              {chartsReady ? (
+                <ResponsiveContainer width="100%" height="100%">
+                  <RadarChart data={visuals.radarData}>
+                    <PolarGrid stroke="#d1d5db" />
+                    <PolarAngleAxis dataKey="factor" tick={{ fill: '#374151', fontSize: 12, fontWeight: 700 }} />
+                    <PolarRadiusAxis angle={90} domain={[0, 100]} tick={false} axisLine={false} />
+                    <Radar name={visuals.leftLabel} dataKey="left" stroke={theme.accent} fill={theme.accent} fillOpacity={0.24} strokeWidth={2.5} />
+                    <Radar name={visuals.rightLabel} dataKey="right" stroke="#f97316" fill="#f97316" fillOpacity={0.14} strokeWidth={2.5} />
+                    <Legend />
+                    <Tooltip />
+                  </RadarChart>
+                </ResponsiveContainer>
+              ) : (
+                <div className="h-full w-full animate-pulse rounded-2xl bg-slate-100" />
+              )}
             </div>
           </div>
 
@@ -287,25 +297,29 @@ export default function ComparisonClient({ comparison, prevComparison, nextCompa
             <div className="mb-1 text-[11px] font-extrabold uppercase tracking-[0.24em] text-[var(--text-light)]">Salary Curve</div>
             <h2 className="text-[22px] font-black text-[var(--text-dark)]">Monthly earning power over time</h2>
             <div className="mt-4 h-[320px] w-full sm:h-[360px]">
-              <ResponsiveContainer width="100%" height="100%">
-                <BarChart data={visuals.salaryData} margin={{ top: 10, right: 10, left: 0, bottom: 0 }}>
-                  <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
-                  <XAxis dataKey="stage" tick={{ fill: '#4b5563', fontSize: 12, fontWeight: 700 }} />
-                  <YAxis tick={{ fill: '#6b7280', fontSize: 12 }} />
-                  <Tooltip />
-                  <Legend />
-                  <Bar dataKey="left" name={visuals.leftLabel} radius={[8, 8, 0, 0]}>
-                    {visuals.salaryData.map((entry) => (
-                      <Cell key={`${entry.stage}-left`} fill={theme.accent} />
-                    ))}
-                  </Bar>
-                  <Bar dataKey="right" name={visuals.rightLabel} radius={[8, 8, 0, 0]}>
-                    {visuals.salaryData.map((entry) => (
-                      <Cell key={`${entry.stage}-right`} fill="#f97316" />
-                    ))}
-                  </Bar>
-                </BarChart>
-              </ResponsiveContainer>
+              {chartsReady ? (
+                <ResponsiveContainer width="100%" height="100%">
+                  <BarChart data={visuals.salaryData} margin={{ top: 10, right: 10, left: 0, bottom: 0 }}>
+                    <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
+                    <XAxis dataKey="stage" tick={{ fill: '#4b5563', fontSize: 12, fontWeight: 700 }} />
+                    <YAxis tick={{ fill: '#6b7280', fontSize: 12 }} />
+                    <Tooltip />
+                    <Legend />
+                    <Bar dataKey="left" name={visuals.leftLabel} radius={[8, 8, 0, 0]}>
+                      {visuals.salaryData.map((entry) => (
+                        <Cell key={`${entry.stage}-left`} fill={theme.accent} />
+                      ))}
+                    </Bar>
+                    <Bar dataKey="right" name={visuals.rightLabel} radius={[8, 8, 0, 0]}>
+                      {visuals.salaryData.map((entry) => (
+                        <Cell key={`${entry.stage}-right`} fill="#f97316" />
+                      ))}
+                    </Bar>
+                  </BarChart>
+                </ResponsiveContainer>
+              ) : (
+                <div className="h-full w-full animate-pulse rounded-2xl bg-slate-100" />
+              )}
             </div>
           </div>
         </div>
