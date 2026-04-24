@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { BLOG_POSTS, getBlogPost, getAllSlugs } from "@/lib/blogData";
 import Footer from "@/components/Footer";
+import ReadingProgressBar from "@/components/reading/ReadingProgressBar";
 
 export function generateStaticParams() {
   return getAllSlugs().map(slug => ({ slug }));
@@ -31,6 +32,8 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
   const { slug } = await params;
   const post = getBlogPost(slug);
   if (!post) notFound();
+  const plainText = post.content.replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim();
+  const wordCount = plainText ? plainText.split(" ").length : 0;
 
   // Related posts (exclude current)
   const related = BLOG_POSTS.filter(p => p.slug !== slug).slice(0, 2);
@@ -38,6 +41,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
   return (
     <main style={{ minHeight: "100vh", background: "var(--bg)" }}>
       <div className="desktop-only" style={{ height: 56 }} />
+      <ReadingProgressBar wordCount={wordCount} />
 
       {/* ═══ ARTICLE HERO ═══ */}
       <section className="anim-up" style={{

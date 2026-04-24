@@ -1,8 +1,9 @@
 "use client";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import type { Job } from "@/components/data";
 import { calculateSalary, CITY_TYPES, type CityType } from "@/components/data";
+import ReadingProgressBar from "@/components/reading/ReadingProgressBar";
 
 const DIFF_COLOR: Record<string, string> = { "Moderate": "#16A34A", "Hard": "#D97706", "Very Hard": "#DC2626" };
 const CAT_COLOR: Record<string, string> = { banking: "#0C7C59", ssc: "#2563EB", railway: "#DC2626", upsc: "#7C3AED", defence: "#0D9488", state: "#EA580C" };
@@ -266,6 +267,124 @@ function equivalentPrivateCtcLpaRange(realMonthly: number) {
   return { low: lo, high: hi };
 }
 
+function getJobWordCount(job: Job) {
+  const text = [
+    job.career,
+    job.lifestyle,
+    job.eligibility,
+    job.exam,
+    job.dayInLife,
+    job.challenges,
+    job.impact,
+    job.realityCheck,
+    ...job.whyChoose,
+    ...job.benefits,
+    ...job.roadmap.map((step) => `${step.title} ${step.detail}`),
+    ...job.promotionPath.map((step) => `${step.title} ${step.salary} ${step.years}`),
+  ]
+    .join(" ")
+    .replace(/\s+/g, " ")
+    .trim();
+
+  return text ? text.split(" ").length : 0;
+}
+
+function estimatedSelectionOdds(difficulty: Job["difficulty"]) {
+  if (difficulty === "Very Hard") return "~0.1% odds";
+  if (difficulty === "Hard") return "~0.3% odds";
+  return "~1% odds";
+}
+
+function categoryIllustrationPalette(category: string) {
+  if (category === "banking") return { primary: "#047857", secondary: "#D97706", soft: "#ECFDF5" };
+  if (category === "ssc") return { primary: "#2563EB", secondary: "#F59E0B", soft: "#EFF6FF" };
+  if (category === "railway") return { primary: "#DC2626", secondary: "#F59E0B", soft: "#FEF2F2" };
+  if (category === "upsc") return { primary: "#1E3A5F", secondary: "#D97706", soft: "#EFF6FF" };
+  if (category === "defence") return { primary: "#0F766E", secondary: "#D97706", soft: "#F0FDFA" };
+  return { primary: "#EA580C", secondary: "#2563EB", soft: "#FFF7ED" };
+}
+
+function JobCategoryIllustration({ category }: { category: string }) {
+  const palette = categoryIllustrationPalette(category);
+  const common = {
+    fill: "none",
+    strokeLinecap: "round" as const,
+    strokeLinejoin: "round" as const,
+  };
+
+  if (category === "banking") {
+    return (
+      <svg viewBox="0 0 240 160" className="h-36 w-full" aria-hidden="true">
+        <rect x="20" y="90" width="200" height="46" rx="12" fill={palette.primary} opacity="0.12" />
+        <path d="M36 72L120 28L204 72" stroke={palette.primary} strokeWidth="8" {...common} />
+        <path d="M52 72H188V128H52Z" stroke={palette.primary} strokeWidth="8" {...common} />
+        <path d="M80 78V122M120 78V122M160 78V122" stroke={palette.primary} strokeWidth="8" {...common} />
+        <circle cx="188" cy="50" r="18" fill={palette.secondary} opacity="0.18" />
+        <circle cx="188" cy="50" r="16" stroke={palette.secondary} strokeWidth="5" {...common} />
+        <path d="M182 50H194M188 44V56" stroke={palette.secondary} strokeWidth="5" {...common} />
+      </svg>
+    );
+  }
+
+  if (category === "upsc") {
+    return (
+      <svg viewBox="0 0 240 160" className="h-36 w-full" aria-hidden="true">
+        <path d="M36 118H204" stroke={palette.primary} strokeWidth="8" {...common} />
+        <path d="M62 118V82H178V118" stroke={palette.primary} strokeWidth="8" {...common} />
+        <path d="M48 82H192" stroke={palette.primary} strokeWidth="8" {...common} />
+        <path d="M82 82V60C82 44 98 32 120 32C142 32 158 44 158 60V82" stroke={palette.secondary} strokeWidth="8" {...common} />
+        <path d="M92 118V92M120 118V92M148 118V92" stroke={palette.primary} strokeWidth="8" {...common} />
+        <path d="M42 128C66 110 88 104 120 104C152 104 174 110 198 128" stroke={palette.secondary} strokeWidth="6" opacity="0.65" {...common} />
+      </svg>
+    );
+  }
+
+  if (category === "ssc") {
+    return (
+      <svg viewBox="0 0 240 160" className="h-36 w-full" aria-hidden="true">
+        <rect x="34" y="84" width="172" height="42" rx="10" fill={palette.primary} opacity="0.12" />
+        <rect x="52" y="58" width="110" height="52" rx="10" stroke={palette.primary} strokeWidth="8" {...common} />
+        <path d="M76 94H138M76 80H126" stroke={palette.primary} strokeWidth="7" {...common} />
+        <rect x="150" y="42" width="38" height="52" rx="8" stroke={palette.secondary} strokeWidth="7" {...common} />
+        <path d="M160 58H178M160 72H176" stroke={palette.secondary} strokeWidth="5" {...common} />
+        <path d="M70 126L88 108M172 126L154 108" stroke={palette.primary} strokeWidth="8" {...common} />
+      </svg>
+    );
+  }
+
+  if (category === "railway") {
+    return (
+      <svg viewBox="0 0 240 160" className="h-36 w-full" aria-hidden="true">
+        <rect x="42" y="46" width="126" height="58" rx="18" stroke={palette.primary} strokeWidth="8" {...common} />
+        <path d="M64 68H144M78 46V104" stroke={palette.primary} strokeWidth="8" {...common} />
+        <path d="M168 70H196L208 94H176" stroke={palette.secondary} strokeWidth="8" {...common} />
+        <circle cx="86" cy="118" r="12" stroke={palette.primary} strokeWidth="8" {...common} />
+        <circle cx="164" cy="118" r="12" stroke={palette.primary} strokeWidth="8" {...common} />
+        <path d="M32 134H210" stroke={palette.secondary} strokeWidth="6" {...common} />
+      </svg>
+    );
+  }
+
+  if (category === "defence") {
+    return (
+      <svg viewBox="0 0 240 160" className="h-36 w-full" aria-hidden="true">
+        <path d="M120 28L182 48V88C182 112 158 130 120 138C82 130 58 112 58 88V48L120 28Z" stroke={palette.primary} strokeWidth="8" {...common} />
+        <path d="M120 46V118" stroke={palette.secondary} strokeWidth="7" {...common} />
+        <path d="M100 66H140" stroke={palette.secondary} strokeWidth="7" {...common} />
+        <path d="M86 116L154 48" stroke={palette.primary} strokeWidth="6" opacity="0.75" {...common} />
+      </svg>
+    );
+  }
+
+  return (
+    <svg viewBox="0 0 240 160" className="h-36 w-full" aria-hidden="true">
+      <rect x="48" y="40" width="144" height="84" rx="20" stroke={palette.primary} strokeWidth="8" {...common} />
+      <path d="M80 68H160M80 92H138" stroke={palette.secondary} strokeWidth="7" {...common} />
+      <circle cx="172" cy="62" r="12" stroke={palette.primary} strokeWidth="6" {...common} />
+    </svg>
+  );
+}
+
 function LifestyleTimeline({ items }: { items: { id: string; time: string; text: string }[] }) {
   if (items.length === 0) return null;
   return (
@@ -357,40 +476,74 @@ function SalaryCalc({ job }: { job: Job }) {
 }
 
 /* ── Premium Career Path — Horizontal scroll with gradient cards ── */
-function CareerPath({ promotionPath, color }: { promotionPath: Job["promotionPath"]; color: string }) {
+function CareerTimeline({ promotionPath, color }: { promotionPath: Job["promotionPath"]; color: string }) {
+  const [activeIndex, setActiveIndex] = useState(0);
+
   return (
-    <div style={{ marginBottom: 16 }}>
-      <div className="no-scroll" style={{ display: "flex", gap: 0, overflowX: "auto", paddingBottom: 8 }}>
-        {promotionPath.map((p, i) => {
-          const isFirst = i === 0;
-          const isLast = i === promotionPath.length - 1;
-          const opacity = 0.5 + (i / promotionPath.length) * 0.5;
-          return (
-            <div key={i} style={{ display: "flex", alignItems: "center", flexShrink: 0 }}>
-              {/* Card */}
-              <div style={{
-                minWidth: 130, borderRadius: 14, padding: "14px 12px",
-                background: isFirst ? `${color}10` : isLast ? "linear-gradient(135deg, #F0FDF4, #ECFDF5)" : "#FFFFFF",
-                border: isFirst ? `1.5px solid ${color}30` : isLast ? "1.5px solid rgba(22,163,74,0.2)" : "1px solid var(--border)",
-                textAlign: "center", position: "relative",
-                boxShadow: isFirst || isLast ? "0 2px 12px rgba(0,0,0,0.06)" : "var(--shadow-sm)",
-              }}>
-                {isFirst && <div style={{ fontSize: 8, fontWeight: 700, color, letterSpacing: 1, textTransform: "uppercase", marginBottom: 4 }}>START HERE</div>}
-                {isLast && <div style={{ fontSize: 8, fontWeight: 700, color: "#16A34A", letterSpacing: 1, textTransform: "uppercase", marginBottom: 4 }}>PEAK ROLE</div>}
-                <div style={{ fontSize: 12, fontWeight: 700, color: "#111827", lineHeight: 1.3, marginBottom: 4 }}>{p.title}</div>
-                <div style={{ fontSize: 16, fontWeight: 900, color: isLast ? "#16A34A" : color, fontFamily: "'Outfit'", opacity }}>{p.salary}</div>
-                <div style={{ fontSize: 9, color: "#9CA3AF", marginTop: 3 }}>{p.years}</div>
-              </div>
-              {/* Arrow connector */}
-              {!isLast && (
-                <div style={{ display: "flex", alignItems: "center", flexShrink: 0, padding: "0 2px" }}>
-                  <div style={{ width: 20, height: 2, background: `linear-gradient(90deg, ${color}40, ${color}15)` }} />
-                  <div style={{ width: 0, height: 0, borderTop: "5px solid transparent", borderBottom: "5px solid transparent", borderLeft: `6px solid ${color}30` }} />
+    <div className="grid grid-cols-1 gap-4 lg:grid-cols-[minmax(0,1fr)_240px]">
+      <div className="relative">
+        <div className="absolute left-5 top-3 bottom-3 w-[3px] rounded-full" style={{ background: `linear-gradient(${color}, ${color}22)` }} />
+        <div className="space-y-3">
+          {promotionPath.map((step, index) => {
+            const isActive = index === activeIndex;
+            return (
+              <button
+                key={`${step.title}-${step.years}`}
+                type="button"
+                onClick={() => setActiveIndex(index)}
+                onMouseEnter={() => setActiveIndex(index)}
+                className="relative flex w-full gap-4 text-left"
+              >
+                <div
+                  className="relative z-10 mt-1 flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full border-4 bg-white font-black"
+                  style={{
+                    borderColor: isActive ? color : `${color}40`,
+                    color: isActive ? color : "#94A3B8",
+                    boxShadow: isActive ? `0 0 0 6px ${color}18` : "none",
+                  }}
+                >
+                  {index}
                 </div>
-              )}
-            </div>
-          );
-        })}
+                <div
+                  className="flex-1 rounded-2xl border bg-white p-4 shadow-sm transition"
+                  style={{
+                    borderColor: isActive ? `${color}66` : "var(--border)",
+                    background: isActive ? `linear-gradient(135deg, ${color}10, #ffffff)` : "#ffffff",
+                  }}
+                >
+                  <div className="flex flex-wrap items-center justify-between gap-2">
+                    <div className="text-[13px] font-extrabold text-[var(--text-dark)]">{step.title}</div>
+                    <div className="rounded-full px-2.5 py-1 text-[10px] font-bold uppercase tracking-[0.18em] text-white" style={{ background: color }}>
+                      {step.years}
+                    </div>
+                  </div>
+                  <div className="mt-2 text-[22px] font-black" style={{ color, fontFamily: "'Outfit'" }}>
+                    {step.salary}
+                  </div>
+                  <div className="mt-1 text-[12px] leading-relaxed text-[var(--text-body)]">
+                    {index === 0 && "Entry phase: learn the system fast and build reputation."}
+                    {index > 0 && index < promotionPath.length - 1 && "Mid-career jump: more authority, more pay, and bigger teams."}
+                    {index === promotionPath.length - 1 && "Peak role: highest influence, strongest pay, and legacy-level status."}
+                  </div>
+                </div>
+              </button>
+            );
+          })}
+        </div>
+      </div>
+
+      <div className="rounded-3xl border border-[var(--border)] bg-white p-4 shadow-sm lg:sticky lg:top-24 lg:h-fit">
+        <div className="text-[11px] font-extrabold uppercase tracking-[0.24em] text-[var(--text-light)]">Tap Or Hover</div>
+        <div className="mt-2 text-[18px] font-black text-[var(--text-dark)]">{promotionPath[activeIndex]?.title}</div>
+        <div className="mt-1 text-[26px] font-black" style={{ color, fontFamily: "'Outfit'" }}>
+          {promotionPath[activeIndex]?.salary}
+        </div>
+        <div className="mt-1 text-[12px] font-bold text-[var(--text-light)]">{promotionPath[activeIndex]?.years}</div>
+        <div className="mt-4 rounded-2xl px-3 py-3 text-[12px] leading-relaxed" style={{ background: `${color}10`, color: "var(--text-body)" }}>
+          {activeIndex === 0 && "This is the break-in stage. The upside is already strong, but the real compounding starts after your first major promotion."}
+          {activeIndex > 0 && activeIndex < promotionPath.length - 1 && "This is where the role starts feeling premium: authority grows, your salary curve steepens, and perks usually improve too."}
+          {activeIndex === promotionPath.length - 1 && "This is the aspirational finish line students dream about: top-tier pay, social stature, and decision-making power."}
+        </div>
       </div>
     </div>
   );
@@ -445,6 +598,7 @@ function PremiumRoadmap({ roadmap, color }: { roadmap: Job["roadmap"]; color: st
 export default function JobDetailSheet({ job, onClose }: { job: Job; onClose: () => void }) {
   const diffColor = DIFF_COLOR[job.difficulty] ?? "#6B7280";
   const catColor = CAT_COLOR[job.category] || "#2563EB";
+  const sheetRef = useRef<HTMLDivElement | null>(null);
 
   const benefitCards = useMemo(() => buildBenefitCards(job), [job]);
   const perksMonthly = useMemo(() => benefitCards.filter(b => b.countsInTotal).reduce((sum, b) => sum + (b.monthlyValue || 0), 0), [benefitCards]);
@@ -454,11 +608,16 @@ export default function JobDetailSheet({ job, onClose }: { job: Job; onClose: ()
   }, [job.inHand, job.salaryBreakdown]);
   const realMonthly = useMemo(() => Math.max(0, cashMonthly) + Math.max(0, perksMonthly), [cashMonthly, perksMonthly]);
   const privateCtc = useMemo(() => equivalentPrivateCtcLpaRange(realMonthly), [realMonthly]);
+  const jobWordCount = useMemo(() => getJobWordCount(job), [job]);
+  const selectionOdds = useMemo(() => estimatedSelectionOdds(job.difficulty), [job.difficulty]);
+  const peakRole = job.promotionPath[job.promotionPath.length - 1];
+  const illustrationPalette = categoryIllustrationPalette(job.category);
 
   return (
     <div style={{ position: "fixed", inset: 0, zIndex: 100, display: "flex", alignItems: "flex-end", justifyContent: "center" }}>
       <div onClick={onClose} style={{ position: "absolute", inset: 0, background: "rgba(0,0,0,0.4)", backdropFilter: "blur(6px)" }} />
-      <div style={{ position: "relative", background: "#FFFFFF", borderRadius: "22px 22px 0 0", width: "100%", maxWidth: 640, maxHeight: "93vh", overflowY: "auto", paddingBottom: 36 }}>
+      <div ref={sheetRef} style={{ position: "relative", background: "#FFFFFF", borderRadius: "22px 22px 0 0", width: "100%", maxWidth: 640, maxHeight: "93vh", overflowY: "auto", paddingBottom: 36 }}>
+        <ReadingProgressBar wordCount={jobWordCount} targetRef={sheetRef} topClassName="top-0" />
         <div style={{ display: "flex", justifyContent: "center", padding: "10px 0 4px" }}><div style={{ width: 40, height: 4, borderRadius: 4, background: "rgba(0,0,0,0.1)" }} /></div>
         <div style={{ padding: "8px 20px 0" }}>
           <button onClick={onClose} style={{ position: "absolute", top: 14, right: 16, background: "rgba(0,0,0,0.04)", border: "none", color: "#9CA3AF", borderRadius: 8, width: 30, height: 30, cursor: "pointer", fontSize: 14 }}>✕</button>
@@ -476,6 +635,21 @@ export default function JobDetailSheet({ job, onClose }: { job: Job; onClose: ()
             <p style={{ color: "#6B7280", fontSize: 12, margin: 0 }}>{job.org}</p>
           </div>
 
+          <div className="mb-4 overflow-hidden rounded-[24px] border border-amber-200/40 shadow-sm" style={{ background: `linear-gradient(135deg, ${illustrationPalette.soft}, #ffffff 60%)` }}>
+            <div className="grid grid-cols-1 items-center gap-4 px-4 py-4 sm:grid-cols-[1.1fr_0.9fr]">
+              <div>
+                <div className="text-[10px] font-extrabold uppercase tracking-[0.24em]" style={{ color: illustrationPalette.primary }}>Career Preview</div>
+                <div className="mt-2 text-[22px] font-black leading-tight text-[var(--text-dark)]">What this life can actually look like after selection</div>
+                <div className="mt-2 text-[13px] leading-relaxed text-[var(--text-body)]">
+                  Premium perks, a defined ladder, and a role people instantly respect. This card is the visual promise behind the exam grind.
+                </div>
+              </div>
+              <div className="rounded-[20px] px-3 py-2" style={{ background: `${illustrationPalette.primary}08` }}>
+                <JobCategoryIllustration category={job.category} />
+              </div>
+            </div>
+          </div>
+
           <ShareBar job={job} />
 
           {/* Quick stats */}
@@ -488,6 +662,27 @@ export default function JobDetailSheet({ job, onClose }: { job: Job; onClose: ()
             ))}
           </div>
 
+          <div className="mb-4 grid grid-cols-1 gap-3 sm:grid-cols-3">
+            <div className="rounded-3xl border border-emerald-200/50 bg-gradient-to-br from-emerald-50 to-white px-4 py-4 shadow-sm">
+              <div className="text-[10px] font-extrabold uppercase tracking-[0.24em] text-emerald-700">Real Monthly Package</div>
+              <div className="mt-2 text-[30px] font-black text-emerald-600" style={{ fontFamily: "'Outfit'" }}>
+                <CountUpINR value={realMonthly} />
+              </div>
+              <div className="mt-1 text-[12px] leading-relaxed text-emerald-800">Salary + premium perks students usually ignore in the headline figure.</div>
+            </div>
+            <div className="rounded-3xl border border-red-200/60 bg-gradient-to-br from-red-50 to-white px-4 py-4 shadow-sm">
+              <div className="text-[10px] font-extrabold uppercase tracking-[0.24em] text-red-700">Estimated Selection Odds</div>
+              <div className="mt-2 text-[30px] font-black text-red-600" style={{ fontFamily: "'Outfit'" }}>{selectionOdds}</div>
+              <div className="mt-1 text-[12px] leading-relaxed text-red-800">Approximate odds based on the exam difficulty band, so the ambition feels real.</div>
+            </div>
+            <div className="rounded-3xl border border-amber-200/60 bg-gradient-to-br from-amber-50 to-white px-4 py-4 shadow-sm">
+              <div className="text-[10px] font-extrabold uppercase tracking-[0.24em] text-amber-700">Peak Career Snapshot</div>
+              <div className="mt-2 text-[19px] font-black leading-tight text-amber-900">{peakRole?.title}</div>
+              <div className="mt-2 text-[24px] font-black text-amber-700" style={{ fontFamily: "'Outfit'" }}>{peakRole?.salary}</div>
+              <div className="mt-1 text-[12px] leading-relaxed text-amber-900">{peakRole?.years}</div>
+            </div>
+          </div>
+
           <Divider />
           <SectionLabel icon="💰" text="Salary Calculator" color="#2563EB" />
           <SalaryCalc job={job} />
@@ -496,7 +691,7 @@ export default function JobDetailSheet({ job, onClose }: { job: Job; onClose: ()
 
           {/* ── Career Growth — Horizontal scroll ── */}
           <SectionLabel icon="📈" text="Career Growth Path" color={catColor} />
-          <CareerPath promotionPath={job.promotionPath} color={catColor} />
+          <CareerTimeline promotionPath={job.promotionPath} color={catColor} />
 
           <Divider />
 
