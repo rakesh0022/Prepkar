@@ -27,8 +27,8 @@ export default function PrivacyPage() {
       <div className="desktop-only" style={{ height: 56 }} />
       <div style={{ maxWidth: 720, margin: "0 auto", padding: "28px 20px" }}>
         <Link href="/" style={{ color: "#6B7280", fontSize: 13, textDecoration: "none" }}>← Back to Home</Link>
-        <h1 style={{ fontFamily: "'Playfair Display',serif", fontSize: 28, fontWeight: 700, color: "#111827", marginTop: 16, marginBottom: 4 }}>Privacy Policy</h1>
-        <p style={{ fontSize: 13, color: "#9CA3AF", marginBottom: 28 }}>Last updated: April 19, 2026</p>
+        <h1 style={{ fontFamily: "'Playfair Display',serif", fontSize: 26, fontWeight: 700, color: "#111827", marginTop: 16, marginBottom: 4 }}>Privacy Policy</h1>
+        <p style={{ fontSize: 12, color: "#9CA3AF", marginBottom: 28 }}>Last updated: April 19, 2026</p>
 
         <p style={{ fontSize: 14, color: "#374151", lineHeight: 1.7, marginBottom: 24 }}>
           NaukriYatra (&ldquo;we,&rdquo; &ldquo;our,&rdquo; or &ldquo;us&rdquo;) is committed to protecting your privacy. This policy explains how we collect, use, and safeguard your information when you use our website and services.

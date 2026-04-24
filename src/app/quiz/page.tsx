@@ -273,7 +273,7 @@ function QuizSetup() {
           {/* Difficulty */}
           <div>
             <div className="divider-text" style={{ marginBottom: 14 }}>Difficulty Level</div>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 8 }}>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(80px, 1fr))', gap: 8 }}>
               {DIFFICULTIES.map((d) => (
                 <button
                   key={d.id}
@@ -300,7 +300,7 @@ function QuizSetup() {
           {/* Questions Count */}
           <div>
             <div className="divider-text" style={{ marginBottom: 14 }}>Number of Questions</div>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 8 }}>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(100px, 1fr))', gap: 8 }}>
               {[10, 20, 30].map((n) => (
                 <button
                   key={n}

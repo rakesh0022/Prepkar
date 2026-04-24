@@ -25,8 +25,8 @@ export default function DisclaimerPage() {
       <div className="desktop-only" style={{ height: 56 }} />
       <div style={{ maxWidth: 720, margin: "0 auto", padding: "28px 20px" }}>
         <Link href="/" style={{ color: "#6B7280", fontSize: 13, textDecoration: "none" }}>← Back to Home</Link>
-        <h1 style={{ fontFamily: "'Playfair Display',serif", fontSize: 28, fontWeight: 700, color: "#111827", marginTop: 16, marginBottom: 4 }}>Disclaimer</h1>
-        <p style={{ fontSize: 13, color: "#9CA3AF", marginBottom: 28 }}>Last updated: April 19, 2026</p>
+        <h1 style={{ fontFamily: "'Playfair Display',serif", fontSize: 26, fontWeight: 700, color: "#111827", marginTop: 16, marginBottom: 4 }}>Disclaimer</h1>
+        <p style={{ fontSize: 12, color: "#9CA3AF", marginBottom: 28 }}>Last updated: April 19, 2026</p>
 
         <div style={{ background: "#FFF3CD", borderRadius: 16, padding: "20px", border: "1px solid rgba(255,193,7,0.2)", marginBottom: 24 }}>
           <div style={{ fontSize: 18, marginBottom: 8 }}>⚠️ Important Notice</div>

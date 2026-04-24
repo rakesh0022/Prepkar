@@ -64,10 +64,10 @@ export default function CompareLandingClient({ comparisons }: { comparisons: Com
               <div className="inline-flex rounded-full border border-slate-200 bg-slate-50 px-3 py-1 text-[11px] font-extrabold uppercase tracking-[0.22em] text-slate-700">
                 Comparison Guides
               </div>
-              <h1 className="mt-4 max-w-3xl text-[32px] font-black leading-tight text-[var(--text-dark)] md:text-[46px]">
+              <h1 className="mt-4 max-w-3xl text-[24px] font-black leading-tight text-[var(--text-dark)] md:text-[32px] lg:text-[46px]">
                 Compare careers with a cleaner, faster decision view.
               </h1>
-              <p className="mt-4 max-w-2xl text-[15px] leading-7 text-[var(--text-body)] md:text-[17px]">
+              <p className="mt-4 max-w-2xl text-[13px] leading-6 text-[var(--text-body)] md:text-[15px] lg:text-[17px]">
                 See salary gaps, difficulty, work style, and long-term fit without reading a wall of text first. Start with the category that matches your exam path.
               </p>
 
@@ -83,7 +83,7 @@ export default function CompareLandingClient({ comparisons }: { comparisons: Com
               </div>
             </div>
 
-            <div className="grid grid-cols-1 gap-3 sm:grid-cols-3 lg:grid-cols-1">
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-3">
               <div className="rounded-[28px] border border-[var(--border)] bg-[var(--bg-card)] p-5 shadow-sm">
                 <div className="text-[11px] font-extrabold uppercase tracking-[0.22em] text-[var(--text-light)]">Most Read</div>
                 <div className="mt-2 text-[20px] font-black text-[var(--text-dark)]">

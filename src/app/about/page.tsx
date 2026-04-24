@@ -25,10 +25,10 @@ export default function AboutPage() {
       <div style={{ maxWidth: 720, margin: "0 auto", padding: "28px 20px" }}>
         <Link href="/" style={{ color: "#6B7280", fontSize: 13, textDecoration: "none" }}>← Back to Home</Link>
 
-        <h1 style={{ fontFamily: "'Playfair Display',serif", fontSize: 28, fontWeight: 700, color: "#111827", marginTop: 16, marginBottom: 8 }}>
+        <h1 style={{ fontFamily: "'Playfair Display',serif", fontSize: 26, fontWeight: 700, color: "#111827", marginTop: 16, marginBottom: 8 }}>
           About NaukriYatra
         </h1>
-        <p style={{ fontSize: 16, color: "#2563EB", fontWeight: 600, marginBottom: 24, fontFamily: "'Outfit'" }}>
+        <p style={{ fontSize: 14, color: "#2563EB", fontWeight: 600, marginBottom: 24, fontFamily: "'Outfit'" }}>
           Sapne se Selection Tak
         </p>
 

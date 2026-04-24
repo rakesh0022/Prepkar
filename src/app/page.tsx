@@ -49,13 +49,13 @@ export default function Home() {
           </div>
 
           <h1 style={{
-            fontFamily: "'Playfair Display', serif", fontSize: 32, fontWeight: 800,
+            fontFamily: "'Playfair Display', serif", fontSize: 26, fontWeight: 800,
             lineHeight: 1.2, marginBottom: 8, letterSpacing: -0.5,
           }}>
             Sapne se<br />
             <span style={{ color: "#5EEAD4" }}>Selection Tak</span>
           </h1>
-          <p style={{ fontSize: 15, opacity: 0.65, marginBottom: 28, lineHeight: 1.5 }}>
+          <p style={{ fontSize: 14, opacity: 0.65, marginBottom: 28, lineHeight: 1.5 }}>
             Your journey to a government job starts here
           </p>
 
