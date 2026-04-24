@@ -1,5 +1,6 @@
 import { notFound } from 'next/navigation';
 import comparisons from '@/data/comparisons.json';
+import { COMPARISON_META } from '../comparisonMeta';
 import ComparisonClient from './ComparisonClient';
 
 export async function generateStaticParams() {
@@ -37,12 +38,17 @@ export default async function ComparisonPage({ params }: { params: Promise<{ slu
   const currentIndex = allSlugs.indexOf(slug);
   const prevComparison = currentIndex > 0 ? comparisons[currentIndex - 1] : null;
   const nextComparison = currentIndex < comparisons.length - 1 ? comparisons[currentIndex + 1] : null;
+  const relatedComparisons =
+    COMPARISON_META[slug]?.relatedSlugs
+      ?.map((relatedSlug) => comparisons.find((item) => item.slug === relatedSlug))
+      .filter((item): item is (typeof comparisons)[number] => Boolean(item)) ?? [];
 
   return (
     <ComparisonClient
       comparison={comparison}
       prevComparison={prevComparison}
       nextComparison={nextComparison}
+      relatedComparisons={relatedComparisons}
     />
   );
 }

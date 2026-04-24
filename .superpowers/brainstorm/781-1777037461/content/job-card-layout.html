@@ -1,0 +1,118 @@
+<h2>Step 1 — Job card layout</h2>
+<p class="subtitle">How should the 10 job posts be presented? All on a dark navy background.</p>
+
+<div class="cards">
+
+  <!-- Option A: 2-col grid, icon + name + category badge -->
+  <div class="card" data-choice="a" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#0F2440; padding:16px; min-height:200px;">
+      <div style="color:#94A3B8; font-size:11px; letter-spacing:2px; text-transform:uppercase; margin-bottom:12px;">Choose Your Dream Job</div>
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px;">
+        <div style="background:rgba(37,99,235,0.25); border:1.5px solid rgba(37,99,235,0.5); border-radius:12px; padding:12px; display:flex; align-items:center; gap:10px;">
+          <span style="font-size:22px;">🏛️</span>
+          <div>
+            <div style="color:#E0E7FF; font-size:12px; font-weight:700; line-height:1.2;">IAS Officer</div>
+            <div style="background:rgba(37,99,235,0.4); color:#93C5FD; font-size:9px; padding:2px 6px; border-radius:4px; margin-top:3px; display:inline-block;">UPSC</div>
+          </div>
+        </div>
+        <div style="background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.08); border-radius:12px; padding:12px; display:flex; align-items:center; gap:10px;">
+          <span style="font-size:22px;">🏦</span>
+          <div>
+            <div style="color:#CBD5E1; font-size:12px; font-weight:600; line-height:1.2;">SBI PO</div>
+            <div style="background:rgba(13,148,136,0.3); color:#5EEAD4; font-size:9px; padding:2px 6px; border-radius:4px; margin-top:3px; display:inline-block;">Banking</div>
+          </div>
+        </div>
+        <div style="background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.08); border-radius:12px; padding:12px; display:flex; align-items:center; gap:10px;">
+          <span style="font-size:22px;">📊</span>
+          <div>
+            <div style="color:#CBD5E1; font-size:12px; font-weight:600; line-height:1.2;">SSC CGL</div>
+            <div style="background:rgba(217,119,6,0.3); color:#FCD34D; font-size:9px; padding:2px 6px; border-radius:4px; margin-top:3px; display:inline-block;">SSC</div>
+          </div>
+        </div>
+        <div style="background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.08); border-radius:12px; padding:12px; display:flex; align-items:center; gap:10px;">
+          <span style="font-size:22px;">🚂</span>
+          <div>
+            <div style="color:#CBD5E1; font-size:12px; font-weight:600; line-height:1.2;">RRB NTPC</div>
+            <div style="background:rgba(220,38,38,0.3); color:#FCA5A5; font-size:9px; padding:2px 6px; border-radius:4px; margin-top:3px; display:inline-block;">Railway</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>A — 2-col grid with category badges</h3>
+      <p>Compact grid fits all 10 jobs in one screen. Icon + name + color-coded category badge. Selected card glows blue. Fast to scan.</p>
+    </div>
+  </div>
+
+  <!-- Option B: Category sections, horizontal scroll rows -->
+  <div class="card" data-choice="b" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#0F2440; padding:16px; min-height:200px;">
+      <div style="color:#94A3B8; font-size:11px; letter-spacing:2px; text-transform:uppercase; margin-bottom:10px;">Choose Your Dream Job</div>
+      <!-- UPSC row -->
+      <div style="color:#6D28D9; font-size:10px; font-weight:700; letter-spacing:1px; margin-bottom:6px; display:flex; align-items:center; gap:6px;"><span style="width:20px;height:2px;background:#6D28D9;display:inline-block;border-radius:2px;"></span> UPSC</div>
+      <div style="display:flex; gap:8px; overflow:hidden; margin-bottom:12px;">
+        <div style="flex-shrink:0; background:rgba(109,40,217,0.2); border:1.5px solid rgba(109,40,217,0.4); border-radius:12px; padding:10px 14px; display:flex; align-items:center; gap:8px;">
+          <span style="font-size:18px;">🏛️</span><span style="color:#DDD6FE; font-size:12px; font-weight:700;">IAS Officer</span>
+        </div>
+        <div style="flex-shrink:0; background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.08); border-radius:12px; padding:10px 14px; display:flex; align-items:center; gap:8px;">
+          <span style="font-size:18px;">🛡️</span><span style="color:#94A3B8; font-size:12px; font-weight:600;">NDA</span>
+        </div>
+      </div>
+      <!-- Banking row -->
+      <div style="color:#0D9488; font-size:10px; font-weight:700; letter-spacing:1px; margin-bottom:6px; display:flex; align-items:center; gap:6px;"><span style="width:20px;height:2px;background:#0D9488;display:inline-block;border-radius:2px;"></span> Banking</div>
+      <div style="display:flex; gap:8px; overflow:hidden;">
+        <div style="flex-shrink:0; background:rgba(13,148,136,0.2); border:1.5px solid rgba(13,148,136,0.4); border-radius:12px; padding:10px 14px; display:flex; align-items:center; gap:8px;">
+          <span style="font-size:18px;">🏦</span><span style="color:#5EEAD4; font-size:12px; font-weight:700;">SBI PO</span>
+        </div>
+        <div style="flex-shrink:0; background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.08); border-radius:12px; padding:10px 14px; display:flex; align-items:center; gap:8px;">
+          <span style="font-size:18px;">🏛️</span><span style="color:#94A3B8; font-size:12px; font-weight:600;">RBI Grade B</span>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>B — Grouped by category, horizontal scroll</h3>
+      <p>Jobs organized in rows by category (UPSC, Banking, SSC, Railway, Defence) with colored section labels. Each row scrolls horizontally. Great for discovery.</p>
+    </div>
+  </div>
+
+  <!-- Option C: Large tap-friendly cards, salary teaser -->
+  <div class="card" data-choice="c" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#0F2440; padding:16px; min-height:200px;">
+      <div style="color:#94A3B8; font-size:11px; letter-spacing:2px; text-transform:uppercase; margin-bottom:12px;">Choose Your Dream Job</div>
+      <div style="display:flex; flex-direction:column; gap:8px;">
+        <div style="background:rgba(37,99,235,0.2); border:1.5px solid rgba(37,99,235,0.5); border-radius:14px; padding:12px 16px; display:flex; align-items:center; justify-content:space-between;">
+          <div style="display:flex; align-items:center; gap:12px;">
+            <span style="font-size:26px;">🏛️</span>
+            <div>
+              <div style="color:#E0E7FF; font-size:13px; font-weight:700;">IAS Officer</div>
+              <div style="color:#6B7280; font-size:11px;">UPSC · Pay Level 10</div>
+            </div>
+          </div>
+          <div style="text-align:right;">
+            <div style="color:#34D399; font-size:14px; font-weight:800;">₹56.1K+</div>
+            <div style="color:#6B7280; font-size:10px;">basic/mo</div>
+          </div>
+        </div>
+        <div style="background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.08); border-radius:14px; padding:12px 16px; display:flex; align-items:center; justify-content:space-between;">
+          <div style="display:flex; align-items:center; gap:12px;">
+            <span style="font-size:26px;">🏦</span>
+            <div>
+              <div style="color:#CBD5E1; font-size:13px; font-weight:600;">SBI PO</div>
+              <div style="color:#6B7280; font-size:11px;">Banking · JMGS-I</div>
+            </div>
+          </div>
+          <div style="text-align:right;">
+            <div style="color:#34D399; font-size:14px; font-weight:800;">₹36K+</div>
+            <div style="color:#6B7280; font-size:10px;">basic/mo</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>C — Large cards with salary teaser</h3>
+      <p>Full-width rows with icon, job name, exam type, and a starting basic pay preview on the right. Big tap targets, great for mobile. Shows what you're signing up for before you even choose.</p>
+    </div>
+  </div>
+
+</div>
+<p class="subtitle" style="margin-top:16px; font-size:13px;">All options look great in dark mode. Click your preference, then reply in the terminal.</p>

@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Salary Reveal — Design Options</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #0B1120; color: #E2E8F0; padding: 24px 16px; }
+
+  h2 { font-size: 20px; font-weight: 800; color: #F1F5F9; text-align: center; margin-bottom: 6px; }
+  .subtitle { text-align: center; color: #64748B; font-size: 14px; margin-bottom: 28px; }
+
+  .columns { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; max-width: 900px; margin: 0 auto; }
+  @media (max-width: 700px) { .columns { grid-template-columns: 1fr; } }
+
+  .option-wrap { cursor: pointer; border-radius: 20px; border: 2px solid rgba(255,255,255,0.06); overflow: hidden; transition: border-color 0.2s, transform 0.15s; }
+  .option-wrap:hover { border-color: rgba(37,99,235,0.5); transform: translateY(-2px); }
+  .option-wrap.selected { border-color: #2563EB; box-shadow: 0 0 0 4px rgba(37,99,235,0.18); }
+
+  .option-label { background: rgba(255,255,255,0.04); padding: 14px 18px; border-top: 1px solid rgba(255,255,255,0.06); }
+  .option-label h3 { font-size: 15px; font-weight: 700; color: #E0E7FF; margin-bottom: 4px; }
+  .option-label p { font-size: 12px; color: #64748B; line-height: 1.5; }
+
+  /* ─── OPTION A: Stacked — big number, then donut + breakdown below ─── */
+  .reveal-a { background: linear-gradient(180deg, #0F2440 0%, #0B1120 100%); padding: 24px 20px; }
+  .reveal-a .tag { display: inline-block; background: rgba(37,99,235,0.2); border: 1px solid rgba(37,99,235,0.4); color: #93C5FD; font-size: 11px; font-weight: 700; letter-spacing: 1px; padding: 4px 10px; border-radius: 20px; text-transform: uppercase; margin-bottom: 10px; }
+  .reveal-a .job-name { font-size: 15px; font-weight: 700; color: #CBD5E1; margin-bottom: 20px; }
+  .reveal-a .big-num { font-size: 44px; font-weight: 900; color: #34D399; letter-spacing: -2px; line-height: 1; }
+  .reveal-a .big-label { font-size: 12px; color: #64748B; margin-top: 4px; margin-bottom: 20px; }
+  .reveal-a .donut-row { display: flex; align-items: center; gap: 16px; margin-bottom: 16px; }
+  .donut-placeholder { width: 80px; height: 80px; border-radius: 50%; background: conic-gradient(#3B82F6 0% 33%, #34D399 33% 55%, #F59E0B 55% 68%, #EF4444 68% 78%, #8B5CF6 78% 100%); position: relative; flex-shrink: 0; }
+  .donut-placeholder::after { content: ''; position: absolute; inset: 18px; background: #0F2440; border-radius: 50%; }
+  .legend { display: flex; flex-direction: column; gap: 5px; }
+  .legend-item { display: flex; align-items: center; gap: 6px; font-size: 11px; color: #94A3B8; }
+  .legend-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+  .reveal-a .breakdown { display: flex; flex-direction: column; gap: 6px; }
+  .breakdown-row { display: flex; justify-content: space-between; font-size: 12px; padding: 7px 10px; border-radius: 8px; }
+  .breakdown-row.add { background: rgba(52,211,153,0.08); color: #6EE7B7; }
+  .breakdown-row.deduct { background: rgba(239,68,68,0.08); color: #FCA5A5; }
+  .breakdown-row.total { background: rgba(52,211,153,0.15); color: #34D399; font-weight: 800; font-size: 14px; margin-top: 4px; }
+
+  /* ─── OPTION B: Split hero — salary on left, chart on right ─── */
+  .reveal-b { background: #0B1120; }
+  .reveal-b .hero { background: linear-gradient(135deg, #0F2440, #162D50); padding: 20px; display: flex; gap: 16px; align-items: center; }
+  .reveal-b .hero-left { flex: 1; }
+  .reveal-b .hero-left .job-tag { font-size: 10px; color: #64748B; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px; }
+  .reveal-b .hero-left .job-name { font-size: 14px; font-weight: 700; color: #CBD5E1; margin-bottom: 14px; }
+  .reveal-b .hero-left .inhand-label { font-size: 10px; color: #64748B; text-transform: uppercase; letter-spacing: 1px; }
+  .reveal-b .hero-left .inhand-val { font-size: 32px; font-weight: 900; color: #34D399; letter-spacing: -1px; line-height: 1.1; }
+  .reveal-b .hero-left .inhand-sub { font-size: 11px; color: #475569; margin-top: 2px; }
+  .reveal-b .hero-right { text-align: center; }
+  .donut-sm { width: 64px; height: 64px; border-radius: 50%; background: conic-gradient(#3B82F6 0% 33%, #34D399 33% 55%, #F59E0B 55% 68%, #EF4444 68% 78%, #8B5CF6 78% 100%); position: relative; }
+  .donut-sm::after { content: ''; position: absolute; inset: 14px; background: #0F2440; border-radius: 50%; }
+  .reveal-b .hero-right .chart-label { font-size: 10px; color: #64748B; margin-top: 6px; }
+  .reveal-b .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: rgba(255,255,255,0.04); }
+  .stat-cell { background: #0B1120; padding: 12px 14px; }
+  .stat-cell .s-label { font-size: 10px; color: #64748B; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 3px; }
+  .stat-cell .s-val { font-size: 15px; font-weight: 700; color: #E0E7FF; }
+  .stat-cell .s-val.green { color: #34D399; }
+  .stat-cell .s-val.red { color: #F87171; }
+
+  .select-bar { display: flex; gap: 12px; justify-content: center; margin-top: 28px; flex-wrap: wrap; }
+  .sel-btn { background: rgba(255,255,255,0.06); border: 1.5px solid rgba(255,255,255,0.1); color: #CBD5E1; font-size: 13px; font-weight: 600; padding: 10px 24px; border-radius: 10px; cursor: pointer; transition: all 0.15s; }
+  .sel-btn:hover, .sel-btn.active { background: rgba(37,99,235,0.25); border-color: #2563EB; color: #93C5FD; }
+  .footer-hint { text-align: center; color: #475569; font-size: 12px; margin-top: 16px; }
+</style>
+</head>
+<body>
+
+<h2>Salary Reveal Screen</h2>
+<p class="subtitle">After completing all 3 wizard steps, this is what users see. Both options animate in. Which layout works better?</p>
+
+<div class="columns">
+
+  <!-- OPTION A -->
+  <div class="option-wrap" id="optA" onclick="selectOpt('a')">
+    <div class="reveal-a">
+      <div class="tag">IAS Officer · Delhi</div>
+      <div class="job-name">₹ counter animates up here…</div>
+      <div class="big-num">₹56,800</div>
+      <div class="big-label">In-hand per month</div>
+
+      <div class="donut-row">
+        <div class="donut-placeholder"></div>
+        <div class="legend">
+          <div class="legend-item"><div class="legend-dot" style="background:#3B82F6"></div>Basic Pay ₹56,100</div>
+          <div class="legend-item"><div class="legend-dot" style="background:#34D399"></div>DA ₹28,050</div>
+          <div class="legend-item"><div class="legend-dot" style="background:#F59E0B"></div>HRA ₹16,830</div>
+          <div class="legend-item"><div class="legend-dot" style="background:#EF4444"></div>Deductions ₹5,810</div>
+          <div class="legend-item"><div class="legend-dot" style="background:#8B5CF6"></div>TA ₹3,600</div>
+        </div>
+      </div>
+
+      <div class="breakdown">
+        <div class="breakdown-row add"><span>Basic Pay</span><span>₹56,100</span></div>
+        <div class="breakdown-row add"><span>DA (50%)</span><span>+₹28,050</span></div>
+        <div class="breakdown-row add"><span>HRA (30%)</span><span>+₹16,830</span></div>
+        <div class="breakdown-row add"><span>Transport</span><span>+₹3,600</span></div>
+        <div class="breakdown-row deduct"><span>NPS (10%)</span><span>−₹5,610</span></div>
+        <div class="breakdown-row deduct"><span>Prof. Tax</span><span>−₹200</span></div>
+        <div class="breakdown-row total"><span>NET IN-HAND</span><span>₹98,770</span></div>
+      </div>
+    </div>
+    <div class="option-label">
+      <h3>A — Stacked: big number → donut → breakdown</h3>
+      <p>Full reveal flows top-to-bottom. Big animated number first, then chart, then line-by-line breakdown. Scroll-friendly on mobile.</p>
+    </div>
+  </div>
+
+  <!-- OPTION B -->
+  <div class="option-wrap" id="optB" onclick="selectOpt('b')">
+    <div class="reveal-b">
+      <div class="hero">
+        <div class="hero-left">
+          <div class="job-tag">IAS Officer · UPSC</div>
+          <div class="job-name">Delhi · 0 years exp</div>
+          <div class="inhand-label">In-Hand / Month</div>
+          <div class="inhand-val">₹98,770</div>
+          <div class="inhand-sub">After all deductions</div>
+        </div>
+        <div class="hero-right">
+          <div class="donut-sm"></div>
+          <div class="chart-label">Tap to explore</div>
+        </div>
+      </div>
+      <div class="stats-grid">
+        <div class="stat-cell">
+          <div class="s-label">Gross Salary</div>
+          <div class="s-val">₹1,04,580</div>
+        </div>
+        <div class="stat-cell">
+          <div class="s-label">Basic Pay</div>
+          <div class="s-val">₹56,100</div>
+        </div>
+        <div class="stat-cell">
+          <div class="s-label">DA (50%)</div>
+          <div class="s-val green">+₹28,050</div>
+        </div>
+        <div class="stat-cell">
+          <div class="s-label">Total Deductions</div>
+          <div class="s-val red">−₹5,810</div>
+        </div>
+        <div class="stat-cell">
+          <div class="s-label">HRA</div>
+          <div class="s-val green">+₹16,830</div>
+        </div>
+        <div class="stat-cell">
+          <div class="s-label">Equiv. CTC</div>
+          <div class="s-val" style="color:#93C5FD;">₹24.8 LPA</div>
+        </div>
+      </div>
+    </div>
+    <div class="option-label">
+      <h3>B — Split hero + stat grid</h3>
+      <p>Hero banner with big number left + small donut right. Then a 2×3 stat grid below. Compact, everything above the fold on desktop. Chart expands on tap.</p>
+    </div>
+  </div>
+
+</div>
+
+<div class="select-bar">
+  <button class="sel-btn" id="btnA" onclick="selectOpt('a')">Choose A</button>
+  <button class="sel-btn" id="btnB" onclick="selectOpt('b')">Choose B</button>
+  <button class="sel-btn" id="btnBoth" onclick="selectOpt('both')">Mix: A layout, B hero</button>
+</div>
+<div class="footer-hint">Both animate in with a count-up on the main number. The donut chart slices animate in sequentially.</div>
+
+<script>
+let selected = null;
+function selectOpt(choice) {
+  selected = choice;
+  document.querySelectorAll('.option-wrap').forEach(el => el.classList.remove('selected'));
+  document.querySelectorAll('.sel-btn').forEach(el => el.classList.remove('active'));
+  if (choice === 'a') { document.getElementById('optA').classList.add('selected'); document.getElementById('btnA').classList.add('active'); }
+  else if (choice === 'b') { document.getElementById('optB').classList.add('selected'); document.getElementById('btnB').classList.add('active'); }
+  else if (choice === 'both') { document.getElementById('optA').classList.add('selected'); document.getElementById('optB').classList.add('selected'); document.getElementById('btnBoth').classList.add('active'); }
+  if (window.__recordChoice) window.__recordChoice(choice, 'Option ' + choice.toUpperCase());
+}
+</script>
+</body>
+</html>

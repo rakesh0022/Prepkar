@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Full Wizard Preview</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #060D1A; color: #E2E8F0; }
+.page { max-width: 420px; margin: 0 auto; padding: 0 0 80px; }
+
+/* progress bar */
+.progress-bar { position: sticky; top: 0; z-index: 10; background: rgba(6,13,26,0.92); backdrop-filter: blur(12px); padding: 12px 20px 14px; border-bottom: 1px solid rgba(255,255,255,0.05); }
+.step-dots { display: flex; gap: 8px; align-items: center; justify-content: center; }
+.dot { height: 6px; border-radius: 3px; transition: all 0.3s; }
+.dot.done { background: #34D399; width: 28px; }
+.dot.active { background: #2563EB; width: 40px; }
+.dot.future { background: rgba(255,255,255,0.12); width: 18px; }
+.step-label { text-align: center; color: #64748B; font-size: 11px; margin-top: 7px; letter-spacing: 0.5px; }
+
+/* section divider */
+.screen-divider { display: flex; align-items: center; gap: 10px; padding: 24px 20px 10px; }
+.screen-divider span { font-size: 11px; color: #2563EB; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; white-space: nowrap; }
+.screen-divider::before, .screen-divider::after { content: ''; flex: 1; height: 1px; background: rgba(255,255,255,0.06); }
+
+/* ── STEP 1: Job selection ── */
+.step-header { padding: 20px 20px 10px; }
+.step-num { font-size: 11px; color: #2563EB; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 4px; }
+.step-title { font-size: 22px; font-weight: 800; color: #F1F5F9; line-height: 1.2; }
+.step-sub { font-size: 13px; color: #64748B; margin-top: 4px; }
+
+.job-list { padding: 12px 16px; display: flex; flex-direction: column; gap: 8px; }
+.job-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.07); border-radius: 16px; padding: 14px 16px; display: flex; align-items: center; justify-content: space-between; transition: all 0.15s; cursor: pointer; }
+.job-card.selected { background: rgba(37,99,235,0.15); border-color: rgba(37,99,235,0.5); box-shadow: 0 0 0 1px rgba(37,99,235,0.3), 0 4px 20px rgba(37,99,235,0.15); }
+.job-card:hover { background: rgba(255,255,255,0.05); }
+.job-left { display: flex; align-items: center; gap: 14px; }
+.job-icon { font-size: 28px; line-height: 1; }
+.job-info .job-name { font-size: 14px; font-weight: 700; color: #E0E7FF; margin-bottom: 2px; }
+.job-info .job-meta { font-size: 11px; color: #64748B; }
+.job-right { text-align: right; }
+.job-right .basic-pay { font-size: 14px; font-weight: 800; color: #34D399; }
+.job-right .basic-label { font-size: 10px; color: #475569; margin-top: 1px; }
+.cat-badge { display: inline-block; padding: 1px 7px; border-radius: 4px; font-size: 9px; font-weight: 700; margin-left: 6px; }
+.cat-upsc { background: rgba(109,40,217,0.25); color: #C4B5FD; }
+.cat-banking { background: rgba(13,148,136,0.25); color: #5EEAD4; }
+.cat-ssc { background: rgba(217,119,6,0.25); color: #FCD34D; }
+.cat-railway { background: rgba(220,38,38,0.25); color: #FCA5A5; }
+.cat-defence { background: rgba(37,99,235,0.25); color: #93C5FD; }
+
+/* ── STEP 2: City ── */
+.city-grid { padding: 12px 16px; display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
+.city-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.07); border-radius: 14px; padding: 14px 10px; text-align: center; cursor: pointer; }
+.city-card.selected { background: rgba(37,99,235,0.15); border-color: rgba(37,99,235,0.5); }
+.city-card .city-icon { font-size: 26px; margin-bottom: 6px; }
+.city-card .city-label { font-size: 12px; font-weight: 700; color: #E0E7FF; }
+.city-card .city-sub { font-size: 10px; color: #64748B; margin-top: 2px; }
+.city-card .hra-badge { margin-top: 6px; background: rgba(52,211,153,0.1); color: #34D399; font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 10px; display: inline-block; }
+.city-examples { padding: 4px 16px 0; font-size: 11px; color: #475569; text-align: center; }
+
+/* ── STEP 3: Experience ── */
+.exp-wrap { padding: 12px 16px 20px; }
+.milestones { display: flex; justify-content: space-between; margin-bottom: 8px; }
+.milestone { text-align: center; }
+.milestone .m-dot { width: 10px; height: 10px; border-radius: 50%; background: rgba(255,255,255,0.12); margin: 0 auto 4px; }
+.milestone.active .m-dot { background: #2563EB; box-shadow: 0 0 0 3px rgba(37,99,235,0.25); }
+.milestone .m-label { font-size: 9px; color: #64748B; }
+.milestone.active .m-label { color: #93C5FD; font-weight: 700; }
+.slider-track { height: 4px; background: rgba(255,255,255,0.08); border-radius: 2px; position: relative; margin-bottom: 6px; }
+.slider-fill { height: 100%; width: 0%; background: linear-gradient(90deg, #2563EB, #34D399); border-radius: 2px; }
+.slider-thumb { width: 20px; height: 20px; border-radius: 50%; background: #2563EB; border: 3px solid #0B1120; box-shadow: 0 0 0 2px #2563EB; position: absolute; top: -8px; left: 0%; transform: translateX(-50%); }
+.exp-label { text-align: center; font-size: 13px; color: #94A3B8; margin-top: 10px; }
+.exp-label strong { color: #E0E7FF; }
+
+/* ── SALARY REVEAL ── */
+/* Hero banner (B style) */
+.reveal-hero { background: linear-gradient(135deg, #0F2440 0%, #162D50 100%); padding: 20px 20px 0; margin-top: 4px; }
+.hero-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 16px; }
+.hero-job-badge { display: inline-flex; align-items: center; gap: 6px; background: rgba(37,99,235,0.2); border: 1px solid rgba(37,99,235,0.35); border-radius: 20px; padding: 4px 12px 4px 8px; }
+.hero-job-badge .icon { font-size: 14px; }
+.hero-job-badge .name { font-size: 11px; color: #93C5FD; font-weight: 700; }
+.hero-location { font-size: 11px; color: #475569; display: flex; align-items: center; gap: 4px; }
+.hero-main { display: flex; align-items: flex-end; justify-content: space-between; padding-bottom: 20px; }
+.hero-salary-block .inhand-label { font-size: 11px; color: #64748B; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
+.hero-salary-block .amount { font-size: 42px; font-weight: 900; color: #34D399; letter-spacing: -2px; line-height: 1; }
+.hero-salary-block .amount-sub { font-size: 12px; color: #475569; margin-top: 4px; }
+.donut-mini { width: 72px; height: 72px; border-radius: 50%; background: conic-gradient(#3B82F6 0% 32%, #34D399 32% 54%, #F59E0B 54% 68%, #EF4444 68% 78%, #8B5CF6 78% 100%); position: relative; }
+.donut-mini::after { content: ''; position: absolute; inset: 16px; background: #0F2440; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+.donut-mini .center-text { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-size: 9px; color: #64748B; z-index: 1; }
+
+/* stacked breakdown (A style) */
+.reveal-body { padding: 16px; display: flex; flex-direction: column; gap: 8px; }
+.reveal-section-label { font-size: 11px; color: #475569; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 2px; padding: 0 2px; }
+.breakdown-row { display: flex; justify-content: space-between; align-items: center; padding: 9px 14px; border-radius: 10px; font-size: 13px; }
+.breakdown-row.add { background: rgba(52,211,153,0.06); }
+.breakdown-row.add .br-label { color: #94A3B8; }
+.breakdown-row.add .br-val { color: #34D399; font-weight: 600; }
+.breakdown-row.deduct { background: rgba(239,68,68,0.06); }
+.breakdown-row.deduct .br-label { color: #94A3B8; }
+.breakdown-row.deduct .br-val { color: #F87171; font-weight: 600; }
+.breakdown-row.gross { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.07); }
+.breakdown-row.gross .br-label { color: #CBD5E1; font-weight: 700; }
+.breakdown-row.gross .br-val { color: #E0E7FF; font-weight: 700; }
+.breakdown-row.net { background: rgba(52,211,153,0.12); border: 1.5px solid rgba(52,211,153,0.25); }
+.breakdown-row.net .br-label { color: #34D399; font-weight: 800; font-size: 14px; }
+.breakdown-row.net .br-val { color: #34D399; font-weight: 800; font-size: 14px; }
+.legend-strip { display: flex; gap: 8px; flex-wrap: wrap; padding: 0 2px 8px; }
+.ls-item { display: flex; align-items: center; gap: 4px; font-size: 10px; color: #64748B; }
+.ls-dot { width: 7px; height: 7px; border-radius: 50%; }
+
+/* comparison widget */
+.comparison { background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.06); border-radius: 16px; margin: 0 16px; padding: 16px; }
+.comp-title { font-size: 12px; color: #475569; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 14px; text-align: center; }
+.comp-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px; }
+.comp-card { border-radius: 12px; padding: 12px; text-align: center; }
+.comp-card.govt { background: rgba(37,99,235,0.1); border: 1px solid rgba(37,99,235,0.2); }
+.comp-card.private { background: rgba(109,40,217,0.1); border: 1px solid rgba(109,40,217,0.2); }
+.comp-card .cc-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px; }
+.comp-card.govt .cc-label { color: #60A5FA; }
+.comp-card.private .cc-label { color: #A78BFA; }
+.comp-card .cc-val { font-size: 18px; font-weight: 800; }
+.comp-card.govt .cc-val { color: #34D399; }
+.comp-card.private .cc-val { color: #A78BFA; }
+.comp-card .cc-sub { font-size: 10px; color: #475569; margin-top: 2px; }
+.perks-bar { background: rgba(52,211,153,0.06); border: 1px solid rgba(52,211,153,0.15); border-radius: 10px; padding: 10px 14px; display: flex; justify-content: space-between; align-items: center; margin-top: 6px; }
+.perks-bar .pb-label { font-size: 11px; color: #64748B; }
+.perks-bar .pb-val { font-size: 13px; font-weight: 700; color: #34D399; }
+.match-line { text-align: center; margin-top: 10px; font-size: 12px; color: #64748B; }
+.match-line strong { color: #93C5FD; }
+
+/* growth chart placeholder */
+.chart-placeholder { margin: 16px; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.06); border-radius: 16px; padding: 16px; }
+.cp-title { font-size: 12px; color: #475569; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px; text-align: center; }
+.chart-area { height: 100px; position: relative; display: flex; align-items: flex-end; gap: 3px; padding: 0 4px; }
+.chart-bar-wrap { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 3px; }
+.chart-bar { width: 100%; border-radius: 3px 3px 0 0; transition: height 0.3s; }
+.chart-bar.govt { background: linear-gradient(180deg, #2563EB, #1E40AF); }
+.chart-bar.private { background: linear-gradient(180deg, #8B5CF6, #6D28D9); }
+.chart-x { display: flex; justify-content: space-between; padding: 4px 4px 0; }
+.chart-x span { font-size: 9px; color: #475569; }
+.chart-legend { display: flex; gap: 16px; justify-content: center; margin-top: 8px; }
+.cl-item { display: flex; align-items: center; gap: 5px; font-size: 10px; color: #64748B; }
+.cl-dot { width: 8px; height: 8px; border-radius: 2px; }
+
+/* share button */
+.share-section { margin: 16px; }
+.share-btn { width: 100%; background: linear-gradient(135deg, #2563EB, #1D4ED8); color: #fff; font-size: 15px; font-weight: 700; border: none; border-radius: 14px; padding: 16px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; box-shadow: 0 4px 20px rgba(37,99,235,0.35); }
+
+/* share card preview */
+.share-card { background: linear-gradient(135deg, #0F2440 0%, #162D50 60%, #0B1120 100%); border: 1px solid rgba(255,255,255,0.08); border-radius: 20px; margin: 12px 16px 0; padding: 20px; position: relative; overflow: hidden; }
+.share-card::before { content: ''; position: absolute; top: -40px; right: -40px; width: 120px; height: 120px; background: radial-gradient(circle, rgba(37,99,235,0.2) 0%, transparent 70%); }
+.sc-brand { font-size: 10px; color: #475569; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 14px; }
+.sc-job { font-size: 16px; font-weight: 800; color: #F1F5F9; margin-bottom: 2px; }
+.sc-city { font-size: 12px; color: #64748B; margin-bottom: 16px; }
+.sc-salary { font-size: 36px; font-weight: 900; color: #34D399; letter-spacing: -1px; }
+.sc-salary-label { font-size: 11px; color: #475569; margin-bottom: 14px; }
+.sc-stats { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
+.sc-stat { background: rgba(255,255,255,0.04); border-radius: 8px; padding: 8px; text-align: center; }
+.sc-stat .val { font-size: 12px; font-weight: 700; color: #CBD5E1; }
+.sc-stat .lbl { font-size: 9px; color: #475569; margin-top: 2px; }
+.sc-url { text-align: center; margin-top: 14px; font-size: 10px; color: #334155; }
+
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- Progress -->
+  <div class="progress-bar">
+    <div class="step-dots">
+      <div class="dot done"></div>
+      <div class="dot active"></div>
+      <div class="dot future"></div>
+    </div>
+    <div class="step-label">STEP 2 OF 3 — WHERE WILL YOU BE POSTED?</div>
+  </div>
+
+  <!-- ── SCREEN 1: Job Selection ── -->
+  <div class="screen-divider"><span>Screen 1 — Job Selection</span></div>
+  <div class="step-header">
+    <div class="step-num">Step 1 of 3</div>
+    <div class="step-title">Choose Your<br>Dream Job</div>
+    <div class="step-sub">10 government posts to explore</div>
+  </div>
+  <div class="job-list">
+    <div class="job-card selected">
+      <div class="job-left">
+        <div class="job-icon">🏛️</div>
+        <div class="job-info">
+          <div class="job-name">IAS Officer <span class="cat-badge cat-upsc">UPSC</span></div>
+          <div class="job-meta">Pay Level 10 · Civil Services</div>
+        </div>
+      </div>
+      <div class="job-right">
+        <div class="basic-pay">₹56,100</div>
+        <div class="basic-label">basic/mo</div>
+      </div>
+    </div>
+    <div class="job-card">
+      <div class="job-left">
+        <div class="job-icon">🏦</div>
+        <div class="job-info">
+          <div class="job-name">SBI PO <span class="cat-badge cat-banking">Banking</span></div>
+          <div class="job-meta">JMGS-I Scale</div>
+        </div>
+      </div>
+      <div class="job-right">
+        <div class="basic-pay">₹36,000</div>
+        <div class="basic-label">basic/mo</div>
+      </div>
+    </div>
+    <div class="job-card">
+      <div class="job-left">
+        <div class="job-icon">📊</div>
+        <div class="job-info">
+          <div class="job-name">SSC CGL — IT Inspector <span class="cat-badge cat-ssc">SSC</span></div>
+          <div class="job-meta">Pay Level 7</div>
+        </div>
+      </div>
+      <div class="job-right">
+        <div class="basic-pay">₹44,900</div>
+        <div class="basic-label">basic/mo</div>
+      </div>
+    </div>
+    <div class="job-card">
+      <div class="job-left">
+        <div class="job-icon">🚂</div>
+        <div class="job-info">
+          <div class="job-name">RRB NTPC <span class="cat-badge cat-railway">Railway</span></div>
+          <div class="job-meta">Pay Level 5</div>
+        </div>
+      </div>
+      <div class="job-right">
+        <div class="basic-pay">₹19,900</div>
+        <div class="basic-label">basic/mo</div>
+      </div>
+    </div>
+    <div style="text-align:center; color: #334155; font-size: 12px; padding: 4px 0;">+ 6 more posts…</div>
+  </div>
+
+  <!-- ── SCREEN 2: City ── -->
+  <div class="screen-divider"><span>Screen 2 — City</span></div>
+  <div class="step-header">
+    <div class="step-num">Step 2 of 3</div>
+    <div class="step-title">Where will you<br>be posted?</div>
+    <div class="step-sub">HRA depends on city classification</div>
+  </div>
+  <div class="city-grid">
+    <div class="city-card selected">
+      <div class="city-icon">🌆</div>
+      <div class="city-label">X City</div>
+      <div class="city-sub">Delhi, Mumbai<br>Chennai, Kolkata</div>
+      <div class="hra-badge">30% HRA</div>
+    </div>
+    <div class="city-card">
+      <div class="city-icon">🏙️</div>
+      <div class="city-label">Y City</div>
+      <div class="city-sub">Pune, Jaipur<br>Lucknow, Surat</div>
+      <div class="hra-badge">20% HRA</div>
+    </div>
+    <div class="city-card">
+      <div class="city-icon">🏘️</div>
+      <div class="city-label">Z City</div>
+      <div class="city-sub">All other<br>cities & towns</div>
+      <div class="hra-badge">10% HRA</div>
+    </div>
+  </div>
+  <div class="city-examples" style="margin-bottom:8px;">Tap a card to see which cities qualify →</div>
+
+  <!-- ── SCREEN 3: Experience ── -->
+  <div class="screen-divider"><span>Screen 3 — Experience</span></div>
+  <div class="step-header">
+    <div class="step-num">Step 3 of 3</div>
+    <div class="step-title">Years of<br>Experience</div>
+    <div class="step-sub">Salary increases with annual increments</div>
+  </div>
+  <div class="exp-wrap">
+    <div class="milestones">
+      <div class="milestone active"><div class="m-dot"></div><div class="m-label">Fresh</div></div>
+      <div class="milestone"><div class="m-dot"></div><div class="m-label">3 yrs</div></div>
+      <div class="milestone"><div class="m-dot"></div><div class="m-label">7 yrs</div></div>
+      <div class="milestone"><div class="m-dot"></div><div class="m-label">14 yrs</div></div>
+      <div class="milestone"><div class="m-dot"></div><div class="m-label">20 yrs</div></div>
+      <div class="milestone"><div class="m-dot"></div><div class="m-label">30 yrs</div></div>
+    </div>
+    <div class="slider-track">
+      <div class="slider-fill" style="width:0%"></div>
+      <div class="slider-thumb" style="left:0%"></div>
+    </div>
+    <div class="exp-label">Experience: <strong>Fresh Joiner (0 years)</strong></div>
+    <div style="margin-top: 10px; text-align:center;">
+      <div style="display:inline-block; background: rgba(37,99,235,0.12); border: 1px solid rgba(37,99,235,0.25); border-radius: 10px; padding: 8px 18px;">
+        <span style="font-size:11px; color:#64748B;">Basic pay at this level: </span>
+        <span style="font-size:14px; font-weight:800; color:#93C5FD;">₹56,100/mo</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── SALARY REVEAL ── -->
+  <div class="screen-divider"><span>Salary Reveal</span></div>
+
+  <!-- Hero banner (B) -->
+  <div class="reveal-hero">
+    <div class="hero-top">
+      <div class="hero-job-badge">
+        <span class="icon">🏛️</span>
+        <span class="name">IAS Officer · Delhi · Fresh</span>
+      </div>
+      <div class="hero-location">📍 X City</div>
+    </div>
+    <div class="hero-main">
+      <div class="hero-salary-block">
+        <div class="inhand-label">In-Hand / Month</div>
+        <div class="amount">₹98,770</div>
+        <div class="amount-sub">After NPS & deductions</div>
+      </div>
+      <div>
+        <div class="donut-mini">
+          <div class="center-text">tap</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Stacked breakdown (A) -->
+  <div class="reveal-body">
+    <div class="reveal-section-label">Salary Components</div>
+    <div class="legend-strip">
+      <div class="ls-item"><div class="ls-dot" style="background:#3B82F6"></div>Basic</div>
+      <div class="ls-item"><div class="ls-dot" style="background:#34D399"></div>DA</div>
+      <div class="ls-item"><div class="ls-dot" style="background:#F59E0B"></div>HRA</div>
+      <div class="ls-item"><div class="ls-dot" style="background:#8B5CF6"></div>TA</div>
+      <div class="ls-item"><div class="ls-dot" style="background:#EF4444"></div>Deductions</div>
+    </div>
+    <div class="breakdown-row add"><span class="br-label">Basic Pay</span><span class="br-val">₹56,100</span></div>
+    <div class="breakdown-row add"><span class="br-label">Dearness Allowance (50%)</span><span class="br-val">+₹28,050</span></div>
+    <div class="breakdown-row add"><span class="br-label">HRA — X City (30%)</span><span class="br-val">+₹16,830</span></div>
+    <div class="breakdown-row add"><span class="br-label">Transport Allowance</span><span class="br-val">+₹3,600</span></div>
+    <div class="breakdown-row gross"><span class="br-label">Gross Salary</span><span class="br-val">₹1,04,580</span></div>
+    <div class="reveal-section-label" style="margin-top:4px;">Deductions</div>
+    <div class="breakdown-row deduct"><span class="br-label">NPS Contribution (10%)</span><span class="br-val">−₹5,610</span></div>
+    <div class="breakdown-row deduct"><span class="br-label">Professional Tax</span><span class="br-val">−₹200</span></div>
+    <div class="breakdown-row net"><span class="br-label">NET IN-HAND</span><span class="br-val">₹98,770</span></div>
+  </div>
+
+  <!-- Comparison Widget -->
+  <div class="screen-divider"><span>Comparison Widget</span></div>
+  <div class="comparison">
+    <div class="comp-title">Govt vs Private Sector</div>
+    <div class="comp-row">
+      <div class="comp-card govt">
+        <div class="cc-label">Govt In-Hand</div>
+        <div class="cc-val">₹98,770</div>
+        <div class="cc-sub">per month</div>
+      </div>
+      <div class="comp-card private">
+        <div class="cc-label">Equiv. Private CTC</div>
+        <div class="cc-val">₹24.8 LPA</div>
+        <div class="cc-sub">to match perks</div>
+      </div>
+    </div>
+    <div class="perks-bar">
+      <div class="pb-label">Hidden perks value (housing, CGHS, pension…)</div>
+      <div class="pb-val">+₹7,200/mo</div>
+    </div>
+    <div class="match-line">Private sector needs <strong>₹29.6 LPA CTC</strong> to truly match</div>
+  </div>
+
+  <!-- Growth Chart -->
+  <div class="screen-divider"><span>30-Year Growth Chart</span></div>
+  <div class="chart-placeholder">
+    <div class="cp-title">Salary Growth Over 30 Years</div>
+    <div class="chart-area">
+      <div class="chart-bar-wrap"><div class="chart-bar govt" style="height:30%"></div></div>
+      <div class="chart-bar-wrap"><div class="chart-bar govt" style="height:36%"></div></div>
+      <div class="chart-bar-wrap"><div class="chart-bar govt" style="height:43%"></div></div>
+      <div class="chart-bar-wrap"><div class="chart-bar govt" style="height:52%"></div></div>
+      <div class="chart-bar-wrap"><div class="chart-bar govt" style="height:63%"></div></div>
+      <div class="chart-bar-wrap"><div class="chart-bar govt" style="height:77%"></div></div>
+      <div class="chart-bar-wrap"><div class="chart-bar govt" style="height:100%"></div></div>
+    </div>
+    <div class="chart-x">
+      <span>0yr</span><span>5</span><span>10</span><span>15</span><span>20</span><span>25</span><span>30</span>
+    </div>
+    <div class="chart-legend">
+      <div class="cl-item"><div class="cl-dot" style="background:#2563EB"></div>Govt (guaranteed)</div>
+      <div class="cl-item"><div class="cl-dot" style="background:#8B5CF6"></div>Private (variable)</div>
+    </div>
+    <div style="text-align:center; margin-top:8px; font-size:11px; color:#475569;">Line chart in actual app — touch-friendly with tooltips</div>
+  </div>
+
+  <!-- Share Section -->
+  <div class="screen-divider"><span>Share Feature</span></div>
+  <div class="share-section">
+    <button class="share-btn">📤 Share My Salary Card</button>
+  </div>
+  <!-- Share card preview -->
+  <div class="share-card">
+    <div class="sc-brand">NAUKRI YATRA · SALARY CALCULATOR</div>
+    <div class="sc-job">🏛️ IAS Officer</div>
+    <div class="sc-city">Delhi (X City) · Fresh Joiner</div>
+    <div class="sc-salary">₹98,770</div>
+    <div class="sc-salary-label">in-hand per month</div>
+    <div class="sc-stats">
+      <div class="sc-stat"><div class="val">₹1.04L</div><div class="lbl">Gross</div></div>
+      <div class="sc-stat"><div class="val">24.8 LPA</div><div class="lbl">Equiv. CTC</div></div>
+      <div class="sc-stat"><div class="val">50%</div><div class="lbl">DA Rate</div></div>
+    </div>
+    <div class="sc-url">prepkar.vercel.app/salary-calculator</div>
+  </div>
+
+</div>
+</body>
+</html>
