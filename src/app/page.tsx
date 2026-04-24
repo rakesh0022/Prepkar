@@ -11,11 +11,13 @@ import LatestNews from "@/components/home/LatestNews";
 import { HERO_STORIES, COUNTDOWNS, STORIES, getTodaysQuiz } from "@/components/data";
 import { useStreak } from "@/hooks/useStreak";
 import { useDailyQuizAnswer } from "@/hooks/useDailyQuiz";
+import { useSavedArticles } from "@/hooks/useSavedArticles";
 
 export default function Home() {
   const [si, setSi] = useState(0);
   const { streak, isNew } = useStreak();
   const { answer, saveAnswer } = useDailyQuizAnswer();
+  const { savedArticles, savedCount } = useSavedArticles();
   const quiz = getTodaysQuiz();
 
   useEffect(() => { const t = setInterval(() => setSi(i => (i + 1) % HERO_STORIES.length), 5000); return () => clearInterval(t); }, []);
@@ -151,6 +153,79 @@ export default function Home() {
         </div>
 
         {/* ═══ DREAM CARDS ═══ */}
+        {savedCount > 0 && (
+          <section className="anim-up-2" style={{ paddingTop: 20 }}>
+            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 10, marginBottom: 12 }}>
+              <div>
+                <h2 style={{ fontFamily: "'Playfair Display',serif", fontSize: 20, fontWeight: 700, color: "var(--text-dark)", margin: 0 }}>
+                  Recently Saved
+                </h2>
+                <p style={{ fontSize: 14, color: "var(--text-light)", margin: "4px 0 0" }}>
+                  Jump back into the guides and facts you bookmarked
+                </p>
+              </div>
+              <Link href="/saved" style={{ textDecoration: "none", fontSize: 12, fontWeight: 800, color: "#0891B2" }}>
+                View all →
+              </Link>
+            </div>
+
+            <div className="no-scroll" style={{ display: "flex", gap: 12, overflowX: "auto", paddingBottom: 10 }}>
+              {savedArticles.slice(0, 4).map((article, index) => (
+                <Link key={article.id} href={article.href} style={{ textDecoration: "none", flexShrink: 0, width: 240 }}>
+                  <div className={`card-premium anim-up-${Math.min(index + 2, 6)}`} style={{
+                    background: "#FFFFFF",
+                    borderRadius: 18,
+                    border: "1px solid var(--border)",
+                    boxShadow: "var(--shadow-sm)",
+                    padding: "16px 16px 14px",
+                    height: "100%",
+                  }}>
+                    <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 12 }}>
+                      <div style={{
+                        width: 42,
+                        height: 42,
+                        borderRadius: 14,
+                        background: `${article.accent}14`,
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        fontSize: 20,
+                        flexShrink: 0,
+                      }}>
+                        {article.icon}
+                      </div>
+                      <div style={{ minWidth: 0 }}>
+                        <div style={{
+                          display: "inline-flex",
+                          alignItems: "center",
+                          padding: "4px 8px",
+                          borderRadius: 999,
+                          background: `${article.accent}12`,
+                          color: article.accent,
+                          fontSize: 10,
+                          fontWeight: 800,
+                          marginBottom: 6,
+                        }}>
+                          {article.type === "blog" ? "Blog" : article.type === "life" ? "Life Story" : "Current Affairs"}
+                        </div>
+                        <div style={{ fontSize: 11, color: "#94A3B8", fontWeight: 700 }}>{article.readTime}</div>
+                      </div>
+                    </div>
+
+                    <div style={{ fontSize: 14, fontWeight: 800, color: "var(--text-dark)", lineHeight: 1.4, marginBottom: 8 }}>
+                      {article.title}
+                    </div>
+                    <div style={{ fontSize: 12, color: "var(--text-light)", lineHeight: 1.55, marginBottom: 12 }}>
+                      {article.description}
+                    </div>
+                    <div style={{ fontSize: 11, fontWeight: 800, color: article.accent }}>Open again →</div>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          </section>
+        )}
+
         <section className="anim-up-2" style={{ padding: "20px 0 0" }}>
           <div style={{ display: "flex", alignItems: "baseline", gap: 8, marginBottom: 4 }}>
             <h2 style={{ fontFamily: "'Playfair Display',serif", fontSize: 20, fontWeight: 700, color: "var(--text-dark)", margin: 0 }}>

@@ -4,6 +4,8 @@ import type { Metadata } from "next";
 import { BLOG_POSTS, getBlogPost, getAllSlugs } from "@/lib/blogData";
 import Footer from "@/components/Footer";
 import ReadingProgressBar from "@/components/reading/ReadingProgressBar";
+import SaveArticleButton from "@/components/reading/SaveArticleButton";
+import { makeSavedArticleId } from "@/lib/savedArticles";
 
 export function generateStaticParams() {
   return getAllSlugs().map(slug => ({ slug }));
@@ -66,6 +68,24 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
                 {tag}
               </span>
             ))}
+          </div>
+
+          <div style={{ marginBottom: 16 }}>
+            <SaveArticleButton
+              article={{
+                id: makeSavedArticleId('blog', post.slug),
+                type: 'blog',
+                slug: post.slug,
+                title: post.title,
+                description: post.excerpt,
+                category: post.category,
+                readTime: post.readTime,
+                href: `/blog/${post.slug}`,
+                icon: post.coverIcon,
+                accent: '#2563EB',
+              }}
+              light
+            />
           </div>
 
           <h1 style={{ fontFamily: "'Playfair Display',serif", fontSize: 28, fontWeight: 800, lineHeight: 1.25, marginBottom: 16 }}>

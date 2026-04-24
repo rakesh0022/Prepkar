@@ -2,6 +2,8 @@ import Link from "next/link";
 import type { Metadata } from "next";
 import { BLOG_POSTS } from "@/lib/blogData";
 import Footer from "@/components/Footer";
+import SaveArticleButton from "@/components/reading/SaveArticleButton";
+import { makeSavedArticleId } from "@/lib/savedArticles";
 
 export const metadata: Metadata = {
   title: "Blog — NaukriYatra | Exam Strategy, Career Guides & Tips",
@@ -46,13 +48,31 @@ export default function BlogPage() {
       <div style={{ maxWidth: 960, margin: "0 auto", padding: "32px 16px 60px" }}>
 
         {/* FEATURED POST */}
-        <Link href={`/blog/${featured.slug}`} style={{ textDecoration: "none" }}>
-          <article className="anim-up-1 card-premium" style={{
-            borderRadius: 20, overflow: "hidden", marginBottom: 32,
+        <div className="anim-up-1" style={{ position: "relative", marginBottom: 32 }}>
+          <div style={{ position: "absolute", top: 14, right: 14, zIndex: 2 }}>
+            <SaveArticleButton
+              article={{
+                id: makeSavedArticleId('blog', featured.slug),
+                type: 'blog',
+                slug: featured.slug,
+                title: featured.title,
+                description: featured.excerpt,
+                category: featured.category,
+                readTime: featured.readTime,
+                href: `/blog/${featured.slug}`,
+                icon: featured.coverIcon,
+                accent: '#2563EB',
+              }}
+              light
+            />
+          </div>
+          <Link href={`/blog/${featured.slug}`} style={{ textDecoration: "none" }}>
+            <article className="card-premium" style={{
+            borderRadius: 20, overflow: "hidden",
             border: "1px solid var(--border)",
             display: "grid",
             gridTemplateColumns: "1fr",
-          }}>
+            }}>
             {/* Cover */}
             <div style={{
               background: featured.coverGradient, padding: "40px 28px",
@@ -80,8 +100,9 @@ export default function BlogPage() {
                 <span style={{ fontSize: 12, fontWeight: 700, color: "#2563EB", marginLeft: "auto" }}>Read Article →</span>
               </div>
             </div>
-          </article>
-        </Link>
+            </article>
+          </Link>
+        </div>
 
         {/* AD ZONE */}
         <div className="ad-zone" style={{ marginBottom: 32 }}>
@@ -95,13 +116,31 @@ export default function BlogPage() {
           gap: 20,
         }} className="blog-grid">
           {rest.map((post, i) => (
-            <Link key={post.slug} href={`/blog/${post.slug}`} style={{ textDecoration: "none" }}>
-              <article className={`anim-up-${Math.min(i + 2, 6)} card-premium`} style={{
+            <div key={post.slug} className={`anim-up-${Math.min(i + 2, 6)}`} style={{ position: "relative" }}>
+              <div style={{ position: "absolute", top: 12, right: 12, zIndex: 2 }}>
+                <SaveArticleButton
+                  article={{
+                    id: makeSavedArticleId('blog', post.slug),
+                    type: 'blog',
+                    slug: post.slug,
+                    title: post.title,
+                    description: post.excerpt,
+                    category: post.category,
+                    readTime: post.readTime,
+                    href: `/blog/${post.slug}`,
+                    icon: post.coverIcon,
+                    accent: '#2563EB',
+                  }}
+                  light
+                />
+              </div>
+              <Link href={`/blog/${post.slug}`} style={{ textDecoration: "none" }}>
+                <article className="card-premium" style={{
                 borderRadius: 16, overflow: "hidden",
                 border: "1px solid var(--border)",
                 display: "grid",
                 gridTemplateColumns: "1fr",
-              }}>
+                }}>
                 {/* Cover strip */}
                 <div style={{
                   background: post.coverGradient, padding: "24px 20px",
@@ -136,8 +175,9 @@ export default function BlogPage() {
                     </div>
                   </div>
                 </div>
-              </article>
-            </Link>
+                </article>
+              </Link>
+            </div>
           ))}
         </div>
 

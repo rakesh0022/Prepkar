@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import BottomNav from "@/components/BottomNav";
 import { createClient } from "@/lib/supabase/client";
+import { useSavedArticles } from "@/hooks/useSavedArticles";
 import type { User } from "@supabase/supabase-js";
 
 interface PracticeSession {
@@ -128,6 +129,7 @@ export default function DashboardPage() {
   const [loading, setLoading] = useState(true);
   const router = useRouter();
   const supabase = createClient();
+  const { savedCount, savedArticles } = useSavedArticles();
 
   const loadData = useCallback(async () => {
     const { data: { user } } = await supabase.auth.getUser();
@@ -153,6 +155,7 @@ export default function DashboardPage() {
   const bestScore = totalSessions > 0 ? Math.max(...sessions.map(s => s.score_overall || 0)) : 0;
   const userName = user?.user_metadata?.full_name || user?.email?.split("@")[0] || "Aspirant";
   const lastSession = sessions[0];
+  const latestSaved = savedArticles[0];
   const examsTried = new Set(sessions.map(s => s.exam_name));
   const allExams = ["SBI PO", "SSC CGL", "UPSC CSE", "RRB NTPC", "IBPS PO", "NDA/CDS"];
   const untried = allExams.filter(e => !examsTried.has(e));
@@ -193,6 +196,20 @@ export default function DashboardPage() {
         {/* Recommendations */}
         <div style={{ background: "#FFFFFF", borderRadius: 14, padding: "16px", border: "1px solid var(--border)", boxShadow: "var(--shadow-sm)", marginBottom: 16 }}>
           <div style={{ fontSize: 13, fontWeight: 700, color: "#111827", marginBottom: 12 }}>Recommended Next</div>
+          {savedCount > 0 && latestSaved && (
+            <Link href="/saved" style={{ textDecoration: "none" }}>
+              <div style={{ display: "flex", alignItems: "center", gap: 10, padding: "10px 12px", borderRadius: 10, background: "#F0F9FF", border: "1px solid rgba(8,145,178,0.15)", marginBottom: 8 }}>
+                <span style={{ fontSize: 18 }}>🔖</span>
+                <div style={{ flex: 1 }}>
+                  <div style={{ fontSize: 12, fontWeight: 700, color: "#0F172A" }}>Revisit Saved Articles</div>
+                  <div style={{ fontSize: 10, color: "#0891B2" }}>
+                    {savedCount} saved · Latest: {latestSaved.title.slice(0, 42)}{latestSaved.title.length > 42 ? "..." : ""}
+                  </div>
+                </div>
+                <span style={{ color: "#0891B2" }}>→</span>
+              </div>
+            </Link>
+          )}
           {lastSession && lastSession.score_overall < 6 && (
             <Link href="/prepare" style={{ textDecoration: "none" }}>
               <div style={{ display: "flex", alignItems: "center", gap: 10, padding: "10px 12px", borderRadius: 10, background: "#FFFBEB", border: "1px solid rgba(245,158,11,0.15)", marginBottom: 8 }}>
@@ -237,10 +254,13 @@ export default function DashboardPage() {
               <div style={{ fontSize: 11, fontWeight: 700, color: "#111827" }}>Current Affairs</div>
             </div>
           </Link>
-          <Link href="/prepare" style={{ textDecoration: "none" }}>
+          <Link href={savedCount > 0 ? "/saved" : "/prepare"} style={{ textDecoration: "none" }}>
             <div style={{ background: "#FFFFFF", borderRadius: 12, padding: "14px 12px", textAlign: "center", border: "1px solid var(--border)", boxShadow: "var(--shadow-sm)" }}>
-              <div style={{ fontSize: 22, marginBottom: 4 }}>📖</div>
-              <div style={{ fontSize: 11, fontWeight: 700, color: "#111827" }}>Study Plans</div>
+              <div style={{ fontSize: 22, marginBottom: 4 }}>{savedCount > 0 ? "🔖" : "📖"}</div>
+              <div style={{ fontSize: 11, fontWeight: 700, color: "#111827" }}>{savedCount > 0 ? "Saved Articles" : "Study Plans"}</div>
+              <div style={{ fontSize: 10, color: "#9CA3AF", marginTop: 2 }}>
+                {savedCount > 0 ? `${savedCount} ready to revisit` : "Guided prep roadmap"}
+              </div>
             </div>
           </Link>
         </div>

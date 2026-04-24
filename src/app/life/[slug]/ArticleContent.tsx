@@ -2,6 +2,8 @@
 
 import Link from "next/link";
 import BottomNav from "@/components/BottomNav";
+import SaveArticleButton from "@/components/reading/SaveArticleButton";
+import { makeSavedArticleId } from "@/lib/savedArticles";
 
 interface Article {
   slug: string;
@@ -44,6 +46,23 @@ export default function ArticleContent({ article, previousArticle, nextArticle }
           <span>{article.category}</span>
           <span>•</span>
           <span>{article.readTime}</span>
+        </div>
+        <div style={{ marginTop: "18px", display: "flex", justifyContent: "center" }}>
+          <SaveArticleButton
+            article={{
+              id: makeSavedArticleId('life', article.slug),
+              type: 'life',
+              slug: article.slug,
+              title: article.title,
+              description: article.description,
+              category: article.category,
+              readTime: article.readTime,
+              href: `/life/${article.slug}`,
+              icon: article.icon,
+              accent: '#7C3AED',
+            }}
+            light
+          />
         </div>
       </div>
 
