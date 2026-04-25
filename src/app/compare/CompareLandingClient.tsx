@@ -63,64 +63,63 @@ export default function CompareLandingClient({ comparisons }: { comparisons: Com
   return (
     <>
       <section className="border-b border-[var(--border)]" style={{ background: 'linear-gradient(to bottom, #ffffff, #f8fafc)' }}>
-        <div className="mx-auto max-w-6xl px-4 pb-10 pt-10 md:pb-14 md:pt-14">
-          <div className="grid gap-8 lg:grid-cols-[minmax(0,1.2fr)_340px] lg:items-center">
-            <div>
-              <div className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-gradient-to-r from-slate-50 to-blue-50 px-4 py-2 text-[11px] font-extrabold uppercase tracking-[0.22em] text-slate-700 shadow-sm">
-                <span className="text-[14px]">⚖️</span>
-                Comparison Guides
-              </div>
-              <h1 className="mt-5 max-w-3xl text-[26px] font-black leading-[1.15] text-[var(--text-dark)] md:text-[32px] lg:text-[46px]">
-                Compare careers with a clear decision view.
-              </h1>
-              <p className="mt-4 max-w-2xl text-[14px] leading-relaxed text-[var(--text-body)] md:text-[15px] lg:text-[17px]">
-                See salary gaps, difficulty, work style, and long-term fit without reading a wall of text first. Start with the category that matches your exam path.
-              </p>
+        <div className="mx-auto max-w-6xl px-4 pb-8 pt-8 md:pb-14 md:pt-14">
+          {/* Main Content */}
+          <div className="mb-8 lg:mb-0">
+            <div className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-gradient-to-r from-slate-50 to-blue-50 px-4 py-2 text-[11px] font-extrabold uppercase tracking-[0.22em] text-slate-700 shadow-sm">
+              <span className="text-[14px]">⚖️</span>
+              Comparison Guides
+            </div>
+            <h1 className="mt-5 max-w-3xl text-[24px] font-black leading-[1.2] text-[var(--text-dark)] md:text-[32px] lg:text-[46px]">
+              Compare careers with a clear decision view.
+            </h1>
+            <p className="mt-4 max-w-2xl text-[14px] leading-relaxed text-[var(--text-body)] md:text-[15px] lg:text-[17px]">
+              See salary gaps, difficulty, work style, and long-term fit without reading a wall of text first. Start with the category that matches your exam path.
+            </p>
 
-              <div className="mt-6 flex gap-2.5 overflow-x-auto pb-2 scrollbar-hide" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
-                {FILTERS.map((filter) => (
-                  <FilterPill
-                    key={filter}
-                    active={activeFilter === filter}
-                    label={FILTER_LABELS[filter]}
-                    onClick={() => setActiveFilter(filter)}
-                  />
-                ))}
+            <div className="mt-6 flex gap-2.5 overflow-x-auto pb-2 scrollbar-hide" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
+              {FILTERS.map((filter) => (
+                <FilterPill
+                  key={filter}
+                  active={activeFilter === filter}
+                  label={FILTER_LABELS[filter]}
+                  onClick={() => setActiveFilter(filter)}
+                />
+              ))}
+            </div>
+          </div>
+
+          {/* Info Cards - Horizontal scroll on mobile, grid on lg */}
+          <div className="mt-6 flex gap-3.5 overflow-x-auto pb-2 scrollbar-hide lg:mt-8 lg:grid lg:grid-cols-3 lg:gap-4 lg:overflow-visible" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
+            <div className="group min-w-[280px] flex-shrink-0 rounded-[20px] border border-[var(--border)] bg-gradient-to-br from-white to-slate-50 p-5 shadow-sm transition hover:shadow-md lg:min-w-0">
+              <div className="flex items-center gap-2">
+                <span className="text-[16px]">🔥</span>
+                <div className="text-[10px] font-extrabold uppercase tracking-[0.22em] text-[var(--text-light)]">Most Read</div>
+              </div>
+              <div className="mt-3 text-[17px] font-black leading-tight text-[var(--text-dark)]">
+                {trendingComparison ? `${trendingComparison.leftLabel} vs ${trendingComparison.rightLabel}` : 'IAS vs IPS'}
+              </div>
+              <div className="mt-2 text-[12px] leading-relaxed text-[var(--text-body)]">
+                {trendingComparison?.previewStat ?? 'Salary basis: ₹56,100 vs ₹56,100'}
               </div>
             </div>
 
-            {/* Info Cards - Horizontal scroll on mobile, grid on desktop */}
-            <div className="flex gap-3.5 overflow-x-auto pb-2 scrollbar-hide md:grid md:grid-cols-3 md:overflow-visible lg:grid-cols-1" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
-              <div className="group min-w-[280px] flex-shrink-0 rounded-[24px] border border-[var(--border)] bg-gradient-to-br from-white to-slate-50 p-5 shadow-sm transition hover:shadow-md md:min-w-0">
-                <div className="flex items-center gap-2">
-                  <span className="text-[16px]">🔥</span>
-                  <div className="text-[11px] font-extrabold uppercase tracking-[0.22em] text-[var(--text-light)]">Most Read</div>
-                </div>
-                <div className="mt-3 text-[18px] font-black leading-tight text-[var(--text-dark)] md:text-[20px]">
-                  {trendingComparison ? `${trendingComparison.leftLabel} vs ${trendingComparison.rightLabel}` : 'IAS vs IPS'}
-                </div>
-                <div className="mt-2 text-[12px] leading-relaxed text-[var(--text-body)]">
-                  {trendingComparison?.previewStat ?? 'Salary basis: ₹56,100 vs ₹56,100'}
-                </div>
+            <div className="group min-w-[280px] flex-shrink-0 rounded-[20px] border border-[var(--border)] bg-white p-5 shadow-sm transition hover:shadow-md lg:min-w-0">
+              <div className="flex items-center gap-2">
+                <span className="text-[16px]">📊</span>
+                <div className="text-[10px] font-extrabold uppercase tracking-[0.22em] text-[var(--text-light)]">Coverage</div>
               </div>
+              <div className="mt-3 text-[28px] font-black text-[var(--text-dark)]">{comparisons.length}</div>
+              <div className="mt-1 text-[12px] leading-relaxed text-[var(--text-body)]">{categoriesCovered} active categories with visual salary and fit snapshots</div>
+            </div>
 
-              <div className="group min-w-[280px] flex-shrink-0 rounded-[24px] border border-[var(--border)] bg-white p-5 shadow-sm transition hover:shadow-md md:min-w-0">
-                <div className="flex items-center gap-2">
-                  <span className="text-[16px]">📊</span>
-                  <div className="text-[11px] font-extrabold uppercase tracking-[0.22em] text-[var(--text-light)]">Coverage</div>
-                </div>
-                <div className="mt-3 text-[32px] font-black text-[var(--text-dark)] md:text-[28px]">{comparisons.length}</div>
-                <div className="mt-1 text-[12px] leading-relaxed text-[var(--text-body)]">{categoriesCovered} active categories with visual salary and fit snapshots</div>
+            <div className="group min-w-[280px] flex-shrink-0 rounded-[20px] p-5 text-white shadow-md transition hover:shadow-lg lg:min-w-0" style={{ background: 'linear-gradient(135deg, #1d4ed8 0%, #0f172a 100%)' }}>
+              <div className="flex items-center gap-2">
+                <span className="text-[16px]">💡</span>
+                <div className="text-[10px] font-extrabold uppercase tracking-[0.22em] text-white/70">Use It Well</div>
               </div>
-
-              <div className="group min-w-[280px] flex-shrink-0 rounded-[24px] p-5 text-white shadow-md transition hover:shadow-lg md:min-w-0" style={{ background: 'linear-gradient(135deg, #1d4ed8 0%, #0f172a 100%)' }}>
-                <div className="flex items-center gap-2">
-                  <span className="text-[16px]">💡</span>
-                  <div className="text-[11px] font-extrabold uppercase tracking-[0.22em] text-white/70">Use It Well</div>
-                </div>
-                <div className="mt-3 text-[18px] font-black leading-tight md:text-[20px]">Check the verdict, then the salary.</div>
-                <div className="mt-2 text-[12px] leading-relaxed text-white/80">That order keeps you focused on fit first and numbers second.</div>
-              </div>
+              <div className="mt-3 text-[17px] font-black leading-tight">Check the verdict, then the salary.</div>
+              <div className="mt-2 text-[12px] leading-relaxed text-white/80">That order keeps you focused on fit first and numbers second.</div>
             </div>
           </div>
         </div>
