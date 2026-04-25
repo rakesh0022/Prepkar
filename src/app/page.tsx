@@ -278,26 +278,6 @@ export default function Home() {
           <TargetExams exams={COUNTDOWNS} />
         </div>
 
-        {/* ═══ TRUST SIGNALS ═══ */}
-        <section className="anim-up-3" style={{ paddingTop: 20 }}>
-          <div className="grid grid-cols-2 md:grid-cols-3" style={{ gap: 10 }}>
-            {[
-              { n: "17+", l: "Govt Exams", sub: "Covered", c: "#3B82F6", bg: "var(--bg-card)", border: "var(--border)" },
-              { n: "6",   l: "Practice",  sub: "Stages per Exam", c: "#10B981", bg: "var(--bg-card)", border: "var(--border)" },
-              { n: "AI",  l: "Scores",    sub: "Every Answer", c: "#8B5CF6", bg: "var(--bg-card)", border: "var(--border)" },
-            ].map((f, i) => (
-              <div key={i} className="card-premium" style={{
-                background: f.bg, borderRadius: 14, padding: "16px 10px",
-                textAlign: "center", border: `1px solid ${f.border}`,
-              }}>
-                <div style={{ fontSize: 24, fontWeight: 800, color: f.c, fontFamily: "'Outfit'", lineHeight: 1 }}>{f.n}</div>
-                <div style={{ fontSize: 12, fontWeight: 700, color: "var(--text-dark)", marginTop: 6 }}>{f.l}</div>
-                <div style={{ fontSize: 10, color: "var(--text-light)", marginTop: 2, lineHeight: 1.3 }}>{f.sub}</div>
-              </div>
-            ))}
-          </div>
-        </section>
-
         {/* ═══ SUCCESS STORIES ═══ */}
         <div className="anim-up-5">
           <StoriesStrip stories={storiesForStrip} />
