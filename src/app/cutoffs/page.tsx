@@ -7,13 +7,29 @@ import CutoffCard from './CutoffCard';
 
 type FilterType = 'all' | 'rising' | 'falling' | 'competitive';
 
+interface ExamWithTrends {
+  slug: string;
+  name: string;
+  fullName: string;
+  category: string;
+  totalVacancies: string;
+  difficulty: string;
+  description: string;
+  trend: string;
+  analysis: string;
+  maxMarks?: number;
+  data: any[];
+  selectionRatio: number;
+  latestCutoff: number;
+}
+
 export default function CutoffsPage() {
   const [filter, setFilter] = useState<FilterType>('all');
 
   // Calculate trends for filtering
-  const examsWithTrends = cutoffs.map(exam => {
+  const examsWithTrends: ExamWithTrends[] = cutoffs.map(exam => {
     const data = exam.data;
-    if (data.length < 2) return { ...exam, trend: 'stable' };
+    if (data.length < 2) return { ...exam, trend: 'stable', selectionRatio: 0, latestCutoff: 0 };
     
     // Get cutoff values (handle different structures)
     const getCutoff = (yearData: any) => {
@@ -39,7 +55,7 @@ export default function CutoffsPage() {
     if (filter === 'all') return true;
     if (filter === 'rising') return exam.trend === 'rising';
     if (filter === 'falling') return exam.trend === 'falling';
-    if (filter === 'competitive') return (exam.selectionRatio ?? 0) > 1000;
+    if (filter === 'competitive') return exam.selectionRatio > 1000;
     return true;
   });
 
