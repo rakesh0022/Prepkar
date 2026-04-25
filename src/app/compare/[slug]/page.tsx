@@ -1,6 +1,7 @@
 import { notFound } from 'next/navigation';
 import comparisons from '@/data/comparisons.json';
 import { COMPARISON_META } from '../comparisonMeta';
+import { getComparisonOGImage } from '@/lib/imageUtils';
 import ComparisonClient from './ComparisonClient';
 
 export async function generateStaticParams() {
@@ -14,6 +15,8 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const comparison = comparisons.find((c) => c.slug === slug);
   if (!comparison) return {};
 
+  const ogImage = getComparisonOGImage();
+
   return {
     title: `${comparison.title} - PrepKar`,
     description: comparison.description,
@@ -22,6 +25,20 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
       title: comparison.title,
       description: comparison.description,
       type: 'article',
+      images: [
+        {
+          url: ogImage,
+          width: 1200,
+          height: 630,
+          alt: comparison.title,
+        },
+      ],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: comparison.title,
+      description: comparison.description,
+      images: [ogImage],
     },
   };
 }

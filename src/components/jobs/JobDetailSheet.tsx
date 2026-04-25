@@ -5,6 +5,8 @@ import type { Job } from "@/components/data";
 import { calculateSalary, CITY_TYPES, type CityType } from "@/components/data";
 import ReadingProgressBar from "@/components/reading/ReadingProgressBar";
 import { computeReadingTime } from "@/lib/readingUtils";
+import { getJobCategoryImage } from "@/lib/imageUtils";
+import OptimizedImage from "@/components/OptimizedImage";
 
 const DIFF_COLOR: Record<string, string> = { "Moderate": "#16A34A", "Hard": "#D97706", "Very Hard": "#DC2626" };
 const CAT_COLOR: Record<string, string> = { banking: "#0C7C59", ssc: "#2563EB", railway: "#DC2626", upsc: "#7C3AED", defence: "#0D9488", state: "#EA580C" };
@@ -636,6 +638,17 @@ export default function JobDetailSheet({ job, onClose }: { job: Job; onClose: ()
             </div>
             <h2 style={{ fontFamily: "'Outfit',sans-serif", fontSize: 20, fontWeight: 800, color: "#111827", margin: "0 0 3px", lineHeight: 1.25 }}>{job.title}</h2>
             <p style={{ color: "#6B7280", fontSize: 12, margin: 0 }}>{job.org}</p>
+          </div>
+
+          {/* Hero Image */}
+          <div style={{ marginBottom: 16, borderRadius: 16, overflow: "hidden", border: "1px solid var(--border)" }}>
+            <OptimizedImage
+              src={getJobCategoryImage(job.category)}
+              alt={`${job.title} - Career illustration`}
+              width={1200}
+              height={630}
+              priority
+            />
           </div>
 
           <div className="mb-4 overflow-hidden rounded-[24px] border border-amber-200/40 shadow-sm" style={{ background: `linear-gradient(135deg, ${illustrationPalette.soft}, #ffffff 60%)` }}>

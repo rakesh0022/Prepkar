@@ -21,8 +21,10 @@ import ReadingProgressBar from '@/components/reading/ReadingProgressBar';
 import BackToTop from '@/components/reading/BackToTop';
 import HighlightShare from '@/components/reading/HighlightShare';
 import ReadingToolbar from '@/components/reading/ReadingToolbar';
+import OptimizedImage from '@/components/OptimizedImage';
 import { CATEGORY_STYLES, COMPARISON_META } from '../comparisonMeta';
 import { computeWordCount, computeReadingTime, extractHeadings } from '@/lib/readingUtils';
+import { getComparisonImage } from '@/lib/imageUtils';
 import { useTextSize } from '@/hooks/useTextSize';
 
 interface Comparison {
@@ -191,6 +193,17 @@ export default function ComparisonClient({
             <h1 className="mt-2 text-[24px] font-black leading-tight text-[var(--text-dark)] md:text-[32px] lg:text-[46px]">{comparison.title}</h1>
             <p className="mt-4 text-[13px] leading-6 text-[var(--text-body)] md:text-[15px] lg:text-[17px]">{comparison.description}</p>
             <div className="mt-3 text-[12px] text-[var(--text-light)]">📖 {readingTime} min read</div>
+          </div>
+
+          {/* VS Illustration */}
+          <div className="mt-6 overflow-hidden rounded-[24px] border border-[var(--border)] shadow-sm">
+            <OptimizedImage
+              src={getComparisonImage()}
+              alt={`${comparison.title} - Comparison illustration`}
+              width={1200}
+              height={630}
+              priority
+            />
           </div>
 
           <div className="mt-8 grid gap-4 lg:grid-cols-[minmax(0,1fr)_88px_minmax(0,1fr)] lg:items-stretch">

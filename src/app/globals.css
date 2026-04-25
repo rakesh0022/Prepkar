@@ -448,7 +448,54 @@ button, a { -webkit-tap-highlight-color: transparent; }
 .reading-md p, .reading-md li { font-size: 16px; }
 .reading-lg p, .reading-lg li { font-size: 18px; }
 
-/* ─── Selection color ────────────────────────────────────────────────────── */
+/* ─── Content Images (Mobile Responsive) ─────────────────────────────────── */
+.content-image-wrapper {
+  width: 100%;
+  max-width: 100%;
+  overflow: hidden;
+  border-radius: 16px;
+  margin: 24px 0;
+}
+
+.content-image-wrapper img {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: cover;
+}
+
+/* Hero images - full width on mobile, constrained on desktop */
+.hero-image-wrapper {
+  width: 100%;
+  max-width: 100%;
+  overflow: hidden;
+  border-radius: 16px;
+  margin: 0;
+}
+
+@media (min-width: 768px) {
+  .hero-image-wrapper {
+    border-radius: 20px;
+  }
+}
+
+/* Inline blog images */
+.inline-blog-image {
+  width: 100%;
+  max-width: 100%;
+  border-radius: 14px;
+  overflow: hidden;
+  margin: 28px 0;
+  box-shadow: var(--shadow-md);
+}
+
+@media (min-width: 768px) {
+  .inline-blog-image {
+    margin: 36px 0;
+  }
+}
+
+/* Selection color ────────────────────────────────────────────────────────── */
 ::selection {
   background: rgba(94,234,212,0.3);
   color: #111827;

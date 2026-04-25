@@ -9,8 +9,10 @@ import BackToTop from "@/components/reading/BackToTop";
 import HighlightShare from "@/components/reading/HighlightShare";
 import ReadingToolbar from "@/components/reading/ReadingToolbar";
 import TableOfContents from "@/components/reading/TableOfContents";
+import OptimizedImage from "@/components/OptimizedImage";
 import { makeSavedArticleId } from "@/lib/savedArticles";
 import { computeWordCount, computeReadingTime, extractHeadings } from "@/lib/readingUtils";
+import { getBlogFeaturedImage, getInlineBlogImage } from "@/lib/imageUtils";
 import { useTextSize } from "@/hooks/useTextSize";
 
 interface Post {
@@ -118,10 +120,21 @@ export default function BlogArticleClient({ post, related }: Props) {
             {post.title}
           </h1>
 
-          <div style={{ display: "flex", alignItems: "center", gap: 16, fontSize: 12, opacity: 0.7, flexWrap: "wrap" }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 16, fontSize: 12, opacity: 0.7, flexWrap: "wrap", marginBottom: 20 }}>
             <span>✍️ {post.author}</span>
             <span>📅 {new Date(post.date).toLocaleDateString("en-IN", { day: "numeric", month: "long", year: "numeric" })}</span>
             <span>📖 {readingTime} min read</span>
+          </div>
+
+          {/* Featured Image */}
+          <div style={{ borderRadius: 16, overflow: "hidden", border: "2px solid rgba(255,255,255,0.2)", boxShadow: "0 8px 32px rgba(0,0,0,0.2)" }}>
+            <OptimizedImage
+              src={getBlogFeaturedImage(post.slug)}
+              alt={post.title}
+              width={1200}
+              height={630}
+              priority
+            />
           </div>
         </div>
       </section>
