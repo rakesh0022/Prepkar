@@ -9,6 +9,7 @@ const tabs = [
   { href: "/jobs", icon: "💼", label: "Jobs" },
   { href: "/quiz", icon: "📝", label: "Quiz" },
   { href: "/ai-practice", icon: "🎯", label: "AI Practice" },
+  { href: "/study-plan", icon: "📅", label: "Study Plan" },
 ];
 
 export default function BottomNav() {
