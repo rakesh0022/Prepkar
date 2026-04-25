@@ -92,35 +92,35 @@ export default function CompareLandingClient({ comparisons }: { comparisons: Com
           {/* Info Cards - Full width scroll on mobile */}
           <div className="mt-6 overflow-x-auto px-4 pb-3 scrollbar-hide lg:px-4" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
             <div className="flex gap-3 lg:grid lg:grid-cols-3 lg:gap-4">
-              <div className="group w-[calc(100vw-48px)] flex-shrink-0 rounded-[20px] border border-[var(--border)] bg-gradient-to-br from-white to-slate-50 p-5 shadow-sm transition hover:shadow-md sm:w-[320px] lg:w-auto">
-                <div className="flex items-center gap-2">
-                  <span className="text-[16px]">🔥</span>
-                  <div className="text-[10px] font-extrabold uppercase tracking-[0.22em] text-[var(--text-light)]">Most Read</div>
+              <div className="group w-[calc(50%-6px)] flex-shrink-0 rounded-[16px] border border-[var(--border)] bg-gradient-to-br from-white to-slate-50 p-4 shadow-sm transition hover:shadow-md sm:w-[280px] lg:w-auto">
+                <div className="flex items-center gap-1.5">
+                  <span className="text-[14px]">🔥</span>
+                  <div className="text-[9px] font-extrabold uppercase tracking-[0.22em] text-[var(--text-light)]">Most Read</div>
                 </div>
-                <div className="mt-3 text-[18px] font-black leading-tight text-[var(--text-dark)]">
+                <div className="mt-2.5 text-[15px] font-black leading-tight text-[var(--text-dark)]">
                   {trendingComparison ? `${trendingComparison.leftLabel} vs ${trendingComparison.rightLabel}` : 'IAS vs IPS'}
                 </div>
-                <div className="mt-2 text-[13px] leading-relaxed text-[var(--text-body)]">
+                <div className="mt-1.5 text-[11px] leading-relaxed text-[var(--text-body)]">
                   {trendingComparison?.previewStat ?? 'Salary basis: ₹56,100 vs ₹56,100'}
                 </div>
               </div>
 
-              <div className="group w-[calc(100vw-48px)] flex-shrink-0 rounded-[20px] border border-[var(--border)] bg-white p-5 shadow-sm transition hover:shadow-md sm:w-[320px] lg:w-auto">
-                <div className="flex items-center gap-2">
-                  <span className="text-[16px]">📊</span>
-                  <div className="text-[10px] font-extrabold uppercase tracking-[0.22em] text-[var(--text-light)]">Coverage</div>
+              <div className="group w-[calc(50%-6px)] flex-shrink-0 rounded-[16px] border border-[var(--border)] bg-white p-4 shadow-sm transition hover:shadow-md sm:w-[280px] lg:w-auto">
+                <div className="flex items-center gap-1.5">
+                  <span className="text-[14px]">📊</span>
+                  <div className="text-[9px] font-extrabold uppercase tracking-[0.22em] text-[var(--text-light)]">Coverage</div>
                 </div>
-                <div className="mt-3 text-[32px] font-black text-[var(--text-dark)]">{comparisons.length}</div>
-                <div className="mt-1 text-[13px] leading-relaxed text-[var(--text-body)]">{categoriesCovered} active categories with visual salary and fit snapshots</div>
+                <div className="mt-2.5 text-[28px] font-black text-[var(--text-dark)]">{comparisons.length}</div>
+                <div className="mt-1 text-[11px] leading-relaxed text-[var(--text-body)]">{categoriesCovered} active categories with visual salary and fit snapshots</div>
               </div>
 
-              <div className="group w-[calc(100vw-48px)] flex-shrink-0 rounded-[20px] p-5 text-white shadow-md transition hover:shadow-lg sm:w-[320px] lg:w-auto" style={{ background: 'linear-gradient(135deg, #1d4ed8 0%, #0f172a 100%)' }}>
-                <div className="flex items-center gap-2">
-                  <span className="text-[16px]">💡</span>
-                  <div className="text-[10px] font-extrabold uppercase tracking-[0.22em] text-white/70">Use It Well</div>
+              <div className="group w-[calc(50%-6px)] flex-shrink-0 rounded-[16px] p-4 text-white shadow-md transition hover:shadow-lg sm:w-[280px] lg:w-auto" style={{ background: 'linear-gradient(135deg, #1d4ed8 0%, #0f172a 100%)' }}>
+                <div className="flex items-center gap-1.5">
+                  <span className="text-[14px]">💡</span>
+                  <div className="text-[9px] font-extrabold uppercase tracking-[0.22em] text-white/70">Use It Well</div>
                 </div>
-                <div className="mt-3 text-[18px] font-black leading-tight">Check the verdict, then the salary.</div>
-                <div className="mt-2 text-[13px] leading-relaxed text-white/80">That order keeps you focused on fit first and numbers second.</div>
+                <div className="mt-2.5 text-[15px] font-black leading-tight">Check the verdict, then the salary.</div>
+                <div className="mt-1.5 text-[11px] leading-relaxed text-white/80">That order keeps you focused on fit first and numbers second.</div>
               </div>
             </div>
           </div>
