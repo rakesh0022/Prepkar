@@ -1,14 +1,8 @@
-import type { Metadata } from "next";
+"use client";
+
 import Link from "next/link";
 import BottomNav from "@/components/BottomNav";
 import dayInLifeData from "@/data/day-in-life.json";
-
-export const metadata: Metadata = {
-  title: "Day in the Life — Real Stories from Government Job Officers | NaukriYatra",
-  description: "Discover what a real day looks like for IAS officers, bank managers, income tax inspectors, and more. Behind-the-scenes stories from India's most prestigious government jobs.",
-  keywords: "day in the life, IAS officer, SBI PO, government job reality, career stories, job experience",
-  alternates: { canonical: "/life" },
-};
 
 export default function DayInLifePage() {
   return (
@@ -39,7 +33,7 @@ export default function DayInLifePage() {
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))", gap: 24, marginBottom: 40 }}>
           {dayInLifeData.articles.map((article) => (
             <Link key={article.slug} href={`/life/${article.slug}`} style={{ textDecoration: "none" }}>
-              <div style={{
+              <div className="life-article-card" style={{
                 background: "#FFFFFF",
                 borderRadius: 16,
                 padding: "24px",
@@ -50,14 +44,6 @@ export default function DayInLifePage() {
                 height: "100%",
                 display: "flex",
                 flexDirection: "column",
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.boxShadow = "var(--shadow-lg)";
-                e.currentTarget.style.transform = "translateY(-4px)";
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.boxShadow = "var(--shadow-sm)";
-                e.currentTarget.style.transform = "translateY(0)";
               }}>
                 <div style={{ fontSize: 40, marginBottom: 12 }}>{article.icon}</div>
                 <h2 style={{ fontSize: 18, fontWeight: 700, color: "#111827", marginBottom: 8, lineHeight: 1.4 }}>
@@ -109,6 +95,13 @@ export default function DayInLifePage() {
       </div>
 
       <BottomNav />
+      
+      <style jsx>{`
+        .life-article-card:hover {
+          box-shadow: var(--shadow-lg);
+          transform: translateY(-4px);
+        }
+      `}</style>
     </main>
   );
 }
