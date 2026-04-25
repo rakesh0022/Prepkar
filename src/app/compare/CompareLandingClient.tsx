@@ -65,7 +65,7 @@ export default function CompareLandingClient({ comparisons }: { comparisons: Com
       <section className="border-b border-[var(--border)]" style={{ background: 'linear-gradient(to bottom, #ffffff, #f8fafc)' }}>
         <div className="mx-auto max-w-6xl px-4 pb-8 pt-8 md:pb-14 md:pt-14">
           {/* Main Content */}
-          <div className="mb-8 lg:mb-0">
+          <div className="mb-6">
             <div className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-gradient-to-r from-slate-50 to-blue-50 px-4 py-2 text-[11px] font-extrabold uppercase tracking-[0.22em] text-slate-700 shadow-sm">
               <span className="text-[14px]">⚖️</span>
               Comparison Guides
@@ -90,36 +90,38 @@ export default function CompareLandingClient({ comparisons }: { comparisons: Com
           </div>
 
           {/* Info Cards - Horizontal scroll on mobile, grid on lg */}
-          <div className="mt-6 flex gap-3.5 overflow-x-auto pb-2 scrollbar-hide lg:mt-8 lg:grid lg:grid-cols-3 lg:gap-4 lg:overflow-visible" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
-            <div className="group min-w-[280px] flex-shrink-0 rounded-[20px] border border-[var(--border)] bg-gradient-to-br from-white to-slate-50 p-5 shadow-sm transition hover:shadow-md lg:min-w-0">
-              <div className="flex items-center gap-2">
-                <span className="text-[16px]">🔥</span>
-                <div className="text-[10px] font-extrabold uppercase tracking-[0.22em] text-[var(--text-light)]">Most Read</div>
+          <div className="-mx-4 px-4 lg:mx-0 lg:px-0">
+            <div className="flex gap-3 overflow-x-auto pb-3 scrollbar-hide lg:grid lg:grid-cols-3 lg:gap-4 lg:overflow-visible" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
+              <div className="group min-w-[85%] flex-shrink-0 rounded-[20px] border border-[var(--border)] bg-gradient-to-br from-white to-slate-50 p-5 shadow-sm transition hover:shadow-md sm:min-w-[320px] lg:min-w-0">
+                <div className="flex items-center gap-2">
+                  <span className="text-[16px]">🔥</span>
+                  <div className="text-[10px] font-extrabold uppercase tracking-[0.22em] text-[var(--text-light)]">Most Read</div>
+                </div>
+                <div className="mt-3 text-[18px] font-black leading-tight text-[var(--text-dark)]">
+                  {trendingComparison ? `${trendingComparison.leftLabel} vs ${trendingComparison.rightLabel}` : 'IAS vs IPS'}
+                </div>
+                <div className="mt-2 text-[13px] leading-relaxed text-[var(--text-body)]">
+                  {trendingComparison?.previewStat ?? 'Salary basis: ₹56,100 vs ₹56,100'}
+                </div>
               </div>
-              <div className="mt-3 text-[17px] font-black leading-tight text-[var(--text-dark)]">
-                {trendingComparison ? `${trendingComparison.leftLabel} vs ${trendingComparison.rightLabel}` : 'IAS vs IPS'}
-              </div>
-              <div className="mt-2 text-[12px] leading-relaxed text-[var(--text-body)]">
-                {trendingComparison?.previewStat ?? 'Salary basis: ₹56,100 vs ₹56,100'}
-              </div>
-            </div>
 
-            <div className="group min-w-[280px] flex-shrink-0 rounded-[20px] border border-[var(--border)] bg-white p-5 shadow-sm transition hover:shadow-md lg:min-w-0">
-              <div className="flex items-center gap-2">
-                <span className="text-[16px]">📊</span>
-                <div className="text-[10px] font-extrabold uppercase tracking-[0.22em] text-[var(--text-light)]">Coverage</div>
+              <div className="group min-w-[85%] flex-shrink-0 rounded-[20px] border border-[var(--border)] bg-white p-5 shadow-sm transition hover:shadow-md sm:min-w-[320px] lg:min-w-0">
+                <div className="flex items-center gap-2">
+                  <span className="text-[16px]">📊</span>
+                  <div className="text-[10px] font-extrabold uppercase tracking-[0.22em] text-[var(--text-light)]">Coverage</div>
+                </div>
+                <div className="mt-3 text-[32px] font-black text-[var(--text-dark)]">{comparisons.length}</div>
+                <div className="mt-1 text-[13px] leading-relaxed text-[var(--text-body)]">{categoriesCovered} active categories with visual salary and fit snapshots</div>
               </div>
-              <div className="mt-3 text-[28px] font-black text-[var(--text-dark)]">{comparisons.length}</div>
-              <div className="mt-1 text-[12px] leading-relaxed text-[var(--text-body)]">{categoriesCovered} active categories with visual salary and fit snapshots</div>
-            </div>
 
-            <div className="group min-w-[280px] flex-shrink-0 rounded-[20px] p-5 text-white shadow-md transition hover:shadow-lg lg:min-w-0" style={{ background: 'linear-gradient(135deg, #1d4ed8 0%, #0f172a 100%)' }}>
-              <div className="flex items-center gap-2">
-                <span className="text-[16px]">💡</span>
-                <div className="text-[10px] font-extrabold uppercase tracking-[0.22em] text-white/70">Use It Well</div>
+              <div className="group min-w-[85%] flex-shrink-0 rounded-[20px] p-5 text-white shadow-md transition hover:shadow-lg sm:min-w-[320px] lg:min-w-0" style={{ background: 'linear-gradient(135deg, #1d4ed8 0%, #0f172a 100%)' }}>
+                <div className="flex items-center gap-2">
+                  <span className="text-[16px]">💡</span>
+                  <div className="text-[10px] font-extrabold uppercase tracking-[0.22em] text-white/70">Use It Well</div>
+                </div>
+                <div className="mt-3 text-[18px] font-black leading-tight">Check the verdict, then the salary.</div>
+                <div className="mt-2 text-[13px] leading-relaxed text-white/80">That order keeps you focused on fit first and numbers second.</div>
               </div>
-              <div className="mt-3 text-[17px] font-black leading-tight">Check the verdict, then the salary.</div>
-              <div className="mt-2 text-[12px] leading-relaxed text-white/80">That order keeps you focused on fit first and numbers second.</div>
             </div>
           </div>
         </div>
