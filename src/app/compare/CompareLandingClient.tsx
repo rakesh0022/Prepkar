@@ -89,8 +89,9 @@ export default function CompareLandingClient({ comparisons }: { comparisons: Com
               </div>
             </div>
 
-            <div className="grid grid-cols-1 gap-3.5 md:grid-cols-3 lg:grid-cols-1">
-              <div className="group rounded-[24px] border border-[var(--border)] bg-gradient-to-br from-white to-slate-50 p-5 shadow-sm transition hover:shadow-md">
+            {/* Info Cards - Horizontal scroll on mobile, grid on desktop */}
+            <div className="flex gap-3.5 overflow-x-auto pb-2 scrollbar-hide md:grid md:grid-cols-3 md:overflow-visible lg:grid-cols-1" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
+              <div className="group min-w-[280px] flex-shrink-0 rounded-[24px] border border-[var(--border)] bg-gradient-to-br from-white to-slate-50 p-5 shadow-sm transition hover:shadow-md md:min-w-0">
                 <div className="flex items-center gap-2">
                   <span className="text-[16px]">🔥</span>
                   <div className="text-[11px] font-extrabold uppercase tracking-[0.22em] text-[var(--text-light)]">Most Read</div>
@@ -103,7 +104,7 @@ export default function CompareLandingClient({ comparisons }: { comparisons: Com
                 </div>
               </div>
 
-              <div className="group rounded-[24px] border border-[var(--border)] bg-white p-5 shadow-sm transition hover:shadow-md">
+              <div className="group min-w-[280px] flex-shrink-0 rounded-[24px] border border-[var(--border)] bg-white p-5 shadow-sm transition hover:shadow-md md:min-w-0">
                 <div className="flex items-center gap-2">
                   <span className="text-[16px]">📊</span>
                   <div className="text-[11px] font-extrabold uppercase tracking-[0.22em] text-[var(--text-light)]">Coverage</div>
@@ -112,7 +113,7 @@ export default function CompareLandingClient({ comparisons }: { comparisons: Com
                 <div className="mt-1 text-[12px] leading-relaxed text-[var(--text-body)]">{categoriesCovered} active categories with visual salary and fit snapshots</div>
               </div>
 
-              <div className="group rounded-[24px] p-5 text-white shadow-md transition hover:shadow-lg" style={{ background: 'linear-gradient(135deg, #1d4ed8 0%, #0f172a 100%)' }}>
+              <div className="group min-w-[280px] flex-shrink-0 rounded-[24px] p-5 text-white shadow-md transition hover:shadow-lg md:min-w-0" style={{ background: 'linear-gradient(135deg, #1d4ed8 0%, #0f172a 100%)' }}>
                 <div className="flex items-center gap-2">
                   <span className="text-[16px]">💡</span>
                   <div className="text-[11px] font-extrabold uppercase tracking-[0.22em] text-white/70">Use It Well</div>
