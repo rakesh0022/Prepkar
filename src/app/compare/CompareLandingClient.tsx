@@ -31,12 +31,17 @@ function FilterPill({
     <button
       type="button"
       onClick={onClick}
-      className="rounded-full border px-4 py-2 text-[13px] font-extrabold transition"
+      className="flex-shrink-0 rounded-full border px-5 py-2.5 text-[13px] font-extrabold transition-all duration-300"
       style={{
         borderColor: active ? 'transparent' : 'var(--border)',
-        background: active ? 'linear-gradient(135deg, #0f172a 0%, #1e293b 100%)' : 'white',
+        background: active 
+          ? 'linear-gradient(135deg, #0f172a 0%, #1e293b 100%)' 
+          : 'white',
         color: active ? 'white' : 'var(--text-body)',
-        boxShadow: active ? '0 12px 24px rgba(15,23,42,0.16)' : 'none',
+        boxShadow: active 
+          ? '0 8px 20px rgba(15,23,42,0.2), 0 2px 8px rgba(0,0,0,0.1)' 
+          : '0 1px 3px rgba(0,0,0,0.05)',
+        transform: active ? 'scale(1.02)' : 'scale(1)',
       }}
     >
       {label}
@@ -57,21 +62,22 @@ export default function CompareLandingClient({ comparisons }: { comparisons: Com
 
   return (
     <>
-      <section className="border-b border-[var(--border)] bg-white">
+      <section className="border-b border-[var(--border)]" style={{ background: 'linear-gradient(to bottom, #ffffff, #f8fafc)' }}>
         <div className="mx-auto max-w-6xl px-4 pb-10 pt-10 md:pb-14 md:pt-14">
           <div className="grid gap-8 lg:grid-cols-[minmax(0,1.2fr)_340px] lg:items-center">
             <div>
-              <div className="inline-flex rounded-full border border-slate-200 bg-slate-50 px-3 py-1 text-[11px] font-extrabold uppercase tracking-[0.22em] text-slate-700">
+              <div className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-gradient-to-r from-slate-50 to-blue-50 px-4 py-2 text-[11px] font-extrabold uppercase tracking-[0.22em] text-slate-700 shadow-sm">
+                <span className="text-[14px]">⚖️</span>
                 Comparison Guides
               </div>
-              <h1 className="mt-4 max-w-3xl text-[24px] font-black leading-tight text-[var(--text-dark)] md:text-[32px] lg:text-[46px]">
-                Compare careers with a cleaner, faster decision view.
+              <h1 className="mt-5 max-w-3xl text-[26px] font-black leading-[1.15] text-[var(--text-dark)] md:text-[32px] lg:text-[46px]">
+                Compare careers with a clear decision view.
               </h1>
-              <p className="mt-4 max-w-2xl text-[13px] leading-6 text-[var(--text-body)] md:text-[15px] lg:text-[17px]">
+              <p className="mt-4 max-w-2xl text-[14px] leading-relaxed text-[var(--text-body)] md:text-[15px] lg:text-[17px]">
                 See salary gaps, difficulty, work style, and long-term fit without reading a wall of text first. Start with the category that matches your exam path.
               </p>
 
-              <div className="mt-6 flex gap-3 overflow-x-auto pb-2">
+              <div className="mt-6 flex gap-2.5 overflow-x-auto pb-2 scrollbar-hide" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
                 {FILTERS.map((filter) => (
                   <FilterPill
                     key={filter}
@@ -83,27 +89,36 @@ export default function CompareLandingClient({ comparisons }: { comparisons: Com
               </div>
             </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-3">
-              <div className="rounded-[28px] border border-[var(--border)] bg-[var(--bg-card)] p-5 shadow-sm">
-                <div className="text-[11px] font-extrabold uppercase tracking-[0.22em] text-[var(--text-light)]">Most Read</div>
-                <div className="mt-2 text-[20px] font-black text-[var(--text-dark)]">
-                  {trendingComparison ? `${trendingComparison.leftLabel} vs ${trendingComparison.rightLabel}` : 'Government vs Private'}
+            <div className="grid grid-cols-1 gap-3.5 md:grid-cols-3 lg:grid-cols-1">
+              <div className="group rounded-[24px] border border-[var(--border)] bg-gradient-to-br from-white to-slate-50 p-5 shadow-sm transition hover:shadow-md">
+                <div className="flex items-center gap-2">
+                  <span className="text-[16px]">🔥</span>
+                  <div className="text-[11px] font-extrabold uppercase tracking-[0.22em] text-[var(--text-light)]">Most Read</div>
                 </div>
-                <div className="mt-2 text-[13px] leading-6 text-[var(--text-body)]">
-                  {trendingComparison?.previewStat ?? 'Start with the comparison that most students use to decide between stability and upside.'}
+                <div className="mt-3 text-[18px] font-black leading-tight text-[var(--text-dark)] md:text-[20px]">
+                  {trendingComparison ? `${trendingComparison.leftLabel} vs ${trendingComparison.rightLabel}` : 'IAS vs IPS'}
+                </div>
+                <div className="mt-2 text-[12px] leading-relaxed text-[var(--text-body)]">
+                  {trendingComparison?.previewStat ?? 'Salary basis: ₹56,100 vs ₹56,100'}
                 </div>
               </div>
 
-              <div className="rounded-[28px] border border-[var(--border)] bg-white p-5 shadow-sm">
-                <div className="text-[11px] font-extrabold uppercase tracking-[0.22em] text-[var(--text-light)]">Coverage</div>
-                <div className="mt-2 text-[28px] font-black text-[var(--text-dark)]">{comparisons.length}</div>
-                <div className="mt-1 text-[13px] text-[var(--text-body)]">{categoriesCovered} active categories with visual salary and fit snapshots</div>
+              <div className="group rounded-[24px] border border-[var(--border)] bg-white p-5 shadow-sm transition hover:shadow-md">
+                <div className="flex items-center gap-2">
+                  <span className="text-[16px]">📊</span>
+                  <div className="text-[11px] font-extrabold uppercase tracking-[0.22em] text-[var(--text-light)]">Coverage</div>
+                </div>
+                <div className="mt-3 text-[32px] font-black text-[var(--text-dark)] md:text-[28px]">{comparisons.length}</div>
+                <div className="mt-1 text-[12px] leading-relaxed text-[var(--text-body)]">{categoriesCovered} active categories with visual salary and fit snapshots</div>
               </div>
 
-              <div className="rounded-[28px] p-5 text-white shadow-sm" style={{ background: 'linear-gradient(135deg, #1d4ed8 0%, #0f172a 100%)' }}>
-                <div className="text-[11px] font-extrabold uppercase tracking-[0.22em] text-white/70">Use It Well</div>
-                <div className="mt-2 text-[20px] font-black">Check the verdict, then the salary chart.</div>
-                <div className="mt-2 text-[13px] leading-6 text-white/80">That order keeps you focused on fit first and numbers second.</div>
+              <div className="group rounded-[24px] p-5 text-white shadow-md transition hover:shadow-lg" style={{ background: 'linear-gradient(135deg, #1d4ed8 0%, #0f172a 100%)' }}>
+                <div className="flex items-center gap-2">
+                  <span className="text-[16px]">💡</span>
+                  <div className="text-[11px] font-extrabold uppercase tracking-[0.22em] text-white/70">Use It Well</div>
+                </div>
+                <div className="mt-3 text-[18px] font-black leading-tight md:text-[20px]">Check the verdict, then the salary.</div>
+                <div className="mt-2 text-[12px] leading-relaxed text-white/80">That order keeps you focused on fit first and numbers second.</div>
               </div>
             </div>
           </div>
