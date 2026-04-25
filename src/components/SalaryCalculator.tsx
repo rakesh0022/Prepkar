@@ -19,8 +19,31 @@ export default function SalaryCalculator() {
   const calculateSalary = () => {
     if (!selectedPostData) return null;
 
-    const incrementKey = `${experience}years` as keyof typeof selectedPostData.basicPay.afterIncrements;
-    const basicPay = (selectedPostData.basicPay.afterIncrements as Record<string, number> | undefined)?.[incrementKey] ?? selectedPostData.basicPay.entry;
+    // Find the appropriate increment level based on experience
+    const getBasicPay = () => {
+      const increments = selectedPostData.basicPay.afterIncrements;
+      
+      // Define increment milestones in descending order
+      const milestones = [
+        { years: 30, key: "30years" as const },
+        { years: 20, key: "20years" as const },
+        { years: 14, key: "14years" as const },
+        { years: 7, key: "7years" as const },
+        { years: 3, key: "3years" as const },
+      ];
+      
+      // Find the highest milestone that the experience meets or exceeds
+      for (const milestone of milestones) {
+        if (experience >= milestone.years && increments[milestone.key]) {
+          return increments[milestone.key];
+        }
+      }
+      
+      // If experience is less than 3 years, use entry-level salary
+      return selectedPostData.basicPay.entry;
+    };
+
+    const basicPay = getBasicPay();
     const da = (basicPay * allowances.da) / 100;
     const hra = (basicPay * (allowances.hra as Record<string, number>)[cityType]) / 100;
     const ta = (allowances.ta as Record<string, number>)[cityType === "xCity" ? "metro" : "nonMetro"];
