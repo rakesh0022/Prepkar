@@ -381,6 +381,7 @@ body {
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   margin: 0;
+  overflow-x: hidden;
   transition: background 0.3s ease, color 0.3s ease;
 }
 button, a { -webkit-tap-highlight-color: transparent; }

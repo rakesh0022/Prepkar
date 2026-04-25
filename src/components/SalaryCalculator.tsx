@@ -81,13 +81,13 @@ export default function SalaryCalculator() {
         <label className="block text-sm font-medium text-gray-700 mb-2">
           City Type
         </label>
-        <div className="flex gap-4">
+        <div className="flex flex-wrap gap-2">
           {[
             { value: "xCity", label: "X City (Delhi, Mumbai)", percent: "30%" },
             { value: "yCity", label: "Y City (Pune, Jaipur)", percent: "20%" },
             { value: "zCity", label: "Z City (Others)", percent: "10%" },
           ].map((city) => (
-            <label key={city.value} className="flex items-center">
+            <label key={city.value} className="flex items-center" style={{ minWidth: 'fit-content' }}>
               <input
                 type="radio"
                 value={city.value}

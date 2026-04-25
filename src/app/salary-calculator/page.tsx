@@ -33,19 +33,24 @@ export const metadata: Metadata = {
 
 export default function SalaryCalculatorPage() {
   return (
-    <div className="min-h-screen bg-gray-50">
-      <div className="max-w-4xl mx-auto px-4 py-8">
-        <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">
-            Government Job Salary Calculator 2026
-          </h1>
-          <p className="text-gray-600">
-            Calculate exact in-hand salary based on 7th Pay Commission
-          </p>
-        </div>
+    <main style={{ minHeight: '100vh', background: 'var(--bg)', paddingBottom: 76 }}>
+      <div className="desktop-only" style={{ height: 56 }} />
+      <div style={{ maxWidth: 'var(--max-width)', margin: '0 auto', padding: '20px 16px 0' }}>
+        <h1 style={{
+          fontFamily: "'Playfair Display',serif",
+          fontSize: 24,
+          fontWeight: 800,
+          color: 'var(--text-dark)',
+          marginBottom: 4,
+        }}>
+          Salary Calculator 2026
+        </h1>
+        <p style={{ fontSize: 14, color: 'var(--text-light)', marginBottom: 20 }}>
+          Calculate exact in-hand salary based on 7th Pay Commission
+        </p>
         <SalaryCalculator />
       </div>
       <BottomNav />
-    </div>
+    </main>
   );
 }

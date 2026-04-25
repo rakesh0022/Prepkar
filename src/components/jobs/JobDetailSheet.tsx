@@ -888,7 +888,7 @@ export default function JobDetailSheet({ job, onClose }: { job: Job; onClose: ()
 
           {/* Fit guide */}
           <SectionLabel icon="🤔" text="Is This Right for You?" color="#0D9488" />
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10, marginBottom: 16 }}>
+          <div className="desktop-2col" style={{ marginBottom: 16 }}>
             <div style={{ borderRadius: 12, padding: "12px", background: "#F0FDF4", border: "1px solid rgba(22,163,74,0.12)" }}>
               <div style={{ fontSize: 10, fontWeight: 700, color: "#16A34A", marginBottom: 8 }}>✅ Choose if...</div>
               {job.fitGuide.chooseIf.map((p, i) => (<div key={i} style={{ fontSize: 11, color: "#065F46", lineHeight: 1.5, marginBottom: 5, display: "flex", gap: 6 }}><span style={{ flexShrink: 0 }}>•</span><span>{p}</span></div>))}
