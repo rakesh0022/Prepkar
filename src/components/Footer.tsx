@@ -1,30 +1,28 @@
 import Link from 'next/link';
 
-const POPULAR_TOOLS = [
-  { href: '/jobs', label: 'Explore Careers' },
+const FEATURES = [
+  { href: '/jobs', label: 'Jobs' },
+  { href: '/quiz', label: 'Quiz' },
   { href: '/ai-practice', label: 'AI Practice' },
-  { href: '/quiz', label: 'Question Bank' },
+  { href: '/study-plan', label: 'Study Plan' },
   { href: '/salary-calculator', label: 'Salary Calculator' },
-  { href: '/current-affairs', label: 'Current Affairs' },
 ];
 
 const RESOURCES = [
-  { href: '/compare', label: 'Career Comparisons' },
-  { href: '/cutoffs', label: 'Cutoff Analysis' },
+  { href: '/current-affairs', label: 'Current Affairs' },
+  { href: '/compare', label: 'Comparisons' },
+  { href: '/cutoffs', label: 'Cutoffs' },
   { href: '/exam-calendar', label: 'Exam Calendar' },
   { href: '/life', label: 'Day in Life' },
-  { href: '/study-plan', label: 'AI Study Plan' },
+  { href: '/blog', label: 'Blog' },
 ];
 
-const COMPANY = [
-  { href: '/about', label: 'About Us' },
+const COMPANY_LEGAL = [
+  { href: '/about', label: 'About' },
   { href: '/contact', label: 'Contact' },
-  { href: '/disclaimer', label: 'Disclaimer' },
-];
-
-const LEGAL = [
   { href: '/privacy', label: 'Privacy Policy' },
   { href: '/terms', label: 'Terms of Service' },
+  { href: '/disclaimer', label: 'Disclaimer' },
 ];
 
 export default function Footer() {
@@ -85,70 +83,25 @@ export default function Footer() {
         </div>
       </div>
 
-      {/* Links Grid — 4 columns on desktop, 2 on mobile */}
+      {/* Links Grid — 3 columns */}
       <div style={{
         display: 'grid',
-        gridTemplateColumns: 'repeat(2, 1fr)',
-        gap: '28px 20px',
-        maxWidth: 700,
+        gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))',
+        gap: '28px 24px',
+        maxWidth: 800,
         margin: '0 auto 28px',
       }}>
-        {/* Popular Tools */}
         <div>
-          <FooterHeading>Popular Tools</FooterHeading>
-          <FooterLinks links={POPULAR_TOOLS} />
+          <FooterHeading>Features</FooterHeading>
+          <FooterLinks links={FEATURES} />
         </div>
-
-        {/* Resources */}
         <div>
           <FooterHeading>Resources</FooterHeading>
           <FooterLinks links={RESOURCES} />
         </div>
-
-        {/* Company */}
         <div>
-          <FooterHeading>Company</FooterHeading>
-          <FooterLinks links={COMPANY} />
-        </div>
-
-        {/* Legal */}
-        <div>
-          <FooterHeading>Legal</FooterHeading>
-          <FooterLinks links={LEGAL} />
-        </div>
-      </div>
-
-      {/* Newsletter */}
-      <div style={{
-        maxWidth: 500, margin: '0 auto 28px',
-        background: 'rgba(255,255,255,0.05)',
-        borderRadius: 16, padding: '20px',
-        border: '1px solid rgba(255,255,255,0.08)',
-        textAlign: 'center',
-      }}>
-        <div style={{ fontSize: 14, fontWeight: 700, marginBottom: 4 }}>📧 Stay Updated</div>
-        <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.5)', marginBottom: 14 }}>
-          Get daily current affairs & exam updates in your inbox
-        </div>
-        <div style={{ display: 'flex', gap: 8, maxWidth: 360, margin: '0 auto', flexWrap: 'wrap' }}>
-          <input
-            type="email"
-            placeholder="Your email address"
-            style={{
-              flex: 1, minWidth: 160, padding: '10px 14px', borderRadius: 10,
-              border: '1px solid rgba(255,255,255,0.15)',
-              background: 'rgba(255,255,255,0.06)', color: '#fff',
-              fontSize: 14, outline: 'none',
-            }}
-          />
-          <button style={{
-            padding: '10px 18px', borderRadius: 10,
-            background: 'linear-gradient(90deg, #5EEAD4, #3B82F6)',
-            border: 'none', color: '#0F2440', fontSize: 14, fontWeight: 700,
-            cursor: 'pointer', flexShrink: 0,
-          }}>
-            Subscribe
-          </button>
+          <FooterHeading>Company &amp; Legal</FooterHeading>
+          <FooterLinks links={COMPANY_LEGAL} />
         </div>
       </div>
 

@@ -40,9 +40,18 @@ type NavSection = {
 
 const DESKTOP_LINKS = [
   { href: '/jobs', label: 'Jobs' },
+  { href: '/quiz', label: 'Quiz' },
+  { href: '/ai-practice', label: 'AI Practice' },
   { href: '/salary-calculator', label: 'Salary Calculator' },
-  { href: '/current-affairs', label: 'Current Affairs' },
   { href: '/compare', label: 'Comparisons' },
+  { href: '/study-plan', label: 'Study Plan' },
+];
+
+const MORE_LINKS = [
+  { href: '/current-affairs', label: 'Current Affairs' },
+  { href: '/cutoffs', label: 'Cutoffs' },
+  { href: '/exam-calendar', label: 'Exam Calendar' },
+  { href: '/life', label: 'Day in Life' },
 ];
 
 const MOBILE_SECTIONS: NavSection[] = [
@@ -64,6 +73,14 @@ const MOBILE_SECTIONS: NavSection[] = [
         icon: '🎯',
         accent: '#7C3AED',
         badge: 'Essay & Interview',
+      },
+      {
+        href: '/study-plan',
+        label: 'Study Plan',
+        description: 'AI-powered personalized study schedule',
+        icon: '📅',
+        accent: '#0891B2',
+        badge: 'AI',
       },
       {
         href: '/quiz',
@@ -163,6 +180,7 @@ export default function Header() {
   const [userFirstName, setUserFirstName] = useState('Aspirant');
   const [showUserMenu, setShowUserMenu] = useState(false);
   const [showMobileMenu, setShowMobileMenu] = useState(false);
+  const [showMoreDropdown, setShowMoreDropdown] = useState(false);
   const [practiceSessions, setPracticeSessions] = useState<PracticeSession[]>([]);
   const [quizHistory, setQuizHistory] = useState<QuizHistoryEntry[]>([]);
   const pathname = usePathname();
@@ -318,7 +336,7 @@ export default function Header() {
             </div>
           </Link>
 
-          <nav style={{ display: 'flex', alignItems: 'center', gap: 32 }}>
+          <nav style={{ display: 'flex', alignItems: 'center', gap: 28 }}>
             {DESKTOP_LINKS.map(({ href, label }) => (
               <Link
                 key={href}
@@ -334,6 +352,62 @@ export default function Header() {
                 {label}
               </Link>
             ))}
+            <div
+              style={{ position: 'relative' }}
+              onMouseEnter={() => setShowMoreDropdown(true)}
+              onMouseLeave={() => setShowMoreDropdown(false)}
+            >
+              <button
+                style={{
+                  background: 'none',
+                  border: 'none',
+                  cursor: 'pointer',
+                  color: MORE_LINKS.some((l) => l.href === pathname) ? '#5EEAD4' : 'rgba(255,255,255,0.85)',
+                  fontSize: 14,
+                  fontWeight: 600,
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: 3,
+                  padding: 0,
+                }}
+              >
+                More <span style={{ fontSize: 10 }}>▾</span>
+              </button>
+              {showMoreDropdown && (
+                <div
+                  style={{
+                    position: 'absolute',
+                    top: 'calc(100% + 10px)',
+                    left: '50%',
+                    transform: 'translateX(-50%)',
+                    minWidth: 180,
+                    background: '#fff',
+                    borderRadius: 12,
+                    boxShadow: '0 8px 32px rgba(15,36,64,0.16)',
+                    border: '1px solid rgba(15,36,64,0.06)',
+                    padding: '6px 0',
+                    zIndex: 100,
+                  }}
+                >
+                  {MORE_LINKS.map(({ href, label }) => (
+                    <Link
+                      key={href}
+                      href={href}
+                      style={{
+                        display: 'block',
+                        padding: '10px 18px',
+                        fontSize: 13,
+                        color: pathname === href ? '#2563EB' : '#334155',
+                        textDecoration: 'none',
+                        fontWeight: pathname === href ? 700 : 500,
+                      }}
+                    >
+                      {label}
+                    </Link>
+                  ))}
+                </div>
+              )}
+            </div>
           </nav>
 
           <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
@@ -343,6 +417,46 @@ export default function Header() {
               aria-label={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
               title={isDark ? 'Light mode' : 'Dark mode'}
             />
+
+            <Link
+              href="/saved"
+              style={{
+                position: 'relative',
+                textDecoration: 'none',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                color: pathname.startsWith('/saved') ? '#5EEAD4' : 'rgba(255,255,255,0.75)',
+                padding: '6px',
+              }}
+              title="Saved articles"
+            >
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z" />
+              </svg>
+              {savedCount > 0 && (
+                <span
+                  style={{
+                    position: 'absolute',
+                    top: 0,
+                    right: 0,
+                    minWidth: 16,
+                    height: 16,
+                    borderRadius: 8,
+                    background: '#EF4444',
+                    color: '#fff',
+                    fontSize: 9,
+                    fontWeight: 800,
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    padding: '0 3px',
+                  }}
+                >
+                  {savedCount}
+                </span>
+              )}
+            </Link>
 
             {isLoggedIn ? (
               <div style={{ position: 'relative' }}>
@@ -492,6 +606,46 @@ export default function Header() {
               aria-label={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
               style={{ transform: 'scale(0.88)' }}
             />
+
+            <Link
+              href="/saved"
+              style={{
+                position: 'relative',
+                textDecoration: 'none',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                color: pathname.startsWith('/saved') ? '#2563EB' : '#475569',
+                padding: '6px',
+              }}
+              aria-label="Saved articles"
+            >
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z" />
+              </svg>
+              {savedCount > 0 && (
+                <span
+                  style={{
+                    position: 'absolute',
+                    top: 1,
+                    right: 1,
+                    minWidth: 14,
+                    height: 14,
+                    borderRadius: 7,
+                    background: '#EF4444',
+                    color: '#fff',
+                    fontSize: 8,
+                    fontWeight: 800,
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    padding: '0 3px',
+                  }}
+                >
+                  {savedCount}
+                </span>
+              )}
+            </Link>
 
             {isLoggedIn ? (
               <Link href="/dashboard" style={{ textDecoration: 'none' }}>
