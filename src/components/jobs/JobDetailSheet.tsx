@@ -449,10 +449,13 @@ function SalaryCalc({ job }: { job: Job }) {
     setTimeout(() => setIsAnimating(false), 400);
   };
 
-  const cityIcons: Record<CityType, string> = {
-    metro: "🏙️",
-    tier1: "🌆",
-    tier2: "🏘️",
+  const getCityIcon = (cityType: CityType): string => {
+    const icons: Record<CityType, string> = {
+      metro: "🏙️",
+      urban: "🌆",
+      rural: "🏘️",
+    };
+    return icons[cityType];
   };
 
   return (
@@ -522,7 +525,7 @@ function SalaryCalc({ job }: { job: Job }) {
                       : "none",
                   }}
                 >
-                  <div style={{ fontSize: 16, marginBottom: 2 }}>{cityIcons[ct.id]}</div>
+                  <div style={{ fontSize: 16, marginBottom: 2 }}>{getCityIcon(ct.id)}</div>
                   <div>{ct.label}</div>
                 </button>
               ))}
