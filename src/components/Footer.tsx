@@ -13,7 +13,7 @@ const RESOURCES = [
   { href: '/cutoffs', label: 'Cutoff Analysis' },
   { href: '/exam-calendar', label: 'Exam Calendar' },
   { href: '/life', label: 'Day in Life' },
-  { href: '/prepare', label: 'Study Plans' },
+  { href: '/study-plan', label: 'AI Study Plan' },
 ];
 
 const COMPANY = [

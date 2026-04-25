@@ -434,7 +434,7 @@ export default function StudyPlanPage() {
             <div className="anim-up">
               <h2 style={{ fontSize: 17, fontWeight: 700, color: "var(--text-dark)", marginBottom: 4 }}>Which exam are you preparing for?</h2>
               <p style={{ fontSize: 13, color: "var(--text-light)", marginBottom: 16 }}>Select one exam to get started.</p>
-              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 }}>
+              <div className="exam-grid">
                 {EXAMS.map((e) => (
                   <button
                     key={e.id}
@@ -491,7 +491,7 @@ export default function StudyPlanPage() {
                     boxSizing: "border-box",
                   }}
                 />
-                {form.examDate && new Date(form.examDate) > new Date() && (
+                {form.examDate && form.examDate > todayISO() && (
                   <p style={{ fontSize: 12, color: "#16A34A", marginTop: 10, fontWeight: 600 }}>
                     ✓ {daysUntil(form.examDate)} days remaining — plan will cover{" "}
                     {Math.min(12, Math.max(4, Math.ceil(daysUntil(form.examDate) / 7)))} weeks
@@ -937,6 +937,7 @@ export default function StudyPlanPage() {
         </div>
 
         {/* Day cards */}
+        <div className="day-cards-grid">
         {currentWeekData?.days.map((day) => {
           const dayDone = day.tasks.filter((t) => completedTasks.has(t.id)).length;
           const allDone = dayDone === day.tasks.length;
@@ -995,6 +996,7 @@ export default function StudyPlanPage() {
             </div>
           );
         })}
+        </div>{/* end day-cards-grid */}
 
         {/* Actions */}
         <div style={{ display: "flex", gap: 10, marginTop: 20, marginBottom: 8 }}>
@@ -1003,16 +1005,17 @@ export default function StudyPlanPage() {
             disabled={downloading}
             style={{
               flex: 1,
-              padding: "12px",
+              padding: "13px 10px",
               borderRadius: 12,
               border: "1.5px solid var(--border)",
               background: "var(--bg-card)",
-              fontSize: 13,
+              fontSize: 12,
               fontWeight: 700,
               color: downloading ? "var(--text-faint)" : "var(--text-dark)",
               cursor: downloading ? "not-allowed" : "pointer",
-              display: "flex", alignItems: "center", justifyContent: "center", gap: 6,
+              display: "flex", alignItems: "center", justifyContent: "center", gap: 5,
               fontFamily: "inherit",
+              boxShadow: "var(--shadow-sm)",
             }}
           >
             {downloading ? "⏳ Generating…" : "⬇️ Download PDF"}
@@ -1021,19 +1024,19 @@ export default function StudyPlanPage() {
             onClick={() => { clearPlan(); setForm((p) => ({ ...p, exam: plan.examName, examDate: plan.examDate })); setStep(3); setScr("form"); }}
             style={{
               flex: 1,
-              padding: "12px",
+              padding: "13px 10px",
               borderRadius: 12,
               border: "none",
               background: "linear-gradient(135deg, #2563EB, #0D9488)",
-              fontSize: 13,
+              fontSize: 12,
               fontWeight: 700,
               color: "#fff",
               cursor: "pointer",
-              display: "flex", alignItems: "center", justifyContent: "center", gap: 6,
+              display: "flex", alignItems: "center", justifyContent: "center", gap: 5,
               fontFamily: "inherit",
             }}
           >
-            ✨ Regenerate
+            ✨ Regenerate Plan
           </button>
         </div>
 

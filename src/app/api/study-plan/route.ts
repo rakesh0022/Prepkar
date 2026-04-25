@@ -68,13 +68,21 @@ export async function POST(req: NextRequest) {
     const data = await geminiRes.json();
     const text: string = data.candidates?.[0]?.content?.parts?.[0]?.text ?? "";
 
-    // Extract JSON block from response
-    const jsonMatch = text.match(/\{[\s\S]*"weeks"[\s\S]*\}/);
-    if (!jsonMatch) {
-      throw new Error("Could not parse study plan from AI response");
+    const extracted = extractJSON(text);
+    if (!extracted) {
+      console.error("Raw Gemini text (first 500):", text.slice(0, 500));
+      throw new Error("Could not locate JSON in AI response");
     }
 
-    const plan = JSON.parse(jsonMatch[0]);
+    const cleaned = repairJSON(extracted);
+
+    let plan: { weeks: unknown[] };
+    try {
+      plan = JSON.parse(cleaned);
+    } catch (parseErr) {
+      console.error("JSON parse failed after repair. Cleaned text (first 300):", cleaned.slice(0, 300));
+      throw new Error("AI returned malformed JSON — please try again");
+    }
 
     if (!Array.isArray(plan.weeks) || plan.weeks.length === 0) {
       throw new Error("Invalid study plan structure");
@@ -87,6 +95,56 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: message }, { status: 500 });
   }
 }
+
+// ─── JSON extraction helpers ──────────────────────────────────────────────────
+
+/**
+ * Extracts the first complete JSON object containing a "weeks" key.
+ * Uses brace-depth + string-context tracking instead of a greedy regex,
+ * so it handles large outputs that the regex approach can mis-parse.
+ */
+function extractJSON(text: string): string | null {
+  let start = -1;
+
+  // Find the opening brace that belongs to our weeks object
+  for (let i = 0; i < text.length - 8; i++) {
+    if (text[i] !== "{") continue;
+    const peek = text.slice(i, i + 12).replace(/\s/g, "");
+    if (peek.startsWith('{"weeks"') || peek.startsWith("{\"weeks\"")) {
+      start = i;
+      break;
+    }
+  }
+  if (start === -1) return null;
+
+  let depth = 0;
+  let inStr = false;
+  let esc = false;
+
+  for (let i = start; i < text.length; i++) {
+    const ch = text[i];
+    if (esc) { esc = false; continue; }
+    if (ch === "\\" && inStr) { esc = true; continue; }
+    if (ch === '"') { inStr = !inStr; continue; }
+    if (inStr) continue;
+    if (ch === "{") depth++;
+    else if (ch === "}") {
+      depth--;
+      if (depth === 0) return text.slice(start, i + 1);
+    }
+  }
+  return null;
+}
+
+/** Fixes the most common Gemini JSON mistakes: trailing commas before } or ] */
+function repairJSON(json: string): string {
+  return json
+    .replace(/,(\s*[}\]])/g, "$1")   // trailing commas
+    .replace(/\t/g, " ")              // literal tabs inside strings
+    .trim();
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
 
 function buildPrompt(p: {
   exam: string;
@@ -152,43 +210,21 @@ STRICT RULES:
 6. Include mock tests on Saturdays starting week 3.
 7. Last 2 weeks: only mock tests, PYQ practice, and rapid revision.
 8. ${isWorking ? "On weekdays, max 1.5 hours per task. On weekends, up to 3 hours per task." : "Distribute hours evenly. Weekends can have longer sessions."}
-9. Resources must be SPECIFIC: exact chapter/page numbers, YouTube channel names, apps (Testbook, Adda247, Unacademy, etc.).
-10. Each subject must have a consistent hex color throughout the plan. Use these colors:
-    - Quantitative Aptitude/Maths: #0D9488
-    - Reasoning: #2563EB
-    - English: #16A34A
-    - General Awareness/GK/Current Affairs: #D97706
-    - Banking/Insurance/Finance Awareness: #6D28D9
-    - History/Polity/Geography: #DC2626
-    - Economy/Finance (theoretical): #059669
-    - Science/Physics/Chemistry/Biology: #0891B2
-    - Computer/IT: #0EA5E9
-    - Mock Test/PYQ Practice: #374151
-    - Revision: #6B7280
-    - Essay/Writing: #F59E0B
-    - Ethics: #8B5CF6
+9. Resources: exactly 2 items per task. Each resource is a plain string under 50 characters. No apostrophes, no colons, no special characters.
+10. Each subject must have a consistent hex color throughout the plan:
+    Quantitative Aptitude/Maths=#0D9488, Reasoning=#2563EB, English=#16A34A,
+    General Awareness/GK/Current Affairs=#D97706, Banking/Finance Awareness=#6D28D9,
+    History/Polity/Geography=#DC2626, Economy/Finance=#059669, Science/Physics/Chemistry=#0891B2,
+    Computer/IT=#0EA5E9, Mock Test/PYQ=#374151, Revision=#6B7280, Essay/Writing=#F59E0B, Ethics=#8B5CF6
 
-Return ONLY valid JSON — no markdown fences, no explanation, no text before or after:
-{
-  "weeks": [
-    {
-      "week": 1,
-      "theme": "Foundation Building",
-      "days": [
-        {
-          "day": "Monday",
-          "tasks": [
-            {
-              "subject": "Quantitative Aptitude",
-              "topic": "Number System & Simplification",
-              "hours": 1.5,
-              "resources": ["R.S. Aggarwal Chapter 1-3", "Adda247 YouTube: Number System tricks", "Testbook App - Daily Quiz"],
-              "color": "#0D9488"
-            }
-          ]
-        }
-      ]
-    }
-  ]
-}`;
+JSON FORMATTING RULES — STRICTLY FOLLOW:
+- No trailing commas anywhere
+- No markdown code fences
+- No comments inside JSON
+- No text before or after the JSON object
+- All string values use only double quotes
+- hours must be a number (not a string)
+
+Return ONLY this exact JSON structure, nothing else:
+{"weeks":[{"week":1,"theme":"Foundation Building","days":[{"day":"Monday","tasks":[{"subject":"Quantitative Aptitude","topic":"Number System and Simplification","hours":1.5,"resources":["RS Aggarwal Chapter 1 to 3","Adda247 YouTube Number System"],"color":"#0D9488"}]}]}]}`;
 }
