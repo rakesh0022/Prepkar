@@ -34,7 +34,7 @@ export default function TableOfContents({ headings, articleHalfWidth = 380 }: Pr
             <button
               onClick={() => scrollToHeading(h.id)}
               style={{
-                width: "100%", textAlign: "left", background: "none", border: "none",
+                width: "100%", textAlign: "left", border: "none",
                 padding: "5px 8px", borderRadius: 7, cursor: "pointer",
                 fontSize: 12, lineHeight: 1.45,
                 fontWeight: isActive ? 700 : 500,
