@@ -435,43 +435,285 @@ function ShareBar({ job }: { job: Job }) {
   );
 }
 
-/* ── Salary Calculator ── */
+/* ── Premium Salary Calculator ── */
 function SalaryCalc({ job }: { job: Job }) {
   const [city, setCity] = useState<CityType>("metro");
+  const [isAnimating, setIsAnimating] = useState(false);
+  
   if (!job.salaryBreakdown) return null;
   const c = calculateSalary(job.salaryBreakdown, city);
+
+  const handleCityChange = (newCity: CityType) => {
+    setIsAnimating(true);
+    setCity(newCity);
+    setTimeout(() => setIsAnimating(false), 400);
+  };
+
+  const cityIcons: Record<CityType, string> = {
+    metro: "🏙️",
+    tier1: "🌆",
+    tier2: "🏘️",
+  };
+
   return (
-    <div style={{ borderRadius: 16, overflow: "hidden", marginBottom: 16, border: "1px solid rgba(37,99,235,0.12)" }}>
-      <div style={{ background: "linear-gradient(135deg, #EFF6FF, #F0FDFA)", padding: "14px 16px" }}>
-        <div style={{ fontSize: 10, fontWeight: 700, color: "#2563EB", letterSpacing: 1.2, textTransform: "uppercase", marginBottom: 10 }}>💰 Salary Calculator</div>
-        <div style={{ display: "flex", gap: 6, marginBottom: 8 }}>
-          {CITY_TYPES.map(ct => (
-            <button key={ct.id} onClick={() => setCity(ct.id)} style={{ flex: 1, padding: "8px 4px", borderRadius: 8, fontSize: 11, fontWeight: 600, border: city === ct.id ? "1.5px solid #2563EB" : "1px solid rgba(0,0,0,0.06)", background: city === ct.id ? "#DBEAFE" : "#FFF", color: city === ct.id ? "#1D4ED8" : "#6B7280", cursor: "pointer", textAlign: "center" }}>{ct.label}</button>
-          ))}
-        </div>
-        <div style={{ fontSize: 10, color: "#6B7280", marginBottom: 10 }}>{CITY_TYPES.find(ct => ct.id === city)?.examples}</div>
-        <div style={{ textAlign: "center" }}>
-          <div style={{ fontSize: 11, color: "#6B7280" }}>Monthly In-Hand</div>
-          <div style={{ fontSize: 36, fontWeight: 900, color: "#16A34A", fontFamily: "'Outfit'" }}>₹{c.inHand.toLocaleString()}</div>
-        </div>
-      </div>
-      <div style={{ padding: "12px 16px" }}>
-        <div style={{ fontSize: 10, fontWeight: 600, color: "#9CA3AF", marginBottom: 8, letterSpacing: 0.5 }}>BREAKDOWN</div>
-        {[{ l: "Basic Pay", v: c.basic, cl: "#2563EB" }, { l: "DA", v: c.da, cl: "#0D9488" }, { l: `HRA (${city})`, v: c.hra, cl: "#D97706" }, { l: "Transport", v: c.ta, cl: "#7C3AED" }, { l: "Other Allowances", v: c.other, cl: "#EA580C" }].map((it, i) => (
-          <div key={i} style={{ display: "flex", justifyContent: "space-between", padding: "5px 0", borderBottom: i < 4 ? "1px solid rgba(0,0,0,0.03)" : "none" }}>
-            <span style={{ fontSize: 12, color: "#374151" }}>{it.l}</span>
-            <span style={{ fontSize: 12, fontWeight: 700, color: it.cl, fontFamily: "'Outfit'" }}>₹{it.v.toLocaleString()}</span>
+    <div style={{ 
+      borderRadius: 24, 
+      overflow: "hidden", 
+      marginBottom: 20,
+      background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+      padding: 2,
+      boxShadow: "0 8px 32px rgba(102,126,234,0.25), 0 2px 8px rgba(0,0,0,0.1)",
+    }}>
+      <div style={{ 
+        background: "#FFFFFF", 
+        borderRadius: 22,
+        overflow: "hidden",
+      }}>
+        {/* Header */}
+        <div style={{ 
+          background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+          padding: "20px 20px 24px",
+          position: "relative",
+          overflow: "hidden",
+        }}>
+          <div style={{ position: "absolute", inset: 0, opacity: 0.1, backgroundImage: "radial-gradient(circle at 30% 40%, #fff 1px, transparent 1px)", backgroundSize: "20px 20px" }} />
+          <div style={{ position: "relative", zIndex: 1 }}>
+            <div style={{ 
+              fontSize: 11, 
+              fontWeight: 800, 
+              color: "rgba(255,255,255,0.9)", 
+              letterSpacing: 1.5, 
+              textTransform: "uppercase", 
+              marginBottom: 8,
+              display: "flex",
+              alignItems: "center",
+              gap: 6,
+            }}>
+              <span style={{ fontSize: 16 }}>💰</span> Salary Calculator
+            </div>
+            <div style={{ fontSize: 13, color: "rgba(255,255,255,0.8)", marginBottom: 16 }}>
+              Calculate exact in-hand salary based on 7th Pay Commission
+            </div>
+
+            {/* City Type Selector - Premium Pills */}
+            <div style={{ display: "flex", gap: 8, marginBottom: 16 }}>
+              {CITY_TYPES.map(ct => (
+                <button 
+                  key={ct.id} 
+                  onClick={() => handleCityChange(ct.id)}
+                  style={{ 
+                    flex: 1, 
+                    padding: "12px 8px", 
+                    borderRadius: 14, 
+                    fontSize: 11, 
+                    fontWeight: 700,
+                    border: city === ct.id ? "2px solid rgba(255,255,255,0.4)" : "2px solid transparent",
+                    background: city === ct.id 
+                      ? "rgba(255,255,255,0.25)" 
+                      : "rgba(255,255,255,0.1)",
+                    backdropFilter: "blur(10px)",
+                    color: "#fff",
+                    cursor: "pointer",
+                    textAlign: "center",
+                    transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
+                    transform: city === ct.id ? "scale(1.02)" : "scale(1)",
+                    boxShadow: city === ct.id 
+                      ? "0 4px 16px rgba(0,0,0,0.15)" 
+                      : "none",
+                  }}
+                >
+                  <div style={{ fontSize: 16, marginBottom: 2 }}>{cityIcons[ct.id]}</div>
+                  <div>{ct.label}</div>
+                </button>
+              ))}
+            </div>
+
+            {/* City Examples */}
+            <div style={{ 
+              fontSize: 10, 
+              color: "rgba(255,255,255,0.7)", 
+              textAlign: "center",
+              padding: "8px 12px",
+              background: "rgba(255,255,255,0.1)",
+              borderRadius: 10,
+              backdropFilter: "blur(10px)",
+            }}>
+              {CITY_TYPES.find(ct => ct.id === city)?.examples}
+            </div>
           </div>
-        ))}
-        <div style={{ display: "flex", justifyContent: "space-between", padding: "8px 0 4px", borderTop: "1.5px solid rgba(0,0,0,0.06)", marginTop: 4 }}>
-          <span style={{ fontSize: 12, fontWeight: 700 }}>Gross</span><span style={{ fontSize: 14, fontWeight: 800, fontFamily: "'Outfit'" }}>₹{c.gross.toLocaleString()}</span>
         </div>
-        <div style={{ display: "flex", justifyContent: "space-between", padding: "3px 0" }}>
-          <span style={{ fontSize: 11, color: "#DC2626" }}>− NPS (10%)</span><span style={{ fontSize: 11, fontWeight: 600, color: "#DC2626" }}>−₹{c.nps.toLocaleString()}</span>
+
+        {/* In-Hand Display - Hero Section */}
+        <div style={{ 
+          padding: "24px 20px",
+          background: "linear-gradient(to bottom, #F9FAFB, #FFFFFF)",
+          borderBottom: "1px solid rgba(0,0,0,0.05)",
+        }}>
+          <div style={{ textAlign: "center" }}>
+            <div style={{ 
+              fontSize: 11, 
+              fontWeight: 600, 
+              color: "#6B7280",
+              letterSpacing: 1,
+              textTransform: "uppercase",
+              marginBottom: 8,
+            }}>
+              Monthly In-Hand Salary
+            </div>
+            <div style={{ 
+              fontSize: 42, 
+              fontWeight: 900, 
+              background: "linear-gradient(135deg, #16A34A, #059669)",
+              WebkitBackgroundClip: "text",
+              WebkitTextFillColor: "transparent",
+              backgroundClip: "text",
+              fontFamily: "'Outfit', sans-serif",
+              marginBottom: 4,
+              transition: "all 0.4s cubic-bezier(0.4, 0, 0.2, 1)",
+              transform: isAnimating ? "scale(1.05)" : "scale(1)",
+            }}>
+              ₹{c.inHand.toLocaleString()}
+            </div>
+            <div style={{ 
+              fontSize: 11, 
+              color: "#9CA3AF",
+              fontWeight: 500,
+            }}>
+              After all deductions
+            </div>
+          </div>
         </div>
-        <div style={{ display: "flex", justifyContent: "space-between", padding: "8px 12px", background: "#F0FDF4", borderRadius: 8, marginTop: 6, border: "1px solid rgba(22,163,74,0.12)" }}>
-          <span style={{ fontSize: 13, fontWeight: 700, color: "#16A34A" }}>In-Hand</span>
-          <span style={{ fontSize: 16, fontWeight: 900, color: "#16A34A", fontFamily: "'Outfit'" }}>₹{c.inHand.toLocaleString()}</span>
+
+        {/* Breakdown Section */}
+        <div style={{ padding: "20px" }}>
+          <div style={{ 
+            fontSize: 10, 
+            fontWeight: 800, 
+            color: "#6B7280", 
+            marginBottom: 12, 
+            letterSpacing: 1.2,
+            textTransform: "uppercase",
+            display: "flex",
+            alignItems: "center",
+            gap: 6,
+          }}>
+            <span style={{ width: 3, height: 12, background: "#667eea", borderRadius: 2 }} />
+            Salary Breakdown
+          </div>
+
+          {/* Allowances */}
+          <div style={{ 
+            background: "#F9FAFB",
+            borderRadius: 16,
+            padding: "14px 16px",
+            marginBottom: 12,
+          }}>
+            {[
+              { l: "Basic Pay", v: c.basic, cl: "#667eea", icon: "💼" }, 
+              { l: "DA", v: c.da, cl: "#0D9488", icon: "📈" }, 
+              { l: `HRA (${city})`, v: c.hra, cl: "#D97706", icon: "🏠" }, 
+              { l: "Transport", v: c.ta, cl: "#7C3AED", icon: "🚗" }, 
+              { l: "Other Allowances", v: c.other, cl: "#EA580C", icon: "✨" }
+            ].map((it, i) => (
+              <div 
+                key={i} 
+                style={{ 
+                  display: "flex", 
+                  justifyContent: "space-between", 
+                  alignItems: "center",
+                  padding: "10px 0", 
+                  borderBottom: i < 4 ? "1px solid rgba(0,0,0,0.04)" : "none",
+                }}
+              >
+                <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                  <span style={{ fontSize: 14 }}>{it.icon}</span>
+                  <span style={{ fontSize: 13, color: "#374151", fontWeight: 600 }}>{it.l}</span>
+                </div>
+                <span style={{ 
+                  fontSize: 14, 
+                  fontWeight: 800, 
+                  color: it.cl, 
+                  fontFamily: "'Outfit', sans-serif",
+                }}>
+                  ₹{it.v.toLocaleString()}
+                </span>
+              </div>
+            ))}
+          </div>
+
+          {/* Gross Total */}
+          <div style={{ 
+            display: "flex", 
+            justifyContent: "space-between", 
+            alignItems: "center",
+            padding: "12px 16px", 
+            background: "linear-gradient(135deg, #EFF6FF, #F0FDFA)",
+            borderRadius: 12,
+            marginBottom: 8,
+          }}>
+            <span style={{ fontSize: 13, fontWeight: 700, color: "#1F2937" }}>Gross Salary</span>
+            <span style={{ 
+              fontSize: 16, 
+              fontWeight: 900, 
+              fontFamily: "'Outfit', sans-serif",
+              color: "#1F2937",
+            }}>
+              ₹{c.gross.toLocaleString()}
+            </span>
+          </div>
+
+          {/* Deduction */}
+          <div style={{ 
+            display: "flex", 
+            justifyContent: "space-between", 
+            alignItems: "center",
+            padding: "10px 16px",
+            background: "#FEF2F2",
+            borderRadius: 12,
+            marginBottom: 12,
+          }}>
+            <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+              <span style={{ fontSize: 14 }}>➖</span>
+              <span style={{ fontSize: 12, color: "#DC2626", fontWeight: 600 }}>NPS Deduction (10%)</span>
+            </div>
+            <span style={{ 
+              fontSize: 13, 
+              fontWeight: 700, 
+              color: "#DC2626",
+              fontFamily: "'Outfit', sans-serif",
+            }}>
+              −₹{c.nps.toLocaleString()}
+            </span>
+          </div>
+
+          {/* Final In-Hand - Premium Card */}
+          <div style={{ 
+            padding: "16px 18px", 
+            background: "linear-gradient(135deg, #16A34A, #059669)",
+            borderRadius: 16,
+            boxShadow: "0 4px 20px rgba(22,163,74,0.25), 0 2px 8px rgba(0,0,0,0.1)",
+            position: "relative",
+            overflow: "hidden",
+          }}>
+            <div style={{ position: "absolute", inset: 0, opacity: 0.1, backgroundImage: "radial-gradient(circle at 70% 30%, #fff 1px, transparent 1px)", backgroundSize: "15px 15px" }} />
+            <div style={{ position: "relative", zIndex: 1, display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+              <div>
+                <div style={{ fontSize: 10, color: "rgba(255,255,255,0.8)", fontWeight: 600, letterSpacing: 1, textTransform: "uppercase", marginBottom: 2 }}>
+                  Final Take Home
+                </div>
+                <div style={{ fontSize: 14, fontWeight: 800, color: "#fff" }}>Monthly In-Hand</div>
+              </div>
+              <div style={{ 
+                fontSize: 22, 
+                fontWeight: 900, 
+                color: "#fff", 
+                fontFamily: "'Outfit', sans-serif",
+                textShadow: "0 2px 8px rgba(0,0,0,0.15)",
+              }}>
+                ₹{c.inHand.toLocaleString()}
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
