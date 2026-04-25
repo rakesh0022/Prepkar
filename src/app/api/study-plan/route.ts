@@ -68,10 +68,13 @@ export async function POST(req: NextRequest) {
     const data = await geminiRes.json();
     const text: string = data.candidates?.[0]?.content?.parts?.[0]?.text ?? "";
 
+    if (!text) throw new Error("Empty response from AI");
+    console.log("Gemini raw text (first 200):", text.slice(0, 200));
+
     const extracted = extractJSON(text);
     if (!extracted) {
-      console.error("Raw Gemini text (first 500):", text.slice(0, 500));
-      throw new Error("Could not locate JSON in AI response");
+      console.error("extractJSON failed. Full text:", text.slice(0, 1000));
+      throw new Error("Could not locate JSON in AI response — please try again");
     }
 
     const cleaned = repairJSON(extracted);
@@ -106,11 +109,13 @@ export async function POST(req: NextRequest) {
 function extractJSON(text: string): string | null {
   let start = -1;
 
-  // Find the opening brace that belongs to our weeks object
+  // Find the opening brace of the weeks object.
+  // Use a 40-char window so indented JSON like { \n    "weeks" is still matched
+  // after stripping whitespace.
   for (let i = 0; i < text.length - 8; i++) {
     if (text[i] !== "{") continue;
-    const peek = text.slice(i, i + 12).replace(/\s/g, "");
-    if (peek.startsWith('{"weeks"') || peek.startsWith("{\"weeks\"")) {
+    const peek = text.slice(i, i + 40).replace(/\s/g, "");
+    if (peek.includes('"weeks"')) {
       start = i;
       break;
     }
