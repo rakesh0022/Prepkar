@@ -4,6 +4,7 @@ import Link from "next/link";
 import type { Job } from "@/components/data";
 import { calculateSalary, CITY_TYPES, type CityType } from "@/components/data";
 import ReadingProgressBar from "@/components/reading/ReadingProgressBar";
+import { computeReadingTime } from "@/lib/readingUtils";
 
 const DIFF_COLOR: Record<string, string> = { "Moderate": "#16A34A", "Hard": "#D97706", "Very Hard": "#DC2626" };
 const CAT_COLOR: Record<string, string> = { banking: "#0C7C59", ssc: "#2563EB", railway: "#DC2626", upsc: "#7C3AED", defence: "#0D9488", state: "#EA580C" };
@@ -609,6 +610,7 @@ export default function JobDetailSheet({ job, onClose }: { job: Job; onClose: ()
   const realMonthly = useMemo(() => Math.max(0, cashMonthly) + Math.max(0, perksMonthly), [cashMonthly, perksMonthly]);
   const privateCtc = useMemo(() => equivalentPrivateCtcLpaRange(realMonthly), [realMonthly]);
   const jobWordCount = useMemo(() => getJobWordCount(job), [job]);
+  const readingTime = useMemo(() => computeReadingTime(jobWordCount), [jobWordCount]);
   const selectionOdds = useMemo(() => estimatedSelectionOdds(job.difficulty), [job.difficulty]);
   const peakRole = job.promotionPath[job.promotionPath.length - 1];
   const illustrationPalette = categoryIllustrationPalette(job.category);
@@ -630,6 +632,7 @@ export default function JobDetailSheet({ job, onClose }: { job: Job; onClose: ()
               <span style={{ background: `${diffColor}12`, color: diffColor, fontSize: 9, fontWeight: 700, padding: "2px 8px", borderRadius: 10 }}>{job.difficulty}</span>
               <span style={{ background: "#EFF6FF", color: "#2563EB", fontSize: 9, fontWeight: 600, padding: "2px 8px", borderRadius: 10 }}>🎓 {job.qualification}</span>
               <span style={{ background: "rgba(0,0,0,0.04)", color: "#6B7280", fontSize: 9, fontWeight: 600, padding: "2px 8px", borderRadius: 10 }}>⏱ {job.prepTime}</span>
+              <span style={{ background: "#F0FDF4", color: "#16A34A", fontSize: 9, fontWeight: 600, padding: "2px 8px", borderRadius: 10 }}>📖 {readingTime} min read</span>
             </div>
             <h2 style={{ fontFamily: "'Outfit',sans-serif", fontSize: 20, fontWeight: 800, color: "#111827", margin: "0 0 3px", lineHeight: 1.25 }}>{job.title}</h2>
             <p style={{ color: "#6B7280", fontSize: 12, margin: 0 }}>{job.org}</p>

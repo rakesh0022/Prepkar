@@ -18,7 +18,12 @@ import {
   YAxis,
 } from 'recharts';
 import ReadingProgressBar from '@/components/reading/ReadingProgressBar';
+import BackToTop from '@/components/reading/BackToTop';
+import HighlightShare from '@/components/reading/HighlightShare';
+import ReadingToolbar from '@/components/reading/ReadingToolbar';
 import { CATEGORY_STYLES, COMPARISON_META } from '../comparisonMeta';
+import { computeWordCount, computeReadingTime, extractHeadings } from '@/lib/readingUtils';
+import { useTextSize } from '@/hooks/useTextSize';
 
 interface Comparison {
   slug: string;
@@ -35,9 +40,6 @@ interface Props {
   relatedComparisons: Comparison[];
 }
 
-function getWordCount(text: string) {
-  return text.replace(/\s+/g, ' ').trim().split(' ').filter(Boolean).length;
-}
 
 function parseContent(content: string) {
   return content.split('\n\n').filter((part) => part.trim());
@@ -164,10 +166,12 @@ export default function ComparisonClient({
   relatedComparisons,
 }: Props) {
   const [chartsReady, setChartsReady] = useState(false);
+  const { textSize, increase, decrease } = useTextSize();
   const meta = COMPARISON_META[comparison.slug] ?? COMPARISON_META['government-vs-private'];
   const theme = CATEGORY_STYLES[meta.category];
   const parts = useMemo(() => parseContent(comparison.content), [comparison.content]);
-  const wordCount = getWordCount(comparison.content);
+  const wordCount = useMemo(() => computeWordCount(comparison.content), [comparison.content]);
+  const readingTime = useMemo(() => computeReadingTime(wordCount), [wordCount]);
 
   useEffect(() => {
     setChartsReady(true);
@@ -186,6 +190,7 @@ export default function ComparisonClient({
             <div className="text-[12px] font-extrabold uppercase tracking-[0.24em] text-[var(--text-light)]">{meta.heroKicker}</div>
             <h1 className="mt-2 text-[24px] font-black leading-tight text-[var(--text-dark)] md:text-[32px] lg:text-[46px]">{comparison.title}</h1>
             <p className="mt-4 text-[13px] leading-6 text-[var(--text-body)] md:text-[15px] lg:text-[17px]">{comparison.description}</p>
+            <div className="mt-3 text-[12px] text-[var(--text-light)]">📖 {readingTime} min read</div>
           </div>
 
           <div className="mt-8 grid gap-4 lg:grid-cols-[minmax(0,1fr)_88px_minmax(0,1fr)] lg:items-stretch">
@@ -469,6 +474,11 @@ export default function ComparisonClient({
           </div>
         </section>
       )}
+
+      {/* Reading utilities */}
+      <HighlightShare />
+      <BackToTop />
+      <ReadingToolbar textSize={textSize} increase={increase} decrease={decrease} />
     </div>
   );
 }

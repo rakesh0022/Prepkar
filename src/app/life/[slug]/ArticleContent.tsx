@@ -1,9 +1,17 @@
 'use client';
 
+import { useMemo } from "react";
 import Link from "next/link";
 import BottomNav from "@/components/BottomNav";
 import SaveArticleButton from "@/components/reading/SaveArticleButton";
+import ReadingProgressBar from "@/components/reading/ReadingProgressBar";
+import BackToTop from "@/components/reading/BackToTop";
+import HighlightShare from "@/components/reading/HighlightShare";
+import ReadingToolbar from "@/components/reading/ReadingToolbar";
+import TableOfContents from "@/components/reading/TableOfContents";
 import { makeSavedArticleId } from "@/lib/savedArticles";
+import { computeWordCount, computeReadingTime, extractHeadings } from "@/lib/readingUtils";
+import { useTextSize } from "@/hooks/useTextSize";
 
 interface Article {
   slug: string;
@@ -22,7 +30,12 @@ interface Props {
 }
 
 export default function ArticleContent({ article, previousArticle, nextArticle }: Props) {
+  const { textSize, increase, decrease } = useTextSize();
   const paragraphs = article.content.split("\n\n");
+
+  const wordCount = useMemo(() => computeWordCount(article.content), [article.content]);
+  const readingTime = useMemo(() => computeReadingTime(wordCount), [wordCount]);
+  const headings = useMemo(() => extractHeadings(article.content, "stars"), [article.content]);
 
   const handleShare = () => {
     const text = `Just read: "${article.title}" on @NaukriYatra. Amazing insights into government job careers! Check it out → prepkar.vercel.app/life/${article.slug}`;
@@ -32,6 +45,8 @@ export default function ArticleContent({ article, previousArticle, nextArticle }
   return (
     <main style={{ minHeight: "100vh", background: "var(--bg)", paddingBottom: 80 }}>
       <div className="desktop-only" style={{ height: 56 }} />
+      <ReadingProgressBar wordCount={wordCount} />
+      <TableOfContents headings={headings} articleHalfWidth={420} />
 
       {/* Hero */}
       <div style={{ background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)", color: "#fff", padding: "40px 20px", textAlign: "center" }}>
@@ -45,7 +60,7 @@ export default function ArticleContent({ article, previousArticle, nextArticle }
         <div style={{ display: "flex", justifyContent: "center", gap: 16, fontSize: 14, opacity: 0.9, flexWrap: "wrap" }}>
           <span>{article.category}</span>
           <span>•</span>
-          <span>{article.readTime}</span>
+          <span>📖 {readingTime} min read</span>
         </div>
         <div style={{ marginTop: "18px", display: "flex", justifyContent: "center" }}>
           <SaveArticleButton
@@ -71,13 +86,15 @@ export default function ArticleContent({ article, previousArticle, nextArticle }
         <div style={{ lineHeight: 1.8, color: "#374151", marginBottom: 40 }}>
           {paragraphs.map((para, i) => {
             if (para.startsWith("**") && para.endsWith("**")) {
+              const text = para.replace(/\*\*/g, "");
+              const id = text.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
               return (
-                <h2 key={i} style={{ fontSize: 20, fontWeight: 700, color: "#111827", marginTop: 28, marginBottom: 12 }}>
-                  {para.replace(/\*\*/g, "")}
+                <h2 key={i} id={id} style={{ fontSize: 20, fontWeight: 700, color: "#111827", marginTop: 28, marginBottom: 12 }}>
+                  {text}
                 </h2>
               );
             }
-            return <p key={i} style={{ marginBottom: 16, fontSize: 15 }}>{para}</p>;
+            return <p key={i} style={{ marginBottom: 16, fontSize: textSize }}>{para}</p>;
           })}
         </div>
 
@@ -126,6 +143,9 @@ export default function ArticleContent({ article, previousArticle, nextArticle }
         </div>
       </div>
 
+      <HighlightShare />
+      <BackToTop />
+      <ReadingToolbar textSize={textSize} increase={increase} decrease={decrease} />
       <BottomNav />
     </main>
   );

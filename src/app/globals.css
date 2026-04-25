@@ -443,6 +443,11 @@ button, a { -webkit-tap-highlight-color: transparent; }
   justify-content: center;
 }
 
+/* ─── Reading text size classes ──────────────────────────────────────────── */
+.reading-sm p, .reading-sm li { font-size: 14px; }
+.reading-md p, .reading-md li { font-size: 16px; }
+.reading-lg p, .reading-lg li { font-size: 18px; }
+
 /* ─── Selection color ────────────────────────────────────────────────────── */
 ::selection {
   background: rgba(94,234,212,0.3);

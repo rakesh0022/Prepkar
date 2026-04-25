@@ -62,10 +62,14 @@ export default function ReadingProgressBar({
 
   return (
     <div className={`pointer-events-none sticky z-40 ${topClassName}`}>
-      <div className="h-[3px] w-full bg-slate-300/40 backdrop-blur-sm">
+      <div className="h-[3px] w-full bg-slate-200/60">
         <div
-          className="h-full rounded-full bg-gradient-to-r from-slate-400 via-emerald-400 to-emerald-600 transition-[width] duration-300"
-          style={{ width: `${progress}%` }}
+          className="h-full origin-left bg-gradient-to-r from-blue-500 via-violet-500 to-emerald-500"
+          style={{
+            transform: `scaleX(${progress / 100})`,
+            transition: "transform 0.2s linear",
+            willChange: "transform",
+          }}
         />
       </div>
     </div>
