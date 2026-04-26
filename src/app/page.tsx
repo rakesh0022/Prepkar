@@ -9,7 +9,9 @@ import TargetExams from "@/components/home/TargetExams";
 import StoriesStrip from "@/components/home/StoriesStrip";
 import WhyNaukriYatra from "@/components/home/WhyNaukriYatra";
 import LatestNotifications from "@/components/home/LatestNotifications";
+import GoalSelector from "@/components/home/GoalSelector";
 import { COUNTDOWNS, STORIES, getTodaysQuiz } from "@/components/data";
+import { getNewNotificationsCount } from "@/data/notifications";
 import { useStreak } from "@/hooks/useStreak";
 import { useDailyQuizAnswer } from "@/hooks/useDailyQuiz";
 import { useSavedArticles } from "@/hooks/useSavedArticles";
@@ -19,6 +21,7 @@ export default function Home() {
   const { answer, saveAnswer } = useDailyQuizAnswer();
   const { savedArticles, savedCount } = useSavedArticles();
   const quiz = getTodaysQuiz();
+  const newNotifCount = getNewNotificationsCount();
 
   const storiesForStrip = STORIES.map(s => ({ ...s, bgColor: s.color, image: s.image }));
 
@@ -84,9 +87,26 @@ export default function Home() {
               </div>
             </Link>
           </div>
-          <p style={{ fontSize: 11, opacity: 0.4, marginTop: 10 }}>
-            Free · No credit card needed
-          </p>
+
+          {/* ── Honest social proof strip ── */}
+          <div style={{
+            display: "flex", justifyContent: "center", gap: 16,
+            marginTop: 20, flexWrap: "wrap",
+          }}>
+            {[
+              { icon: "🔔", text: `${newNotifCount} new notifications` },
+              { icon: "📝", text: "Free · No signup needed" },
+              { icon: "🎯", text: "17+ job roadmaps" },
+            ].map((item) => (
+              <div key={item.text} style={{
+                display: "flex", alignItems: "center", gap: 5,
+                fontSize: 11, color: "rgba(255,255,255,0.65)", fontWeight: 600,
+              }}>
+                <span>{item.icon}</span>
+                <span>{item.text}</span>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 
@@ -95,6 +115,11 @@ export default function Home() {
         {/* ═══ STREAK BAR ═══ */}
         <div className="anim-up-1" style={{ paddingTop: 20 }}>
           <StreakBar streak={streak} isNew={isNew} quizDone={answer !== null} />
+        </div>
+
+        {/* ═══ GOAL SELECTOR ═══ */}
+        <div className="anim-up-2">
+          <GoalSelector />
         </div>
 
         {/* ═══ DAILY CHALLENGE ═══ */}
