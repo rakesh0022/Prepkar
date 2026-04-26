@@ -928,19 +928,30 @@ export default function JobDetailSheet({ job, onClose, fullPage = false }: { job
             position: "sticky", top: 0, zIndex: 50,
             background: "rgba(255,255,255,0.95)", backdropFilter: "blur(12px)",
             borderBottom: "1px solid rgba(0,0,0,0.08)",
-            padding: "12px 16px",
+            padding: "12px 20px",
             display: "flex", alignItems: "center", gap: 12,
+            maxWidth: 1100,
+            margin: "0 auto",
           }}>
             <button
               onClick={onClose}
               style={{
-                display: "flex", alignItems: "center", gap: 6,
-                background: "#F3F4F6", border: "none", borderRadius: 10,
-                padding: "8px 14px", fontSize: 13, fontWeight: 700,
+                display: "flex", alignItems: "center", justifyContent: "center",
+                background: "#F3F4F6", border: "none", borderRadius: "50%",
+                width: 36, height: 36, fontSize: 16,
                 color: "#374151", cursor: "pointer",
+                transition: "all 0.2s ease",
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.background = "#E5E7EB";
+                e.currentTarget.style.transform = "scale(1.05)";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.background = "#F3F4F6";
+                e.currentTarget.style.transform = "scale(1)";
               }}
             >
-              ← Back
+              ✕
             </button>
             <div style={{ flex: 1, minWidth: 0 }}>
               <div style={{ fontSize: 14, fontWeight: 800, color: "#111827", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>

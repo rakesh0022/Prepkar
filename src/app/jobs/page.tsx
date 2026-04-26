@@ -126,10 +126,26 @@ function JobsInner() {
 
   return (
     <main style={{ minHeight: "100vh", background: "var(--bg)", paddingBottom: 76 }}>
-      <header style={{ position: "sticky", top: 0, zIndex: 40, padding: "12px 16px 10px", background: "rgba(248,249,251,0.97)", backdropFilter: "blur(16px)", borderBottom: "1px solid var(--border)" }}>
-        <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 10 }}>
-          <Link href="/" style={{ color: "#6B7280", fontSize: 15, textDecoration: "none", fontWeight: 600 }}>←</Link>
-          <h1 style={{ fontFamily: "'Playfair Display',serif", fontSize: 22, fontWeight: 700, color: "#111827" }}>Explore Careers</h1>
+      <header style={{ position: "sticky", top: 0, zIndex: 40, padding: "12px 20px 10px", background: "rgba(248,249,251,0.97)", backdropFilter: "blur(16px)", borderBottom: "1px solid var(--border)" }}>
+        <div style={{ maxWidth: 1100, margin: "0 auto" }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 10 }}>
+          <Link href="/" style={{
+            display: "flex", alignItems: "center", justifyContent: "center",
+            background: "#F3F4F6", border: "none", borderRadius: "50%",
+            width: 36, height: 36, fontSize: 16,
+            color: "#374151", textDecoration: "none",
+            transition: "all 0.2s ease",
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.background = "#E5E7EB";
+            e.currentTarget.style.transform = "scale(1.05)";
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.background = "#F3F4F6";
+            e.currentTarget.style.transform = "scale(1)";
+          }}
+          >✕</Link>
+          <h1 style={{ fontFamily: "'Outfit',sans-serif", fontSize: 24, fontWeight: 900, color: "#111827", margin: 0 }}>Jobs</h1>
         </div>
 
         {/* Search bar */}
@@ -175,9 +191,10 @@ function JobsInner() {
             }}>🎓 {q.label}</button>
           ))}
         </div>
+        </div>
       </header>
 
-      <div style={{ maxWidth: "var(--max-width)", margin: "0 auto", padding: "14px 16px" }}>
+      <div style={{ maxWidth: 1100, margin: "0 auto", padding: "14px 20px" }}>
 
         {/* Summary banner */}
         {!search && filter === "all" && qualFilter === "all" && (
