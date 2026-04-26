@@ -390,19 +390,65 @@ function JobCategoryIllustration({ category }: { category: string }) {
 
 function LifestyleTimeline({ items }: { items: { id: string; time: string; text: string }[] }) {
   if (items.length === 0) return null;
+
+  // Assign activity type by keyword for color coding
+  const getActivityType = (text: string): { color: string; bg: string; dot: string } => {
+    const t = text.toLowerCase();
+    if (/(meeting|interview|client|customer|visit|review|discuss)/i.test(t))
+      return { color: "#2563EB", bg: "#EFF6FF", dot: "#3B82F6" };
+    if (/(field|survey|raid|inspection|patrol|travel|depart|arrive)/i.test(t))
+      return { color: "#16A34A", bg: "#F0FDF4", dot: "#22C55E" };
+    if (/(lunch|break|tea|rest|leave|home)/i.test(t))
+      return { color: "#D97706", bg: "#FFFBEB", dot: "#F59E0B" };
+    // default: admin/office
+    return { color: "#6B7280", bg: "#F9FAFB", dot: "#9CA3AF" };
+  };
+
   return (
-    <div className="relative">
-      <div className="absolute left-3 top-1 bottom-1 w-px bg-amber-200/70" />
-      <div className="space-y-3">
-        {items.map((it) => (
-          <div key={it.id} className="relative pl-10">
-            <div className="absolute left-[9px] top-[6px] h-3 w-3 rounded-full bg-amber-500 shadow-sm" />
-            <div className="rounded-xl border border-amber-200/50 bg-white/80 px-3 py-2 shadow-sm">
-              <div className="text-[11px] font-semibold text-amber-700">{it.time}</div>
-              <div className="text-[12px] text-[var(--text-body)] leading-relaxed">{it.text}</div>
+    <div style={{ position: "relative" }}>
+      {/* Vertical line */}
+      <div style={{
+        position: "absolute", left: 28, top: 8, bottom: 8,
+        width: 2, borderRadius: 2,
+        background: "linear-gradient(to bottom, #F59E0B, #FDE68A, transparent)",
+      }} />
+      <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+        {items.map((it) => {
+          const style = getActivityType(it.text);
+          return (
+            <div key={it.id} style={{ display: "flex", gap: 12, alignItems: "flex-start" }}>
+              {/* Time badge */}
+              <div style={{
+                flexShrink: 0, width: 56, textAlign: "right",
+                fontSize: 10, fontWeight: 700, color: "#9CA3AF",
+                paddingTop: 10, lineHeight: 1.2,
+              }}>
+                {it.time}
+              </div>
+              {/* Dot */}
+              <div style={{
+                flexShrink: 0, width: 12, height: 12, borderRadius: "50%",
+                background: style.dot, marginTop: 9,
+                boxShadow: `0 0 0 3px ${style.dot}30`,
+                zIndex: 1,
+              }} />
+              {/* Card */}
+              <div style={{
+                flex: 1,
+                padding: "8px 12px",
+                borderRadius: 12,
+                background: style.bg,
+                border: `1px solid ${style.color}20`,
+                fontSize: 13,
+                color: "#374151",
+                fontWeight: 500,
+                lineHeight: 1.5,
+              }}>
+                {it.text}
+              </div>
             </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
     </div>
   );
@@ -871,29 +917,86 @@ export default function JobDetailSheet({ job, onClose }: { job: Job; onClose: ()
         <div style={{ padding: "8px 20px 0" }}>
           <button onClick={onClose} style={{ position: "absolute", top: 14, right: 16, background: "rgba(0,0,0,0.04)", border: "none", color: "#9CA3AF", borderRadius: 8, width: 30, height: 30, cursor: "pointer", fontSize: 14 }}>✕</button>
 
-          {/* ── Header ── */}
-          <div style={{ marginBottom: 16 }}>
-            <div style={{ display: "flex", gap: 6, marginBottom: 8, flexWrap: "wrap" }}>
-              {job.isNew && <span style={{ background: "#16A34A", color: "#fff", fontSize: 9, fontWeight: 700, padding: "2px 8px", borderRadius: 10 }}>NEW</span>}
-              {job.isHot && <span style={{ background: "#DC2626", color: "#fff", fontSize: 9, fontWeight: 700, padding: "2px 8px", borderRadius: 10 }}>🔥 HOT</span>}
-              <span style={{ background: `${diffColor}12`, color: diffColor, fontSize: 9, fontWeight: 700, padding: "2px 8px", borderRadius: 10 }}>{job.difficulty}</span>
-              <span style={{ background: "#EFF6FF", color: "#2563EB", fontSize: 9, fontWeight: 600, padding: "2px 8px", borderRadius: 10 }}>🎓 {job.qualification}</span>
-              <span style={{ background: "rgba(0,0,0,0.04)", color: "#6B7280", fontSize: 9, fontWeight: 600, padding: "2px 8px", borderRadius: 10 }}>⏱ {job.prepTime}</span>
-              <span style={{ background: "#F0FDF4", color: "#16A34A", fontSize: 9, fontWeight: 600, padding: "2px 8px", borderRadius: 10 }}>📖 {readingTime} min read</span>
+          {/* ── HERO BANNER ── */}
+          <div style={{
+            margin: "0 -20px",
+            background: `linear-gradient(135deg, ${catColor} 0%, ${catColor}cc 60%, #0F172A 100%)`,
+            padding: "28px 24px 24px",
+            position: "relative",
+            overflow: "hidden",
+          }}>
+            {/* Dot pattern */}
+            <div style={{
+              position: "absolute", inset: 0, opacity: 0.08,
+              backgroundImage: "radial-gradient(circle, #fff 1px, transparent 1px)",
+              backgroundSize: "22px 22px",
+            }} />
+            {/* SVG illustration top-right */}
+            <div style={{
+              position: "absolute", right: -10, top: -10, opacity: 0.12, width: 140,
+            }}>
+              <JobCategoryIllustration category={job.category} />
             </div>
-            <h2 style={{ fontFamily: "'Outfit',sans-serif", fontSize: 20, fontWeight: 800, color: "#111827", margin: "0 0 3px", lineHeight: 1.25 }}>{job.title}</h2>
-            <p style={{ color: "#6B7280", fontSize: 12, margin: 0 }}>{job.org}</p>
-          </div>
 
-          {/* Hero Image */}
-          <div style={{ marginBottom: 16, borderRadius: 16, overflow: "hidden", border: "1px solid var(--border)" }}>
-            <OptimizedImage
-              src={getJobCategoryImage(job.category)}
-              alt={`${job.title} - Career illustration`}
-              width={1200}
-              height={630}
-              priority
-            />
+            <div style={{ position: "relative", zIndex: 1 }}>
+              {/* Badges */}
+              <div style={{ display: "flex", gap: 6, marginBottom: 12, flexWrap: "wrap" }}>
+                {job.isNew && <span style={{ background: "#16A34A", color: "#fff", fontSize: 9, fontWeight: 700, padding: "2px 8px", borderRadius: 10 }}>NEW</span>}
+                {job.isHot && <span style={{ background: "#DC2626", color: "#fff", fontSize: 9, fontWeight: 700, padding: "2px 8px", borderRadius: 10 }}>🔥 HOT</span>}
+                <span style={{ background: "rgba(255,255,255,0.15)", color: "#fff", fontSize: 9, fontWeight: 700, padding: "2px 8px", borderRadius: 10 }}>{job.difficulty}</span>
+                <span style={{ background: "rgba(255,255,255,0.15)", color: "#fff", fontSize: 9, fontWeight: 600, padding: "2px 8px", borderRadius: 10 }}>🎓 {job.qualification}</span>
+                <span style={{ background: "rgba(255,255,255,0.15)", color: "#fff", fontSize: 9, fontWeight: 600, padding: "2px 8px", borderRadius: 10 }}>⏱ {job.prepTime}</span>
+              </div>
+
+              {/* Title */}
+              <h2 style={{
+                fontFamily: "'Outfit',sans-serif", fontSize: 24, fontWeight: 900,
+                color: "#fff", margin: "0 0 4px", lineHeight: 1.2,
+              }}>{job.title}</h2>
+              <p style={{ color: "rgba(255,255,255,0.75)", fontSize: 13, margin: "0 0 20px" }}>{job.org}</p>
+
+              {/* Big salary with sparkle */}
+              <div style={{
+                display: "inline-flex", alignItems: "center", gap: 10,
+                background: "rgba(255,255,255,0.12)", backdropFilter: "blur(10px)",
+                borderRadius: 16, padding: "12px 18px",
+                border: "1px solid rgba(255,255,255,0.2)",
+                marginBottom: 20,
+              }}>
+                <span style={{ fontSize: 22, animation: "sparkle 2s ease-in-out infinite" }}>✨</span>
+                <div>
+                  <div style={{ fontSize: 10, color: "rgba(255,255,255,0.7)", fontWeight: 600, textTransform: "uppercase", letterSpacing: 1, marginBottom: 2 }}>
+                    Monthly In-Hand
+                  </div>
+                  <div style={{
+                    fontSize: 28, fontWeight: 900, color: "#fff",
+                    fontFamily: "'Outfit', sans-serif", lineHeight: 1,
+                  }}>
+                    {job.inHand}
+                  </div>
+                </div>
+              </div>
+
+              {/* Key stats row */}
+              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr 1fr", gap: 8 }}>
+                {[
+                  { icon: "👥", label: "Vacancies", value: job.vacancies.toLocaleString() },
+                  { icon: "📅", label: "Last Date", value: job.lastDate.split(",")[0] },
+                  { icon: "📖", label: "Exam", value: job.exam.split("→")[0].trim() },
+                  { icon: "⏱", label: "Prep Time", value: job.prepTime },
+                ].map((stat, i) => (
+                  <div key={i} style={{
+                    background: "rgba(255,255,255,0.1)", borderRadius: 12,
+                    padding: "10px 8px", textAlign: "center",
+                    border: "1px solid rgba(255,255,255,0.12)",
+                  }}>
+                    <div style={{ fontSize: 16, marginBottom: 4 }}>{stat.icon}</div>
+                    <div style={{ fontSize: 12, fontWeight: 800, color: "#fff", lineHeight: 1.2, marginBottom: 2 }}>{stat.value}</div>
+                    <div style={{ fontSize: 9, color: "rgba(255,255,255,0.6)", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.05em" }}>{stat.label}</div>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
 
           <div className="mb-4 overflow-hidden rounded-[24px] border border-amber-200/40 shadow-sm" style={{ background: `linear-gradient(135deg, ${illustrationPalette.soft}, #ffffff 60%)` }}>
@@ -1007,7 +1110,7 @@ export default function JobDetailSheet({ job, onClose }: { job: Job; onClose: ()
 
           {/* Lifestyle preview */}
           <SectionLabel icon="🏠" text="Life After Selection" color="#2563EB" />
-          <div className="mb-4 rounded-2xl border border-amber-200/40 bg-gradient-to-br from-amber-50 via-white to-white p-4 shadow-sm">
+          <div style={{ marginBottom: 16 }}>
             {(() => {
               const lifestyleText = job.lifestyle || "";
               const extractSentence = (re: RegExp) => {
@@ -1047,46 +1150,107 @@ export default function JobDetailSheet({ job, onClose }: { job: Job; onClose: ()
               };
               const articleSlug = dayInLifeMap[job.id];
 
-              const highlights = [
-                { icon: "🏡", title: "Housing", detail: housingHint.replace(/\.$/, "") },
-                { icon: "⏰", title: "Work Hours", detail: workHint.replace(/\.$/, "") },
-                { icon: "🌴", title: "Leaves", detail: leavesHint.replace(/\.$/, "") },
-                { icon: "🚆", title: "Transfers", detail: transfersHint.replace(/\.$/, "") },
+              // 6 aspirational lifestyle cards
+              const lifestyleCards = [
+                {
+                  icon: "🏠",
+                  title: "Government Housing",
+                  detail: housingHint.replace(/\.$/, ""),
+                  bg: "#FFF7ED", border: "#FED7AA", color: "#C2410C",
+                },
+                {
+                  icon: "🚗",
+                  title: "Official Vehicle",
+                  detail: job.category === "upsc" || job.category === "defence"
+                    ? "Official vehicle with driver for field duties and official work."
+                    : "Transport allowance covers your daily commute comfortably.",
+                  bg: "#EFF6FF", border: "#BFDBFE", color: "#1D4ED8",
+                },
+                {
+                  icon: "⏰",
+                  title: "Work Hours",
+                  detail: workHint.replace(/\.$/, ""),
+                  bg: "#F0FDF4", border: "#BBF7D0", color: "#15803D",
+                },
+                {
+                  icon: "🏥",
+                  title: "Free Medical",
+                  detail: "Cashless CGHS / departmental medical for you and your entire family.",
+                  bg: "#FDF2F8", border: "#F9A8D4", color: "#BE185D",
+                },
+                {
+                  icon: "🏖️",
+                  title: "30 Paid Leaves",
+                  detail: String(leavesHint).replace(/\.$/, "") + " — plus national holidays.",
+                  bg: "#F0FDFA", border: "#99F6E4", color: "#0F766E",
+                },
+                {
+                  icon: "💰",
+                  title: "Pension for Life",
+                  detail: "NPS builds a retirement corpus. After 30 years, a monthly pension — for life.",
+                  bg: "#FEFCE8", border: "#FDE68A", color: "#92400E",
+                },
               ];
 
               return (
                 <>
-                  <div className="mb-3 text-[11px] font-semibold uppercase tracking-widest text-amber-700">Lifestyle Preview</div>
-                  <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-                    {highlights.map((h) => (
-                      <div key={h.title} className="card-lift rounded-2xl border border-[var(--border)] bg-white p-3 shadow-sm">
-                        <div className="flex items-start gap-3">
-                          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-amber-100 text-[18px] text-amber-800">
-                            {h.icon}
-                          </div>
-                          <div className="min-w-0">
-                            <div className="text-[13px] font-extrabold text-[var(--text-dark)]">{h.title}</div>
-                            <div className="mt-1 text-[12px] leading-relaxed text-[var(--text-body)]">{h.detail}</div>
-                          </div>
+                  {/* 6 aspirational cards — 3 col desktop, 2 col mobile */}
+                  <div style={{
+                    display: "grid",
+                    gridTemplateColumns: "repeat(auto-fill, minmax(160px, 1fr))",
+                    gap: 10,
+                    marginBottom: 16,
+                  }}>
+                    {lifestyleCards.map((card) => (
+                      <div key={card.title} style={{
+                        background: card.bg,
+                        borderRadius: 16,
+                        padding: "14px 12px",
+                        border: `2px solid ${card.border}`,
+                        display: "flex",
+                        flexDirection: "column",
+                        gap: 8,
+                      }}>
+                        <div style={{
+                          width: 40, height: 40, borderRadius: 12,
+                          background: `${card.color}18`,
+                          display: "flex", alignItems: "center", justifyContent: "center",
+                          fontSize: 20,
+                        }}>
+                          {card.icon}
+                        </div>
+                        <div style={{ fontSize: 13, fontWeight: 800, color: "#111827", lineHeight: 1.2 }}>
+                          {card.title}
+                        </div>
+                        <div style={{ fontSize: 12, color: "#6B7280", lineHeight: 1.5 }}>
+                          {card.detail}
                         </div>
                       </div>
                     ))}
                   </div>
 
-                  <div className="mt-4 rounded-2xl border border-amber-200/40 bg-white/70 p-3">
-                    <div className="mb-2 flex items-center justify-between gap-2">
-                      <div className="text-[11px] font-extrabold uppercase tracking-widest text-amber-700">Daily Rhythm</div>
+                  {/* Day in the Life — colored timeline */}
+                  <div style={{
+                    background: "#fff",
+                    borderRadius: 20,
+                    padding: "16px",
+                    border: "2px solid #FDE68A",
+                    marginBottom: 12,
+                  }}>
+                    <div style={{
+                      display: "flex", alignItems: "center", justifyContent: "space-between",
+                      marginBottom: 14,
+                    }}>
+                      <div style={{ fontSize: 11, fontWeight: 800, color: "#92400E", textTransform: "uppercase", letterSpacing: "0.1em" }}>
+                        ⏱ Day in the Life
+                      </div>
                       {articleSlug && (
-                        <Link href={`/life/${articleSlug}`} className="text-[11px] font-semibold text-amber-700 hover:underline">
-                          Read full story →
+                        <Link href={`/life/${articleSlug}`} style={{ fontSize: 11, fontWeight: 700, color: "#D97706", textDecoration: "none" }}>
+                          Full story →
                         </Link>
                       )}
                     </div>
                     <LifestyleTimeline items={timeline.slice(0, 8)} />
-                  </div>
-
-                  <div className="mt-3 rounded-xl border border-[var(--border)] bg-[var(--bg-card)] px-3 py-2 text-[12px] leading-relaxed text-[var(--text-body)]">
-                    {job.lifestyle}
                   </div>
                 </>
               );
@@ -1115,33 +1279,31 @@ export default function JobDetailSheet({ job, onClose }: { job: Job; onClose: ()
             ))}
           </div>
 
-          {privateCtc && (
-            <div className="mb-3 rounded-2xl border border-amber-200/60 bg-gradient-to-r from-amber-100 via-amber-50 to-white px-4 py-3 shadow-sm">
-              <div className="text-[10px] font-extrabold uppercase tracking-widest text-amber-800">Comparison</div>
-              <div className="mt-1 text-[13px] font-extrabold text-[var(--text-dark)]">
-                Equivalent private sector CTC: <span className="text-amber-700">₹{privateCtc.low}–{privateCtc.high} LPA</span>
-              </div>
-              <div className="mt-1 text-[12px] text-[var(--text-body)]">This is the lifestyle value most private roles match at a higher CTC.</div>
-            </div>
-          )}
-
-          <div className="mb-4 rounded-2xl border border-amber-200/50 bg-gradient-to-br from-amber-50 via-white to-white px-4 py-4 shadow-sm">
-            <div className="flex items-end justify-between gap-3">
+          {/* Total Effective CTC Banner */}
+          <div style={{ borderRadius: 20, overflow: "hidden", marginBottom: 12, border: "2px solid #FDE68A", boxShadow: "0 4px 20px rgba(245,158,11,0.12)" }}>
+            <div style={{ background: "linear-gradient(135deg, #0F172A 0%, #1E3A5F 100%)", padding: "18px 20px", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12 }}>
               <div>
-                <div className="text-[10px] font-extrabold uppercase tracking-widest text-amber-700">Total Monthly Value</div>
-                <div className="mt-1 text-[12px] text-[var(--text-body)]">
-                  In-hand ~{formatINR(cashMonthly)} + perks ~{formatINR(perksMonthly)}
-                </div>
+                <div style={{ fontSize: 10, color: "#94A3B8", fontWeight: 700, textTransform: "uppercase", letterSpacing: 1.5, marginBottom: 4 }}>Total Effective CTC</div>
+                <div style={{ fontSize: 13, color: "#CBD5E1", fontWeight: 500 }}>Cash in-hand + all perks & benefits</div>
               </div>
-              <div className="text-right">
-                <div className="text-[12px] font-extrabold text-[var(--text-dark)]">Your REAL monthly package</div>
-                <div className="mt-1 text-[26px] font-black text-emerald-600" style={{ fontFamily: "'Outfit'" }}>
+              <div style={{ textAlign: "right" }}>
+                <div style={{ fontSize: 28, fontWeight: 900, color: "#FCD34D", fontFamily: "'Outfit', sans-serif", lineHeight: 1 }}>
                   <CountUpINR value={realMonthly} />
                 </div>
+                <div style={{ fontSize: 11, color: "#94A3B8", marginTop: 2 }}>/month</div>
               </div>
             </div>
-            <div className="mt-2 text-[11px] text-[var(--text-light)]">
-              Cash allowances like HRA/DA may already be included in the in-hand number; the green perks are “extra lifestyle” value.
+            {privateCtc && (
+              <div style={{ background: "linear-gradient(135deg, #FEF3C7, #FDE68A)", padding: "12px 20px", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 8 }}>
+                <div style={{ fontSize: 12, color: "#92400E", fontWeight: 600 }}>🏢 Private sector equivalent</div>
+                <div style={{ fontSize: 15, fontWeight: 900, color: "#92400E", fontFamily: "'Outfit', sans-serif" }}>₹{privateCtc.low}–{privateCtc.high} LPA</div>
+              </div>
+            )}
+          </div>
+
+          <div className="mb-4 rounded-xl border border-amber-200/40 bg-amber-50/60 px-3 py-2">
+            <div className="text-[11px] text-amber-800">
+              Cash allowances like HRA/DA are already in the in-hand figure. The green perks above are <strong>extra lifestyle value</strong> on top.
             </div>
           </div>
 
@@ -1149,14 +1311,34 @@ export default function JobDetailSheet({ job, onClose }: { job: Job; onClose: ()
 
           {/* Fit guide */}
           <SectionLabel icon="🤔" text="Is This Right for You?" color="#0D9488" />
-          <div className="desktop-2col" style={{ marginBottom: 16 }}>
-            <div style={{ borderRadius: 12, padding: "12px", background: "#F0FDF4", border: "1px solid rgba(22,163,74,0.12)" }}>
-              <div style={{ fontSize: 10, fontWeight: 700, color: "#16A34A", marginBottom: 8 }}>✅ Choose if...</div>
-              {job.fitGuide.chooseIf.map((p, i) => (<div key={i} style={{ fontSize: 11, color: "#065F46", lineHeight: 1.5, marginBottom: 5, display: "flex", gap: 6 }}><span style={{ flexShrink: 0 }}>•</span><span>{p}</span></div>))}
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12, marginBottom: 16 }}>
+            {/* Choose if column */}
+            <div style={{ borderRadius: 16, overflow: "hidden", border: "2px solid #BBF7D0" }}>
+              <div style={{ background: "#16A34A", padding: "10px 14px" }}>
+                <div style={{ fontSize: 11, fontWeight: 800, color: "#fff", textTransform: "uppercase", letterSpacing: "0.08em" }}>✅ Choose if...</div>
+              </div>
+              <div style={{ background: "#F0FDF4", padding: "10px 12px", display: "flex", flexDirection: "column", gap: 8 }}>
+                {job.fitGuide.chooseIf.map((p, i) => (
+                  <div key={i} style={{ display: "flex", gap: 8, alignItems: "flex-start", padding: "8px 10px", background: "#fff", borderRadius: 10, border: "1px solid #BBF7D0" }}>
+                    <span style={{ fontSize: 14, flexShrink: 0, color: "#16A34A", marginTop: 1 }}>✓</span>
+                    <span style={{ fontSize: 12, color: "#065F46", lineHeight: 1.5, fontWeight: 500 }}>{p}</span>
+                  </div>
+                ))}
+              </div>
             </div>
-            <div style={{ borderRadius: 12, padding: "12px", background: "#FEF2F2", border: "1px solid rgba(220,38,38,0.12)" }}>
-              <div style={{ fontSize: 10, fontWeight: 700, color: "#DC2626", marginBottom: 8 }}>⚠️ Avoid if...</div>
-              {job.fitGuide.avoidIf.map((p, i) => (<div key={i} style={{ fontSize: 11, color: "#7F1D1D", lineHeight: 1.5, marginBottom: 5, display: "flex", gap: 6 }}><span style={{ flexShrink: 0 }}>•</span><span>{p}</span></div>))}
+            {/* Avoid if column */}
+            <div style={{ borderRadius: 16, overflow: "hidden", border: "2px solid #FECACA" }}>
+              <div style={{ background: "#DC2626", padding: "10px 14px" }}>
+                <div style={{ fontSize: 11, fontWeight: 800, color: "#fff", textTransform: "uppercase", letterSpacing: "0.08em" }}>✗ Avoid if...</div>
+              </div>
+              <div style={{ background: "#FEF2F2", padding: "10px 12px", display: "flex", flexDirection: "column", gap: 8 }}>
+                {job.fitGuide.avoidIf.map((p, i) => (
+                  <div key={i} style={{ display: "flex", gap: 8, alignItems: "flex-start", padding: "8px 10px", background: "#fff", borderRadius: 10, border: "1px solid #FECACA" }}>
+                    <span style={{ fontSize: 14, flexShrink: 0, color: "#DC2626", marginTop: 1 }}>✗</span>
+                    <span style={{ fontSize: 12, color: "#7F1D1D", lineHeight: 1.5, fontWeight: 500 }}>{p}</span>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
 
