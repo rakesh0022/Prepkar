@@ -1297,6 +1297,207 @@ export default function SalaryCalculator() {
             );
           })()}
 
+          {/* PHASE 5: Private Sector Comparison Banner */}
+          {salary && showSalaryReveal && selectedPostData && (() => {
+            const inHand = Math.round(salary.netInHand);
+            const gross  = Math.round(salary.gross);
+
+            // Equivalent private CTC needs to cover: in-hand + tax + no pension + no medical + no housing
+            // Rough formula: private CTC = gross × 1.6 (to account for 30% tax, no pension, no CGHS, no housing)
+            const privateCTCLow  = Math.round((gross * 1.55) / 100000 * 10) / 10;  // in LPA
+            const privateCTCHigh = Math.round((gross * 1.75) / 100000 * 10) / 10;
+
+            // Hidden benefits value per month
+            const pensionValue   = Math.round(selectedPostData.basicPay.afterIncrements["30years"] || selectedPostData.basicPay.entry) * 0.5;
+            const housingValue   = selectedPostData.perks.housingValue || 15000;
+            const medicalValue   = 15000;
+            const jobSecurity    = 20000; // notional value
+            const hiddenTotal    = Math.round(pensionValue * 0.3 + housingValue + medicalValue + jobSecurity);
+
+            const govtItems = [
+              { icon: "💰", label: "In-Hand Salary",    value: `₹${inHand.toLocaleString()}/mo`,   highlight: true },
+              { icon: "🏠", label: "Housing (Govt)",    value: `₹${housingValue.toLocaleString()}/mo` },
+              { icon: "💊", label: "CGHS Medical",      value: "₹15,000/mo" },
+              { icon: "🧓", label: "Pension (for life)", value: "✅ Guaranteed" },
+              { icon: "🔒", label: "Job Security",      value: "✅ Permanent" },
+              { icon: "✈️", label: "LTC / Travel",      value: "✅ Included" },
+            ];
+
+            const privateItems = [
+              { icon: "💰", label: "Take-Home (est.)",  value: `₹${inHand.toLocaleString()}/mo`,   highlight: true },
+              { icon: "🏠", label: "Housing",           value: "Self-funded" },
+              { icon: "💊", label: "Medical",           value: "Self-funded" },
+              { icon: "🧓", label: "Pension",           value: "❌ None (NPS opt.)" },
+              { icon: "🔒", label: "Job Security",      value: "❌ At-will" },
+              { icon: "✈️", label: "Travel",            value: "❌ Not included" },
+            ];
+
+            return (
+              <div style={{
+                borderRadius: 24,
+                marginBottom: 20,
+                overflow: "hidden",
+                border: "2px solid #E2E8F0",
+                boxShadow: "0 4px 24px rgba(0,0,0,0.06)",
+              }}>
+                {/* Banner header */}
+                <div style={{
+                  background: "linear-gradient(135deg, #0F172A 0%, #1E3A5F 100%)",
+                  padding: "20px 20px 16px",
+                  position: "relative",
+                  overflow: "hidden",
+                }}>
+                  <div style={{
+                    position: "absolute", inset: 0, opacity: 0.06,
+                    backgroundImage: "radial-gradient(circle at 20% 50%, #fff 1px, transparent 1px)",
+                    backgroundSize: "30px 30px",
+                  }} />
+                  <div style={{ position: "relative", zIndex: 1 }}>
+                    <div style={{
+                      fontSize: 11, fontWeight: 700, color: "#94A3B8",
+                      letterSpacing: 2, textTransform: "uppercase", marginBottom: 6,
+                    }}>
+                      ⚖️ Govt vs Private — Real Comparison
+                    </div>
+                    <div style={{ fontSize: 18, fontWeight: 900, color: "#fff", marginBottom: 4 }}>
+                      To match this package, you need
+                    </div>
+                    <div style={{
+                      fontSize: 32, fontWeight: 900,
+                      background: "linear-gradient(135deg, #FCD34D, #F59E0B)",
+                      WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent",
+                      backgroundClip: "text", fontFamily: "'Outfit', sans-serif",
+                    }}>
+                      ₹{privateCTCLow}–{privateCTCHigh} LPA
+                    </div>
+                    <div style={{ fontSize: 12, color: "#94A3B8", marginTop: 4 }}>
+                      private sector CTC (before tax)
+                    </div>
+                  </div>
+                </div>
+
+                {/* Hidden value strip */}
+                <div style={{
+                  background: "linear-gradient(135deg, #FEF3C7, #FDE68A)",
+                  padding: "12px 20px",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                  borderBottom: "2px solid #FCD34D",
+                }}>
+                  <div style={{ fontSize: 13, fontWeight: 700, color: "#92400E" }}>
+                    ✨ Hidden benefits value
+                  </div>
+                  <div style={{
+                    fontSize: 16, fontWeight: 900, color: "#92400E",
+                    fontFamily: "'Outfit', sans-serif",
+                  }}>
+                    +₹{hiddenTotal.toLocaleString()}/mo
+                  </div>
+                </div>
+
+                {/* Side-by-side comparison */}
+                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", background: "#fff" }}>
+                  {/* Govt column header */}
+                  <div style={{
+                    padding: "12px 16px",
+                    background: "linear-gradient(135deg, #EEF2FF, #F0FDF4)",
+                    borderRight: "1px solid #E2E8F0",
+                    borderBottom: "2px solid #667eea",
+                  }}>
+                    <div style={{ fontSize: 11, fontWeight: 800, color: "#667eea", textTransform: "uppercase", letterSpacing: "0.05em" }}>
+                      🏛️ Government
+                    </div>
+                    <div style={{ fontSize: 12, color: "#6B7280", fontWeight: 500, marginTop: 2 }}>
+                      {selectedPostData.name}
+                    </div>
+                  </div>
+                  {/* Private column header */}
+                  <div style={{
+                    padding: "12px 16px",
+                    background: "#F8FAFC",
+                    borderBottom: "2px solid #F59E0B",
+                  }}>
+                    <div style={{ fontSize: 11, fontWeight: 800, color: "#D97706", textTransform: "uppercase", letterSpacing: "0.05em" }}>
+                      🏢 Private Sector
+                    </div>
+                    <div style={{ fontSize: 12, color: "#6B7280", fontWeight: 500, marginTop: 2 }}>
+                      Equivalent role
+                    </div>
+                  </div>
+
+                  {/* Rows */}
+                  {govtItems.map((item, i) => (
+                    <>
+                      {/* Govt cell */}
+                      <div key={`g-${i}`} style={{
+                        padding: "11px 16px",
+                        background: i % 2 === 0
+                          ? (item.highlight ? "#F0FDF4" : "#FAFAFA")
+                          : (item.highlight ? "#F0FDF4" : "#fff"),
+                        borderRight: "1px solid #E2E8F0",
+                        borderBottom: i < govtItems.length - 1 ? "1px solid #F1F5F9" : "none",
+                        display: "flex",
+                        flexDirection: "column",
+                        gap: 2,
+                      }}>
+                        <div style={{ fontSize: 10, color: "#9CA3AF", fontWeight: 600 }}>
+                          {item.icon} {item.label}
+                        </div>
+                        <div style={{
+                          fontSize: 13, fontWeight: 800,
+                          color: item.highlight ? "#16A34A" : "#374151",
+                          fontFamily: item.highlight ? "'Outfit', sans-serif" : "inherit",
+                        }}>
+                          {item.value}
+                        </div>
+                      </div>
+                      {/* Private cell */}
+                      <div key={`p-${i}`} style={{
+                        padding: "11px 16px",
+                        background: i % 2 === 0 ? "#FAFAFA" : "#fff",
+                        borderBottom: i < privateItems.length - 1 ? "1px solid #F1F5F9" : "none",
+                        display: "flex",
+                        flexDirection: "column",
+                        gap: 2,
+                      }}>
+                        <div style={{ fontSize: 10, color: "#9CA3AF", fontWeight: 600 }}>
+                          {privateItems[i].icon} {privateItems[i].label}
+                        </div>
+                        <div style={{
+                          fontSize: 13, fontWeight: 800,
+                          color: privateItems[i].value.startsWith("❌")
+                            ? "#DC2626"
+                            : privateItems[i].highlight ? "#16A34A" : "#374151",
+                          fontFamily: privateItems[i].highlight ? "'Outfit', sans-serif" : "inherit",
+                        }}>
+                          {privateItems[i].value}
+                        </div>
+                      </div>
+                    </>
+                  ))}
+                </div>
+
+                {/* Bottom insight */}
+                <div style={{
+                  padding: "16px 20px",
+                  background: "linear-gradient(135deg, #EFF6FF, #EEF2FF)",
+                  borderTop: "2px solid #BFDBFE",
+                  display: "flex",
+                  gap: 12,
+                  alignItems: "flex-start",
+                }}>
+                  <span style={{ fontSize: 24, flexShrink: 0 }}>💡</span>
+                  <p style={{ margin: 0, fontSize: 13, color: "#1E40AF", fontWeight: 600, lineHeight: 1.6 }}>
+                    Govt benefits like <strong>pension for life, free CGHS medical, housing, and job security</strong> add
+                    {" "}₹{hiddenTotal.toLocaleString()}/month in hidden value — making the real package worth{" "}
+                    <strong>₹{privateCTCLow}–{privateCTCHigh} LPA</strong> in private sector terms.
+                  </p>
+                </div>
+              </div>
+            );
+          })()}
+
           {/* Share Button */}
           <div style={{ textAlign: "center", marginBottom: 20 }}>
             <button
@@ -1324,25 +1525,6 @@ export default function SalaryCalculator() {
             >
               📤 Share Calculator
             </button>
-          </div>
-
-          {/* Comparison Note */}
-          <div style={{
-            background: "linear-gradient(135deg, #DBEAFE, #E0E7FF)",
-            padding: "16px 18px",
-            borderRadius: 16,
-            textAlign: "center",
-            border: "2px solid #93C5FD",
-          }}>
-            <p style={{
-              fontSize: 13,
-              color: "#1E40AF",
-              fontWeight: 600,
-              lineHeight: 1.6,
-              margin: 0,
-            }}>
-              💡 <strong>Did you know?</strong> An entry-level IAS officer's total compensation (including perks) equals ₹25-30 LPA in private sector terms!
-            </p>
           </div>
 
           {/* Saved indicator */}
