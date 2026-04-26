@@ -115,11 +115,11 @@ export default function TableOfContents({ headings, articleHalfWidth = 380 }: Pr
           />
           <div
             style={{
-              position: "absolute", bottom: 76, left: 0, right: 0,
+              position: "fixed", bottom: 76, left: 0, right: 0,
               background: "var(--bg-card)", borderRadius: "20px 20px 0 0",
               padding: "20px 16px 24px",
               maxHeight: "60vh", overflowY: "auto",
-              zIndex: 1,
+              zIndex: 201,
             }}
           >
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 12 }}>

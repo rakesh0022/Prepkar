@@ -1082,18 +1082,33 @@ export default function JobDetailSheet({ job, onClose, fullPage = false }: { job
               <div className="relative h-[200px] overflow-hidden md:h-[280px]" style={{
                 background: `linear-gradient(135deg, ${illustrationPalette.primary}15, ${illustrationPalette.primary}05)`,
               }}>
+                {/* SVG illustration fallback (always rendered behind image) */}
+                <div style={{
+                  position: "absolute",
+                  inset: 0,
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  zIndex: 0,
+                  padding: "20px",
+                }}>
+                  <JobCategoryIllustration category={job.category} />
+                </div>
                 <img 
                   src={`/images/content/jobs/${job.category}.png`}
                   alt={`${job.category} career`}
                   style={{
+                    position: "absolute",
+                    inset: 0,
                     width: "100%",
                     height: "100%",
                     objectFit: "cover",
                     objectPosition: "center",
+                    display: "block",
+                    zIndex: 1,
                   }}
                   onError={(e) => {
-                    // Fallback to a default image if category image doesn't exist
-                    e.currentTarget.src = "/images/content/jobs/upsc.png";
+                    e.currentTarget.style.display = "none";
                   }}
                 />
                 {/* Gradient overlay for better text contrast */}
@@ -1101,6 +1116,7 @@ export default function JobDetailSheet({ job, onClose, fullPage = false }: { job
                   position: "absolute",
                   inset: 0,
                   background: `linear-gradient(to top, ${illustrationPalette.primary}40, transparent 60%)`,
+                  zIndex: 2,
                 }} />
               </div>
             </div>

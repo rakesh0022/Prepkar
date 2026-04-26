@@ -267,6 +267,34 @@
   .mobile-only { display: none; }
 }
 
+/* Notification grid - 2 columns on mobile, 3 on desktop */
+.notification-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  width: 100%;
+}
+
+.notification-grid > a {
+  min-width: 0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+@media (min-width: 768px) {
+  .notification-grid {
+    gap: 12px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .notification-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 14px;
+  }
+}
+
 /* Job detail page — desktop sidebar (shown only on lg+ screens) */
 @media (min-width: 1024px) {
   .job-detail-sidebar {
@@ -385,6 +413,7 @@
 html {
   color-scheme: light;
   scroll-behavior: smooth;
+  overflow-x: hidden;
 }
 [data-theme="dark"] html { color-scheme: dark; }
 body {
