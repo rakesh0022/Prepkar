@@ -269,7 +269,7 @@
 
 /* Hero section sizing */
 .hero-section {
-  min-height: 420px;
+  min-height: 460px;
 }
 @media (min-width: 768px) {
   .hero-section {
@@ -281,6 +281,48 @@
 @media (min-width: 1024px) {
   .hero-section {
     min-height: 580px;
+  }
+}
+
+/* Hero inner layout */
+.hero-inner {
+  width: 100%;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 72px 24px 60px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 40px;
+}
+.hero-text {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.hero-stats {
+  display: none;
+}
+
+@media (min-width: 900px) {
+  .hero-inner {
+    flex-direction: row;
+    align-items: center;
+    text-align: left;
+    padding: 80px 40px 72px;
+    gap: 48px;
+  }
+  .hero-text {
+    flex: 1;
+    align-items: flex-start;
+  }
+  .hero-stats {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    width: 280px;
+    flex-shrink: 0;
   }
 }
 

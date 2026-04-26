@@ -31,82 +31,171 @@ export default function Home() {
       {/* Desktop top nav spacer */}
       <div className="desktop-only" style={{ height: 56 }} />
 
-      {/* ═══ HERO — FULL WIDTH, DREAM-FOCUSED ═══ */}
+      {/* ═══ HERO ═══ */}
       <section className="anim-up hero-section" style={{
-        background: "var(--bg-hero)", color: "#fff",
-        padding: "64px 24px 56px", textAlign: "center",
-        borderRadius: "0 0 28px 28px", position: "relative", overflow: "hidden",
-        backgroundImage: "url('/images/hero/hero-bg.png')",
-        backgroundSize: "cover",
-        backgroundPosition: "center top",
-        minHeight: "420px",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
+        position: "relative",
+        overflow: "hidden",
+        color: "#fff",
+        borderRadius: "0 0 32px 32px",
       }}>
-        <div style={{ position: "absolute", inset: 0, background: "linear-gradient(180deg, rgba(15,23,42,0.7) 0%, rgba(15,23,42,0.5) 100%)" }} />
-        <div style={{ position: "absolute", inset: 0, opacity: 0.04, backgroundImage: "radial-gradient(circle at 20% 50%, #fff 1px, transparent 1px), radial-gradient(circle at 80% 20%, #fff 1px, transparent 1px)", backgroundSize: "40px 40px" }} />
+        {/* Background image */}
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src="/images/hero/hero-bg.png"
+          alt=""
+          aria-hidden="true"
+          style={{
+            position: "absolute", inset: 0,
+            width: "100%", height: "100%",
+            objectFit: "cover", objectPosition: "center 20%",
+            zIndex: 0,
+          }}
+        />
 
-        <div style={{ position: "relative", zIndex: 1, width: "100%" }}>
-          <div className="desktop-only" style={{ fontFamily: "'Outfit'", fontSize: 20, fontWeight: 800, letterSpacing: -0.5, marginBottom: 32, opacity: 0.9 }}>
-            Naukri<span style={{ color: "#5EEAD4" }}>Yatra</span>
+        {/* Multi-layer gradient overlay — heavy at bottom, lighter at top */}
+        <div style={{
+          position: "absolute", inset: 0, zIndex: 1,
+          background: "linear-gradient(160deg, rgba(10,15,40,0.82) 0%, rgba(10,15,40,0.65) 45%, rgba(10,15,40,0.88) 100%)",
+        }} />
+        {/* Subtle colour tint — teal at top-left, purple at bottom-right */}
+        <div style={{
+          position: "absolute", inset: 0, zIndex: 1,
+          background: "radial-gradient(ellipse at 10% 0%, rgba(20,184,166,0.18) 0%, transparent 55%), radial-gradient(ellipse at 90% 100%, rgba(109,40,217,0.18) 0%, transparent 55%)",
+        }} />
+
+        {/* Content */}
+        <div className="hero-inner" style={{ position: "relative", zIndex: 2 }}>
+
+          {/* ── Left / centre column ── */}
+          <div className="hero-text">
+            {/* Eyebrow */}
+            <div style={{
+              display: "inline-flex", alignItems: "center", gap: 8,
+              background: "rgba(94,234,212,0.12)",
+              border: "1px solid rgba(94,234,212,0.3)",
+              borderRadius: 100, padding: "6px 14px",
+              marginBottom: 20,
+            }}>
+              <span style={{ width: 7, height: 7, borderRadius: "50%", background: "#5EEAD4", display: "inline-block", boxShadow: "0 0 8px #5EEAD4" }} />
+              <span style={{ fontSize: 11, fontWeight: 700, color: "#5EEAD4", letterSpacing: "0.08em", textTransform: "uppercase" }}>
+                Government Job Preparation
+              </span>
+            </div>
+
+            {/* Headline */}
+            <h1 style={{
+              fontFamily: "'Playfair Display', serif",
+              fontSize: "clamp(32px, 6vw, 56px)",
+              fontWeight: 900,
+              lineHeight: 1.1,
+              marginBottom: 16,
+              letterSpacing: "-0.02em",
+            }}>
+              Sapne se<br />
+              <span style={{
+                color: "#5EEAD4",
+                textShadow: "0 0 40px rgba(94,234,212,0.4)",
+              }}>Selection Tak</span>
+            </h1>
+
+            {/* Subheadline */}
+            <p style={{
+              fontSize: "clamp(14px, 2vw, 17px)",
+              color: "rgba(255,255,255,0.72)",
+              lineHeight: 1.6,
+              marginBottom: 32,
+              maxWidth: 420,
+            }}>
+              AI mock interviews, salary calculators, exam roadmaps &amp; daily practice — all free.
+            </p>
+
+            {/* CTAs — side by side */}
+            <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
+              <Link href="/quiz" style={{ textDecoration: "none" }}>
+                <div style={{
+                  display: "inline-flex", alignItems: "center", gap: 8,
+                  background: "linear-gradient(135deg, #D97706, #B45309)",
+                  color: "#fff", padding: "14px 24px",
+                  borderRadius: 14, fontSize: 15, fontWeight: 700,
+                  boxShadow: "0 8px 24px rgba(217,119,6,0.4)",
+                  whiteSpace: "nowrap",
+                }}>
+                  📝 Quiz Practice
+                </div>
+              </Link>
+              <Link href="/ai-practice" style={{ textDecoration: "none" }}>
+                <div style={{
+                  display: "inline-flex", alignItems: "center", gap: 8,
+                  background: "rgba(255,255,255,0.12)",
+                  backdropFilter: "blur(12px)",
+                  border: "1.5px solid rgba(255,255,255,0.25)",
+                  color: "#fff", padding: "14px 24px",
+                  borderRadius: 14, fontSize: 15, fontWeight: 700,
+                  whiteSpace: "nowrap",
+                }}>
+                  🎯 AI Practice
+                </div>
+              </Link>
+            </div>
+
+            {/* Social proof pills */}
+            <div style={{
+              display: "flex", gap: 10, marginTop: 24, flexWrap: "wrap",
+            }}>
+              {[
+                { icon: "🔔", text: `${newNotifCount} live notifications` },
+                { icon: "🆓", text: "Free · No signup" },
+                { icon: "🗺️", text: "17+ roadmaps" },
+              ].map((item) => (
+                <div key={item.text} style={{
+                  display: "flex", alignItems: "center", gap: 5,
+                  background: "rgba(255,255,255,0.08)",
+                  border: "1px solid rgba(255,255,255,0.12)",
+                  borderRadius: 100, padding: "5px 12px",
+                  fontSize: 11, color: "rgba(255,255,255,0.75)", fontWeight: 600,
+                }}>
+                  <span>{item.icon}</span>
+                  <span>{item.text}</span>
+                </div>
+              ))}
+            </div>
           </div>
 
-          <h1 style={{
-            fontFamily: "'Playfair Display', serif", fontSize: 32, fontWeight: 800,
-            lineHeight: 1.2, marginBottom: 10, letterSpacing: -0.5,
-          }}>
-            Sapne se<br />
-            <span style={{ color: "#5EEAD4" }}>Selection Tak</span>
-          </h1>
-          <p style={{ fontSize: 15, opacity: 0.7, marginBottom: 36, lineHeight: 1.5 }}>
-            Your journey to a government job starts here
-          </p>
-
-          <div className="flex flex-wrap justify-center gap-2.5">
-            <Link href="/quiz" style={{ textDecoration: "none" }}>
-              <div style={{
-                display: "inline-flex", alignItems: "center", gap: 10,
-                background: "linear-gradient(90deg, #D97706, #B45309)",
-                color: "#fff", padding: "12px 22px",
-                borderRadius: 12, fontSize: 14, fontWeight: 700,
-                boxShadow: "0 4px 20px rgba(217,119,6,0.35)",
-              }}>
-                <span>📝</span> Quiz Practice
-              </div>
-            </Link>
-            <Link href="/ai-practice" style={{ textDecoration: "none" }}>
-              <div style={{
-                display: "inline-flex", alignItems: "center", gap: 10,
-                background: "linear-gradient(90deg, #6D28D9, #4C1D95)",
-                color: "#fff", padding: "12px 22px",
-                borderRadius: 12, fontSize: 14, fontWeight: 700,
-                boxShadow: "0 4px 20px rgba(109,40,217,0.35)",
-              }}>
-                <span>🎯</span> AI Practice
-              </div>
-            </Link>
-          </div>
-
-          {/* ── Honest social proof strip ── */}
-          <div style={{
-            display: "flex", justifyContent: "center", gap: 16,
-            marginTop: 20, flexWrap: "wrap",
-          }}>
+          {/* ── Right column: stat cards (desktop only) ── */}
+          <div className="hero-stats desktop-only">
             {[
-              { icon: "🔔", text: `${newNotifCount} new notifications` },
-              { icon: "📝", text: "Free · No signup needed" },
-              { icon: "🎯", text: "17+ job roadmaps" },
-            ].map((item) => (
-              <div key={item.text} style={{
-                display: "flex", alignItems: "center", gap: 5,
-                fontSize: 11, color: "rgba(255,255,255,0.65)", fontWeight: 600,
+              { emoji: "🏛️", label: "UPSC CSE", sub: "Prelims · Jun 1", days: Math.max(0, Math.ceil((new Date("2026-06-01").getTime() - Date.now()) / 86400000)), color: "#7C3AED" },
+              { emoji: "📋", label: "SSC CGL", sub: "Tier I · Jun 20", days: Math.max(0, Math.ceil((new Date("2026-06-20").getTime() - Date.now()) / 86400000)), color: "#2563EB" },
+              { emoji: "🏦", label: "SBI PO", sub: "Prelims · Aug 1", days: Math.max(0, Math.ceil((new Date("2026-08-01").getTime() - Date.now()) / 86400000)), color: "#059669" },
+            ].map((exam) => (
+              <div key={exam.label} style={{
+                background: "rgba(255,255,255,0.07)",
+                backdropFilter: "blur(16px)",
+                border: "1px solid rgba(255,255,255,0.12)",
+                borderRadius: 16, padding: "14px 16px",
+                display: "flex", alignItems: "center", gap: 12,
               }}>
-                <span>{item.icon}</span>
-                <span>{item.text}</span>
+                <div style={{
+                  width: 42, height: 42, borderRadius: 12, flexShrink: 0,
+                  background: `${exam.color}25`,
+                  border: `1.5px solid ${exam.color}40`,
+                  display: "flex", alignItems: "center", justifyContent: "center",
+                  fontSize: 20,
+                }}>
+                  {exam.emoji}
+                </div>
+                <div style={{ flex: 1, minWidth: 0 }}>
+                  <div style={{ fontSize: 13, fontWeight: 800, color: "#fff" }}>{exam.label}</div>
+                  <div style={{ fontSize: 10, color: "rgba(255,255,255,0.55)", marginTop: 1 }}>{exam.sub}</div>
+                </div>
+                <div style={{ textAlign: "right", flexShrink: 0 }}>
+                  <div style={{ fontSize: 22, fontWeight: 900, color: exam.color, fontFamily: "'Outfit', sans-serif", lineHeight: 1 }}>{exam.days}</div>
+                  <div style={{ fontSize: 9, color: "rgba(255,255,255,0.4)", fontWeight: 600 }}>days</div>
+                </div>
               </div>
             ))}
           </div>
+
         </div>
       </section>
 
