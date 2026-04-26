@@ -29,30 +29,34 @@ export default function Home() {
       <div className="desktop-only" style={{ height: 56 }} />
 
       {/* ═══ HERO — FULL WIDTH, DREAM-FOCUSED ═══ */}
-      <section className="anim-up" style={{
+      <section className="anim-up hero-section" style={{
         background: "var(--bg-hero)", color: "#fff",
-        padding: "48px 24px 40px", textAlign: "center",
+        padding: "64px 24px 56px", textAlign: "center",
         borderRadius: "0 0 28px 28px", position: "relative", overflow: "hidden",
         backgroundImage: "url('/images/hero/hero-bg.png')",
         backgroundSize: "cover",
-        backgroundPosition: "center",
+        backgroundPosition: "center top",
+        minHeight: "420px",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
       }}>
         <div style={{ position: "absolute", inset: 0, background: "linear-gradient(180deg, rgba(15,23,42,0.7) 0%, rgba(15,23,42,0.5) 100%)" }} />
         <div style={{ position: "absolute", inset: 0, opacity: 0.04, backgroundImage: "radial-gradient(circle at 20% 50%, #fff 1px, transparent 1px), radial-gradient(circle at 80% 20%, #fff 1px, transparent 1px)", backgroundSize: "40px 40px" }} />
 
-        <div style={{ position: "relative", zIndex: 1 }}>
-          <div className="desktop-only" style={{ fontFamily: "'Outfit'", fontSize: 20, fontWeight: 800, letterSpacing: -0.5, marginBottom: 28, opacity: 0.9 }}>
+        <div style={{ position: "relative", zIndex: 1, width: "100%" }}>
+          <div className="desktop-only" style={{ fontFamily: "'Outfit'", fontSize: 20, fontWeight: 800, letterSpacing: -0.5, marginBottom: 32, opacity: 0.9 }}>
             Naukri<span style={{ color: "#5EEAD4" }}>Yatra</span>
           </div>
 
           <h1 style={{
-            fontFamily: "'Playfair Display', serif", fontSize: 26, fontWeight: 800,
-            lineHeight: 1.2, marginBottom: 8, letterSpacing: -0.5,
+            fontFamily: "'Playfair Display', serif", fontSize: 32, fontWeight: 800,
+            lineHeight: 1.2, marginBottom: 10, letterSpacing: -0.5,
           }}>
             Sapne se<br />
             <span style={{ color: "#5EEAD4" }}>Selection Tak</span>
           </h1>
-          <p style={{ fontSize: 14, opacity: 0.65, marginBottom: 32, lineHeight: 1.5 }}>
+          <p style={{ fontSize: 15, opacity: 0.7, marginBottom: 36, lineHeight: 1.5 }}>
             Your journey to a government job starts here
           </p>
 

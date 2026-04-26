@@ -267,6 +267,23 @@
   .mobile-only { display: none; }
 }
 
+/* Hero section sizing */
+.hero-section {
+  min-height: 420px;
+}
+@media (min-width: 768px) {
+  .hero-section {
+    min-height: 520px;
+    padding-top: 80px !important;
+    padding-bottom: 72px !important;
+  }
+}
+@media (min-width: 1024px) {
+  .hero-section {
+    min-height: 580px;
+  }
+}
+
 /* Notification grid - 2 columns on mobile, 3 on desktop */
 .notification-grid {
   display: grid;
