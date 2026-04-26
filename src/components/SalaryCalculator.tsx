@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
+import { PieChart, Pie, Cell, ResponsiveContainer, Legend, Tooltip } from "recharts";
 import salaryData from "@/data/salary-data.json";
 
 export default function SalaryCalculator() {
@@ -12,6 +13,7 @@ export default function SalaryCalculator() {
   const [displayedSalary, setDisplayedSalary] = useState(0);
   const [displayedYearlySalary, setDisplayedYearlySalary] = useState(0);
   const [showSalaryReveal, setShowSalaryReveal] = useState(false);
+  const [activeSlice, setActiveSlice] = useState<number | null>(null);
   const animationFrameRef = useRef<number | undefined>(undefined);
 
   const posts = salaryData.posts;
@@ -737,157 +739,260 @@ export default function SalaryCalculator() {
                 </div>
               </div>
 
-              {/* Breakdown Section */}
-              <div style={{
-                background: "#F9FAFB",
-                borderRadius: 20,
-                padding: "20px",
-                marginBottom: 20,
-              }}>
-                <div style={{
-                  fontSize: 11,
-                  fontWeight: 800,
-                  color: "#6B7280",
-                  marginBottom: 16,
-                  letterSpacing: 1.2,
-                  textTransform: "uppercase",
-                  display: "flex",
-                  alignItems: "center",
-                  gap: 8,
-                }}>
-                  <span style={{ width: 3, height: 14, background: "#667eea", borderRadius: 2 }} />
-                  Salary Breakdown
-                </div>
+              {/* PHASE 3: Donut Chart Breakdown */}
+              {(() => {
+                const chartData = [
+                  { name: "Basic Pay",          value: Math.round(salary.basicPay),      color: "#667eea", icon: "💼", pct: Math.round((salary.basicPay / salary.gross) * 100) },
+                  { name: "DA",                 value: Math.round(salary.da),            color: "#10B981", icon: "📈", pct: Math.round((salary.da / salary.gross) * 100) },
+                  { name: `HRA`,                value: Math.round(salary.hra),           color: "#F59E0B", icon: "🏠", pct: Math.round((salary.hra / salary.gross) * 100) },
+                  { name: "Transport",          value: Math.round(salary.ta),            color: "#7C3AED", icon: "🚗", pct: Math.round((salary.ta / salary.gross) * 100) },
+                  { name: "NPS",                value: Math.round(salary.npsDeduction),  color: "#EF4444", icon: "➖", pct: Math.round((salary.npsDeduction / salary.gross) * 100) },
+                  { name: "Prof. Tax",          value: deductions.professionalTax,       color: "#EC4899", icon: "➖", pct: Math.round((deductions.professionalTax / salary.gross) * 100) },
+                ];
+                const active = activeSlice !== null ? chartData[activeSlice] : null;
 
-                <div style={{ marginBottom: 16 }}>
-                  {[
-                    { l: "Basic Pay", v: salary.basicPay, cl: "#667eea", icon: "💼" },
-                    { l: `Dearness Allowance (${allowances.da}%)`, v: salary.da, cl: "#0D9488", icon: "📈" },
-                    { l: `HRA (${(allowances.hra as Record<string, number>)[cityType]}%)`, v: salary.hra, cl: "#D97706", icon: "🏠" },
-                    { l: "Transport Allowance", v: salary.ta, cl: "#7C3AED", icon: "🚗" },
-                  ].map((it, i) => (
-                    <div
-                      key={i}
-                      style={{
+                return (
+                  <div style={{
+                    background: "#fff",
+                    borderRadius: 24,
+                    padding: "24px 20px",
+                    marginBottom: 20,
+                    border: "2px solid #F1F5F9",
+                    boxShadow: "0 4px 24px rgba(0,0,0,0.06)",
+                  }}>
+                    {/* Section header */}
+                    <div style={{
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "space-between",
+                      marginBottom: 20,
+                    }}>
+                      <div style={{
+                        display: "flex",
+                        alignItems: "center",
+                        gap: 10,
+                      }}>
+                        <div style={{
+                          width: 36,
+                          height: 36,
+                          borderRadius: 10,
+                          background: "linear-gradient(135deg, #667eea, #764ba2)",
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          fontSize: 18,
+                        }}>
+                          🥧
+                        </div>
+                        <div>
+                          <div style={{ fontSize: 15, fontWeight: 800, color: "#111827" }}>Salary Breakdown</div>
+                          <div style={{ fontSize: 11, color: "#9CA3AF", fontWeight: 500 }}>Tap any segment to inspect</div>
+                        </div>
+                      </div>
+                      <div style={{
+                        padding: "6px 12px",
+                        background: "#F0FDF4",
+                        borderRadius: 8,
+                        border: "1px solid #BBF7D0",
+                      }}>
+                        <div style={{ fontSize: 10, color: "#16A34A", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.05em" }}>Gross</div>
+                        <div style={{ fontSize: 14, fontWeight: 900, color: "#15803D", fontFamily: "'Outfit', sans-serif" }}>
+                          ₹{Math.round(salary.gross).toLocaleString()}
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Donut chart + center overlay */}
+                    <div style={{ position: "relative", width: "100%", height: 260 }}>
+                      <ResponsiveContainer width="100%" height={260}>
+                        <PieChart>
+                          <Pie
+                            data={chartData}
+                            cx="50%"
+                            cy="50%"
+                            innerRadius={72}
+                            outerRadius={108}
+                            paddingAngle={3}
+                            dataKey="value"
+                            animationBegin={0}
+                            animationDuration={900}
+                            onClick={(_, index) => setActiveSlice(activeSlice === index ? null : index)}
+                            stroke="none"
+                          >
+                            {chartData.map((entry, index) => (
+                              <Cell
+                                key={`cell-${index}`}
+                                fill={entry.color}
+                                opacity={activeSlice === null || activeSlice === index ? 1 : 0.35}
+                                style={{ cursor: "pointer", transition: "opacity 0.2s" }}
+                              />
+                            ))}
+                          </Pie>
+                          <Tooltip
+                            formatter={(value) => value != null ? [`₹${Number(value).toLocaleString()}`, ""] : ["—", ""]}
+                            contentStyle={{
+                              borderRadius: 12,
+                              border: "none",
+                              boxShadow: "0 8px 24px rgba(0,0,0,0.12)",
+                              fontSize: 13,
+                              fontWeight: 700,
+                            }}
+                            itemStyle={{ color: "#111827" }}
+                            labelStyle={{ color: "#6B7280", fontWeight: 600 }}
+                          />
+                        </PieChart>
+                      </ResponsiveContainer>
+
+                      {/* Center label overlay */}
+                      <div style={{
+                        position: "absolute",
+                        top: "50%",
+                        left: "50%",
+                        transform: "translate(-50%, -50%)",
+                        textAlign: "center",
+                        pointerEvents: "none",
+                        transition: "all 0.25s ease",
+                      }}>
+                        {active ? (
+                          <>
+                            <div style={{ fontSize: 22, marginBottom: 2 }}>{active.icon}</div>
+                            <div style={{ fontSize: 13, fontWeight: 800, color: active.color, maxWidth: 80, lineHeight: 1.2 }}>{active.name}</div>
+                            <div style={{ fontSize: 16, fontWeight: 900, color: "#111827", fontFamily: "'Outfit', sans-serif" }}>
+                              ₹{active.value.toLocaleString()}
+                            </div>
+                            <div style={{ fontSize: 11, color: "#9CA3AF", fontWeight: 600 }}>{active.pct}% of gross</div>
+                          </>
+                        ) : (
+                          <>
+                            <div style={{ fontSize: 11, color: "#9CA3AF", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.05em", marginBottom: 4 }}>In-Hand</div>
+                            <div style={{ fontSize: 20, fontWeight: 900, color: "#16A34A", fontFamily: "'Outfit', sans-serif" }}>
+                              ₹{Math.round(salary.netInHand).toLocaleString()}
+                            </div>
+                            <div style={{ fontSize: 10, color: "#9CA3AF" }}>after deductions</div>
+                          </>
+                        )}
+                      </div>
+                    </div>
+
+                    {/* Legend pills */}
+                    <div style={{
+                      display: "flex",
+                      flexWrap: "wrap",
+                      gap: 8,
+                      justifyContent: "center",
+                      marginBottom: 24,
+                    }}>
+                      {chartData.map((item, i) => (
+                        <button
+                          key={i}
+                          onClick={() => setActiveSlice(activeSlice === i ? null : i)}
+                          style={{
+                            display: "flex",
+                            alignItems: "center",
+                            gap: 6,
+                            padding: "6px 12px",
+                            borderRadius: 20,
+                            border: `2px solid ${activeSlice === i ? item.color : "transparent"}`,
+                            background: activeSlice === i ? `${item.color}15` : "#F8FAFC",
+                            cursor: "pointer",
+                            transition: "all 0.2s",
+                            opacity: activeSlice !== null && activeSlice !== i ? 0.5 : 1,
+                          }}
+                        >
+                          <span style={{ width: 10, height: 10, borderRadius: "50%", background: item.color, flexShrink: 0 }} />
+                          <span style={{ fontSize: 12, fontWeight: 700, color: "#374151" }}>{item.name}</span>
+                          <span style={{ fontSize: 11, color: "#9CA3AF", fontWeight: 600 }}>{item.pct}%</span>
+                        </button>
+                      ))}
+                    </div>
+
+                    {/* Detailed table */}
+                    <div style={{ borderRadius: 16, overflow: "hidden", border: "1px solid #F1F5F9" }}>
+                      {/* Earnings rows */}
+                      {[
+                        { label: "Basic Pay",                                                    value: salary.basicPay,          color: "#667eea", type: "earn" },
+                        { label: `Dearness Allowance (${allowances.da}%)`,                       value: salary.da,                color: "#10B981", type: "earn" },
+                        { label: `HRA (${(allowances.hra as Record<string, number>)[cityType]}%)`, value: salary.hra,             color: "#F59E0B", type: "earn" },
+                        { label: "Transport Allowance",                                          value: salary.ta,                color: "#7C3AED", type: "earn" },
+                      ].map((row, i) => (
+                        <div key={i} style={{
+                          display: "flex",
+                          justifyContent: "space-between",
+                          alignItems: "center",
+                          padding: "12px 16px",
+                          background: i % 2 === 0 ? "#FAFAFA" : "#fff",
+                          borderBottom: "1px solid #F1F5F9",
+                        }}>
+                          <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+                            <span style={{ width: 4, height: 16, borderRadius: 2, background: row.color, flexShrink: 0 }} />
+                            <span style={{ fontSize: 13, color: "#374151", fontWeight: 600 }}>{row.label}</span>
+                          </div>
+                          <span style={{ fontSize: 14, fontWeight: 800, color: row.color, fontFamily: "'Outfit', sans-serif" }}>
+                            +₹{Math.round(row.value).toLocaleString()}
+                          </span>
+                        </div>
+                      ))}
+
+                      {/* Gross subtotal */}
+                      <div style={{
                         display: "flex",
                         justifyContent: "space-between",
                         alignItems: "center",
-                        padding: "12px 0",
-                        borderBottom: i < 3 ? "1px solid rgba(0,0,0,0.04)" : "none",
-                      }}
-                    >
-                      <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-                        <span style={{ fontSize: 16 }}>{it.icon}</span>
-                        <span style={{ fontSize: 13, color: "#374151", fontWeight: 600 }}>{it.l}</span>
-                      </div>
-                      <span style={{
-                        fontSize: 15,
-                        fontWeight: 800,
-                        color: it.cl,
-                        fontFamily: "'Outfit', sans-serif",
+                        padding: "14px 16px",
+                        background: "linear-gradient(135deg, #EFF6FF, #F0FDFA)",
+                        borderBottom: "1px solid #E0F2FE",
                       }}>
-                        ₹{Math.round(it.v).toLocaleString()}
-                      </span>
-                    </div>
-                  ))}
-                </div>
-
-                {/* Gross Total */}
-                <div style={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                  padding: "14px 16px",
-                  background: "linear-gradient(135deg, #EFF6FF, #F0FDFA)",
-                  borderRadius: 12,
-                  marginBottom: 12,
-                }}>
-                  <span style={{ fontSize: 14, fontWeight: 700, color: "#1F2937" }}>Gross Salary</span>
-                  <span style={{
-                    fontSize: 17,
-                    fontWeight: 900,
-                    fontFamily: "'Outfit', sans-serif",
-                    color: "#1F2937",
-                  }}>
-                    ₹{Math.round(salary.gross).toLocaleString()}
-                  </span>
-                </div>
-
-                {/* Deductions */}
-                <div style={{
-                  background: "#FEF2F2",
-                  borderRadius: 12,
-                  padding: "12px 16px",
-                  marginBottom: 12,
-                }}>
-                  <div style={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                    alignItems: "center",
-                    marginBottom: 8,
-                  }}>
-                    <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-                      <span style={{ fontSize: 14 }}>➖</span>
-                      <span style={{ fontSize: 12, color: "#DC2626", fontWeight: 600 }}>NPS Deduction ({deductions.nps}%)</span>
-                    </div>
-                    <span style={{
-                      fontSize: 13,
-                      fontWeight: 700,
-                      color: "#DC2626",
-                      fontFamily: "'Outfit', sans-serif",
-                    }}>
-                      −₹{Math.round(salary.npsDeduction).toLocaleString()}
-                    </span>
-                  </div>
-                  <div style={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                    alignItems: "center",
-                  }}>
-                    <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-                      <span style={{ fontSize: 14 }}>➖</span>
-                      <span style={{ fontSize: 12, color: "#DC2626", fontWeight: 600 }}>Professional Tax</span>
-                    </div>
-                    <span style={{
-                      fontSize: 13,
-                      fontWeight: 700,
-                      color: "#DC2626",
-                      fontFamily: "'Outfit', sans-serif",
-                    }}>
-                      −₹{deductions.professionalTax}
-                    </span>
-                  </div>
-                </div>
-
-                {/* Final In-Hand */}
-                <div style={{
-                  padding: "18px 20px",
-                  background: "linear-gradient(135deg, #16A34A, #059669)",
-                  borderRadius: 16,
-                  boxShadow: "0 4px 20px rgba(22,163,74,0.25), 0 2px 8px rgba(0,0,0,0.1)",
-                  position: "relative",
-                  overflow: "hidden",
-                }}>
-                  <div style={{ position: "absolute", inset: 0, opacity: 0.1, backgroundImage: "radial-gradient(circle at 70% 30%, #fff 1px, transparent 1px)", backgroundSize: "15px 15px" }} />
-                  <div style={{ position: "relative", zIndex: 1, display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                    <div>
-                      <div style={{ fontSize: 10, color: "rgba(255,255,255,0.8)", fontWeight: 600, letterSpacing: 1, textTransform: "uppercase", marginBottom: 2 }}>
-                        Final Take Home
+                        <span style={{ fontSize: 14, fontWeight: 800, color: "#1E40AF" }}>= Gross Salary</span>
+                        <span style={{ fontSize: 16, fontWeight: 900, color: "#1E40AF", fontFamily: "'Outfit', sans-serif" }}>
+                          ₹{Math.round(salary.gross).toLocaleString()}
+                        </span>
                       </div>
-                      <div style={{ fontSize: 15, fontWeight: 800, color: "#fff" }}>NET IN-HAND SALARY</div>
-                    </div>
-                    <div style={{
-                      fontSize: 24,
-                      fontWeight: 900,
-                      color: "#fff",
-                      fontFamily: "'Outfit', sans-serif",
-                      textShadow: "0 2px 8px rgba(0,0,0,0.15)",
-                    }}>
-                      ₹{Math.round(salary.netInHand).toLocaleString()}
+
+                      {/* Deduction rows */}
+                      {[
+                        { label: `NPS Deduction (${deductions.nps}%)`, value: salary.npsDeduction },
+                        { label: "Professional Tax",                    value: deductions.professionalTax },
+                      ].map((row, i) => (
+                        <div key={i} style={{
+                          display: "flex",
+                          justifyContent: "space-between",
+                          alignItems: "center",
+                          padding: "12px 16px",
+                          background: i % 2 === 0 ? "#FFF5F5" : "#FEF2F2",
+                          borderBottom: "1px solid #FEE2E2",
+                        }}>
+                          <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+                            <span style={{ width: 4, height: 16, borderRadius: 2, background: "#EF4444", flexShrink: 0 }} />
+                            <span style={{ fontSize: 13, color: "#991B1B", fontWeight: 600 }}>{row.label}</span>
+                          </div>
+                          <span style={{ fontSize: 14, fontWeight: 800, color: "#DC2626", fontFamily: "'Outfit', sans-serif" }}>
+                            −₹{Math.round(row.value).toLocaleString()}
+                          </span>
+                        </div>
+                      ))}
+
+                      {/* Final in-hand */}
+                      <div style={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                        alignItems: "center",
+                        padding: "18px 16px",
+                        background: "linear-gradient(135deg, #16A34A, #059669)",
+                      }}>
+                        <div>
+                          <div style={{ fontSize: 10, color: "rgba(255,255,255,0.75)", fontWeight: 600, textTransform: "uppercase", letterSpacing: 1, marginBottom: 2 }}>
+                            Final Take Home
+                          </div>
+                          <div style={{ fontSize: 14, fontWeight: 800, color: "#fff" }}>Net In-Hand Salary</div>
+                        </div>
+                        <div style={{ fontSize: 22, fontWeight: 900, color: "#fff", fontFamily: "'Outfit', sans-serif" }}>
+                          ₹{Math.round(salary.netInHand).toLocaleString()}
+                        </div>
+                      </div>
                     </div>
                   </div>
-                </div>
-              </div>
+                );
+              })()}
 
               {/* Perks Section */}
               {includePerks && selectedPostData && (
