@@ -1,105 +1,196 @@
 'use client';
 
 import Link from 'next/link';
-import { CATEGORY_STYLES, type ComparisonOverview } from './comparisonMeta';
+import { CATEGORY_STYLES, COMPARISON_META, type ComparisonOverview } from './comparisonMeta';
 
-function DifficultyBar({ value, color }: { value: number; color: string }) {
+const CAT_ICON: Record<string, string> = {
+  UPSC: '🏛️', Banking: '🏦', SSC: '📋', Railway: '🚂', Career: '💼',
+};
+
+function StarRating({ value, color }: { value: number; color: string }) {
   return (
-    <div className="flex gap-1.5">
-      {Array.from({ length: 5 }, (_, index) => (
-        <span
-          key={index}
-          className="h-2 flex-1 rounded-full transition-all duration-300"
-          style={{ 
-            background: index < value ? color : 'rgba(148,163,184,0.18)',
-            boxShadow: index < value ? `0 2px 8px ${color}40` : 'none',
-          }}
-        />
+    <div style={{ display: 'flex', gap: 2 }}>
+      {Array.from({ length: 5 }, (_, i) => (
+        <span key={i} style={{ fontSize: 10, color: i < value ? color : 'rgba(148,163,184,0.3)' }}>★</span>
       ))}
-    </div>
-  );
-}
-
-function IconBadge({ icon, background }: { icon: string; background: string }) {
-  return (
-    <div
-      className="flex h-11 w-11 items-center justify-center rounded-[16px] text-[20px] shadow-sm transition-transform duration-300 group-hover:scale-105"
-      style={{ background }}
-    >
-      {icon}
     </div>
   );
 }
 
 export default function ComparisonCard({ comparison }: { comparison: ComparisonOverview }) {
   const theme = CATEGORY_STYLES[comparison.category];
+  const meta = COMPARISON_META[comparison.slug];
+
+  // Pull 2 key differentiating stats from meta if available
+  const leftSalary = meta?.leftSalaryValue
+    ? `₹${(meta.leftSalaryValue / 1000).toFixed(0)}K`
+    : null;
+  const rightSalary = meta?.rightSalaryValue
+    ? `₹${(meta.rightSalaryValue / 1000).toFixed(0)}K`
+    : null;
 
   return (
     <Link
       href={`/compare/${comparison.slug}`}
-      className="group relative block overflow-hidden rounded-[24px] border border-[var(--border)] bg-white shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl"
+      style={{ textDecoration: 'none', display: 'block' }}
     >
-      <div className="absolute inset-x-0 top-0 h-1.5" style={{ background: `linear-gradient(90deg, ${theme.accent}, ${theme.accent}dd)` }} />
+      <div
+        style={{
+          background: '#fff',
+          borderRadius: 24,
+          border: '1px solid #E2E8F0',
+          overflow: 'hidden',
+          boxShadow: '0 2px 8px rgba(0,0,0,0.05)',
+          transition: 'all 0.25s ease',
+          cursor: 'pointer',
+          position: 'relative',
+        }}
+        onMouseEnter={(e) => {
+          e.currentTarget.style.transform = 'translateY(-4px)';
+          e.currentTarget.style.boxShadow = '0 12px 32px rgba(0,0,0,0.12)';
+        }}
+        onMouseLeave={(e) => {
+          e.currentTarget.style.transform = 'translateY(0)';
+          e.currentTarget.style.boxShadow = '0 2px 8px rgba(0,0,0,0.05)';
+        }}
+      >
+        {/* Top accent bar */}
+        <div style={{ height: 4, background: `linear-gradient(90deg, ${theme.accent}, ${theme.accent}99)` }} />
 
-      <div className="p-4">
-        <div className="flex items-start justify-between gap-3">
-          <div className="inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-[10px] font-extrabold uppercase tracking-[0.2em]" style={{ background: theme.soft, color: theme.accent }}>
-            <span className="text-[12px]">{comparison.category === 'UPSC' ? '🏛️' : comparison.category === 'Banking' ? '🏦' : comparison.category === 'SSC' ? '📋' : comparison.category === 'Railway' ? '🚂' : '💼'}</span>
+        {/* Most Popular badge */}
+        {comparison.trending && (
+          <div style={{
+            position: 'absolute', top: 16, right: 16,
+            background: 'linear-gradient(135deg, #F59E0B, #D97706)',
+            color: '#fff', fontSize: 9, fontWeight: 800,
+            padding: '3px 10px', borderRadius: 10,
+            textTransform: 'uppercase', letterSpacing: '0.1em',
+            boxShadow: '0 2px 8px rgba(245,158,11,0.4)',
+          }}>
+            🔥 Most Popular
+          </div>
+        )}
+
+        <div style={{ padding: '16px 16px 20px' }}>
+          {/* Category pill */}
+          <div style={{
+            display: 'inline-flex', alignItems: 'center', gap: 6,
+            background: theme.soft, color: theme.accent,
+            fontSize: 10, fontWeight: 800, padding: '4px 12px',
+            borderRadius: 20, textTransform: 'uppercase', letterSpacing: '0.15em',
+            marginBottom: 16,
+          }}>
+            <span style={{ fontSize: 12 }}>{CAT_ICON[comparison.category]}</span>
             {comparison.category}
           </div>
-          {comparison.trending && (
-            <div className="flex items-center gap-1 rounded-full bg-gradient-to-r from-amber-100 to-orange-100 px-3 py-1.5 text-[10px] font-extrabold uppercase tracking-[0.18em] text-amber-800 shadow-sm">
-              <span className="text-[12px]">🔥</span>
-              Trending
-            </div>
-          )}
-        </div>
 
-        <div className="mt-4 rounded-[20px] p-4 shadow-sm" style={{ background: theme.header, boxShadow: `inset 0 0 0 1px ${theme.ring}` }}>
-          <div className="grid grid-cols-[1fr_auto_1fr] items-center gap-3">
-            <div className="min-w-0">
-              <IconBadge icon={comparison.leftIcon} background={`${theme.accent}18`} />
-              <div className="mt-3 text-[15px] font-black leading-tight text-[var(--text-dark)]">{comparison.leftLabel}</div>
-              <div className="mt-1.5 text-[10px] font-semibold leading-relaxed text-[var(--text-light)]">{comparison.bestForLeft}</div>
-            </div>
-
-            <div className="flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-full border-2 bg-white text-[11px] font-black tracking-[0.22em] text-[var(--text-dark)] shadow-sm" style={{ borderColor: theme.ring }}>
-              VS
-            </div>
-
-            <div className="min-w-0 text-right">
-              <div className="ml-auto">
-                <IconBadge icon={comparison.rightIcon} background="rgba(15,23,42,0.08)" />
+          {/* VS Card */}
+          <div style={{
+            background: theme.header,
+            borderRadius: 18,
+            padding: '16px 14px',
+            border: `1px solid ${theme.ring}`,
+            marginBottom: 14,
+          }}>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr auto 1fr', alignItems: 'center', gap: 10 }}>
+              {/* Left */}
+              <div>
+                <div style={{
+                  width: 44, height: 44, borderRadius: 14,
+                  background: `${theme.accent}18`,
+                  display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  fontSize: 22, marginBottom: 8,
+                }}>
+                  {comparison.leftIcon}
+                </div>
+                <div style={{ fontSize: 15, fontWeight: 900, color: '#111827', lineHeight: 1.2, marginBottom: 4 }}>
+                  {comparison.leftLabel}
+                </div>
+                <div style={{ fontSize: 10, color: '#9CA3AF', fontWeight: 600, marginBottom: 6 }}>
+                  {comparison.bestForLeft}
+                </div>
+                {leftSalary && (
+                  <div style={{
+                    fontSize: 13, fontWeight: 900, color: theme.accent,
+                    fontFamily: "'Outfit', sans-serif",
+                  }}>
+                    {leftSalary}
+                  </div>
+                )}
+                <div style={{ marginTop: 4 }}>
+                  <StarRating value={comparison.difficultyLeft} color={theme.accent} />
+                </div>
               </div>
-              <div className="mt-3 text-[15px] font-black leading-tight text-[var(--text-dark)]">{comparison.rightLabel}</div>
-              <div className="mt-1.5 text-[10px] font-semibold leading-relaxed text-[var(--text-light)]">{comparison.bestForRight}</div>
+
+              {/* VS badge */}
+              <div style={{
+                width: 40, height: 40, borderRadius: '50%',
+                background: '#0F172A', color: '#fff',
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                fontSize: 10, fontWeight: 900, letterSpacing: '0.15em',
+                flexShrink: 0,
+                boxShadow: '0 4px 12px rgba(0,0,0,0.2)',
+              }}>
+                VS
+              </div>
+
+              {/* Right */}
+              <div style={{ textAlign: 'right' }}>
+                <div style={{
+                  width: 44, height: 44, borderRadius: 14,
+                  background: 'rgba(15,23,42,0.08)',
+                  display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  fontSize: 22, marginBottom: 8, marginLeft: 'auto',
+                }}>
+                  {comparison.rightIcon}
+                </div>
+                <div style={{ fontSize: 15, fontWeight: 900, color: '#111827', lineHeight: 1.2, marginBottom: 4 }}>
+                  {comparison.rightLabel}
+                </div>
+                <div style={{ fontSize: 10, color: '#9CA3AF', fontWeight: 600, marginBottom: 6 }}>
+                  {comparison.bestForRight}
+                </div>
+                {rightSalary && (
+                  <div style={{
+                    fontSize: 13, fontWeight: 900, color: '#F97316',
+                    fontFamily: "'Outfit', sans-serif",
+                  }}>
+                    {rightSalary}
+                  </div>
+                )}
+                <div style={{ marginTop: 4, display: 'flex', justifyContent: 'flex-end' }}>
+                  <StarRating value={comparison.difficultyRight} color="#F97316" />
+                </div>
+              </div>
+            </div>
+
+            {/* Key stat row */}
+            {comparison.previewStat && (
+              <div style={{
+                marginTop: 12, padding: '8px 12px',
+                background: 'rgba(255,255,255,0.7)', borderRadius: 10,
+                fontSize: 11, color: '#374151', fontWeight: 600,
+                textAlign: 'center',
+              }}>
+                {comparison.previewStat}
+              </div>
+            )}
+          </div>
+
+          {/* CTA */}
+          <div style={{
+            display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+          }}>
+            <div style={{ fontSize: 13, fontWeight: 800, color: theme.accent }}>
+              Read Comparison →
+            </div>
+            <div style={{
+              fontSize: 10, color: '#9CA3AF', fontWeight: 600,
+              display: 'flex', alignItems: 'center', gap: 4,
+            }}>
+              📖 8 min read
             </div>
           </div>
-        </div>
-
-        <div className="mt-4">
-          <h3 className="text-[16px] font-black leading-tight text-[var(--text-dark)]">{comparison.leftLabel} vs {comparison.rightLabel}</h3>
-          <p className="mt-2 text-[12px] leading-relaxed text-[var(--text-body)]">{comparison.previewStat}</p>
-        </div>
-
-        <div className="mt-4 grid grid-cols-2 gap-3">
-          <div className="rounded-[16px] border border-[var(--border)] bg-gradient-to-br from-white to-slate-50 px-3 py-3 shadow-sm">
-            <div className="text-[9px] font-extrabold uppercase tracking-[0.18em] text-[var(--text-light)]">{comparison.leftLabel} difficulty</div>
-            <div className="mt-2.5">
-              <DifficultyBar value={comparison.difficultyLeft} color={theme.accent} />
-            </div>
-          </div>
-          <div className="rounded-[16px] border border-[var(--border)] bg-gradient-to-br from-white to-slate-50 px-3 py-3 shadow-sm">
-            <div className="text-[9px] font-extrabold uppercase tracking-[0.18em] text-[var(--text-light)]">{comparison.rightLabel} difficulty</div>
-            <div className="mt-2.5">
-              <DifficultyBar value={comparison.difficultyRight} color="#F97316" />
-            </div>
-          </div>
-        </div>
-
-        <div className="mt-4 inline-flex items-center gap-2 text-[13px] font-extrabold transition-all group-hover:gap-3" style={{ color: theme.accent }}>
-          Open comparison
-          <span className="transition-transform group-hover:translate-x-1">→</span>
         </div>
       </div>
     </Link>

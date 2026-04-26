@@ -407,8 +407,57 @@ export default function ComparisonClient({
               <div className="text-[11px] font-extrabold uppercase tracking-[0.22em] text-[var(--text-light)]">Verdict</div>
               <h3 className="mt-2 text-[24px] font-black text-[var(--text-dark)]">{meta.verdictTitle}</h3>
               <p className="mt-3 text-[14px] leading-7 text-[var(--text-body)]">{meta.verdictBody}</p>
+
+              {/* Choose X if / Choose Y if split cards */}
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10, marginTop: 16 }}>
+                {/* Choose Left */}
+                <div style={{ borderRadius: 16, overflow: 'hidden', border: '2px solid #BBF7D0' }}>
+                  <div style={{ background: '#16A34A', padding: '8px 12px' }}>
+                    <div style={{ fontSize: 10, fontWeight: 800, color: '#fff', textTransform: 'uppercase', letterSpacing: '0.08em' }}>
+                      Choose {meta.leftLabel} if...
+                    </div>
+                  </div>
+                  <div style={{ background: '#F0FDF4', padding: '10px 10px', display: 'flex', flexDirection: 'column', gap: 6 }}>
+                    {meta.bestForLeft.split(',').map((item, i) => (
+                      <div key={i} style={{ display: 'flex', gap: 6, alignItems: 'flex-start' }}>
+                        <span style={{ color: '#16A34A', fontSize: 12, flexShrink: 0, marginTop: 1 }}>✓</span>
+                        <span style={{ fontSize: 11, color: '#065F46', lineHeight: 1.5, fontWeight: 500 }}>{item.trim()}</span>
+                      </div>
+                    ))}
+                    <div style={{ display: 'flex', gap: 6, alignItems: 'flex-start' }}>
+                      <span style={{ color: '#16A34A', fontSize: 12, flexShrink: 0, marginTop: 1 }}>✓</span>
+                      <span style={{ fontSize: 11, color: '#065F46', lineHeight: 1.5, fontWeight: 500 }}>
+                        {meta.matrix.find(r => r.factor === 'Best for')?.left ?? 'Students who value this path'}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+                {/* Choose Right */}
+                <div style={{ borderRadius: 16, overflow: 'hidden', border: '2px solid #FECACA' }}>
+                  <div style={{ background: '#DC2626', padding: '8px 12px' }}>
+                    <div style={{ fontSize: 10, fontWeight: 800, color: '#fff', textTransform: 'uppercase', letterSpacing: '0.08em' }}>
+                      Choose {meta.rightLabel} if...
+                    </div>
+                  </div>
+                  <div style={{ background: '#FEF2F2', padding: '10px 10px', display: 'flex', flexDirection: 'column', gap: 6 }}>
+                    {meta.bestForRight.split(',').map((item, i) => (
+                      <div key={i} style={{ display: 'flex', gap: 6, alignItems: 'flex-start' }}>
+                        <span style={{ color: '#DC2626', fontSize: 12, flexShrink: 0, marginTop: 1 }}>✓</span>
+                        <span style={{ fontSize: 11, color: '#7F1D1D', lineHeight: 1.5, fontWeight: 500 }}>{item.trim()}</span>
+                      </div>
+                    ))}
+                    <div style={{ display: 'flex', gap: 6, alignItems: 'flex-start' }}>
+                      <span style={{ color: '#DC2626', fontSize: 12, flexShrink: 0, marginTop: 1 }}>✓</span>
+                      <span style={{ fontSize: 11, color: '#7F1D1D', lineHeight: 1.5, fontWeight: 500 }}>
+                        {meta.matrix.find(r => r.factor === 'Best for')?.right ?? 'Students who value this path'}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
               <div className="mt-4 rounded-[24px] p-4 text-[14px] leading-7" style={{ background: theme.soft }}>
-                <span className="font-black text-[var(--text-dark)]">Recommendation:</span> {meta.recommendation}
+                <span className="font-black text-[var(--text-dark)]">Overall Recommendation:</span> {meta.recommendation}
               </div>
             </div>
 
@@ -454,35 +503,107 @@ export default function ComparisonClient({
 
       {relatedComparisons.length > 0 && (
         <section className="mx-auto max-w-6xl px-4 pb-14">
-          <div className="rounded-[30px] border border-[var(--border)] bg-white p-5 shadow-sm md:p-6">
-            <div className="text-[11px] font-extrabold uppercase tracking-[0.22em] text-[var(--text-light)]">Related Comparisons</div>
-            <h2 className="mt-2 text-[26px] font-black text-[var(--text-dark)]">Explore nearby decisions</h2>
-            <div className="mt-5 grid grid-cols-1 gap-4 md:grid-cols-2">
-              {relatedComparisons.map((related) => {
-                const relatedMeta = COMPARISON_META[related.slug] ?? meta;
-                const relatedTheme = CATEGORY_STYLES[relatedMeta.category];
+          <div style={{
+            borderRadius: 28, border: '1px solid #E2E8F0',
+            background: 'linear-gradient(135deg, #0F172A 0%, #1E293B 100%)',
+            padding: '24px 24px 28px',
+            overflow: 'hidden', position: 'relative',
+          }}>
+            {/* Dot pattern */}
+            <div style={{
+              position: 'absolute', inset: 0, opacity: 0.04,
+              backgroundImage: 'radial-gradient(circle, #fff 1px, transparent 1px)',
+              backgroundSize: '24px 24px',
+            }} />
+            <div style={{ position: 'relative', zIndex: 1 }}>
+              <div style={{ fontSize: 10, fontWeight: 800, color: 'rgba(255,255,255,0.5)', textTransform: 'uppercase', letterSpacing: '0.2em', marginBottom: 8 }}>
+                You might also want to compare
+              </div>
+              <h2 style={{ fontSize: 22, fontWeight: 900, color: '#fff', marginBottom: 20 }}>
+                Related Comparisons
+              </h2>
+              <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+                {relatedComparisons.map((related) => {
+                  const relatedMeta = COMPARISON_META[related.slug] ?? meta;
+                  const relatedTheme = CATEGORY_STYLES[relatedMeta.category];
 
-                return (
-                  <Link
-                    key={related.slug}
-                    href={`/compare/${related.slug}`}
-                    className="rounded-[26px] border border-[var(--border)] bg-[var(--bg-card)] p-5 transition hover:-translate-y-0.5 hover:shadow-sm"
-                  >
-                    <div className="inline-flex rounded-full px-3 py-1 text-[10px] font-extrabold uppercase tracking-[0.18em]" style={{ background: relatedTheme.soft, color: relatedTheme.accent }}>
-                      {related.category}
-                    </div>
-                    <div className="mt-4 flex items-center gap-3">
-                      <div className="flex h-12 w-12 items-center justify-center rounded-2xl text-[22px]" style={{ background: relatedTheme.soft }}>
-                        {relatedMeta.leftIcon}
+                  return (
+                    <Link
+                      key={related.slug}
+                      href={`/compare/${related.slug}`}
+                      style={{ textDecoration: 'none' }}
+                    >
+                      <div style={{
+                        background: 'rgba(255,255,255,0.07)',
+                        border: '1px solid rgba(255,255,255,0.1)',
+                        borderRadius: 20, padding: '16px',
+                        transition: 'all 0.2s', cursor: 'pointer',
+                      }}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.background = 'rgba(255,255,255,0.12)';
+                        e.currentTarget.style.transform = 'translateY(-2px)';
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.background = 'rgba(255,255,255,0.07)';
+                        e.currentTarget.style.transform = 'translateY(0)';
+                      }}
+                      >
+                        {/* Category pill */}
+                        <div style={{
+                          display: 'inline-flex', alignItems: 'center', gap: 6,
+                          background: relatedTheme.soft, color: relatedTheme.accent,
+                          fontSize: 9, fontWeight: 800, padding: '3px 10px',
+                          borderRadius: 10, textTransform: 'uppercase', letterSpacing: '0.12em',
+                          marginBottom: 12,
+                        }}>
+                          {related.category}
+                        </div>
+
+                        {/* VS row */}
+                        <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 10 }}>
+                          <div style={{
+                            width: 44, height: 44, borderRadius: 12,
+                            background: relatedTheme.soft,
+                            display: 'flex', alignItems: 'center', justifyContent: 'center',
+                            fontSize: 22,
+                          }}>
+                            {relatedMeta.leftIcon}
+                          </div>
+                          <div style={{
+                            width: 28, height: 28, borderRadius: '50%',
+                            background: '#fff', color: '#0F172A',
+                            display: 'flex', alignItems: 'center', justifyContent: 'center',
+                            fontSize: 9, fontWeight: 900, letterSpacing: '0.1em',
+                          }}>
+                            VS
+                          </div>
+                          <div style={{
+                            width: 44, height: 44, borderRadius: 12,
+                            background: 'rgba(255,255,255,0.1)',
+                            display: 'flex', alignItems: 'center', justifyContent: 'center',
+                            fontSize: 22,
+                          }}>
+                            {relatedMeta.rightIcon}
+                          </div>
+                          <div style={{ flex: 1 }}>
+                            <div style={{ fontSize: 15, fontWeight: 900, color: '#fff', lineHeight: 1.2 }}>
+                              {relatedMeta.leftLabel} <span style={{ color: 'rgba(255,255,255,0.4)' }}>vs</span> {relatedMeta.rightLabel}
+                            </div>
+                          </div>
+                        </div>
+
+                        <div style={{ fontSize: 12, color: 'rgba(255,255,255,0.6)', lineHeight: 1.5, marginBottom: 10 }}>
+                          {relatedMeta.previewStat}
+                        </div>
+
+                        <div style={{ fontSize: 12, fontWeight: 700, color: relatedTheme.accent }}>
+                          Read comparison →
+                        </div>
                       </div>
-                      <div className="text-[17px] font-black text-[var(--text-dark)]">
-                        {relatedMeta.leftLabel} <span className="text-[var(--text-light)]">vs</span> {relatedMeta.rightLabel}
-                      </div>
-                    </div>
-                    <p className="mt-3 text-[13px] leading-6 text-[var(--text-body)]">{relatedMeta.previewStat}</p>
-                  </Link>
-                );
-              })}
+                    </Link>
+                  );
+                })}
+              </div>
             </div>
           </div>
         </section>

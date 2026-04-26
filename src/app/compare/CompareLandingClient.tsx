@@ -18,37 +18,6 @@ const FILTER_LABELS: Record<FilterValue, string> = {
   Career: 'Career',
 };
 
-function FilterPill({
-  active,
-  label,
-  onClick,
-}: {
-  active: boolean;
-  label: string;
-  onClick: () => void;
-}) {
-  return (
-    <button
-      type="button"
-      onClick={onClick}
-      className="flex-shrink-0 rounded-full border px-5 py-2.5 text-[13px] font-extrabold transition-all duration-300"
-      style={{
-        borderColor: active ? 'transparent' : 'var(--border)',
-        background: active 
-          ? 'linear-gradient(135deg, #0f172a 0%, #1e293b 100%)' 
-          : 'white',
-        color: active ? 'white' : 'var(--text-body)',
-        boxShadow: active 
-          ? '0 8px 20px rgba(15,23,42,0.2), 0 2px 8px rgba(0,0,0,0.1)' 
-          : '0 1px 3px rgba(0,0,0,0.05)',
-        transform: active ? 'scale(1.02)' : 'scale(1)',
-      }}
-    >
-      {label}
-    </button>
-  );
-}
-
 export default function CompareLandingClient({ comparisons }: { comparisons: ComparisonOverview[] }) {
   const [activeFilter, setActiveFilter] = useState<FilterValue>('All');
 
@@ -62,67 +31,93 @@ export default function CompareLandingClient({ comparisons }: { comparisons: Com
 
   return (
     <>
-      <section className="border-b border-[var(--border)]" style={{ background: 'linear-gradient(to bottom, #ffffff, #f8fafc)' }}>
-        <div className="mx-auto max-w-6xl pb-8 pt-8 md:pb-14 md:pt-14">
-          {/* Main Content */}
-          <div className="mb-6 px-4">
-            <div className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-gradient-to-r from-slate-50 to-blue-50 px-4 py-2 text-[11px] font-extrabold uppercase tracking-[0.22em] text-slate-700 shadow-sm">
-              <span className="text-[14px]">⚖️</span>
-              Comparison Guides
-            </div>
-            <h1 className="mt-5 max-w-3xl text-[24px] font-black leading-[1.2] text-[var(--text-dark)] md:text-[32px] lg:text-[46px]">
-              Compare careers with a clear decision view.
-            </h1>
-            <p className="mt-4 max-w-2xl text-[14px] leading-relaxed text-[var(--text-body)] md:text-[15px] lg:text-[17px]">
-              See salary gaps, difficulty, work style, and long-term fit without reading a wall of text first. Start with the category that matches your exam path.
-            </p>
-
-            <div className="mt-6 flex gap-2.5 overflow-x-auto pb-2 scrollbar-hide" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
-              {FILTERS.map((filter) => (
-                <FilterPill
-                  key={filter}
-                  active={activeFilter === filter}
-                  label={FILTER_LABELS[filter]}
-                  onClick={() => setActiveFilter(filter)}
-                />
-              ))}
-            </div>
+      {/* ── DARK HEADER ── */}
+      <section style={{
+        background: "linear-gradient(135deg, #0F172A 0%, #1E293B 100%)",
+        borderBottom: "1px solid rgba(255,255,255,0.08)",
+        position: "relative",
+        overflow: "hidden",
+      }}>
+        {/* Dot pattern */}
+        <div style={{
+          position: "absolute", inset: 0, opacity: 0.04,
+          backgroundImage: "radial-gradient(circle, #fff 1px, transparent 1px)",
+          backgroundSize: "28px 28px",
+        }} />
+        <div className="mx-auto max-w-6xl px-4 pb-10 pt-10 md:pb-14 md:pt-14" style={{ position: "relative", zIndex: 1 }}>
+          {/* Eyebrow */}
+          <div style={{
+            display: "inline-flex", alignItems: "center", gap: 8,
+            background: "rgba(255,255,255,0.08)", border: "1px solid rgba(255,255,255,0.12)",
+            borderRadius: 20, padding: "6px 14px",
+            fontSize: 10, fontWeight: 800, color: "rgba(255,255,255,0.7)",
+            letterSpacing: "0.2em", textTransform: "uppercase",
+            marginBottom: 20,
+          }}>
+            <span style={{ fontSize: 14 }}>⚖️</span>
+            Career Comparison Guides
           </div>
 
-          {/* Info Cards - Full width scroll on mobile */}
-          <div className="mt-6 overflow-x-auto px-4 pb-3 scrollbar-hide lg:px-4" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
-            <div className="flex gap-3 lg:grid lg:grid-cols-3 lg:gap-4">
-              <div className="group w-[calc(50%-6px)] flex-shrink-0 rounded-[16px] border border-[var(--border)] bg-gradient-to-br from-white to-slate-50 p-4 shadow-sm transition hover:shadow-md sm:w-[280px] lg:w-auto">
-                <div className="flex items-center gap-1.5">
-                  <span className="text-[14px]">🔥</span>
-                  <div className="text-[9px] font-extrabold uppercase tracking-[0.22em] text-[var(--text-light)]">Most Read</div>
-                </div>
-                <div className="mt-2.5 text-[15px] font-black leading-tight text-[var(--text-dark)]">
-                  {trendingComparison ? `${trendingComparison.leftLabel} vs ${trendingComparison.rightLabel}` : 'IAS vs IPS'}
-                </div>
-                <div className="mt-1.5 text-[11px] leading-relaxed text-[var(--text-body)]">
-                  {trendingComparison?.previewStat ?? 'Salary basis: ₹56,100 vs ₹56,100'}
-                </div>
-              </div>
+          <h1 style={{
+            fontSize: "clamp(26px, 5vw, 46px)", fontWeight: 900, color: "#fff",
+            lineHeight: 1.15, margin: "0 0 16px", maxWidth: 640,
+          }}>
+            Data-driven comparisons to help you choose the right path
+          </h1>
+          <p style={{
+            fontSize: 15, color: "rgba(255,255,255,0.65)", lineHeight: 1.7,
+            maxWidth: 520, margin: "0 0 28px",
+          }}>
+            Salary gaps, difficulty, work style, and long-term fit — without reading a wall of text first.
+          </p>
 
-              <div className="group w-[calc(50%-6px)] flex-shrink-0 rounded-[16px] border border-[var(--border)] bg-white p-4 shadow-sm transition hover:shadow-md sm:w-[280px] lg:w-auto">
-                <div className="flex items-center gap-1.5">
-                  <span className="text-[14px]">📊</span>
-                  <div className="text-[9px] font-extrabold uppercase tracking-[0.22em] text-[var(--text-light)]">Coverage</div>
+          {/* Stats row */}
+          <div style={{ display: "flex", gap: 12, flexWrap: "wrap", marginBottom: 28 }}>
+            {[
+              { icon: "📊", value: `${comparisons.length}`, label: "Comparisons" },
+              { icon: "🏷️", value: `${categoriesCovered}`, label: "Categories" },
+              { icon: "🔥", value: trendingComparison ? `${trendingComparison.leftLabel} vs ${trendingComparison.rightLabel}` : "IAS vs IPS", label: "Most Popular" },
+            ].map((stat, i) => (
+              <div key={i} style={{
+                background: "rgba(255,255,255,0.07)", border: "1px solid rgba(255,255,255,0.1)",
+                borderRadius: 14, padding: "10px 16px",
+                display: "flex", alignItems: "center", gap: 10,
+              }}>
+                <span style={{ fontSize: 18 }}>{stat.icon}</span>
+                <div>
+                  <div style={{ fontSize: 14, fontWeight: 900, color: "#fff", lineHeight: 1 }}>{stat.value}</div>
+                  <div style={{ fontSize: 10, color: "rgba(255,255,255,0.5)", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.1em" }}>{stat.label}</div>
                 </div>
-                <div className="mt-2.5 text-[28px] font-black text-[var(--text-dark)]">{comparisons.length}</div>
-                <div className="mt-1 text-[11px] leading-relaxed text-[var(--text-body)]">{categoriesCovered} active categories with visual salary and fit snapshots</div>
               </div>
+            ))}
+          </div>
 
-              <div className="group w-[calc(50%-6px)] flex-shrink-0 rounded-[16px] p-4 text-white shadow-md transition hover:shadow-lg sm:w-[280px] lg:w-auto" style={{ background: 'linear-gradient(135deg, #1d4ed8 0%, #0f172a 100%)' }}>
-                <div className="flex items-center gap-1.5">
-                  <span className="text-[14px]">💡</span>
-                  <div className="text-[9px] font-extrabold uppercase tracking-[0.22em] text-white/70">Use It Well</div>
-                </div>
-                <div className="mt-2.5 text-[15px] font-black leading-tight">Check the verdict, then the salary.</div>
-                <div className="mt-1.5 text-[11px] leading-relaxed text-white/80">That order keeps you focused on fit first and numbers second.</div>
-              </div>
-            </div>
+          {/* Filter pills */}
+          <div className="flex gap-2.5 overflow-x-auto pb-2 scrollbar-hide" style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}>
+            {FILTERS.map((filter) => (
+              <button
+                key={filter}
+                type="button"
+                onClick={() => setActiveFilter(filter)}
+                style={{
+                  flexShrink: 0,
+                  padding: "8px 18px",
+                  borderRadius: 20,
+                  fontSize: 12,
+                  fontWeight: 700,
+                  border: activeFilter === filter ? "none" : "1px solid rgba(255,255,255,0.15)",
+                  background: activeFilter === filter
+                    ? "linear-gradient(135deg, #667eea, #764ba2)"
+                    : "rgba(255,255,255,0.07)",
+                  color: activeFilter === filter ? "#fff" : "rgba(255,255,255,0.7)",
+                  cursor: "pointer",
+                  transition: "all 0.2s",
+                  boxShadow: activeFilter === filter ? "0 4px 16px rgba(102,126,234,0.4)" : "none",
+                }}
+              >
+                {FILTER_LABELS[filter]}
+              </button>
+            ))}
           </div>
         </div>
       </section>
