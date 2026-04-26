@@ -1,27 +1,26 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Link from "next/link";
 import BottomNav from "@/components/BottomNav";
 import Footer from "@/components/Footer";
 import StreakBar from "@/components/home/StreakBar";
 import DailyChallenge from "@/components/home/DailyChallenge";
 import TargetExams from "@/components/home/TargetExams";
+import StoriesStrip from "@/components/home/StoriesStrip";
 import WhyNaukriYatra from "@/components/home/WhyNaukriYatra";
 import LatestNotifications from "@/components/home/LatestNotifications";
-import { HERO_STORIES, COUNTDOWNS, getTodaysQuiz } from "@/components/data";
+import { COUNTDOWNS, STORIES, getTodaysQuiz } from "@/components/data";
 import { useStreak } from "@/hooks/useStreak";
 import { useDailyQuizAnswer } from "@/hooks/useDailyQuiz";
 import { useSavedArticles } from "@/hooks/useSavedArticles";
 
 export default function Home() {
-  const [si, setSi] = useState(0);
   const { streak, isNew } = useStreak();
   const { answer, saveAnswer } = useDailyQuizAnswer();
   const { savedArticles, savedCount } = useSavedArticles();
   const quiz = getTodaysQuiz();
 
-  useEffect(() => { const t = setInterval(() => setSi(i => (i + 1) % HERO_STORIES.length), 5000); return () => clearInterval(t); }, []);
-  const s = HERO_STORIES[si];
+  const storiesForStrip = STORIES.map(s => ({ ...s, bgColor: s.color, image: s.image }));
 
   return (
     <main style={{ minHeight: "100vh", background: "var(--bg)", paddingBottom: 76 }}>
@@ -53,60 +52,9 @@ export default function Home() {
             Sapne se<br />
             <span style={{ color: "#5EEAD4" }}>Selection Tak</span>
           </h1>
-          <p style={{ fontSize: 14, opacity: 0.65, marginBottom: 28, lineHeight: 1.5 }}>
+          <p style={{ fontSize: 14, opacity: 0.65, marginBottom: 32, lineHeight: 1.5 }}>
             Your journey to a government job starts here
           </p>
-
-          {/* Rotating story */}
-          <div key={si} className="anim-fade" style={{
-            background: "rgba(255,255,255,0.08)", backdropFilter: "blur(8px)",
-            borderRadius: 16, padding: "18px 20px", maxWidth: 420, margin: "0 auto 24px",
-            border: "1px solid rgba(255,255,255,0.12)", textAlign: "left",
-          }}>
-            <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 12 }}>
-              <div style={{
-                width: 38, height: 38, borderRadius: "50%", flexShrink: 0,
-                background: "linear-gradient(135deg, rgba(94,234,212,0.3), rgba(59,130,246,0.3))",
-                border: "2px solid rgba(94,234,212,0.4)",
-                display: "flex", alignItems: "center", justifyContent: "center", fontSize: 18,
-                overflow: "hidden",
-              }}>
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src={s.image}
-                  alt={s.name}
-                  width={38}
-                  height={38}
-                  style={{ width: 38, height: 38, objectFit: "cover", borderRadius: "50%" }}
-                  onError={(e) => { (e.target as HTMLImageElement).style.display = "none"; (e.target as HTMLImageElement).nextElementSibling && ((e.target as HTMLImageElement).nextElementSibling as HTMLElement).style.removeProperty("display"); }}
-                />
-                <span style={{ display: "none" }}>{s.emoji}</span>
-              </div>
-              <div>
-                <div style={{ fontSize: 13, fontWeight: 700, color: "#fff" }}>{s.name}</div>
-                <div style={{ fontSize: 11, color: "#5EEAD4", fontWeight: 600 }}>{s.role}</div>
-              </div>
-              <div style={{
-                marginLeft: "auto", background: "rgba(94,234,212,0.15)",
-                border: "1px solid rgba(94,234,212,0.3)", borderRadius: 8,
-                padding: "2px 8px", fontSize: 9, fontWeight: 700, color: "#5EEAD4",
-              }}>✓ SELECTED</div>
-            </div>
-            <p style={{ fontSize: 14, fontWeight: 400, lineHeight: 1.6, margin: 0, fontStyle: "italic", opacity: 0.9 }}>
-              &ldquo;{s.quote}&rdquo;
-            </p>
-          </div>
-
-          {/* Dots */}
-          <div style={{ display: "flex", justifyContent: "center", gap: 6, marginBottom: 24 }}>
-            {HERO_STORIES.map((_, i) => (
-              <button key={i} onClick={() => setSi(i)} style={{
-                width: i === si ? 20 : 6, height: 6, borderRadius: 4,
-                background: i === si ? "#5EEAD4" : "rgba(255,255,255,0.2)",
-                border: "none", cursor: "pointer", transition: "all 0.3s",
-              }} />
-            ))}
-          </div>
 
           <div className="flex flex-wrap justify-center gap-2.5">
             <Link href="/quiz" style={{ textDecoration: "none" }}>
@@ -274,6 +222,11 @@ export default function Home() {
         {/* ═══ TARGET EXAMS ═══ */}
         <div className="anim-up-3" style={{ paddingTop: 20 }}>
           <TargetExams exams={COUNTDOWNS} />
+        </div>
+
+        {/* ═══ SUCCESS STORIES ═══ */}
+        <div className="anim-up-4" style={{ paddingTop: 20 }}>
+          <StoriesStrip stories={storiesForStrip} />
         </div>
 
         {/* ═══ LATEST NOTIFICATIONS ═══ */}
