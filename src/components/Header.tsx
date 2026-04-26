@@ -8,6 +8,7 @@ import { createClient } from '@/lib/supabase/client';
 import { useDarkMode } from '@/hooks/useDarkMode';
 import { useStreak } from '@/hooks/useStreak';
 import { useSavedArticles } from '@/hooks/useSavedArticles';
+import NotificationBell from '@/components/NotificationBell';
 
 type PracticeSession = {
   created_at: string;
@@ -457,6 +458,8 @@ export default function Header() {
                 </span>
               )}
             </Link>
+
+            <NotificationBell />
 
             {isLoggedIn ? (
               <div style={{ position: 'relative' }}>

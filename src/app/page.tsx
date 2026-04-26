@@ -7,7 +7,7 @@ import StreakBar from "@/components/home/StreakBar";
 import DailyChallenge from "@/components/home/DailyChallenge";
 import TargetExams from "@/components/home/TargetExams";
 import StoriesStrip from "@/components/home/StoriesStrip";
-import LatestNews from "@/components/home/LatestNews";
+import LatestNotifications from "@/components/home/LatestNotifications";
 import { HERO_STORIES, COUNTDOWNS, STORIES, getTodaysQuiz } from "@/components/data";
 import { useStreak } from "@/hooks/useStreak";
 import { useDailyQuizAnswer } from "@/hooks/useDailyQuiz";
@@ -283,9 +283,9 @@ export default function Home() {
           <StoriesStrip stories={storiesForStrip} />
         </div>
 
-        {/* ═══ LATEST NEWS ═══ */}
+        {/* ═══ LATEST NOTIFICATIONS ═══ */}
         <div style={{ paddingTop: 20 }}>
-          <LatestNews />
+          <LatestNotifications />
         </div>
 
         {/* ═══ FOOTER ═══ */}
