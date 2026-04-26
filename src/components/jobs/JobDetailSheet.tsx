@@ -1062,17 +1062,43 @@ export default function JobDetailSheet({ job, onClose, fullPage = false }: { job
           {/* ── MAIN COLUMN ── */}
           <div>
 
-          <div className="mb-4 overflow-hidden rounded-[24px] border border-amber-200/40 shadow-sm" style={{ background: `linear-gradient(135deg, ${illustrationPalette.soft}, #ffffff 60%)` }}>
-            <div className="grid grid-cols-1 items-center gap-4 px-4 py-4 sm:grid-cols-[1.1fr_0.9fr]">
-              <div>
+          <div className="mb-4 overflow-hidden rounded-[24px] border shadow-lg" style={{ 
+            background: `linear-gradient(135deg, ${illustrationPalette.soft}, #ffffff 60%)`,
+            borderColor: `${illustrationPalette.primary}30`,
+          }}>
+            <div className="grid grid-cols-1 items-center gap-0 md:grid-cols-[1fr_1fr]">
+              {/* Left: Text content */}
+              <div className="px-5 py-5 md:px-6 md:py-6">
                 <div className="text-[10px] font-extrabold uppercase tracking-[0.24em]" style={{ color: illustrationPalette.primary }}>Career Preview</div>
-                <div className="mt-2 text-[22px] font-black leading-tight text-[var(--text-dark)]">What this life can actually look like after selection</div>
-                <div className="mt-2 text-[13px] leading-relaxed text-[var(--text-body)]">
+                <div className="mt-2 text-[22px] font-black leading-tight text-[var(--text-dark)] md:text-[26px]">What this life can actually look like after selection</div>
+                <div className="mt-3 text-[13px] leading-relaxed text-[var(--text-body)] md:text-[14px]">
                   Premium perks, a defined ladder, and a role people instantly respect. This card is the visual promise behind the exam grind.
                 </div>
               </div>
-              <div className="rounded-[20px] px-3 py-2" style={{ background: `${illustrationPalette.primary}08` }}>
-                <JobCategoryIllustration category={job.category} />
+              {/* Right: Category image */}
+              <div className="relative h-[200px] overflow-hidden md:h-[280px]" style={{
+                background: `linear-gradient(135deg, ${illustrationPalette.primary}15, ${illustrationPalette.primary}05)`,
+              }}>
+                <img 
+                  src={`/images/content/jobs/${job.category}.png`}
+                  alt={`${job.category} career`}
+                  style={{
+                    width: "100%",
+                    height: "100%",
+                    objectFit: "cover",
+                    objectPosition: "center",
+                  }}
+                  onError={(e) => {
+                    // Fallback to a default image if category image doesn't exist
+                    e.currentTarget.src = "/images/content/jobs/upsc.png";
+                  }}
+                />
+                {/* Gradient overlay for better text contrast */}
+                <div style={{
+                  position: "absolute",
+                  inset: 0,
+                  background: `linear-gradient(to top, ${illustrationPalette.primary}40, transparent 60%)`,
+                }} />
               </div>
             </div>
           </div>
