@@ -929,10 +929,12 @@ export default function JobDetailSheet({ job, onClose, fullPage = false }: { job
             background: "rgba(255,255,255,0.95)", backdropFilter: "blur(12px)",
             borderBottom: "1px solid rgba(0,0,0,0.08)",
             padding: "12px 20px",
-            display: "flex", alignItems: "center", gap: 12,
-            maxWidth: 1100,
-            margin: "0 auto",
           }}>
+            <div style={{
+              maxWidth: 1100,
+              margin: "0 auto",
+              display: "flex", alignItems: "center", gap: 12,
+            }}>
             <button
               onClick={onClose}
               style={{
@@ -958,6 +960,7 @@ export default function JobDetailSheet({ job, onClose, fullPage = false }: { job
                 {job.title}
               </div>
               <div style={{ fontSize: 11, color: "#9CA3AF" }}>{job.org}</div>
+            </div>
             </div>
           </div>
         ) : (
