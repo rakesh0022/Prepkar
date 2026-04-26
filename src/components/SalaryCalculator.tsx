@@ -86,12 +86,6 @@ export default function SalaryCalculator() {
     setTimeout(() => setIsAnimating(false), 400);
   };
 
-  const cityIcons: Record<string, string> = {
-    xCity: "🏙️",
-    yCity: "🌆",
-    zCity: "🏘️",
-  };
-
   return (
     <div style={{
       borderRadius: 24,
@@ -134,120 +128,288 @@ export default function SalaryCalculator() {
         </div>
 
         <div style={{ padding: "24px 20px" }}>
-          {/* Step 1: Job Post Selection */}
-          <div style={{ marginBottom: 24 }}>
+          {/* Step 1: Visual Job Cards */}
+          <div style={{ marginBottom: 32 }}>
             <label style={{
               display: "flex",
               alignItems: "center",
               gap: 8,
-              fontSize: 13,
-              fontWeight: 700,
+              fontSize: 14,
+              fontWeight: 800,
               color: "#1F2937",
-              marginBottom: 10,
+              marginBottom: 16,
             }}>
-              <span style={{ fontSize: 16 }}>💼</span> Select Job Post
+              <span style={{ fontSize: 20 }}>💼</span> Select Your Dream Job
             </label>
-            <select
-              value={selectedPost}
-              onChange={(e) => setSelectedPost(e.target.value)}
-              style={{
-                width: "100%",
-                padding: "14px 16px",
-                border: "2px solid #E5E7EB",
-                borderRadius: 14,
-                fontSize: 14,
-                fontWeight: 600,
-                color: "#1F2937",
-                background: "#F9FAFB",
-                cursor: "pointer",
-                transition: "all 0.2s",
-                outline: "none",
-              }}
-              onFocus={(e) => {
-                e.target.style.borderColor = "#667eea";
-                e.target.style.background = "#FFFFFF";
-              }}
-              onBlur={(e) => {
-                e.target.style.borderColor = "#E5E7EB";
-                e.target.style.background = "#F9FAFB";
-              }}
-            >
-              <option value="">Choose a job post...</option>
-              {posts.map((post) => (
-                <option key={post.id} value={post.id}>
-                  {post.name} ({post.category})
-                </option>
-              ))}
-            </select>
-          </div>
-
-          {/* Step 2: City Type - Premium Pills */}
-          <div style={{ marginBottom: 24 }}>
-            <label style={{
-              display: "flex",
-              alignItems: "center",
-              gap: 8,
-              fontSize: 13,
-              fontWeight: 700,
-              color: "#1F2937",
-              marginBottom: 12,
+            
+            <div style={{ 
+              display: "grid", 
+              gridTemplateColumns: "repeat(auto-fill, minmax(160px, 1fr))", 
+              gap: 12,
             }}>
-              <span style={{ fontSize: 16 }}>📍</span> City Type
-            </label>
-            <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
-              {[
-                { value: "xCity", label: "X City", sub: "Delhi, Mumbai", percent: "HRA 30%" },
-                { value: "yCity", label: "Y City", sub: "Pune, Jaipur", percent: "HRA 20%" },
-                { value: "zCity", label: "Z City", sub: "Others", percent: "HRA 10%" },
-              ].map((city) => (
-                <button
-                  key={city.value}
-                  onClick={() => handleCityChange(city.value)}
-                  style={{
-                    flex: "1 1 auto",
-                    minWidth: "fit-content",
-                    padding: "14px 16px",
-                    borderRadius: 14,
-                    fontSize: 12,
-                    fontWeight: 700,
-                    border: cityType === city.value ? "2px solid #667eea" : "2px solid #E5E7EB",
-                    background: cityType === city.value
-                      ? "linear-gradient(135deg, #EEF2FF, #F3E8FF)"
-                      : "#FFFFFF",
-                    color: cityType === city.value ? "#667eea" : "#6B7280",
-                    cursor: "pointer",
-                    transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
-                    transform: cityType === city.value ? "scale(1.02)" : "scale(1)",
-                    boxShadow: cityType === city.value
-                      ? "0 4px 16px rgba(102,126,234,0.15)"
-                      : "none",
-                  }}
-                >
-                  <div style={{ fontSize: 18, marginBottom: 4 }}>{cityIcons[city.value]}</div>
-                  <div style={{ fontWeight: 800, marginBottom: 2 }}>{city.label}</div>
-                  <div style={{ fontSize: 10, opacity: 0.7 }}>{city.sub}</div>
-                  <div style={{ fontSize: 10, marginTop: 4, fontWeight: 600 }}>{city.percent}</div>
-                </button>
-              ))}
+              {posts.map((post) => {
+                const isSelected = selectedPost === post.id;
+                const jobIcons: Record<string, string> = {
+                  "ias-officer": "🏛️",
+                  "sbi-po": "🏦",
+                  "ssc-cgl-income-tax": "💼",
+                  "ssc-cgl-auditor": "📊",
+                  "ssc-chsl": "📝",
+                  "rrb-ntpc": "🚂",
+                  "rbi-grade-b": "🏛️",
+                  "nda": "🎖️",
+                  "delhi-police": "👮",
+                  "ibps-po": "🏦",
+                };
+                
+                const categoryColors: Record<string, string> = {
+                  "UPSC": "#7C3AED",
+                  "Banking": "#10b981",
+                  "SSC": "#f59e0b",
+                  "Railway": "#ef4444",
+                  "Defence": "#0d9488",
+                };
+                
+                const color = categoryColors[post.category] || "#6b7280";
+                
+                return (
+                  <button
+                    key={post.id}
+                    onClick={() => setSelectedPost(post.id)}
+                    style={{
+                      padding: "16px 12px",
+                      borderRadius: 16,
+                      border: isSelected ? `3px solid ${color}` : "2px solid #e5e7eb",
+                      background: isSelected ? `${color}08` : "white",
+                      cursor: "pointer",
+                      transition: "all 0.2s",
+                      position: "relative",
+                      textAlign: "center",
+                      boxShadow: isSelected ? `0 4px 16px ${color}30` : "0 1px 3px rgba(0,0,0,0.05)",
+                    }}
+                    onMouseEnter={(e) => {
+                      if (!isSelected) {
+                        e.currentTarget.style.borderColor = color;
+                        e.currentTarget.style.transform = "translateY(-2px)";
+                        e.currentTarget.style.boxShadow = `0 4px 12px ${color}20`;
+                      }
+                    }}
+                    onMouseLeave={(e) => {
+                      if (!isSelected) {
+                        e.currentTarget.style.borderColor = "#e5e7eb";
+                        e.currentTarget.style.transform = "translateY(0)";
+                        e.currentTarget.style.boxShadow = "0 1px 3px rgba(0,0,0,0.05)";
+                      }
+                    }}
+                  >
+                    {isSelected && (
+                      <div style={{
+                        position: "absolute",
+                        top: -8,
+                        right: -8,
+                        width: 24,
+                        height: 24,
+                        borderRadius: "50%",
+                        background: color,
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        fontSize: 12,
+                        boxShadow: `0 2px 8px ${color}40`,
+                      }}>
+                        ✓
+                      </div>
+                    )}
+                    
+                    <div style={{ fontSize: 32, marginBottom: 8 }}>
+                      {jobIcons[post.id] || "💼"}
+                    </div>
+                    
+                    <div style={{ 
+                      fontSize: 13, 
+                      fontWeight: 800, 
+                      color: "#111827",
+                      marginBottom: 6,
+                      lineHeight: 1.3,
+                      minHeight: 36,
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                    }}>
+                      {post.name}
+                    </div>
+                    
+                    <div style={{
+                      fontSize: 10,
+                      fontWeight: 700,
+                      color: color,
+                      background: `${color}15`,
+                      padding: "4px 8px",
+                      borderRadius: 6,
+                      marginBottom: 8,
+                      textTransform: "uppercase",
+                      letterSpacing: "0.05em",
+                    }}>
+                      {post.category}
+                    </div>
+                    
+                    <div style={{
+                      fontSize: 11,
+                      fontWeight: 700,
+                      color: "#6b7280",
+                    }}>
+                      ₹{(post.basicPay.entry / 1000).toFixed(0)}K - ₹{((post.basicPay.afterIncrements["30years"] || post.basicPay.entry) / 1000).toFixed(0)}K
+                    </div>
+                  </button>
+                );
+              })}
             </div>
           </div>
 
-          {/* Step 3: Experience Slider */}
-          <div style={{ marginBottom: 24 }}>
+          {/* Step 2: City Type - Large Tappable Cards */}
+          <div style={{ marginBottom: 32 }}>
+            <label style={{
+              display: "flex",
+              alignItems: "center",
+              gap: 8,
+              fontSize: 14,
+              fontWeight: 800,
+              color: "#1F2937",
+              marginBottom: 16,
+            }}>
+              <span style={{ fontSize: 20 }}>📍</span> Select Your City Type
+            </label>
+            <div style={{ 
+              display: "grid", 
+              gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", 
+              gap: 12,
+            }}>
+              {[
+                { value: "xCity", label: "X City", sub: "Delhi, Mumbai, Bangalore", percent: "30%", icon: "🏙️", color: "#7C3AED" },
+                { value: "yCity", label: "Y City", sub: "Pune, Jaipur, Lucknow", percent: "20%", icon: "🌆", color: "#0D9488" },
+                { value: "zCity", label: "Z City", sub: "Others", percent: "10%", icon: "🏘️", color: "#D97706" },
+              ].map((city) => {
+                const isSelected = cityType === city.value;
+                return (
+                  <button
+                    key={city.value}
+                    onClick={() => handleCityChange(city.value)}
+                    style={{
+                      padding: "20px 16px",
+                      borderRadius: 16,
+                      border: isSelected ? `3px solid ${city.color}` : "2px solid #e5e7eb",
+                      background: isSelected ? `${city.color}08` : "white",
+                      cursor: "pointer",
+                      transition: "all 0.2s",
+                      position: "relative",
+                      textAlign: "left",
+                      boxShadow: isSelected ? `0 4px 16px ${city.color}30` : "0 1px 3px rgba(0,0,0,0.05)",
+                    }}
+                    onMouseEnter={(e) => {
+                      if (!isSelected) {
+                        e.currentTarget.style.borderColor = city.color;
+                        e.currentTarget.style.transform = "translateY(-2px)";
+                        e.currentTarget.style.boxShadow = `0 4px 12px ${city.color}20`;
+                      }
+                    }}
+                    onMouseLeave={(e) => {
+                      if (!isSelected) {
+                        e.currentTarget.style.borderColor = "#e5e7eb";
+                        e.currentTarget.style.transform = "translateY(0)";
+                        e.currentTarget.style.boxShadow = "0 1px 3px rgba(0,0,0,0.05)";
+                      }
+                    }}
+                  >
+                    {isSelected && (
+                      <div style={{
+                        position: "absolute",
+                        top: -8,
+                        right: -8,
+                        width: 24,
+                        height: 24,
+                        borderRadius: "50%",
+                        background: city.color,
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        fontSize: 12,
+                        color: "white",
+                        boxShadow: `0 2px 8px ${city.color}40`,
+                      }}>
+                        ✓
+                      </div>
+                    )}
+                    
+                    <div style={{ fontSize: 36, marginBottom: 12 }}>
+                      {city.icon}
+                    </div>
+                    
+                    <div style={{ 
+                      fontSize: 16, 
+                      fontWeight: 800, 
+                      color: "#111827",
+                      marginBottom: 6,
+                    }}>
+                      {city.label}
+                    </div>
+                    
+                    <div style={{
+                      fontSize: 12,
+                      color: "#6b7280",
+                      marginBottom: 12,
+                      lineHeight: 1.4,
+                    }}>
+                      {city.sub}
+                    </div>
+                    
+                    <div style={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: 8,
+                      padding: "8px 12px",
+                      background: `${city.color}15`,
+                      borderRadius: 8,
+                    }}>
+                      <span style={{
+                        fontSize: 11,
+                        fontWeight: 700,
+                        color: city.color,
+                        textTransform: "uppercase",
+                        letterSpacing: "0.05em",
+                      }}>
+                        HRA
+                      </span>
+                      <span style={{
+                        fontSize: 18,
+                        fontWeight: 900,
+                        color: city.color,
+                        fontFamily: "'Outfit', sans-serif",
+                      }}>
+                        {city.percent}
+                      </span>
+                    </div>
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* Step 3: Experience Slider with Milestones */}
+          <div style={{ marginBottom: 32 }}>
             <label style={{
               display: "flex",
               alignItems: "center",
               justifyContent: "space-between",
-              fontSize: 13,
-              fontWeight: 700,
+              fontSize: 14,
+              fontWeight: 800,
               color: "#1F2937",
-              marginBottom: 12,
+              marginBottom: 16,
             }}>
               <span style={{ display: "flex", alignItems: "center", gap: 8 }}>
-                <span style={{ fontSize: 16 }}>📈</span> Years of Experience
+                <span style={{ fontSize: 20 }}>📈</span> Years of Experience
               </span>
               <span style={{
-                fontSize: 18,
+                fontSize: 20,
                 fontWeight: 900,
                 color: "#667eea",
                 fontFamily: "'Outfit', sans-serif",
@@ -255,31 +417,94 @@ export default function SalaryCalculator() {
                 {experience} years
               </span>
             </label>
-            <input
-              type="range"
-              min="0"
-              max="30"
-              step="1"
-              value={experience}
-              onChange={(e) => setExperience(Number(e.target.value))}
-              style={{
-                width: "100%",
-                height: 8,
-                borderRadius: 4,
-                background: `linear-gradient(to right, #667eea 0%, #667eea ${(experience / 30) * 100}%, #E5E7EB ${(experience / 30) * 100}%, #E5E7EB 100%)`,
-                outline: "none",
-                appearance: "none",
-                WebkitAppearance: "none",
-                cursor: "pointer",
-              }}
-            />
-            <div style={{ display: "flex", justifyContent: "space-between", fontSize: 11, color: "#9CA3AF", marginTop: 8, fontWeight: 600 }}>
-              <span>0</span>
-              <span>3</span>
-              <span>7</span>
-              <span>14</span>
-              <span>20</span>
-              <span>30</span>
+            
+            {/* Current Designation Display */}
+            {selectedPostData && (
+              <div style={{
+                padding: "12px 16px",
+                background: "linear-gradient(135deg, #EEF2FF, #F3E8FF)",
+                borderRadius: 12,
+                marginBottom: 16,
+                border: "2px solid #C7D2FE",
+              }}>
+                <div style={{ fontSize: 11, color: "#6366F1", fontWeight: 600, marginBottom: 4, textTransform: "uppercase", letterSpacing: "0.05em" }}>
+                  Current Designation
+                </div>
+                <div style={{ fontSize: 15, fontWeight: 800, color: "#4338CA" }}>
+                  {experience === 0 && "Probationer / Entry Level"}
+                  {experience > 0 && experience < 3 && "Junior Officer"}
+                  {experience >= 3 && experience < 7 && "Officer / Branch Manager"}
+                  {experience >= 7 && experience < 14 && "Senior Officer / AGM"}
+                  {experience >= 14 && experience < 20 && "Deputy General Manager"}
+                  {experience >= 20 && experience < 30 && "General Manager"}
+                  {experience === 30 && "Chief General Manager (Retirement)"}
+                </div>
+              </div>
+            )}
+            
+            <div style={{ position: "relative", paddingTop: 8 }}>
+              <input
+                type="range"
+                min="0"
+                max="30"
+                step="1"
+                value={experience}
+                onChange={(e) => setExperience(Number(e.target.value))}
+                style={{
+                  width: "100%",
+                  height: 8,
+                  borderRadius: 4,
+                  background: `linear-gradient(to right, #667eea 0%, #667eea ${(experience / 30) * 100}%, #E5E7EB ${(experience / 30) * 100}%, #E5E7EB 100%)`,
+                  outline: "none",
+                  appearance: "none",
+                  WebkitAppearance: "none",
+                  cursor: "pointer",
+                }}
+              />
+              
+              {/* Milestone Markers */}
+              <div style={{ position: "relative", marginTop: 12 }}>
+                {[
+                  { years: 0, label: "Joining" },
+                  { years: 5, label: "5 yrs" },
+                  { years: 10, label: "10 yrs" },
+                  { years: 20, label: "20 yrs" },
+                  { years: 30, label: "30 yrs\n(Retirement)" },
+                ].map((milestone) => (
+                  <div
+                    key={milestone.years}
+                    style={{
+                      position: "absolute",
+                      left: `${(milestone.years / 30) * 100}%`,
+                      transform: "translateX(-50%)",
+                      display: "flex",
+                      flexDirection: "column",
+                      alignItems: "center",
+                      gap: 4,
+                    }}
+                  >
+                    <div style={{
+                      width: 8,
+                      height: 8,
+                      borderRadius: "50%",
+                      background: experience >= milestone.years ? "#667eea" : "#D1D5DB",
+                      border: "2px solid white",
+                      boxShadow: "0 1px 3px rgba(0,0,0,0.1)",
+                      transition: "all 0.2s",
+                    }} />
+                    <div style={{
+                      fontSize: 10,
+                      fontWeight: 700,
+                      color: experience >= milestone.years ? "#667eea" : "#9CA3AF",
+                      textAlign: "center",
+                      whiteSpace: "pre-line",
+                      lineHeight: 1.3,
+                    }}>
+                      {milestone.label}
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
 
