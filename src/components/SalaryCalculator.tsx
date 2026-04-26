@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
-import { PieChart, Pie, Cell, ResponsiveContainer, Legend, Tooltip } from "recharts";
+import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip, LineChart, Line, XAxis, YAxis, CartesianGrid, ReferenceLine, Area, AreaChart } from "recharts";
 import salaryData from "@/data/salary-data.json";
 
 export default function SalaryCalculator() {
@@ -1071,6 +1071,231 @@ export default function SalaryCalculator() {
               )}
             </>
           )}
+
+          {/* PHASE 4: 30-Year Growth Chart */}
+          {salary && showSalaryReveal && selectedPostData && (() => {
+            // Build year-by-year data using 7th CPC DA revision pattern
+            // DA increases ~4% every 6 months (Jan & Jul), so ~8% per year
+            // Pay Commission revision every 10 years adds ~20-25% jump
+            const DA_ANNUAL_INCREASE = 4; // % per year (conservative)
+            const daBase = salaryData.allowances.da;
+
+            const growthData = Array.from({ length: 31 }, (_, yr) => {
+              // Basic pay at this year (using milestone logic)
+              const getBasicAtYear = (y: number): number => {
+                const inc = selectedPostData.basicPay.afterIncrements;
+                if (y >= 30 && inc["30years"]) return inc["30years"];
+                if (y >= 20 && inc["20years"]) return inc["20years"];
+                if (y >= 14 && inc["14years"]) return inc["14years"];
+                if (y >= 7  && inc["7years"])  return inc["7years"];
+                if (y >= 3  && inc["3years"])  return inc["3years"];
+                return selectedPostData.basicPay.entry;
+              };
+
+              const basic = getBasicAtYear(yr);
+              const daRate = Math.min(daBase + DA_ANNUAL_INCREASE * yr, 100); // cap at 100%
+              const da = (basic * daRate) / 100;
+              const hraRate = (salaryData.allowances.hra as Record<string, number>)[cityType];
+              const hra = (basic * hraRate) / 100;
+              const ta = (salaryData.allowances.ta as Record<string, number>)[cityType === "xCity" ? "metro" : "nonMetro"];
+              const gross = basic + da + hra + ta;
+              const nps = (basic * salaryData.deductions.nps) / 100;
+              const inHand = gross - nps - salaryData.deductions.professionalTax;
+
+              // Private sector equivalent: govt package has hidden value
+              // Rule of thumb: multiply by 1.4-1.6x to get equivalent CTC
+              const privateCTC = Math.round(inHand * 1.5);
+
+              return {
+                year: yr,
+                label: yr === 0 ? "Join" : yr === 30 ? "Retire" : `${yr}`,
+                govtInHand: Math.round(inHand),
+                privateCTC,
+              };
+            });
+
+            // Pension line: after retirement, govt pays ~50% of last basic
+            const lastBasic = selectedPostData.basicPay.afterIncrements["30years"] || selectedPostData.basicPay.entry;
+            const pensionMonthly = Math.round(lastBasic * 0.5);
+
+            const currentGovt = growthData[experience]?.govtInHand ?? 0;
+            const peakGovt = growthData[30]?.govtInHand ?? 0;
+
+            return (
+              <div style={{
+                background: "#fff",
+                borderRadius: 24,
+                padding: "24px 20px",
+                marginBottom: 20,
+                border: "2px solid #F1F5F9",
+                boxShadow: "0 4px 24px rgba(0,0,0,0.06)",
+              }}>
+                {/* Header */}
+                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 20 }}>
+                  <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+                    <div style={{
+                      width: 36, height: 36, borderRadius: 10,
+                      background: "linear-gradient(135deg, #0F172A, #1E3A5F)",
+                      display: "flex", alignItems: "center", justifyContent: "center", fontSize: 18,
+                    }}>
+                      📈
+                    </div>
+                    <div>
+                      <div style={{ fontSize: 15, fontWeight: 800, color: "#111827" }}>30-Year Salary Growth</div>
+                      <div style={{ fontSize: 11, color: "#9CA3AF", fontWeight: 500 }}>Govt in-hand vs private equivalent</div>
+                    </div>
+                  </div>
+                  {/* Peak badge */}
+                  <div style={{
+                    padding: "6px 12px", background: "#EFF6FF",
+                    borderRadius: 8, border: "1px solid #BFDBFE", textAlign: "right",
+                  }}>
+                    <div style={{ fontSize: 10, color: "#3B82F6", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.05em" }}>At Retirement</div>
+                    <div style={{ fontSize: 14, fontWeight: 900, color: "#1D4ED8", fontFamily: "'Outfit', sans-serif" }}>
+                      ₹{peakGovt.toLocaleString()}
+                    </div>
+                  </div>
+                </div>
+
+                {/* Chart */}
+                <ResponsiveContainer width="100%" height={240}>
+                  <AreaChart data={growthData} margin={{ top: 10, right: 10, left: -10, bottom: 0 }}>
+                    <defs>
+                      <linearGradient id="govtGrad" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="5%"  stopColor="#667eea" stopOpacity={0.25} />
+                        <stop offset="95%" stopColor="#667eea" stopOpacity={0.02} />
+                      </linearGradient>
+                      <linearGradient id="privateGrad" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="5%"  stopColor="#F59E0B" stopOpacity={0.18} />
+                        <stop offset="95%" stopColor="#F59E0B" stopOpacity={0.02} />
+                      </linearGradient>
+                    </defs>
+                    <CartesianGrid strokeDasharray="3 3" stroke="#F1F5F9" vertical={false} />
+                    <XAxis
+                      dataKey="year"
+                      tickFormatter={(v) => v === 0 ? "Join" : v === 30 ? "Retire" : `${v}yr`}
+                      tick={{ fontSize: 10, fill: "#9CA3AF", fontWeight: 600 }}
+                      axisLine={false}
+                      tickLine={false}
+                      interval={4}
+                    />
+                    <YAxis
+                      tickFormatter={(v) => `₹${(v / 1000).toFixed(0)}K`}
+                      tick={{ fontSize: 10, fill: "#9CA3AF", fontWeight: 600 }}
+                      axisLine={false}
+                      tickLine={false}
+                      width={48}
+                    />
+                    <Tooltip
+                      formatter={(value, name) => [
+                        `₹${Number(value).toLocaleString()}`,
+                        name === "govtInHand" ? "Govt In-Hand" : "Private Equivalent",
+                      ]}
+                      labelFormatter={(label) => `Year ${label}`}
+                      contentStyle={{
+                        borderRadius: 12, border: "none",
+                        boxShadow: "0 8px 24px rgba(0,0,0,0.12)",
+                        fontSize: 12, fontWeight: 700,
+                      }}
+                    />
+                    {/* Current experience reference line */}
+                    {experience > 0 && (
+                      <ReferenceLine
+                        x={experience}
+                        stroke="#10B981"
+                        strokeWidth={2}
+                        strokeDasharray="4 3"
+                        label={{ value: "You", position: "top", fontSize: 10, fill: "#10B981", fontWeight: 700 }}
+                      />
+                    )}
+                    <Area
+                      type="monotone"
+                      dataKey="privateCTC"
+                      stroke="#F59E0B"
+                      strokeWidth={2}
+                      strokeDasharray="5 3"
+                      fill="url(#privateGrad)"
+                      dot={false}
+                      activeDot={{ r: 5, fill: "#F59E0B", stroke: "#fff", strokeWidth: 2 }}
+                    />
+                    <Area
+                      type="monotone"
+                      dataKey="govtInHand"
+                      stroke="#667eea"
+                      strokeWidth={2.5}
+                      fill="url(#govtGrad)"
+                      dot={false}
+                      activeDot={{ r: 5, fill: "#667eea", stroke: "#fff", strokeWidth: 2 }}
+                    />
+                  </AreaChart>
+                </ResponsiveContainer>
+
+                {/* Legend */}
+                <div style={{ display: "flex", gap: 16, justifyContent: "center", marginTop: 12, marginBottom: 20 }}>
+                  {[
+                    { color: "#667eea", dash: false, label: "Govt In-Hand" },
+                    { color: "#F59E0B", dash: true,  label: "Private Equivalent" },
+                  ].map((item, i) => (
+                    <div key={i} style={{ display: "flex", alignItems: "center", gap: 6 }}>
+                      <svg width="24" height="10">
+                        <line
+                          x1="0" y1="5" x2="24" y2="5"
+                          stroke={item.color}
+                          strokeWidth="2.5"
+                          strokeDasharray={item.dash ? "5 3" : "none"}
+                        />
+                      </svg>
+                      <span style={{ fontSize: 12, fontWeight: 700, color: "#374151" }}>{item.label}</span>
+                    </div>
+                  ))}
+                </div>
+
+                {/* Insight cards row */}
+                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 10 }}>
+                  {[
+                    {
+                      icon: "📍",
+                      label: "Current",
+                      value: `₹${currentGovt.toLocaleString()}`,
+                      sub: `at ${experience} yrs`,
+                      bg: "#EEF2FF", border: "#C7D2FE", color: "#4338CA",
+                    },
+                    {
+                      icon: "🏁",
+                      label: "At Retirement",
+                      value: `₹${peakGovt.toLocaleString()}`,
+                      sub: "at 30 yrs",
+                      bg: "#F0FDF4", border: "#BBF7D0", color: "#15803D",
+                    },
+                    {
+                      icon: "🧓",
+                      label: "Pension",
+                      value: `₹${pensionMonthly.toLocaleString()}`,
+                      sub: "monthly for life",
+                      bg: "#FEF3C7", border: "#FDE68A", color: "#92400E",
+                    },
+                  ].map((card, i) => (
+                    <div key={i} style={{
+                      padding: "12px 10px",
+                      background: card.bg,
+                      borderRadius: 14,
+                      border: `2px solid ${card.border}`,
+                      textAlign: "center",
+                    }}>
+                      <div style={{ fontSize: 20, marginBottom: 4 }}>{card.icon}</div>
+                      <div style={{ fontSize: 10, color: card.color, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.04em", marginBottom: 4 }}>
+                        {card.label}
+                      </div>
+                      <div style={{ fontSize: 13, fontWeight: 900, color: card.color, fontFamily: "'Outfit', sans-serif", lineHeight: 1.2 }}>
+                        {card.value}
+                      </div>
+                      <div style={{ fontSize: 10, color: card.color, opacity: 0.7, marginTop: 2 }}>{card.sub}</div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            );
+          })()}
 
           {/* Share Button */}
           <div style={{ textAlign: "center", marginBottom: 20 }}>
