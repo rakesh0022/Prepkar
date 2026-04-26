@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import salaryData from "@/data/salary-data.json";
 
 export default function SalaryCalculator() {
@@ -9,6 +9,10 @@ export default function SalaryCalculator() {
   const [experience, setExperience] = useState(0);
   const [includePerks, setIncludePerks] = useState(false);
   const [isAnimating, setIsAnimating] = useState(false);
+  const [displayedSalary, setDisplayedSalary] = useState(0);
+  const [displayedYearlySalary, setDisplayedYearlySalary] = useState(0);
+  const [showSalaryReveal, setShowSalaryReveal] = useState(false);
+  const animationFrameRef = useRef<number | undefined>(undefined);
 
   const posts = salaryData.posts;
   const allowances = salaryData.allowances;
@@ -85,6 +89,54 @@ export default function SalaryCalculator() {
     setCityType(newCity);
     setTimeout(() => setIsAnimating(false), 400);
   };
+
+  // Count-up animation effect
+  useEffect(() => {
+    if (!salary) {
+      setDisplayedSalary(0);
+      setDisplayedYearlySalary(0);
+      setShowSalaryReveal(false);
+      return;
+    }
+
+    const targetMonthly = Math.round(salary.netInHand);
+    const targetYearly = Math.round(salary.netInHand * 12);
+    
+    // Show reveal animation
+    setShowSalaryReveal(true);
+    
+    // Animate from 0 to target over 1.5 seconds
+    const duration = 1500;
+    const startTime = Date.now();
+    const startMonthly = displayedSalary;
+    const startYearly = displayedYearlySalary;
+
+    const animate = () => {
+      const elapsed = Date.now() - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+      
+      // Easing function for smooth animation (ease-out)
+      const easeOut = 1 - Math.pow(1 - progress, 3);
+      
+      const currentMonthly = Math.round(startMonthly + (targetMonthly - startMonthly) * easeOut);
+      const currentYearly = Math.round(startYearly + (targetYearly - startYearly) * easeOut);
+      
+      setDisplayedSalary(currentMonthly);
+      setDisplayedYearlySalary(currentYearly);
+
+      if (progress < 1) {
+        animationFrameRef.current = requestAnimationFrame(animate);
+      }
+    };
+
+    animationFrameRef.current = requestAnimationFrame(animate);
+
+    return () => {
+      if (animationFrameRef.current) {
+        cancelAnimationFrame(animationFrameRef.current);
+      }
+    };
+  }, [salary?.netInHand, selectedPost, cityType, experience, includePerks]);
 
   return (
     <div style={{
@@ -549,47 +601,138 @@ export default function SalaryCalculator() {
           </div>
 
           {/* Output Card */}
-          {salary && (
+          {salary && showSalaryReveal && (
             <>
-              {/* Hero In-Hand Display */}
+              {/* PHASE 2: Animated Hero Salary Reveal */}
               <div style={{
-                padding: "24px 20px",
-                background: "linear-gradient(to bottom, #F9FAFB, #FFFFFF)",
-                borderRadius: 20,
-                marginBottom: 20,
-                border: "1px solid #E5E7EB",
+                padding: "32px 24px",
+                background: "linear-gradient(135deg, #0F172A 0%, #1E293B 100%)",
+                borderRadius: 24,
+                marginBottom: 24,
+                border: "2px solid #334155",
+                position: "relative",
+                overflow: "hidden",
+                boxShadow: "0 20px 60px rgba(0,0,0,0.3), 0 0 0 1px rgba(255,255,255,0.1) inset",
               }}>
-                <div style={{ textAlign: "center" }}>
+                {/* Animated background decoration */}
+                <div style={{
+                  position: "absolute",
+                  inset: 0,
+                  opacity: 0.05,
+                  backgroundImage: "radial-gradient(circle at 20% 50%, #fff 1px, transparent 1px), radial-gradient(circle at 80% 80%, #fff 1px, transparent 1px)",
+                  backgroundSize: "50px 50px, 80px 80px",
+                  animation: "float 20s ease-in-out infinite",
+                }} />
+                
+                <div style={{ position: "relative", zIndex: 1, textAlign: "center" }}>
+                  {/* Label */}
                   <div style={{
                     fontSize: 11,
-                    fontWeight: 600,
-                    color: "#6B7280",
-                    letterSpacing: 1,
+                    fontWeight: 700,
+                    color: "#94A3B8",
+                    letterSpacing: 2,
                     textTransform: "uppercase",
-                    marginBottom: 8,
+                    marginBottom: 16,
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    gap: 8,
                   }}>
-                    Monthly In-Hand Salary
+                    <span style={{
+                      width: 8,
+                      height: 8,
+                      borderRadius: "50%",
+                      background: "#10B981",
+                      boxShadow: "0 0 12px #10B981",
+                      animation: "pulse 2s ease-in-out infinite",
+                    }} />
+                    Your Estimated In-Hand Salary
                   </div>
+                  
+                  {/* Main Monthly Salary - Animated Count-Up */}
                   <div style={{
-                    fontSize: 48,
+                    fontSize: 56,
                     fontWeight: 900,
-                    background: "linear-gradient(135deg, #16A34A, #059669)",
+                    background: "linear-gradient(135deg, #10B981 0%, #34D399 50%, #6EE7B7 100%)",
                     WebkitBackgroundClip: "text",
                     WebkitTextFillColor: "transparent",
                     backgroundClip: "text",
                     fontFamily: "'Outfit', sans-serif",
-                    marginBottom: 4,
-                    transition: "all 0.4s cubic-bezier(0.4, 0, 0.2, 1)",
-                    transform: isAnimating ? "scale(1.05)" : "scale(1)",
+                    marginBottom: 8,
+                    letterSpacing: "-0.02em",
+                    textShadow: "0 0 40px rgba(16,185,129,0.3)",
+                    animation: "glow 2s ease-in-out infinite",
                   }}>
-                    ₹{Math.round(salary.netInHand).toLocaleString()}
+                    ₹{displayedSalary.toLocaleString()}
                   </div>
+                  
+                  {/* Per Month Label */}
+                  <div style={{
+                    fontSize: 14,
+                    color: "#CBD5E1",
+                    fontWeight: 600,
+                    marginBottom: 20,
+                  }}>
+                    per month
+                  </div>
+                  
+                  {/* Divider */}
+                  <div style={{
+                    width: 60,
+                    height: 2,
+                    background: "linear-gradient(90deg, transparent, #475569, transparent)",
+                    margin: "0 auto 20px",
+                  }} />
+                  
+                  {/* Yearly Salary - Animated Count-Up */}
+                  <div style={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    gap: 12,
+                    padding: "16px 24px",
+                    background: "rgba(255,255,255,0.05)",
+                    borderRadius: 16,
+                    border: "1px solid rgba(255,255,255,0.1)",
+                    backdropFilter: "blur(10px)",
+                  }}>
+                    <div style={{ textAlign: "left" }}>
+                      <div style={{
+                        fontSize: 10,
+                        color: "#94A3B8",
+                        fontWeight: 600,
+                        textTransform: "uppercase",
+                        letterSpacing: 1,
+                        marginBottom: 4,
+                      }}>
+                        Annual Package
+                      </div>
+                      <div style={{
+                        fontSize: 24,
+                        fontWeight: 900,
+                        color: "#FCD34D",
+                        fontFamily: "'Outfit', sans-serif",
+                      }}>
+                        ₹{displayedYearlySalary.toLocaleString()}
+                      </div>
+                    </div>
+                    <div style={{
+                      fontSize: 32,
+                      filter: "grayscale(0.3)",
+                    }}>
+                      💰
+                    </div>
+                  </div>
+                  
+                  {/* Subtitle */}
                   <div style={{
                     fontSize: 12,
-                    color: "#9CA3AF",
+                    color: "#64748B",
                     fontWeight: 500,
+                    marginTop: 16,
+                    fontStyle: "italic",
                   }}>
-                    After all deductions
+                    This is your estimated take-home after all deductions
                   </div>
                 </div>
               </div>
@@ -922,6 +1065,38 @@ export default function SalaryCalculator() {
         input[type="range"]::-moz-range-thumb:hover {
           transform: scale(1.2);
           box-shadow: 0 4px 12px rgba(102,126,234,0.6);
+        }
+        
+        @keyframes pulse {
+          0%, 100% {
+            opacity: 1;
+            transform: scale(1);
+          }
+          50% {
+            opacity: 0.7;
+            transform: scale(1.1);
+          }
+        }
+        
+        @keyframes glow {
+          0%, 100% {
+            filter: drop-shadow(0 0 20px rgba(16,185,129,0.3));
+          }
+          50% {
+            filter: drop-shadow(0 0 30px rgba(16,185,129,0.5));
+          }
+        }
+        
+        @keyframes float {
+          0%, 100% {
+            transform: translateY(0) translateX(0);
+          }
+          33% {
+            transform: translateY(-10px) translateX(10px);
+          }
+          66% {
+            transform: translateY(10px) translateX(-10px);
+          }
         }
       `}</style>
     </div>
