@@ -7,6 +7,7 @@ import StreakBar from "@/components/home/StreakBar";
 import DailyChallenge from "@/components/home/DailyChallenge";
 import TargetExams from "@/components/home/TargetExams";
 import StoriesStrip from "@/components/home/StoriesStrip";
+import WhyNaukriYatra from "@/components/home/WhyNaukriYatra";
 import LatestNotifications from "@/components/home/LatestNotifications";
 import { HERO_STORIES, COUNTDOWNS, STORIES, getTodaysQuiz } from "@/components/data";
 import { useStreak } from "@/hooks/useStreak";
@@ -286,6 +287,11 @@ export default function Home() {
         {/* ═══ LATEST NOTIFICATIONS ═══ */}
         <div style={{ paddingTop: 20 }}>
           <LatestNotifications />
+        </div>
+
+        {/* ═══ WHY NAUKRIYATRA ═══ */}
+        <div style={{ paddingTop: 20 }}>
+          <WhyNaukriYatra />
         </div>
 
         {/* ═══ FOOTER ═══ */}
