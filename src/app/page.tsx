@@ -6,10 +6,9 @@ import Footer from "@/components/Footer";
 import StreakBar from "@/components/home/StreakBar";
 import DailyChallenge from "@/components/home/DailyChallenge";
 import TargetExams from "@/components/home/TargetExams";
-import StoriesStrip from "@/components/home/StoriesStrip";
 import WhyNaukriYatra from "@/components/home/WhyNaukriYatra";
 import LatestNotifications from "@/components/home/LatestNotifications";
-import { HERO_STORIES, COUNTDOWNS, STORIES, getTodaysQuiz } from "@/components/data";
+import { HERO_STORIES, COUNTDOWNS, getTodaysQuiz } from "@/components/data";
 import { useStreak } from "@/hooks/useStreak";
 import { useDailyQuizAnswer } from "@/hooks/useDailyQuiz";
 import { useSavedArticles } from "@/hooks/useSavedArticles";
@@ -23,8 +22,6 @@ export default function Home() {
 
   useEffect(() => { const t = setInterval(() => setSi(i => (i + 1) % HERO_STORIES.length), 5000); return () => clearInterval(t); }, []);
   const s = HERO_STORIES[si];
-
-  const storiesForStrip = STORIES.map(s => ({ ...s, bgColor: s.color, image: s.image }));
 
   return (
     <main style={{ minHeight: "100vh", background: "var(--bg)", paddingBottom: 76 }}>
@@ -277,11 +274,6 @@ export default function Home() {
         {/* ═══ TARGET EXAMS ═══ */}
         <div className="anim-up-3" style={{ paddingTop: 20 }}>
           <TargetExams exams={COUNTDOWNS} />
-        </div>
-
-        {/* ═══ SUCCESS STORIES ═══ */}
-        <div className="anim-up-5">
-          <StoriesStrip stories={storiesForStrip} />
         </div>
 
         {/* ═══ LATEST NOTIFICATIONS ═══ */}

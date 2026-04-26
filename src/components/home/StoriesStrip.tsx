@@ -244,14 +244,14 @@ export default function StoriesStrip({ stories }: Props) {
   const trackRef = useRef<HTMLDivElement>(null);
   const autoRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
-  // How many cards visible at once (CSS handles this, but we need it for dot logic)
-  // We use a simple approach: scroll to card index
+  // Scroll the carousel track to a given card index — never touches page scroll
   const scrollTo = useCallback((idx: number) => {
     const track = trackRef.current;
     if (!track) return;
     const card = track.children[idx] as HTMLElement | undefined;
     if (card) {
-      card.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "start" });
+      // Use scrollLeft on the container, NOT scrollIntoView (which moves the page)
+      track.scrollTo({ left: card.offsetLeft, behavior: "smooth" });
     }
     setCurrent(idx);
   }, []);
@@ -265,7 +265,7 @@ export default function StoriesStrip({ stories }: Props) {
         const track = trackRef.current;
         if (track) {
           const card = track.children[next] as HTMLElement | undefined;
-          if (card) card.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "start" });
+          if (card) track.scrollTo({ left: card.offsetLeft, behavior: "smooth" });
         }
         return next;
       });
