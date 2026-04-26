@@ -14,6 +14,10 @@ export default function SalaryCalculator() {
   const [displayedYearlySalary, setDisplayedYearlySalary] = useState(0);
   const [showSalaryReveal, setShowSalaryReveal] = useState(false);
   const [activeSlice, setActiveSlice] = useState<number | null>(null);
+  const [shareModalOpen, setShareModalOpen] = useState(false);
+  const [copyDone, setCopyDone] = useState(false);
+  const [downloadDone, setDownloadDone] = useState(false);
+  const shareCardRef = useRef<HTMLDivElement>(null);
   const animationFrameRef = useRef<number | undefined>(undefined);
 
   const posts = salaryData.posts;
@@ -77,13 +81,57 @@ export default function SalaryCalculator() {
 
   const salary = calculateSalary();
 
-  const shareText = selectedPostData
-    ? `My dream job: ${selectedPostData.name} pays ₹${Math.round(salary?.netInHand || 0).toLocaleString()} per month in-hand! Calculate yours at prepkar.vercel.app/salary-calculator`
-    : "Calculate your government job salary at prepkar.vercel.app/salary-calculator";
+  const cityLabel = cityType === "xCity" ? "X City (Metro)" : cityType === "yCity" ? "Y City" : "Z City (Others)";
+  const hraRate   = (salaryData.allowances.hra as Record<string, number>)[cityType];
 
-  const handleShare = () => {
-    navigator.clipboard.writeText(shareText);
-    alert("Copied to clipboard!");
+  const handleCopyText = () => {
+    if (!selectedPostData || !salary) return;
+    const text =
+      `🏛️ My Govt Salary Estimate — via NaukriYatra\n\n` +
+      `📌 Post: ${selectedPostData.name}\n` +
+      `📍 City: ${cityLabel}\n` +
+      `📅 Experience: ${experience} years\n\n` +
+      `💰 In-Hand: ₹${Math.round(salary.netInHand).toLocaleString()}/month\n` +
+      `📦 Annual: ₹${Math.round(salary.netInHand * 12).toLocaleString()}\n` +
+      `📊 Gross: ₹${Math.round(salary.gross).toLocaleString()}/month\n\n` +
+      `🔗 Calculate yours: prepkar.vercel.app/salary-calculator`;
+    navigator.clipboard.writeText(text);
+    setCopyDone(true);
+    setTimeout(() => setCopyDone(false), 2500);
+  };
+
+  const handleWhatsApp = () => {
+    if (!selectedPostData || !salary) return;
+    const text = encodeURIComponent(
+      `🏛️ *My Govt Salary Estimate*\n\n` +
+      `📌 *${selectedPostData.name}*\n` +
+      `📍 ${cityLabel} | ${experience} yrs experience\n\n` +
+      `💰 In-Hand: *₹${Math.round(salary.netInHand).toLocaleString()}/month*\n` +
+      `📦 Annual: ₹${Math.round(salary.netInHand * 12).toLocaleString()}\n\n` +
+      `Calculate yours 👉 prepkar.vercel.app/salary-calculator`
+    );
+    window.open(`https://wa.me/?text=${text}`, "_blank");
+  };
+
+  const handleDownloadCard = async () => {
+    if (!shareCardRef.current) return;
+    try {
+      const html2canvas = (await import("html2canvas")).default;
+      const canvas = await html2canvas(shareCardRef.current, {
+        scale: 2,
+        useCORS: true,
+        backgroundColor: null,
+      });
+      const link = document.createElement("a");
+      link.download = `salary-card-${selectedPost}.png`;
+      link.href = canvas.toDataURL("image/png");
+      link.click();
+      setDownloadDone(true);
+      setTimeout(() => setDownloadDone(false), 2500);
+    } catch {
+      // fallback: copy text
+      handleCopyText();
+    }
   };
 
   const handleCityChange = (newCity: string) => {
@@ -1498,34 +1546,316 @@ export default function SalaryCalculator() {
             );
           })()}
 
-          {/* Share Button */}
-          <div style={{ textAlign: "center", marginBottom: 20 }}>
-            <button
-              onClick={handleShare}
-              style={{
-                padding: "14px 32px",
-                background: "linear-gradient(135deg, #667eea, #764ba2)",
-                color: "#fff",
-                border: "none",
-                borderRadius: 14,
-                fontSize: 14,
-                fontWeight: 700,
-                cursor: "pointer",
-                boxShadow: "0 4px 16px rgba(102,126,234,0.3)",
-                transition: "all 0.3s",
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.transform = "translateY(-2px)";
-                e.currentTarget.style.boxShadow = "0 6px 24px rgba(102,126,234,0.4)";
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.transform = "translateY(0)";
-                e.currentTarget.style.boxShadow = "0 4px 16px rgba(102,126,234,0.3)";
-              }}
-            >
-              📤 Share Calculator
-            </button>
-          </div>
+          {/* PHASE 6: Share Feature */}
+          {salary && showSalaryReveal && selectedPostData && (
+            <div style={{ marginBottom: 20 }}>
+              {/* Trigger button */}
+              <button
+                onClick={() => setShareModalOpen(true)}
+                style={{
+                  width: "100%",
+                  padding: "16px 24px",
+                  background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+                  color: "#fff",
+                  border: "none",
+                  borderRadius: 16,
+                  fontSize: 15,
+                  fontWeight: 800,
+                  cursor: "pointer",
+                  boxShadow: "0 4px 20px rgba(102,126,234,0.35)",
+                  transition: "all 0.25s",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  gap: 10,
+                  letterSpacing: "0.02em",
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.transform = "translateY(-2px)";
+                  e.currentTarget.style.boxShadow = "0 8px 28px rgba(102,126,234,0.45)";
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.transform = "translateY(0)";
+                  e.currentTarget.style.boxShadow = "0 4px 20px rgba(102,126,234,0.35)";
+                }}
+              >
+                <span style={{ fontSize: 20 }}>📤</span>
+                Share My Salary Card
+              </button>
+
+              {/* Modal overlay */}
+              {shareModalOpen && (
+                <div
+                  onClick={(e) => { if (e.target === e.currentTarget) setShareModalOpen(false); }}
+                  style={{
+                    position: "fixed",
+                    inset: 0,
+                    background: "rgba(0,0,0,0.65)",
+                    backdropFilter: "blur(6px)",
+                    zIndex: 9999,
+                    display: "flex",
+                    alignItems: "flex-end",
+                    justifyContent: "center",
+                    padding: "0 0 0 0",
+                    animation: "fadeIn 0.2s ease",
+                  }}
+                >
+                  <div style={{
+                    background: "#fff",
+                    borderRadius: "24px 24px 0 0",
+                    width: "100%",
+                    maxWidth: 520,
+                    padding: "24px 20px 32px",
+                    animation: "slideUp 0.3s cubic-bezier(0.4,0,0.2,1)",
+                    maxHeight: "92vh",
+                    overflowY: "auto",
+                  }}>
+                    {/* Modal header */}
+                    <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 20 }}>
+                      <div>
+                        <div style={{ fontSize: 17, fontWeight: 900, color: "#111827" }}>Your Salary Card</div>
+                        <div style={{ fontSize: 12, color: "#9CA3AF", fontWeight: 500 }}>Preview & share with friends</div>
+                      </div>
+                      <button
+                        onClick={() => setShareModalOpen(false)}
+                        style={{
+                          width: 36, height: 36, borderRadius: "50%",
+                          background: "#F3F4F6", border: "none",
+                          fontSize: 18, cursor: "pointer", display: "flex",
+                          alignItems: "center", justifyContent: "center",
+                          color: "#6B7280",
+                        }}
+                      >
+                        ✕
+                      </button>
+                    </div>
+
+                    {/* ── STYLED SHARE CARD (captured by html2canvas) ── */}
+                    <div
+                      ref={shareCardRef}
+                      style={{
+                        borderRadius: 20,
+                        overflow: "hidden",
+                        marginBottom: 20,
+                        boxShadow: "0 8px 32px rgba(0,0,0,0.15)",
+                      }}
+                    >
+                      {/* Card header */}
+                      <div style={{
+                        background: "linear-gradient(135deg, #0F172A 0%, #1E3A5F 60%, #312E81 100%)",
+                        padding: "24px 20px 20px",
+                        position: "relative",
+                        overflow: "hidden",
+                      }}>
+                        {/* Dot pattern */}
+                        <div style={{
+                          position: "absolute", inset: 0, opacity: 0.07,
+                          backgroundImage: "radial-gradient(circle, #fff 1px, transparent 1px)",
+                          backgroundSize: "20px 20px",
+                        }} />
+                        <div style={{ position: "relative", zIndex: 1 }}>
+                          {/* Brand */}
+                          <div style={{
+                            fontSize: 10, fontWeight: 800, color: "rgba(255,255,255,0.5)",
+                            letterSpacing: 2, textTransform: "uppercase", marginBottom: 14,
+                          }}>
+                            NaukriYatra · Salary Calculator
+                          </div>
+                          {/* Job title */}
+                          <div style={{ fontSize: 22, fontWeight: 900, color: "#fff", marginBottom: 4, lineHeight: 1.2 }}>
+                            {selectedPostData.name}
+                          </div>
+                          <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginBottom: 16 }}>
+                            <span style={{
+                              fontSize: 11, fontWeight: 700, color: "#C7D2FE",
+                              background: "rgba(255,255,255,0.1)", padding: "3px 10px",
+                              borderRadius: 20, border: "1px solid rgba(255,255,255,0.15)",
+                            }}>
+                              📍 {cityLabel}
+                            </span>
+                            <span style={{
+                              fontSize: 11, fontWeight: 700, color: "#C7D2FE",
+                              background: "rgba(255,255,255,0.1)", padding: "3px 10px",
+                              borderRadius: 20, border: "1px solid rgba(255,255,255,0.15)",
+                            }}>
+                              📅 {experience} yrs experience
+                            </span>
+                          </div>
+                          {/* Big salary number */}
+                          <div style={{
+                            fontSize: 44, fontWeight: 900, lineHeight: 1,
+                            background: "linear-gradient(135deg, #10B981, #34D399)",
+                            WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent",
+                            backgroundClip: "text", fontFamily: "'Outfit', sans-serif",
+                            marginBottom: 4,
+                          }}>
+                            ₹{Math.round(salary.netInHand).toLocaleString()}
+                          </div>
+                          <div style={{ fontSize: 13, color: "rgba(255,255,255,0.6)", fontWeight: 600 }}>
+                            per month in-hand
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Card stats row */}
+                      <div style={{
+                        display: "grid", gridTemplateColumns: "1fr 1fr 1fr",
+                        background: "#1E293B",
+                        borderTop: "1px solid rgba(255,255,255,0.08)",
+                      }}>
+                        {[
+                          { label: "Annual",  value: `₹${(Math.round(salary.netInHand * 12) / 100000).toFixed(1)} LPA`, icon: "📦" },
+                          { label: "Gross",   value: `₹${Math.round(salary.gross).toLocaleString()}`,                    icon: "📊" },
+                          { label: "HRA",     value: `${hraRate}% of Basic`,                                             icon: "🏠" },
+                        ].map((stat, i) => (
+                          <div key={i} style={{
+                            padding: "14px 12px",
+                            textAlign: "center",
+                            borderRight: i < 2 ? "1px solid rgba(255,255,255,0.08)" : "none",
+                          }}>
+                            <div style={{ fontSize: 16, marginBottom: 4 }}>{stat.icon}</div>
+                            <div style={{ fontSize: 13, fontWeight: 900, color: "#F1F5F9", fontFamily: "'Outfit', sans-serif" }}>
+                              {stat.value}
+                            </div>
+                            <div style={{ fontSize: 10, color: "#64748B", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.05em" }}>
+                              {stat.label}
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+
+                      {/* Card breakdown strip */}
+                      <div style={{
+                        background: "#0F172A",
+                        padding: "14px 20px",
+                        display: "grid", gridTemplateColumns: "1fr 1fr",
+                        gap: "8px 16px",
+                      }}>
+                        {[
+                          { label: "Basic Pay",  value: `₹${Math.round(salary.basicPay).toLocaleString()}`,      color: "#818CF8" },
+                          { label: "DA",         value: `₹${Math.round(salary.da).toLocaleString()}`,            color: "#34D399" },
+                          { label: "HRA",        value: `₹${Math.round(salary.hra).toLocaleString()}`,           color: "#FCD34D" },
+                          { label: "Transport",  value: `₹${Math.round(salary.ta).toLocaleString()}`,            color: "#A78BFA" },
+                        ].map((item, i) => (
+                          <div key={i} style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                            <span style={{ fontSize: 11, color: "#64748B", fontWeight: 600 }}>{item.label}</span>
+                            <span style={{ fontSize: 12, fontWeight: 800, color: item.color, fontFamily: "'Outfit', sans-serif" }}>
+                              {item.value}
+                            </span>
+                          </div>
+                        ))}
+                      </div>
+
+                      {/* Card footer */}
+                      <div style={{
+                        background: "#0F172A",
+                        padding: "10px 20px 14px",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "space-between",
+                        borderTop: "1px solid rgba(255,255,255,0.06)",
+                      }}>
+                        <div style={{ fontSize: 10, color: "#475569", fontWeight: 600 }}>
+                          Based on 7th Pay Commission
+                        </div>
+                        <div style={{
+                          fontSize: 10, fontWeight: 800, color: "#667eea",
+                          letterSpacing: "0.05em",
+                        }}>
+                          prepkar.vercel.app
+                        </div>
+                      </div>
+                    </div>
+                    {/* ── END SHARE CARD ── */}
+
+                    {/* Action buttons */}
+                    <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10, marginBottom: 12 }}>
+                      {/* Copy text */}
+                      <button
+                        onClick={handleCopyText}
+                        style={{
+                          padding: "14px 12px",
+                          borderRadius: 14,
+                          border: "2px solid #E5E7EB",
+                          background: copyDone ? "#F0FDF4" : "#fff",
+                          cursor: "pointer",
+                          fontSize: 13,
+                          fontWeight: 700,
+                          color: copyDone ? "#16A34A" : "#374151",
+                          transition: "all 0.2s",
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          gap: 8,
+                        }}
+                      >
+                        <span style={{ fontSize: 18 }}>{copyDone ? "✅" : "📋"}</span>
+                        {copyDone ? "Copied!" : "Copy Text"}
+                      </button>
+
+                      {/* Download image */}
+                      <button
+                        onClick={handleDownloadCard}
+                        style={{
+                          padding: "14px 12px",
+                          borderRadius: 14,
+                          border: "2px solid #E5E7EB",
+                          background: downloadDone ? "#F0FDF4" : "#fff",
+                          cursor: "pointer",
+                          fontSize: 13,
+                          fontWeight: 700,
+                          color: downloadDone ? "#16A34A" : "#374151",
+                          transition: "all 0.2s",
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          gap: 8,
+                        }}
+                      >
+                        <span style={{ fontSize: 18 }}>{downloadDone ? "✅" : "🖼️"}</span>
+                        {downloadDone ? "Saved!" : "Save Image"}
+                      </button>
+                    </div>
+
+                    {/* WhatsApp full-width */}
+                    <button
+                      onClick={handleWhatsApp}
+                      style={{
+                        width: "100%",
+                        padding: "16px",
+                        borderRadius: 14,
+                        border: "none",
+                        background: "linear-gradient(135deg, #25D366, #128C7E)",
+                        color: "#fff",
+                        fontSize: 15,
+                        fontWeight: 800,
+                        cursor: "pointer",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        gap: 10,
+                        boxShadow: "0 4px 16px rgba(37,211,102,0.3)",
+                        transition: "all 0.2s",
+                      }}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.transform = "translateY(-1px)";
+                        e.currentTarget.style.boxShadow = "0 6px 20px rgba(37,211,102,0.4)";
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.transform = "translateY(0)";
+                        e.currentTarget.style.boxShadow = "0 4px 16px rgba(37,211,102,0.3)";
+                      }}
+                    >
+                      <svg width="22" height="22" viewBox="0 0 24 24" fill="white">
+                        <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+                      </svg>
+                      Share on WhatsApp
+                    </button>
+                  </div>
+                </div>
+              )}
+            </div>
+          )}
 
           {/* Saved indicator */}
           {selectedPost && (
@@ -1609,6 +1939,16 @@ export default function SalaryCalculator() {
           66% {
             transform: translateY(10px) translateX(-10px);
           }
+        }
+
+        @keyframes fadeIn {
+          from { opacity: 0; }
+          to   { opacity: 1; }
+        }
+
+        @keyframes slideUp {
+          from { transform: translateY(100%); opacity: 0; }
+          to   { transform: translateY(0);    opacity: 1; }
         }
       `}</style>
     </div>
