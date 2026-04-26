@@ -267,6 +267,19 @@
   .mobile-only { display: none; }
 }
 
+/* Job detail page — desktop sidebar (shown only on lg+ screens) */
+@media (min-width: 1024px) {
+  .job-detail-sidebar {
+    display: block !important;
+  }
+  .job-detail-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 320px;
+    gap: 24px;
+    align-items: start;
+  }
+}
+
 /* Desktop grid layouts */
 .desktop-2col {
   display: flex;

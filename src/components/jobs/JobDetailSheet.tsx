@@ -960,7 +960,7 @@ export default function JobDetailSheet({ job, onClose, fullPage = false }: { job
           </>
         )}
 
-        <div style={{ padding: fullPage ? "0 0" : "8px 20px 0", maxWidth: fullPage ? 720 : undefined, margin: fullPage ? "0 auto" : undefined }}>
+        <div style={{ padding: fullPage ? "0 0" : "8px 20px 0", maxWidth: fullPage ? 1100 : undefined, margin: fullPage ? "0 auto" : undefined }}>
 
           {/* ── HERO BANNER ── */}
           <div style={{
@@ -1044,8 +1044,12 @@ export default function JobDetailSheet({ job, onClose, fullPage = false }: { job
             </div>
           </div>
 
-          {/* Content wrapper — adds padding in full-page mode */}
+          {/* Content wrapper — adds padding in full-page mode; two-column on desktop */}
           <div style={{ padding: fullPage ? "20px 20px 0" : "0" }}>
+          {/* Desktop two-column layout wrapper — only active in fullPage mode */}
+          <div className={fullPage ? "job-detail-layout" : ""}>
+          {/* ── MAIN COLUMN ── */}
+          <div>
 
           <div className="mb-4 overflow-hidden rounded-[24px] border border-amber-200/40 shadow-sm" style={{ background: `linear-gradient(135deg, ${illustrationPalette.soft}, #ffffff 60%)` }}>
             <div className="grid grid-cols-1 items-center gap-4 px-4 py-4 sm:grid-cols-[1.1fr_0.9fr]">
@@ -1423,6 +1427,114 @@ export default function JobDetailSheet({ job, onClose, fullPage = false }: { job
             <Link href="/ai-practice" style={{ flex: 1, textDecoration: "none" }}>
               <div style={{ padding: "13px", background: `linear-gradient(90deg,${catColor},#0D9488)`, color: "#fff", borderRadius: 12, fontSize: 13, fontWeight: 700, textAlign: "center", boxShadow: `0 4px 16px ${catColor}25` }}>🎯 Practice Interview</div>
             </Link>
+          </div>
+
+          {/* End main column */}
+          </div>
+
+          {/* ── DESKTOP SIDEBAR — only rendered in fullPage mode ── */}
+          {fullPage && (
+            <div style={{ display: "none" }} className="job-detail-sidebar">
+              {/* Ad zone — Google AdSense placeholder */}
+              <div style={{
+                borderRadius: 16,
+                border: "1.5px dashed #D1D5DB",
+                background: "#F9FAFB",
+                padding: "20px 16px",
+                textAlign: "center",
+                marginBottom: 16,
+                minHeight: 280,
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                justifyContent: "center",
+                gap: 8,
+              }}>
+                <div style={{ fontSize: 20 }}>📢</div>
+                <div style={{ fontSize: 11, fontWeight: 700, color: "#9CA3AF", textTransform: "uppercase", letterSpacing: "0.1em" }}>Advertisement</div>
+                <div style={{ fontSize: 10, color: "#D1D5DB" }}>Google AdSense</div>
+              </div>
+
+              {/* Sticky key stats card */}
+              <div style={{
+                position: "sticky",
+                top: 72,
+                borderRadius: 20,
+                border: "1.5px solid var(--border)",
+                background: "#fff",
+                overflow: "hidden",
+                boxShadow: "0 4px 20px rgba(0,0,0,0.06)",
+                marginBottom: 16,
+              }}>
+                <div style={{
+                  background: `linear-gradient(135deg, ${catColor} 0%, ${catColor}cc 100%)`,
+                  padding: "14px 16px",
+                }}>
+                  <div style={{ fontSize: 11, fontWeight: 800, color: "rgba(255,255,255,0.8)", textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: 2 }}>Quick Facts</div>
+                  <div style={{ fontSize: 18, fontWeight: 900, color: "#fff", fontFamily: "'Outfit', sans-serif" }}>{job.title}</div>
+                </div>
+                <div style={{ padding: "12px 16px", display: "flex", flexDirection: "column", gap: 10 }}>
+                  {[
+                    { icon: "💰", label: "In-Hand Salary", value: job.inHand, color: "#16A34A" },
+                    { icon: "👥", label: "Vacancies", value: job.vacancies.toLocaleString(), color: "#2563EB" },
+                    { icon: "📅", label: "Last Date", value: job.lastDate.split(",")[0], color: "#DC2626" },
+                    { icon: "📖", label: "Exam", value: job.exam.split("→")[0].trim(), color: "#7C3AED" },
+                    { icon: "⏱", label: "Prep Time", value: job.prepTime, color: "#D97706" },
+                    { icon: "🎓", label: "Qualification", value: job.qualification, color: "#0D9488" },
+                  ].map((item) => (
+                    <div key={item.label} style={{
+                      display: "flex", alignItems: "center", gap: 10,
+                      padding: "8px 10px",
+                      background: "#F9FAFB",
+                      borderRadius: 10,
+                      border: "1px solid var(--border)",
+                    }}>
+                      <span style={{ fontSize: 16, flexShrink: 0 }}>{item.icon}</span>
+                      <div style={{ minWidth: 0, flex: 1 }}>
+                        <div style={{ fontSize: 9, fontWeight: 700, color: "#9CA3AF", textTransform: "uppercase", letterSpacing: "0.08em" }}>{item.label}</div>
+                        <div style={{ fontSize: 12, fontWeight: 800, color: item.color, marginTop: 1, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{item.value}</div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+                <div style={{ padding: "0 16px 16px" }}>
+                  <Link href="/ai-practice" style={{ textDecoration: "none", display: "block" }}>
+                    <div style={{
+                      padding: "12px",
+                      background: `linear-gradient(90deg, ${catColor}, #0D9488)`,
+                      color: "#fff",
+                      borderRadius: 12,
+                      fontSize: 13,
+                      fontWeight: 700,
+                      textAlign: "center",
+                      boxShadow: `0 4px 16px ${catColor}30`,
+                    }}>🎯 Start Preparing</div>
+                  </Link>
+                </div>
+              </div>
+
+              {/* Second ad zone */}
+              <div style={{
+                borderRadius: 16,
+                border: "1.5px dashed #D1D5DB",
+                background: "#F9FAFB",
+                padding: "20px 16px",
+                textAlign: "center",
+                minHeight: 250,
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                justifyContent: "center",
+                gap: 8,
+              }}>
+                <div style={{ fontSize: 20 }}>📢</div>
+                <div style={{ fontSize: 11, fontWeight: 700, color: "#9CA3AF", textTransform: "uppercase", letterSpacing: "0.1em" }}>Advertisement</div>
+                <div style={{ fontSize: 10, color: "#D1D5DB" }}>Google AdSense</div>
+              </div>
+            </div>
+          )}
+
+          {/* End two-column wrapper */}
           </div>
 
           {/* End content wrapper */}
