@@ -21,11 +21,12 @@ function Pill({ label, on, color, click }: { label: string; on: boolean; color: 
   return <button onClick={click} style={{ padding: "6px 14px", borderRadius: 20, fontSize: 11, fontWeight: 600, border: "none", cursor: "pointer", flexShrink: 0, whiteSpace: "nowrap", background: on ? color : "#FFFFFF", color: on ? "#fff" : "#6B7280", transition: "all 0.2s", boxShadow: on ? `0 2px 8px ${color}30` : "0 1px 2px rgba(0,0,0,0.04)" }}>{label}</button>;
 }
 
-function JobCard({ job, onOpen, onShare }: { job: Job; onOpen: () => void; onShare: (e: React.MouseEvent) => void }) {
+function JobCard({ job, onShare }: { job: Job; onShare: (e: React.MouseEvent) => void }) {
   const color = CAT_COLOR[job.category] || "#2563EB";
 
   return (
-    <div onClick={onOpen} className="anim-up" style={{
+    <Link href={`/jobs/${job.id}`} style={{ textDecoration: "none", display: "block" }}>
+    <div className="anim-up" style={{
       background: "#FFFFFF", borderRadius: 14, overflow: "hidden",
       border: "1px solid var(--border)", boxShadow: "var(--shadow-sm)",
       cursor: "pointer", marginBottom: 12,
@@ -87,6 +88,7 @@ function JobCard({ job, onOpen, onShare }: { job: Job; onOpen: () => void; onSha
         </div>
       </div>
     </div>
+    </Link>
   );
 }
 
@@ -115,7 +117,7 @@ function JobsInner() {
 
   function shareJob(e: React.MouseEvent, job: Job) {
     e.stopPropagation();
-    const text = `🎯 *${job.title}*\n🏢 ${job.org}\n👥 ${job.vacancies.toLocaleString()} vacancies\n💰 ${job.inHand}/month\n📅 Last date: ${job.lastDate}\n\nCheck full details 👇\nhttps://prepkar.vercel.app/jobs?id=${job.id}`;
+    const text = `🎯 *${job.title}*\n🏢 ${job.org}\n👥 ${job.vacancies.toLocaleString()} vacancies\n💰 ${job.inHand}/month\n📅 Last date: ${job.lastDate}\n\nCheck full details 👇\nhttps://prepkar.vercel.app/jobs/${job.id}`;
     window.open(`https://wa.me/?text=${encodeURIComponent(text)}`, "_blank");
   }
 
@@ -213,7 +215,7 @@ function JobsInner() {
         <div className="desktop-2col">
           {list.map((job, i) => (
             <div key={job.id} style={{ animationDelay: `${Math.min(i * 0.04, 0.3)}s` }}>
-              <JobCard job={job} onOpen={() => setSel(job)} onShare={(e) => shareJob(e, job)} />
+              <JobCard job={job} onShare={(e) => shareJob(e, job)} />
             </div>
           ))}
         </div>

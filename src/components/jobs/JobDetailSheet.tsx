@@ -467,7 +467,7 @@ function Divider() { return <div style={{ height: 1, background: "rgba(0,0,0,0.0
 
 /* ── WhatsApp + Share ── */
 function ShareBar({ job }: { job: Job }) {
-  const text = `🎯 *${job.title}*\n🏢 ${job.org}\n👥 ${job.vacancies.toLocaleString()} vacancies\n💰 ${job.inHand}/month\n📅 Last date: ${job.lastDate}\n\nFull roadmap, salary & lifestyle 👇\nhttps://prepkar.vercel.app/jobs?id=${job.id}\n\n— via NaukriYatra`;
+  const text = `🎯 *${job.title}*\n🏢 ${job.org}\n👥 ${job.vacancies.toLocaleString()} vacancies\n💰 ${job.inHand}/month\n📅 Last date: ${job.lastDate}\n\nFull roadmap, salary & lifestyle 👇\nhttps://prepkar.vercel.app/jobs/${job.id}\n\n— via NaukriYatra`;
   return (
     <div style={{ display: "flex", gap: 6, marginBottom: 16 }}>
       <a href={`https://wa.me/?text=${encodeURIComponent(text)}`} target="_blank" rel="noopener noreferrer" style={{ flex: 1, textDecoration: "none" }}>
@@ -475,7 +475,7 @@ function ShareBar({ job }: { job: Job }) {
           <span>📱</span> Share on WhatsApp
         </div>
       </a>
-      <button onClick={() => { if (navigator.share) { navigator.share({ title: job.title, text: `${job.title} — ${job.vacancies} vacancies`, url: `https://prepkar.vercel.app/jobs?id=${job.id}` }); } else { navigator.clipboard.writeText(`https://prepkar.vercel.app/jobs?id=${job.id}`); } }}
+      <button onClick={() => { if (navigator.share) { navigator.share({ title: job.title, text: `${job.title} — ${job.vacancies} vacancies`, url: `https://prepkar.vercel.app/jobs/${job.id}` }); } else { navigator.clipboard.writeText(`https://prepkar.vercel.app/jobs/${job.id}`); } }}
         style={{ padding: "10px 16px", background: "#F3F4F6", color: "#374151", borderRadius: 10, fontSize: 12, fontWeight: 700, border: "none", cursor: "pointer" }}>📋 Copy</button>
     </div>
   );
@@ -889,7 +889,7 @@ function PremiumRoadmap({ roadmap, color }: { roadmap: Job["roadmap"]; color: st
   );
 }
 
-export default function JobDetailSheet({ job, onClose }: { job: Job; onClose: () => void }) {
+export default function JobDetailSheet({ job, onClose, fullPage = false }: { job: Job; onClose: () => void; fullPage?: boolean }) {
   const diffColor = DIFF_COLOR[job.difficulty] ?? "#6B7280";
   const catColor = CAT_COLOR[job.category] || "#2563EB";
   const sheetRef = useRef<HTMLDivElement | null>(null);
@@ -909,19 +909,64 @@ export default function JobDetailSheet({ job, onClose }: { job: Job; onClose: ()
   const illustrationPalette = categoryIllustrationPalette(job.category);
 
   return (
-    <div style={{ position: "fixed", inset: 0, zIndex: 100, display: "flex", alignItems: "flex-end", justifyContent: "center" }}>
-      <div onClick={onClose} style={{ position: "absolute", inset: 0, background: "rgba(0,0,0,0.4)", backdropFilter: "blur(6px)" }} />
-      <div ref={sheetRef} style={{ position: "relative", background: "#FFFFFF", borderRadius: "22px 22px 0 0", width: "100%", maxWidth: 640, maxHeight: "93vh", overflowY: "auto", paddingBottom: 36 }}>
+    <div style={fullPage ? {} : { position: "fixed", inset: 0, zIndex: 100, display: "flex", alignItems: "flex-end", justifyContent: "center" }}>
+      {!fullPage && <div onClick={onClose} style={{ position: "absolute", inset: 0, background: "rgba(0,0,0,0.4)", backdropFilter: "blur(6px)" }} />}
+      <div ref={sheetRef} style={fullPage ? {
+        background: "#FFFFFF",
+        minHeight: "100vh",
+        width: "100%",
+        paddingBottom: 80,
+      } : {
+        position: "relative", background: "#FFFFFF", borderRadius: "22px 22px 0 0",
+        width: "100%", maxWidth: 640, maxHeight: "93vh", overflowY: "auto", paddingBottom: 36,
+      }}>
         <ReadingProgressBar wordCount={jobWordCount} targetRef={sheetRef} topClassName="top-0" />
-        <div style={{ display: "flex", justifyContent: "center", padding: "10px 0 4px" }}><div style={{ width: 40, height: 4, borderRadius: 4, background: "rgba(0,0,0,0.1)" }} /></div>
-        <div style={{ padding: "8px 20px 0" }}>
-          <button onClick={onClose} style={{ position: "absolute", top: 14, right: 16, background: "rgba(0,0,0,0.04)", border: "none", color: "#9CA3AF", borderRadius: 8, width: 30, height: 30, cursor: "pointer", fontSize: 14 }}>✕</button>
+
+        {/* Full-page: sticky top bar with back button */}
+        {fullPage ? (
+          <div style={{
+            position: "sticky", top: 0, zIndex: 50,
+            background: "rgba(255,255,255,0.95)", backdropFilter: "blur(12px)",
+            borderBottom: "1px solid rgba(0,0,0,0.08)",
+            padding: "12px 16px",
+            display: "flex", alignItems: "center", gap: 12,
+          }}>
+            <button
+              onClick={onClose}
+              style={{
+                display: "flex", alignItems: "center", gap: 6,
+                background: "#F3F4F6", border: "none", borderRadius: 10,
+                padding: "8px 14px", fontSize: 13, fontWeight: 700,
+                color: "#374151", cursor: "pointer",
+              }}
+            >
+              ← Back
+            </button>
+            <div style={{ flex: 1, minWidth: 0 }}>
+              <div style={{ fontSize: 14, fontWeight: 800, color: "#111827", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+                {job.title}
+              </div>
+              <div style={{ fontSize: 11, color: "#9CA3AF" }}>{job.org}</div>
+            </div>
+          </div>
+        ) : (
+          <>
+            <div style={{ display: "flex", justifyContent: "center", padding: "10px 0 4px" }}>
+              <div style={{ width: 40, height: 4, borderRadius: 4, background: "rgba(0,0,0,0.1)" }} />
+            </div>
+            <div style={{ position: "absolute", top: 14, right: 16 }}>
+              <button onClick={onClose} style={{ background: "rgba(0,0,0,0.04)", border: "none", color: "#9CA3AF", borderRadius: 8, width: 30, height: 30, cursor: "pointer", fontSize: 14 }}>✕</button>
+            </div>
+          </>
+        )}
+
+        <div style={{ padding: fullPage ? "0 0" : "8px 20px 0", maxWidth: fullPage ? 720 : undefined, margin: fullPage ? "0 auto" : undefined }}>
 
           {/* ── HERO BANNER ── */}
           <div style={{
-            margin: "0 -20px",
+            margin: fullPage ? 0 : "0 -20px",
             background: `linear-gradient(135deg, ${catColor} 0%, ${catColor}cc 60%, #0F172A 100%)`,
-            padding: "28px 24px 24px",
+            padding: fullPage ? "28px 24px 24px" : "28px 24px 24px",
             position: "relative",
             overflow: "hidden",
           }}>
@@ -998,6 +1043,9 @@ export default function JobDetailSheet({ job, onClose }: { job: Job; onClose: ()
               </div>
             </div>
           </div>
+
+          {/* Content wrapper — adds padding in full-page mode */}
+          <div style={{ padding: fullPage ? "20px 20px 0" : "0" }}>
 
           <div className="mb-4 overflow-hidden rounded-[24px] border border-amber-200/40 shadow-sm" style={{ background: `linear-gradient(135deg, ${illustrationPalette.soft}, #ffffff 60%)` }}>
             <div className="grid grid-cols-1 items-center gap-4 px-4 py-4 sm:grid-cols-[1.1fr_0.9fr]">
@@ -1375,6 +1423,9 @@ export default function JobDetailSheet({ job, onClose }: { job: Job; onClose: ()
             <Link href="/ai-practice" style={{ flex: 1, textDecoration: "none" }}>
               <div style={{ padding: "13px", background: `linear-gradient(90deg,${catColor},#0D9488)`, color: "#fff", borderRadius: 12, fontSize: 13, fontWeight: 700, textAlign: "center", boxShadow: `0 4px 16px ${catColor}25` }}>🎯 Practice Interview</div>
             </Link>
+          </div>
+
+          {/* End content wrapper */}
           </div>
         </div>
       </div>

@@ -244,12 +244,12 @@ export default function Home() {
             {/* Scroll container */}
             <div id="dreamScroll" className="no-scroll" style={{ display: "flex", gap: 12, overflowX: "auto", paddingBottom: 12, scrollBehavior: "smooth", scrollSnapType: "x mandatory" }}>
               {[
-                { title: "District Magistrate", sub: "UPSC → IAS", perk: "Bungalow + Vehicle + ₹2.5L/month", emoji: "🏛️", bg: "linear-gradient(135deg,#4C1D95,#6D28D9)", link: "/jobs?id=upsc-cse-2026" },
-                { title: "Bank PO → Manager", sub: "SBI PO Exam", perk: "₹52K start + Housing + Medical", emoji: "🏦", bg: "linear-gradient(135deg,#064E3B,#059669)", link: "/jobs?id=sbi-po-2026" },
-                { title: "Income Tax Inspector", sub: "SSC CGL Exam", perk: "₹65K + Govt Quarter + Raids", emoji: "📋", bg: "linear-gradient(135deg,#1E3A8A,#2563EB)", link: "/jobs?id=ssc-cgl-2026" },
-                { title: "Station Master", sub: "RRB NTPC Exam", perk: "FREE trains for life + Uniform", emoji: "🚂", bg: "linear-gradient(135deg,#7F1D1D,#DC2626)", link: "/jobs?id=rrb-ntpc-2026" },
-                { title: "RBI Officer", sub: "RBI Grade B", perk: "₹1.05L/month + Metro posting", emoji: "💰", bg: "linear-gradient(135deg,#0F4C81,#1D7ED8)", link: "/jobs?id=rbi-grade-b-2026" },
-                { title: "Army Officer", sub: "NDA Exam", perk: "₹65K + Adventure + Honor", emoji: "🎖️", bg: "linear-gradient(135deg,#134E4A,#0D9488)", link: "/jobs?id=nda-2026" },
+                { title: "District Magistrate", sub: "UPSC → IAS", perk: "Bungalow + Vehicle + ₹2.5L/month", emoji: "🏛️", bg: "linear-gradient(135deg,#4C1D95,#6D28D9)", link: "/jobs/upsc-cse-2026" },
+                { title: "Bank PO → Manager", sub: "SBI PO Exam", perk: "₹52K start + Housing + Medical", emoji: "🏦", bg: "linear-gradient(135deg,#064E3B,#059669)", link: "/jobs/sbi-po-2026" },
+                { title: "Income Tax Inspector", sub: "SSC CGL Exam", perk: "₹65K + Govt Quarter + Raids", emoji: "📋", bg: "linear-gradient(135deg,#1E3A8A,#2563EB)", link: "/jobs/ssc-cgl-2026" },
+                { title: "Station Master", sub: "RRB NTPC Exam", perk: "FREE trains for life + Uniform", emoji: "🚂", bg: "linear-gradient(135deg,#7F1D1D,#DC2626)", link: "/jobs/rrb-ntpc-2026" },
+                { title: "RBI Officer", sub: "RBI Grade B", perk: "₹1.05L/month + Metro posting", emoji: "💰", bg: "linear-gradient(135deg,#0F4C81,#1D7ED8)", link: "/jobs/rbi-grade-b-2026" },
+                { title: "Army Officer", sub: "NDA Exam", perk: "₹65K + Adventure + Honor", emoji: "🎖️", bg: "linear-gradient(135deg,#134E4A,#0D9488)", link: "/jobs/nda-2026" },
               ].map((d, i) => (
                 <Link key={i} href={d.link} style={{ textDecoration: "none", flexShrink: 0, scrollSnapAlign: "start" }}>
                   <div className="card-premium" style={{
