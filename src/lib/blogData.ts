@@ -375,6 +375,295 @@ export const BLOG_POSTS: BlogPost[] = [
 <h2>Ready to Start Preparing?</h2>
 <p>Use NaukriYatra's free tools — salary calculator, AI interview practice, and daily quizzes — to kickstart your government job preparation today.</p>
 `
+  },
+  {
+    slug: "afcat-preparation-guide-2026-air-force-officer",
+    title: "AFCAT 2026: Complete Preparation Guide to Become an Air Force Officer",
+    excerpt: "Everything about AFCAT exam — eligibility, syllabus, AFSB interview tips, and a 6-month preparation strategy to join the Indian Air Force.",
+    category: "Defence",
+    author: "NaukriYatra Team",
+    date: "2026-04-28",
+    readTime: "10 min read",
+    tags: ["AFCAT", "Air Force", "Defence", "Officer"],
+    coverGradient: "linear-gradient(135deg, #1E3A5F, #3B82F6)",
+    coverIcon: "✈️",
+    content: `
+<h2>Why Choose the Indian Air Force?</h2>
+<p>The Indian Air Force is one of the most <strong>prestigious and exciting career options</strong> for graduates in India. As an IAF officer, you get to fly fighter jets, manage cutting-edge technology, and enjoy one of the best lifestyles in government service.</p>
+<p>AFCAT (Air Force Common Admission Test) is your gateway. Conducted <strong>twice a year</strong> by the IAF, it's more accessible than NDA/CDS but equally rewarding.</p>
+
+<h2>AFCAT Eligibility 2026</h2>
+<ul>
+<li><strong>Age:</strong> 20–26 years (Flying), 20–26 (Ground Duty Technical), 20–26 (Ground Duty Non-Technical)</li>
+<li><strong>Education:</strong> Graduate with 60% in any discipline. Engineering degree for Technical branch.</li>
+<li><strong>Marital Status:</strong> Unmarried (for Flying branch)</li>
+<li><strong>Physical:</strong> Minimum height 162.5 cm. Good eyesight (6/6 correctable for Flying)</li>
+</ul>
+
+<h2>Exam Pattern</h2>
+<ul>
+<li><strong>AFCAT Written:</strong> 100 questions, 300 marks, 2 hours. Sections: General Awareness, Verbal Ability, Numerical Ability, Reasoning & Military Aptitude.</li>
+<li><strong>EKT (Engineering Knowledge Test):</strong> Only for Technical branch. 50 questions on engineering subjects.</li>
+<li><strong>AFSB Interview:</strong> 5-day assessment at Air Force Selection Board — the real filter.</li>
+</ul>
+
+<h2>6-Month Preparation Strategy</h2>
+<ul>
+<li><strong>Month 1–2:</strong> Master the basics — English grammar, mental math shortcuts, reasoning patterns. Read Lucent's GK.</li>
+<li><strong>Month 3:</strong> Focus on Military Aptitude. Study IAF history, aircraft types, ranks, and defense current affairs.</li>
+<li><strong>Month 4:</strong> Start mock tests. Solve previous year papers. Target 180+ out of 300.</li>
+<li><strong>Month 5:</strong> AFSB preparation — practice group discussions, lecturette topics, and personality development.</li>
+<li><strong>Month 6:</strong> Final revision + physical fitness preparation for medical exam.</li>
+</ul>
+
+<h2>AFSB Interview: The 5-Day Challenge</h2>
+<p>AFSB is where most candidates are eliminated. Only <strong>5–8% clear it</strong>. The 5 days include:</p>
+<ul>
+<li><strong>Day 1:</strong> Officer Intelligence Rating (OIR) test + Picture Perception & Discussion Test (PPDT)</li>
+<li><strong>Day 2–3:</strong> Psychological Tests — Thematic Apperception Test (TAT), Word Association Test (WAT), Self Description Test (SRT)</li>
+<li><strong>Day 3–4:</strong> Group Tasks — Group Discussion, Group Planning Exercise, Progressive Group Task, Command Task</li>
+<li><strong>Day 5:</strong> Personal Interview + Conference</li>
+</ul>
+
+<h2>Life as an IAF Officer</h2>
+<p>The IAF lifestyle is unmatched — modern air bases, officers' mess, adventure sports (paragliding, scuba diving, mountaineering), and foreign postings. Starting salary is <strong>₹80K+ in-hand</strong> with free accommodation and medical.</p>
+<p>Start your AFCAT preparation with NaukriYatra's free quizzes and AI interview practice. 🚀</p>
+`
+  },
+  {
+    slug: "nda-exam-complete-guide-preparation-tips-2026",
+    title: "NDA 2026: Complete Guide — Eligibility, Syllabus & Preparation Tips",
+    excerpt: "A comprehensive guide to cracking the NDA exam — from eligibility criteria and exam pattern to the SSB interview and life at National Defence Academy.",
+    category: "Defence",
+    author: "NaukriYatra Team",
+    date: "2026-04-25",
+    readTime: "12 min read",
+    tags: ["NDA", "Defence", "Army", "Navy", "Air Force"],
+    coverGradient: "linear-gradient(135deg, #134E4A, #0D9488)",
+    coverIcon: "🎖️",
+    content: `
+<h2>NDA: The Most Prestigious Entry into Defence Forces</h2>
+<p>The National Defence Academy (NDA) is the <strong>joint services academy</strong> of the Indian Armed Forces where cadets of Army, Navy, and Air Force train together before going to their respective service academies. It's the <strong>youngest entry point</strong> — you can join right after 12th class.</p>
+
+<h2>NDA Eligibility 2026</h2>
+<ul>
+<li><strong>Age:</strong> 16.5 to 19.5 years</li>
+<li><strong>Education:</strong> 12th pass (or appearing) from any recognized board</li>
+<li><strong>For Air Force & Navy:</strong> 12th with Physics & Maths compulsory</li>
+<li><strong>Gender:</strong> Both male and female candidates (women allowed since 2022)</li>
+<li><strong>Physical:</strong> Minimum height 157 cm (men), good eyesight</li>
+</ul>
+
+<h2>Exam Pattern</h2>
+<p>NDA exam is conducted by <strong>UPSC twice a year</strong> (April & September). It has two papers:</p>
+<ul>
+<li><strong>Paper I — Mathematics:</strong> 120 questions, 300 marks, 2.5 hours. Topics: Algebra, Trigonometry, Calculus, Statistics, Geometry.</li>
+<li><strong>Paper II — General Ability Test:</strong> 150 questions, 600 marks, 2.5 hours. Part A: English (200 marks). Part B: General Knowledge (400 marks) — Physics, Chemistry, History, Geography, Current Affairs.</li>
+</ul>
+
+<h2>SSB Interview Process</h2>
+<p>After clearing the written exam, you face the <strong>5-day SSB Interview</strong> — the toughest personality assessment in India:</p>
+<ul>
+<li><strong>Stage 1 (Day 1):</strong> Officer Intelligence Rating + Picture Perception & Discussion Test. About 50–60% are screened out here.</li>
+<li><strong>Stage 2 (Day 2–5):</strong> Psychological Tests, Group Tasks (GD, GPE, PGT, HGT, Command Task), Personal Interview, and Conference.</li>
+</ul>
+
+<h2>Life at NDA, Khadakwasla</h2>
+<p>NDA is located near <strong>Pune, Maharashtra</strong>. It's a 3-year training program:</p>
+<ul>
+<li>Academic education (B.Sc. / B.A. / B.Sc. Computer Science from JNU)</li>
+<li>Military training — weapons, drills, adventure activities</li>
+<li>Sports — horse riding, swimming, boxing, cross-country</li>
+<li>Monthly stipend of ₹56,100 (as a cadet)</li>
+</ul>
+
+<h2>Preparation Tips for NDA 2026</h2>
+<ul>
+<li><strong>Mathematics:</strong> NCERT Class 11–12 + R.S. Aggarwal. Practice 20 problems daily.</li>
+<li><strong>English:</strong> Read newspapers daily. Practice grammar from Wren & Martin.</li>
+<li><strong>General Knowledge:</strong> NCERTs for Science & Social Studies. Lucent's GK for static portion.</li>
+<li><strong>Mock Tests:</strong> Take at least 2 full-length mocks per week in the last 2 months.</li>
+<li><strong>Physical Fitness:</strong> Start running 5 km daily. Practice push-ups, sit-ups, and chin-ups.</li>
+</ul>
+<p>NDA is not just an exam — it's a life-changing experience. Start your preparation with NaukriYatra today! 💪</p>
+`
+  },
+  {
+    slug: "ibps-po-preparation-strategy-2026",
+    title: "IBPS PO 2026: Smart Preparation Strategy for Working Professionals",
+    excerpt: "A practical guide to cracking IBPS PO while managing a job or college — covering time management, subject-wise strategy, and interview preparation.",
+    category: "Banking",
+    author: "NaukriYatra Team",
+    date: "2026-04-22",
+    readTime: "9 min read",
+    tags: ["IBPS PO", "Banking", "Strategy", "Working Professional"],
+    coverGradient: "linear-gradient(135deg, #0C4A6E, #0284C7)",
+    coverIcon: "🏦",
+    content: `
+<h2>Can You Crack IBPS PO While Working? Yes!</h2>
+<p>Every year, thousands of working professionals and final-year students crack <strong>IBPS PO</strong> with smart, focused preparation. The key is <strong>not studying 12 hours a day</strong> — it's studying the right things at the right time.</p>
+<p>IBPS PO is conducted to recruit Probationary Officers in <strong>11 participating public sector banks</strong> (excluding SBI). With ~4,000+ vacancies annually, it's one of the most accessible banking exams.</p>
+
+<h2>IBPS PO Exam Pattern 2026</h2>
+<ul>
+<li><strong>Prelims:</strong> 100 questions, 100 marks, 1 hour. Sections: English (30), Reasoning (35), Quantitative Aptitude (35). Sectional cutoffs apply.</li>
+<li><strong>Mains:</strong> 155 questions + Descriptive, 200+25 marks, 3+0.5 hours. Sections: Reasoning & Computer (45), General Awareness (40), English (35), Data Analysis (35), Descriptive English (2 essays/letters).</li>
+<li><strong>Interview:</strong> 100 marks. Conducted by participating banks.</li>
+</ul>
+
+<h2>4-Month Strategy for Working Professionals</h2>
+<ul>
+<li><strong>Month 1 — Foundation:</strong> 2 hours/day. Focus on basics of Quant (percentages, ratios, SI/CI) and Reasoning (puzzles, syllogisms). Use lunch breaks for English vocabulary.</li>
+<li><strong>Month 2 — Build Speed:</strong> 3 hours/day. Practice 50 questions daily. Start sectional tests. Add Banking Awareness (current schemes, RBI policies).</li>
+<li><strong>Month 3 — Mocks Begin:</strong> 3–4 hours/day. 2 full-length mocks per week. Analyze every test — spend equal time on analysis as on taking the test.</li>
+<li><strong>Month 4 — Peak Performance:</strong> 4 hours/day. Daily mocks. Focus on weak areas. Practice descriptive English (letter writing, essay).</li>
+</ul>
+
+<h2>Subject-Wise Tips</h2>
+<ul>
+<li><strong>Quantitative Aptitude:</strong> DI and Arithmetic are high-scoring. Master Simplification for quick marks. Skip Quadratic if short on time.</li>
+<li><strong>Reasoning:</strong> Puzzles carry 60% weightage. Practice seating arrangement and floor-based puzzles daily.</li>
+<li><strong>English:</strong> Reading comprehension = easy marks if your vocabulary is strong. Read editorials from The Hindu daily.</li>
+<li><strong>General Awareness:</strong> Last 6 months banking + financial news. Use NaukriYatra's Current Affairs section for daily updates.</li>
+</ul>
+
+<h2>Interview Preparation</h2>
+<p>IBPS PO interview focuses on:</p>
+<ul>
+<li>Banking knowledge (RBI governor, monetary policy, digital banking)</li>
+<li>Personal questions (why banking? why leave current job?)</li>
+<li>Current affairs (major economic events)</li>
+<li>Academic background questions</li>
+</ul>
+<p>Practice with NaukriYatra's AI Interview section — it simulates real banking interview questions and gives you instant feedback. 🎯</p>
+`
+  },
+  {
+    slug: "sebi-grade-a-officer-complete-guide-2026",
+    title: "SEBI Grade A 2026: The IAS of Finance — Complete Preparation Guide",
+    excerpt: "Everything about SEBI Grade A — why it's called the IAS of finance, the ₹1L+ starting salary, exam strategy, and what life at SEBI looks like.",
+    category: "Salary & Perks",
+    author: "NaukriYatra Team",
+    date: "2026-04-30",
+    readTime: "11 min read",
+    tags: ["SEBI", "Grade A", "Finance", "Regulatory"],
+    coverGradient: "linear-gradient(135deg, #312E81, #6366F1)",
+    coverIcon: "📈",
+    content: `
+<h2>Why SEBI Grade A is the Dream Job for Finance Graduates</h2>
+<p>SEBI (Securities and Exchange Board of India) is the <strong>apex regulator of India's capital markets</strong>. A SEBI Grade A Officer starts with an in-hand salary of <strong>₹1,00,000+ per month</strong> — the highest among all regulatory body entry-level positions.</p>
+<p>Often called the <strong>"IAS of Finance"</strong>, SEBI Grade A combines the prestige of civil services with the salary of private sector.</p>
+
+<h2>Salary & Perks Breakdown</h2>
+<ul>
+<li><strong>Basic Pay:</strong> ₹44,500/month</li>
+<li><strong>Dearness Allowance:</strong> ~50% of basic = ₹22,250</li>
+<li><strong>HRA:</strong> ₹13,350 (Mumbai posting)</li>
+<li><strong>Special Allowance + Grade Allowance:</strong> ₹20,000+</li>
+<li><strong>Total In-Hand:</strong> ₹1,00,000 – ₹1,10,000/month</li>
+<li><strong>Perks:</strong> Interest-free housing loan, medical for family, LFC, pension, performance bonus</li>
+</ul>
+
+<h2>Exam Pattern</h2>
+<ul>
+<li><strong>Phase I (Screening):</strong> 100 MCQs, 2 hours. Paper 1: General (GA, English, Quant, Reasoning). Paper 2: Specialized (Commerce/Finance/Economics/Law/IT/Engineering).</li>
+<li><strong>Phase II (Descriptive):</strong> Paper 1: English (Writing, Comprehension). Paper 2: Specialized subject (detailed questions on securities market, finance, economics).</li>
+<li><strong>Interview:</strong> Conducted by SEBI panel. Focus on securities market knowledge and personality.</li>
+</ul>
+
+<h2>Who Can Apply?</h2>
+<ul>
+<li>Graduate with 60% marks (any stream)</li>
+<li>CA, CS, CFA, MBA (Finance) have an edge in the specialized paper</li>
+<li>Age: 21–30 years (relaxation for reserved categories)</li>
+<li>Strong knowledge of Indian capital markets is essential</li>
+</ul>
+
+<h2>Preparation Strategy (10–12 Months)</h2>
+<ul>
+<li><strong>Month 1–3:</strong> Build foundation in Securities Market. Read SEBI Act, SCRA, Companies Act basics. Study from NISM modules (free on their website).</li>
+<li><strong>Month 4–6:</strong> Deep dive into Finance & Economics. Cover Macro/Microeconomics, Banking, Insurance, Mutual Funds, Derivatives.</li>
+<li><strong>Month 7–9:</strong> Start Phase I mocks. Practice previous year papers. Master General section for quick marks.</li>
+<li><strong>Month 10–12:</strong> Phase II descriptive practice. Write 2 essays/answers daily. Current affairs on capital markets.</li>
+</ul>
+
+<h2>Life at SEBI, BKC Mumbai</h2>
+<p>SEBI headquarters is in <strong>Bandra Kurla Complex (BKC), Mumbai</strong> — India's most premium business district. As a SEBI officer, you investigate insider trading cases, draft market regulations, and meet with top financial institutions.</p>
+<p>The work hours are 9:30–5:30 with occasional overtime during major market events. Work-life balance is significantly better than investment banking.</p>
+<p>Explore the SEBI Grade A job profile in detail on NaukriYatra's Jobs section! 📊</p>
+`
+  },
+  {
+    slug: "railway-exam-preparation-rrb-ntpc-group-d-2026",
+    title: "Railway Exams 2026: Complete Guide to RRB NTPC, Group D & ALP",
+    excerpt: "Master guide covering all railway exams — RRB NTPC, Group D, and ALP. Includes eligibility, syllabus, preparation tips, and salary comparison.",
+    category: "Strategy",
+    author: "NaukriYatra Team",
+    date: "2026-05-01",
+    readTime: "13 min read",
+    tags: ["Railway", "RRB NTPC", "Group D", "ALP", "Preparation"],
+    coverGradient: "linear-gradient(135deg, #7F1D1D, #EF4444)",
+    coverIcon: "🚂",
+    content: `
+<h2>Why Railway Jobs Are India's Most Popular Government Jobs</h2>
+<p>Indian Railways is the <strong>world's 4th largest employer</strong> with over 12 lakh employees. Every year, Railways announces <strong>35,000–50,000+ vacancies</strong> across multiple posts — making it the single largest government job opportunity in India.</p>
+<p>The three most popular railway exams are <strong>RRB NTPC, RRB Group D, and RRB ALP</strong>. Let's understand each.</p>
+
+<h2>RRB NTPC (Non-Technical Popular Categories)</h2>
+<ul>
+<li><strong>Posts:</strong> Junior Clerk, Accounts Clerk, Typist, Time Keeper, Commercial Apprentice, Station Master, Goods Guard</li>
+<li><strong>Eligibility:</strong> Graduate for most posts, 12th for some</li>
+<li><strong>Salary:</strong> ₹35K–₹55K/month (Level 2–5)</li>
+<li><strong>Exam:</strong> CBT 1 → CBT 2 → Typing/Aptitude Test → Document Verification</li>
+<li><strong>Vacancies:</strong> 11,000–15,000+ per cycle</li>
+</ul>
+
+<h2>RRB Group D</h2>
+<ul>
+<li><strong>Posts:</strong> Track Maintainer, Helper, Pointsman, Fitter</li>
+<li><strong>Eligibility:</strong> 10th pass + ITI (or 10th pass for some)</li>
+<li><strong>Salary:</strong> ₹22K–₹30K/month (Level 1)</li>
+<li><strong>Exam:</strong> CBT → Physical Efficiency Test (PET) → Document Verification</li>
+<li><strong>Vacancies:</strong> 15,000–1,00,000+ (largest recruitment in India)</li>
+</ul>
+
+<h2>RRB ALP (Assistant Loco Pilot)</h2>
+<ul>
+<li><strong>Posts:</strong> Assistant Loco Pilot (train driver assistant)</li>
+<li><strong>Eligibility:</strong> 10th + ITI in relevant trade, or Engineering diploma/degree</li>
+<li><strong>Salary:</strong> ₹35K–₹45K/month (Level 2)</li>
+<li><strong>Exam:</strong> CBT 1 → CBT 2 → Computer-Based Aptitude Test → Document Verification</li>
+<li><strong>Vacancies:</strong> 5,000–6,000 per cycle</li>
+</ul>
+
+<h2>Common Syllabus Across All Railway Exams</h2>
+<ul>
+<li><strong>Mathematics:</strong> Number systems, BODMAS, percentages, ratio, SI/CI, time & work, speed & distance, profit & loss</li>
+<li><strong>General Intelligence & Reasoning:</strong> Analogies, coding-decoding, series, syllogisms, Venn diagrams, direction sense</li>
+<li><strong>General Science:</strong> Physics (mechanics, heat, light), Chemistry (elements, reactions), Biology (human body, diseases)</li>
+<li><strong>General Awareness:</strong> Current affairs, Indian railways facts, important dates, awards, sports</li>
+</ul>
+
+<h2>6-Month Preparation Plan</h2>
+<ul>
+<li><strong>Month 1–2:</strong> Complete NCERT Science (Class 6–10) + Basic Maths. Build your GK foundation with Lucent's GK.</li>
+<li><strong>Month 3:</strong> Practice Reasoning — 30 questions daily. Start current affairs (use NaukriYatra's Current Affairs section).</li>
+<li><strong>Month 4:</strong> Topic-wise test practice. Identify weak areas. Focus 70% time on weak subjects.</li>
+<li><strong>Month 5:</strong> Full-length mock tests — 3 per week minimum. Speed is everything in railway exams.</li>
+<li><strong>Month 6:</strong> Revision + daily mocks. Target: finish 100 questions in 90 minutes with 85%+ accuracy.</li>
+</ul>
+
+<h2>Railway Job Benefits</h2>
+<p>Beyond salary, railway employees enjoy:</p>
+<ul>
+<li>Free rail travel for self and family (lifetime pass after retirement)</li>
+<li>Railway housing/HRA</li>
+<li>Medical facilities at railway hospitals</li>
+<li>Children's education allowance</li>
+<li>Pension and gratuity</li>
+</ul>
+<p>Start your railway exam preparation today with NaukriYatra's subject-wise quizzes and practice tests! 🚂</p>
+`
   }
 ];
 

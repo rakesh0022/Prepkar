@@ -2,6 +2,7 @@
 import { useState, useEffect, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
+import Image from "next/image";
 import BottomNav from "@/components/BottomNav";
 import JobDetailSheet from "@/components/jobs/JobDetailSheet";
 import { JOBS, JOB_CATEGORIES, QUALIFICATION_FILTERS, type Job, type Qualification } from "@/components/data";
@@ -35,14 +36,13 @@ function JobCard({ job, onShare }: { job: Job; onShare: (e: React.MouseEvent) =>
       {/* Job thumbnail */}
       {job.image && (
         <div className="job-card-img">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
+          <Image
             src={job.image}
             alt={job.title}
             width={600}
             height={400}
+            sizes="(max-width: 768px) 100vw, 50vw"
             style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center top" }}
-            onError={(e) => { (e.target as HTMLImageElement).parentElement!.style.display = "none"; }}
           />
           <div style={{
             position: "absolute", bottom: 0, left: 0, right: 0, height: 50,
