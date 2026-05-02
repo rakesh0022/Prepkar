@@ -7,7 +7,7 @@ const tabs = [
   { href: "/jobs", icon: "💼", label: "Jobs" },
   { href: "/quiz", icon: "📝", label: "Quiz" },
   { href: "/ai-practice", icon: "🎯", label: "AI Practice" },
-  { href: "/study-plan", icon: "📅", label: "Study Plan" },
+  { href: "/blog", icon: "📖", label: "Blog" },
 ];
 
 export default function BottomNav() {
@@ -22,9 +22,10 @@ export default function BottomNav() {
           left: 0,
           right: 0,
           zIndex: 50,
-          background: "rgba(255,255,255,0.97)",
+          background: "color-mix(in srgb, var(--bg-card) 97%, transparent)",
           backdropFilter: "blur(20px)",
-          borderTop: "1px solid rgba(0,0,0,0.06)",
+          WebkitBackdropFilter: "blur(20px)",
+          borderTop: "1px solid var(--border)",
           display: "flex",
           justifyContent: "space-around",
           padding: "6px 0 max(12px, env(safe-area-inset-bottom))",
@@ -60,7 +61,7 @@ export default function BottomNav() {
                 />
               )}
               <span style={{ fontSize: 18, filter: on ? "none" : "grayscale(60%) opacity(0.45)" }}>{t.icon}</span>
-              <span style={{ fontSize: 9, fontWeight: on ? 700 : 500, color: on ? "#2563EB" : "#9CA3AF" }}>{t.label}</span>
+              <span style={{ fontSize: 9, fontWeight: on ? 700 : 500, color: on ? "#2563EB" : "var(--text-faint)" }}>{t.label}</span>
             </Link>
           );
         })}
@@ -68,3 +69,4 @@ export default function BottomNav() {
     </div>
   );
 }
+
