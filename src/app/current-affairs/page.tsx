@@ -136,15 +136,15 @@ export default function CurrentAffairsPage() {
   };
 
   return (
-    <main style={{ minHeight: "100vh", background: "linear-gradient(to bottom, #f8fafc, #ffffff)", paddingBottom: 76 }}>
+    <main style={{ minHeight: "100vh", background: "var(--bg)", paddingBottom: 76 }}>
       <div className="desktop-only" style={{ height: 56 }} />
 
       {/* Header */}
-      <div style={{ background: "white", borderBottom: "2px solid #f3f4f6", paddingBottom: 12 }}>
+      <div style={{ background: "var(--bg-card)", borderBottom: "2px solid var(--border)", paddingBottom: 12 }}>
         <div style={{ padding: "16px 16px 12px", display: "flex", alignItems: "center", gap: 10 }}>
-          <Link href="/" style={{ color: "#6B7280", fontSize: 18, textDecoration: "none", fontWeight: "700" }}>←</Link>
+          <Link href="/" style={{ color: "var(--text-light)", fontSize: 18, textDecoration: "none", fontWeight: "700" }}>←</Link>
           <div style={{ flex: 1 }}>
-            <h1 style={{ fontSize: 24, fontWeight: 900, color: "#111827", marginBottom: 2, letterSpacing: '-0.02em' }}>Current Affairs</h1>
+            <h1 style={{ fontSize: 24, fontWeight: 900, color: "var(--text-dark)", marginBottom: 2, letterSpacing: '-0.02em' }}>Current Affairs</h1>
             <p style={{ fontSize: 12, color: "#6b7280", fontWeight: 600 }}>
               Updated {new Date(CURRENT_AFFAIRS_META.lastUpdated).toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" })}
             </p>
@@ -154,10 +154,10 @@ export default function CurrentAffairsPage() {
         {/* Daily Summary Card */}
         <div style={{ 
           margin: "0 16px 12px", 
-          background: "linear-gradient(135deg, #eff6ff, #dbeafe)", 
+          background: "linear-gradient(135deg, rgba(37,99,235,0.08), rgba(37,99,235,0.15))", 
           borderRadius: 16, 
           padding: 16,
-          border: "2px solid #bfdbfe",
+          border: "2px solid rgba(37,99,235,0.2)",
         }}>
           <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 12 }}>
             <span style={{ fontSize: 32 }}>📊</span>
@@ -189,9 +189,9 @@ export default function CurrentAffairsPage() {
         position: "sticky", 
         top: 0, 
         zIndex: 40, 
-        background: "rgba(255,255,255,0.98)", 
+        background: "color-mix(in srgb, var(--bg) 98%, transparent)", 
         backdropFilter: "blur(12px)",
-        borderBottom: "2px solid #f3f4f6",
+        borderBottom: "2px solid var(--border)",
         padding: "12px 16px",
       }}>
         {/* Search */}
@@ -205,7 +205,9 @@ export default function CurrentAffairsPage() {
               width: "100%",
               padding: "12px 16px",
               borderRadius: 12,
-              border: "2px solid #e5e7eb",
+              border: "2px solid var(--border)",
+              background: "var(--bg-card)",
+              color: "var(--text-dark)",
               fontSize: 14,
               fontWeight: 600,
               outline: "none",
@@ -229,9 +231,9 @@ export default function CurrentAffairsPage() {
                 borderRadius: 10,
                 fontSize: 12,
                 fontWeight: 700,
-                border: timeFilter === tf.id ? "2px solid #3b82f6" : "2px solid #e5e7eb",
-                background: timeFilter === tf.id ? "#eff6ff" : "white",
-                color: timeFilter === tf.id ? "#1e40af" : "#6b7280",
+                border: timeFilter === tf.id ? "2px solid #3b82f6" : "2px solid var(--border)",
+                background: timeFilter === tf.id ? "rgba(37,99,235,0.1)" : "var(--bg-card)",
+                color: timeFilter === tf.id ? "#3b82f6" : "var(--text-light)",
                 cursor: "pointer",
               }}
             >
@@ -257,8 +259,8 @@ export default function CurrentAffairsPage() {
                   cursor: "pointer",
                   flexShrink: 0,
                   whiteSpace: "nowrap",
-                  background: selTopic === topic ? (topic === "All" ? "#3b82f6" : topicColors[topic] || "#3b82f6") : "#f3f4f6",
-                  color: selTopic === topic ? "#fff" : "#6B7280",
+                  background: selTopic === topic ? (topic === "All" ? "#3b82f6" : topicColors[topic] || "#3b82f6") : "var(--bg-card-2)",
+                  color: selTopic === topic ? "#fff" : "var(--text-light)",
                   boxShadow: selTopic === topic ? `0 4px 12px ${(topicColors[topic] || "#3b82f6")}30` : "none",
                 }}
               >
@@ -282,7 +284,7 @@ export default function CurrentAffairsPage() {
               <div style={{ 
                 fontSize: 14, 
                 fontWeight: 800, 
-                color: "#374151", 
+                color: "var(--text-dark)", 
                 marginBottom: 16,
                 display: "flex",
                 alignItems: "center",
@@ -297,7 +299,7 @@ export default function CurrentAffairsPage() {
                 {date}
               </div>
 
-              <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+              <div className="desktop-2col" style={{ gap: 16 }}>
                 {items.map((item) => {
                   const slug = makeCurrentAffairsSlug(item.date, item.topic, item.fact);
                   const accent = topicColors[item.topic] || "#6B7280";
@@ -317,10 +319,10 @@ export default function CurrentAffairsPage() {
                       key={slug}
                       id={slug}
                       style={{
-                        background: "#FFFFFF",
+                        background: "var(--bg-card)",
                         borderRadius: 16,
                         padding: 16,
-                        border: "2px solid #f3f4f6",
+                        border: "2px solid var(--border)",
                         boxShadow: "0 2px 8px rgba(0,0,0,0.04)",
                         borderLeft: isImportant ? `4px solid #f59e0b` : `4px solid ${accent}`,
                         scrollMarginTop: 140,
@@ -389,7 +391,7 @@ export default function CurrentAffairsPage() {
                           <div style={{ 
                             fontSize: 15, 
                             fontWeight: 800, 
-                            color: "#111827", 
+                            color: "var(--text-dark)", 
                             marginBottom: 8,
                             lineHeight: 1.4,
                           }}>
@@ -400,7 +402,7 @@ export default function CurrentAffairsPage() {
                           {body && (
                             <p style={{ 
                               fontSize: 14, 
-                              color: "#374151", 
+                              color: "var(--text-body)", 
                               lineHeight: 1.6, 
                               margin: "0 0 12px 0",
                             }}>
@@ -437,8 +439,8 @@ export default function CurrentAffairsPage() {
                                 borderRadius: 8,
                                 fontSize: 11,
                                 fontWeight: 700,
-                                border: "2px solid #e5e7eb",
-                                background: "white",
+                                border: "2px solid var(--border)",
+                                background: "var(--bg-card)",
                                 color: "#6b7280",
                                 cursor: "pointer",
                                 display: "flex",
@@ -509,7 +511,7 @@ export default function CurrentAffairsPage() {
                         </div>
                       </div>
 
-                      <div style={{ fontSize: 14, fontWeight: 700, color: "#111827", marginBottom: 12 }}>
+                      <div style={{ fontSize: 14, fontWeight: 700, color: "var(--text-dark)", marginBottom: 12 }}>
                         {quiz.question}
                       </div>
 
@@ -539,15 +541,15 @@ export default function CurrentAffairsPage() {
                                   ? "#f0fdf4" 
                                   : option === userAnswer 
                                     ? "#fef2f2" 
-                                    : "white"
-                                : "white",
+                                    : "var(--bg-card)"
+                                : "var(--bg-card)",
                               color: showResult 
                                 ? option === quiz.correct 
                                   ? "#16a34a" 
                                   : option === userAnswer 
-                                    ? "#dc2626" 
-                                    : "#6b7280"
-                                : "#111827",
+                                    ? "#dc2626"
+                                    : "var(--text-light)" 
+                                : "var(--text-dark)",
                               cursor: showResult ? "default" : "pointer",
                               textAlign: "left",
                             }}

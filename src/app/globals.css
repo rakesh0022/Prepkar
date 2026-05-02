@@ -467,6 +467,19 @@
   flex-shrink: 0;
 }
 
+/* Job card image responsive height */
+.job-card-img {
+  width: 100%;
+  height: 180px;
+  overflow: hidden;
+  position: relative;
+}
+@media (min-width: 768px) {
+  .job-card-img {
+    height: 220px;
+  }
+}
+
 /* ─── Base ───────────────────────────────────────────────────────────────── */
 *, *::before, *::after { box-sizing: border-box; }
 html {

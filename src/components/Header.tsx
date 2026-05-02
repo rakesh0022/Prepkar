@@ -45,7 +45,7 @@ const DESKTOP_LINKS = [
   { href: '/ai-practice', label: 'AI Practice' },
   { href: '/salary-calculator', label: 'Salary Calculator' },
   { href: '/compare', label: 'Comparisons' },
-  { href: '/study-plan', label: 'Study Plan' },
+  { href: '/blog', label: 'Blog' },
 ];
 
 const MORE_LINKS = [
@@ -53,6 +53,7 @@ const MORE_LINKS = [
   { href: '/cutoffs', label: 'Cutoffs' },
   { href: '/exam-calendar', label: 'Exam Calendar' },
   { href: '/life', label: 'Day in Life' },
+  { href: '/study-plan', label: 'Study Plan' },
 ];
 
 const MOBILE_SECTIONS: NavSection[] = [

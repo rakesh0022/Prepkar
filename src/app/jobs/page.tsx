@@ -34,7 +34,7 @@ function JobCard({ job, onShare }: { job: Job; onShare: (e: React.MouseEvent) =>
     }}>
       {/* Job thumbnail */}
       {job.image && (
-        <div style={{ width: "100%", height: 180, overflow: "hidden", position: "relative" }}>
+        <div className="job-card-img">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src={job.image}
